@@ -1,0 +1,40 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "chth-gym",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-24",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "routes": [
+    {
+      "pattern": "chth.gym",
+      "custom_domain": true
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "chth-gym-db",
+      "database_id": "<YOUR_D1_DATABASE_ID>",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV_SESSIONS",
+      "id": "<YOUR_KV_NAMESPACE_ID>"
+    }
+  ],
+  "vars": {
+    "APP_NAME": "CHTH Gym",
+    "APP_ENV": "production",
+    "GOOGLE_CLIENT_ID": "<YOUR_GOOGLE_CLIENT_ID>",
+    "GOOGLE_CLIENT_SECRET": "<YOUR_GOOGLE_CLIENT_SECRET>",
+    "REDIRECT_URI": "https://chth.gym/api/auth/google/callback"
+  }
+}
