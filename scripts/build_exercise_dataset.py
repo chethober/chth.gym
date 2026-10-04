@@ -1,4 +1,6 @@
+import json
 import os
+import sys
 import urllib.request
 import concurrent.futures
 
@@ -965,5 +967,230 @@ def main():
 
     print("Wrote updated migrations/0002_seed_exercises.sql")
 
+# ----------------------------------------------------------------------------
+# Extended library: migrations/0004_exercise_library.sql
+#
+# Source: hasaneyldrm/exercises-dataset (MIT for text & data; its media is NOT
+# covered and is deliberately not downloaded here). Pinned to a commit so the
+# generated migration is reproducible. Exercise ids are the same 4-digit
+# ExerciseDB ids the curated GIFs above already use.
+# ----------------------------------------------------------------------------
+
+DATASET_SHA = "7455efae41b330c265e7cd4b78dfa848e7ce5ebd"
+DATASET_URL = f"https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/{DATASET_SHA}/data/exercises.json"
+
+CATEGORY_MAP = {
+    "chest": "chest",
+    "back": "back",
+    "upper legs": "legs",
+    "lower legs": "legs",
+    "shoulders": "shoulders",
+    "upper arms": "arms",
+    "lower arms": "arms",
+    "waist": "core",
+}
+
+CATEGORY_FA = {
+    "chest": "سینه",
+    "back": "پشت و زیربغل",
+    "legs": "پا",
+    "shoulders": "سرشانه",
+    "arms": "بازو",
+    "core": "شکم و میان‌تنه",
+}
+
+EQUIPMENT_MAP = {
+    "barbell": "barbell",
+    "olympic barbell": "barbell",
+    "dumbbell": "dumbbell",
+    "cable": "cable",
+    "leverage machine": "machine",
+    "smith machine": "machine",
+    "sled machine": "machine",
+    "body weight": "bodyweight",
+    "assisted": "bodyweight",
+    "weighted": "bodyweight",
+}
+
+EQUIPMENT_FA = {
+    "barbell": "هالتر",
+    "dumbbell": "دمبل",
+    "cable": "سیم‌کش",
+    "machine": "دستگاه",
+    "bodyweight": "وزن بدن",
+    "other": "سایر",
+}
+
+# ExerciseDB muscle vocabulary -> MuscleMap body slugs (src/frontend/bodyPaths.ts).
+# None = deliberately not drawn (no matching region on the body map).
+MUSCLE_MAP = {
+    "abs": "abs", "abdominals": "abs", "lower abs": "abs", "core": "abs",
+    "obliques": "obliques",
+    "pectorals": "chest", "chest": "chest", "upper chest": "chest",
+    "serratus anterior": "serratus",
+    "delts": "deltoids", "deltoids": "deltoids", "shoulders": "deltoids",
+    "rear deltoids": "deltoids", "rotator cuff": "deltoids",
+    "biceps": "biceps", "brachialis": "biceps",
+    "triceps": "triceps",
+    "forearms": "forearm", "wrist flexors": "forearm", "wrist extensors": "forearm",
+    "wrists": "forearm", "grip muscles": "forearm",
+    "traps": "trapezius", "trapezius": "trapezius", "levator scapulae": "trapezius",
+    "lats": "upper-back", "latissimus dorsi": "upper-back", "upper back": "upper-back",
+    "rhomboids": "upper-back", "back": "upper-back",
+    "spine": "lower-back", "lower back": "lower-back",
+    "glutes": "gluteal", "abductors": "gluteal",
+    "quads": "quadriceps", "quadriceps": "quadriceps",
+    "hamstrings": "hamstring",
+    "adductors": "adductors", "inner thighs": "adductors", "groin": "adductors",
+    "hip flexors": "hip-flexors",
+    "calves": "calves", "soleus": "calves",
+    "shins": "tibialis",
+    "ankles": None, "ankle stabilizers": None, "feet": None, "hands": None,
+    "sternocleidomastoid": None, "cardiovascular system": None,
+}
+
+
+# Curated rows whose GIF id points at a *different* dataset exercise (e.g. the
+# "Dumbbell Shrug" GIF 0411 is really a single-leg squat). Their muscles are
+# tagged by hand from the curated name instead of from the dataset record.
+# (primary slugs, secondary slugs)
+CURATED_MUSCLE_OVERRIDES = {
+    "ex_cable_low_fly": (["chest"], ["deltoids"]),
+    "ex_machine_chest_press": (["chest"], ["deltoids", "triceps"]),
+    "ex_close_grip_lat_pulldown": (["upper-back"], ["biceps"]),
+    "ex_seated_cable_row": (["upper-back"], ["biceps", "trapezius"]),
+    "ex_dumbbell_shrug": (["trapezius"], []),
+    "ex_leg_press": (["quadriceps"], ["gluteal", "hamstring"]),
+    "ex_romanian_deadlift_dumbbell": (["hamstring"], ["gluteal", "lower-back"]),
+    "ex_dumbbell_walking_lunge": (["quadriceps"], ["gluteal", "hamstring", "calves"]),
+    "ex_leg_extension": (["quadriceps"], []),
+    "ex_standing_calf_raise": (["calves"], []),
+    "ex_bulgarian_split_squat": (["quadriceps"], ["gluteal", "hamstring"]),
+    "ex_goblet_squat": (["quadriceps"], ["gluteal", "abs"]),
+    "ex_cable_lateral_raise": (["deltoids"], ["trapezius"]),
+    "ex_cable_face_pull": (["deltoids"], ["upper-back", "trapezius"]),
+    "ex_arnold_press": (["deltoids"], ["triceps"]),
+    "ex_ez_bar_curl": (["biceps"], ["forearm"]),
+    "ex_triceps_bar_pushdown": (["triceps"], []),
+    "ex_overhead_dumbbell_triceps": (["triceps"], []),
+    "ex_parallel_bar_triceps_dip": (["triceps"], ["chest", "deltoids"]),
+    "ex_dumbbell_kickback": (["triceps"], []),
+    "ex_forearm_plank": (["abs"], ["obliques", "deltoids"]),
+    "ex_kneeling_cable_crunch": (["abs"], ["obliques"]),
+    "ex_ab_wheel_rollout": (["abs"], ["upper-back", "deltoids"]),
+    "ex_cable_woodchopper": (["obliques"], ["abs", "deltoids"]),
+}
+
+
+def sql_str(value):
+    if value is None:
+        return "NULL"
+    return "'" + str(value).replace("'", "''") + "'"
+
+
+def map_muscles(names, unmapped):
+    slugs = []
+    for name in names:
+        key = name.strip().lower()
+        if key not in MUSCLE_MAP:
+            unmapped[key] = unmapped.get(key, 0) + 1
+            continue
+        slug = MUSCLE_MAP[key]
+        if slug and slug not in slugs:
+            slugs.append(slug)
+    return slugs
+
+
+def english_steps(item):
+    steps = (item.get("instruction_steps") or {}).get("en") or []
+    if steps:
+        return "\n".join(f"{i}. {s.strip()}" for i, s in enumerate(steps, 1))
+    return ((item.get("instructions") or {}).get("en") or "").strip()
+
+
+def build_library():
+    print(f"Fetching exercise dataset @ {DATASET_SHA[:7]}...")
+    with urllib.request.urlopen(DATASET_URL) as res:
+        dataset = json.load(res)
+
+    curated_by_source = {ex["id"]: ex for ex in EXERCISES if ex["key"] not in CURATED_MUSCLE_OVERRIDES}
+    unmapped = {}
+    updates, inserts, skipped = [], [], 0
+
+    for key, (primary, secondary) in CURATED_MUSCLE_OVERRIDES.items():
+        updates.append(
+            f"UPDATE exercises SET muscles_primary = {sql_str(','.join(primary))}, "
+            f"muscles_secondary = {sql_str(','.join(secondary))} WHERE id = {sql_str(key)};"
+        )
+
+    matched = set()
+    for item in dataset:
+        primary = map_muscles([item["target"]], unmapped)
+        secondary = [m for m in map_muscles(item.get("secondary_muscles") or [], unmapped) if m not in primary]
+        instructions_en = english_steps(item)
+
+        curated = curated_by_source.get(item["id"])
+        if curated:
+            matched.add(item["id"])
+            updates.append(
+                f"UPDATE exercises SET muscles_primary = {sql_str(','.join(primary))}, "
+                f"muscles_secondary = {sql_str(','.join(secondary))}, "
+                f"instructions_en = {sql_str(instructions_en)}, source_id = {sql_str(item['id'])} "
+                f"WHERE id = {sql_str(curated['key'])};"
+            )
+            continue
+
+        category = CATEGORY_MAP.get(item["body_part"])
+        if not category:
+            skipped += 1
+            continue
+
+        equipment = EQUIPMENT_MAP.get(item["equipment"], "other")
+        name_en = item["name"][:1].upper() + item["name"][1:]
+        inserts.append(
+            "INSERT OR IGNORE INTO exercises (id, name_fa, name_en, category, category_fa, equipment, equipment_fa, "
+            "target_muscles, secondary_muscles, instructions_fa, gif_url, muscles_primary, muscles_secondary, instructions_en, source_id) "
+            f"VALUES ({sql_str('ex_db_' + item['id'])}, {sql_str(name_en)}, {sql_str(name_en)}, {sql_str(category)}, "
+            f"{sql_str(CATEGORY_FA[category])}, {sql_str(equipment)}, {sql_str(EQUIPMENT_FA[equipment])}, "
+            f"{sql_str(item['target'])}, {sql_str(', '.join(item.get('secondary_muscles') or []))}, "
+            f"'', '', {sql_str(','.join(primary))}, {sql_str(','.join(secondary))}, "
+            f"{sql_str(instructions_en)}, {sql_str(item['id'])});"
+        )
+
+    missing = sorted(set(curated_by_source) - matched)
+    sql_lines = [
+        "-- ============================================================================",
+        "-- Migration: 0004_exercise_library.sql",
+        "-- Generated by scripts/build_exercise_dataset.py --library",
+        f"-- Source: hasaneyldrm/exercises-dataset @ {DATASET_SHA} (MIT, see NOTICE.md)",
+        f"-- Curated rows tagged: {len(updates)} / New library rows: {len(inserts)}",
+        "-- New rows ship without media (gif_url = '') and without Persian text yet",
+        "-- (instructions_fa = ''; the UI falls back to instructions_en).",
+        "-- ============================================================================",
+        "",
+        "ALTER TABLE exercises ADD COLUMN muscles_primary TEXT;",
+        "ALTER TABLE exercises ADD COLUMN muscles_secondary TEXT;",
+        "ALTER TABLE exercises ADD COLUMN instructions_en TEXT;",
+        "ALTER TABLE exercises ADD COLUMN source_id TEXT;",
+        "",
+        *updates,
+        "",
+        *inserts,
+        "",
+    ]
+    with open("migrations/0004_exercise_library.sql", "w", encoding="utf-8") as f:
+        f.write("\n".join(sql_lines))
+
+    print(f"Tagged {len(updates)} curated exercises, added {len(inserts)}, skipped {skipped} (cardio/neck).")
+    if missing:
+        print(f"WARNING: curated ids not found in dataset: {', '.join(missing)}")
+    if unmapped:
+        print("WARNING: unmapped muscle names: " + ", ".join(f"{k} ({v})" for k, v in sorted(unmapped.items())))
+    print("Wrote migrations/0004_exercise_library.sql")
+
+
 if __name__ == "__main__":
-    main()
+    if "--library" in sys.argv:
+        build_library()
+    else:
+        main()

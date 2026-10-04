@@ -8,10 +8,10 @@ A comprehensive cloud-based workout tracker, smart routine planner, and fitness 
 
 ## Features
 
-- **Exercise Library & Animated Guides** — 30+ exercises across 6 muscle groups with animated GIFs and step-by-step instructions
+- **Exercise Library & Animated Guides** — 68 curated exercises with animated GIFs and Persian instructions, plus 1,200+ library movements with muscle maps and English instructions
 - **Routine Builder** — Create and customize workout splits (Push/Pull/Legs, Upper/Lower) with target sets, reps, and rest periods
-- **Active Workout Tracker** — Live stopwatch, rest interval countdown with audio alerts, PR detection, and real-time volume calculation
-- **Analytics Dashboard** — 30-day training volume charts, consistency streak tracker, and PR hall of fame
+- **Active Workout Tracker** — Live stopwatch, rest interval countdown with audio alerts, PR and estimated-1RM detection, plate calculator and warm-up ramp for barbell lifts
+- **Analytics Dashboard** — Training volume charts, consistency streak tracker, PR hall of fame with estimated 1RM, and a muscle recovery body map
 - **Google OAuth** — Secure authentication via Google OpenID Connect
 - **RTL & Persian Support** — Full RTL layout with Persian numerals and Solar Hijri calendar
 
@@ -155,3 +155,7 @@ Please report security vulnerabilities by opening a [private security advisory](
 ## License
 
 Distributed under the [MIT License](LICENSE).
+
+---
+
+Third-party data (muscle outlines, exercise library) is credited in [NOTICE.md](NOTICE.md).

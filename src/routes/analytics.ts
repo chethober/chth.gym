@@ -6,6 +6,7 @@ import { Hono } from 'hono';
 import { Env, User } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth } from '../auth/session';
+import { computeRecovery } from '../lib/recovery';
 
 const analyticsRouter = new Hono<{ Bindings: Env; Variables: { user: User } }>();
 
@@ -38,6 +39,15 @@ analyticsRouter.get('/volume-progression', async (c) => {
   const data = await db.getVolumeProgression(user.id, days);
 
   return c.json({ data });
+});
+
+// GET /api/analytics/muscles -> Recovery state and weekly sets per body-map muscle
+analyticsRouter.get('/muscles', async (c) => {
+  const user = c.get('user');
+  const db = new Database(c.env.DB);
+  const rows = await db.getMuscleSetHistory(user.id, 28);
+
+  return c.json({ muscles: computeRecovery(rows) });
 });
 
 export { analyticsRouter };
