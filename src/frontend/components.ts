@@ -136,8 +136,8 @@ export function renderToastAndDialogs(): string {
     </div>
 
     <!-- Rest Timer Floating Capsule Overlay -->
-    <div id="rest-timer-overlay" class="fixed bottom-24 md:bottom-8 left-4 md:left-8 z-50 hidden">
-      <div class="modal-panel p-4 flex items-center gap-4 w-auto">
+    <div id="rest-timer-overlay" class="rest-timer fixed bottom-24 md:bottom-8 left-4 md:left-8 z-50 hidden">
+      <div class="rest-timer-panel p-4 flex items-center gap-4 w-auto">
         <div class="relative w-14 h-14 flex items-center justify-center">
           <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
             <path class="text-[color:var(--line-strong)]" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />

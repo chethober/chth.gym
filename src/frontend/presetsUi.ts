@@ -33,7 +33,7 @@ export function renderSmartSuggestionsSection(): string {
       </div>
 
       <!-- Quick Interactive BMI & Goal Calibrator Panel (Collapsible) -->
-      <div id="dash-quick-calibrator-panel" class="hidden card-glass-subtle p-4 space-y-3.5">
+      <div id="dash-quick-calibrator-panel" class="reveal hidden card-glass-subtle p-4 space-y-3.5">
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-white flex items-center gap-1.5">
             <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-emerald-400"></i>
@@ -726,7 +726,6 @@ export function renderPresetsClientScript(): string {
           });
           const data = await res.json();
           if (data.success) {
-            confetti({ colors: PLATE_COLORS, particleCount: 120, spread: 70, origin: { y: 0.6 } });
             showNotification(data.message || 'برنامه «' + preset.title + '» ذخیره شد!', 'success');
             await loadRoutines();
             await loadDashboardRoutines();
@@ -766,7 +765,6 @@ export function renderPresetsClientScript(): string {
 
         guestRoutines.unshift(newRoutine);
         localStorage.setItem('guest_routines', JSON.stringify(guestRoutines));
-        confetti({ colors: PLATE_COLORS, particleCount: 120, spread: 70, origin: { y: 0.6 } });
         showNotification('برنامه «' + preset.title + '» با موفقیت به برنامه‌های شما اضافه شد!', 'success');
         loadRoutines();
         loadDashboardRoutines();

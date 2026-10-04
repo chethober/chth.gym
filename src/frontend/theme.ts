@@ -956,6 +956,27 @@ export function renderThemeStyles(): string {
         transition: opacity 250ms var(--ease-out), transform 250ms var(--ease-out) !important;
       }
 
+      /* Rest timer: rises from the bottom edge it is pinned to, and leaves the same way */
+      .rest-timer {
+        transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+        @starting-style { opacity: 0; transform: translateY(12px); }
+      }
+      .rest-timer.is-leaving {
+        opacity: 0;
+        transform: translateY(12px);
+        pointer-events: none;
+        transition-duration: var(--dur-fast);
+        transition-timing-function: ease-in;
+      }
+      .rest-timer-panel {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-xl);
+        box-shadow: var(--shadow-pop);
+      }
+      /* The ring drains continuously between one-second ticks */
+      #rest-timer-svg-path { transition: stroke-dasharray 1000ms linear; }
+
       /* ==========================================================================
          13. App Shell
          ========================================================================== */
@@ -1258,6 +1279,18 @@ export function renderThemeStyles(): string {
       /* Tab content enters softly; tabs switch a few times per session, not hundreds */
       .tab-content:not(.hidden) { animation: fade-up 220ms var(--ease-out); }
 
+      /* Workout card arrives when the user starts a session (not on page load) */
+      .is-entering { animation: fade-up 260ms var(--ease-out); }
+
+      /* An exercise's last set was just logged: only its done badge pops */
+      .just-done .badge-done { animation: pop-in 220ms var(--ease-out); }
+
+      /* Panels revealed from a hidden toggle */
+      .reveal {
+        transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+        @starting-style { opacity: 0; transform: translateY(-4px); }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *, ::before, ::after {
           animation-duration: 0.01ms !important;
@@ -1266,6 +1299,9 @@ export function renderThemeStyles(): string {
         }
         html .btn:active, html .btn-icon:active, html .chip:active, html .set-chip:active,
         html .option-card:active, html .segmented-item:active, html .stepper-btn:active { transform: none; }
+        /* Gentler, not zero: these keep their fade but lose the movement */
+        .rest-timer, .rest-timer.is-leaving, .reveal { transform: none !important; }
+        #rest-timer-svg-path { transition: none; }
       }
     </style>
   `;

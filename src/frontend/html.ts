@@ -1342,13 +1342,22 @@ export function renderAppHtml(): string {
       } catch (err) {}
     }
 
-    function showActiveWorkoutInDashboard(hasActive) {
+    // Exercises fully done at the last render; null until the session's first render
+    let lastDoneExerciseIds = null;
+
+    function showActiveWorkoutInDashboard(hasActive, { enter = false } = {}) {
       const activeContainer = document.getElementById('dashboard-active-workout-container');
       const deskBadge = document.getElementById('active-badge-d');
       const mobBadge = document.getElementById('active-badge-m');
 
       if (hasActive && activeSession) {
         activeContainer?.classList.remove('hidden');
+        if (enter && activeContainer) {
+          activeContainer.classList.remove('is-entering');
+          activeContainer.getBoundingClientRect();
+          activeContainer.classList.add('is-entering');
+          activeContainer.addEventListener('animationend', () => activeContainer.classList.remove('is-entering'), { once: true });
+        }
         deskBadge?.classList.remove('hidden');
         mobBadge?.classList.remove('hidden');
         renderActiveWorkoutTodoList();
@@ -1358,6 +1367,7 @@ export function renderAppHtml(): string {
         deskBadge?.classList.add('hidden');
         mobBadge?.classList.add('hidden');
         if (activeTimerInterval) clearInterval(activeTimerInterval);
+        lastDoneExerciseIds = null;
       }
       lucide.createIcons();
     }
@@ -1397,7 +1407,7 @@ export function renderAppHtml(): string {
           if (data.success) {
             activeSession = data.session;
             switchTab('dashboard');
-            showActiveWorkoutInDashboard(true);
+            showActiveWorkoutInDashboard(true, { enter: true });
             showNotification('تمرین آزاد شروع شد! حرکات را اضافه کنید', 'success');
           } else {
             showNotification(data.error || 'خطا در شروع تمرین', 'error');
@@ -1419,7 +1429,7 @@ export function renderAppHtml(): string {
         };
         localStorage.setItem('jesm_guest_active_session', JSON.stringify(activeSession));
         switchTab('dashboard');
-        showActiveWorkoutInDashboard(true);
+        showActiveWorkoutInDashboard(true, { enter: true });
         showNotification('تمرین آزاد شروع شد! حرکات را اضافه کنید', 'success');
       }
     }
@@ -1436,7 +1446,7 @@ export function renderAppHtml(): string {
           if (data.success) {
             activeSession = data.session;
             switchTab('dashboard');
-            showActiveWorkoutInDashboard(true);
+            showActiveWorkoutInDashboard(true, { enter: true });
             showNotification('برنامه با موفقیت فعال شد! حرکات در دسترس هستند.', 'success');
           } else {
             showNotification(data.error || 'خطا در اجرای برنامه', 'error');
@@ -1485,7 +1495,7 @@ export function renderAppHtml(): string {
 
           localStorage.setItem('jesm_guest_active_session', JSON.stringify(activeSession));
           switchTab('dashboard');
-          showActiveWorkoutInDashboard(true);
+          showActiveWorkoutInDashboard(true, { enter: true });
           showNotification('برنامه تمرینی فعال شد! حرکات آماده ثبت هستند.', 'success');
         } catch (err) {
           showNotification('خطا در اجرای برنامه تمرینی', 'error');
@@ -1538,7 +1548,7 @@ export function renderAppHtml(): string {
     }
 
     // Modular Sets & Reps Component for Ongoing Routine Items
-    function renderOngoingExerciseItem(item, exIdx) {
+    function renderOngoingExerciseItem(item, exIdx, justDone = false) {
       const extra = extraSetsCount[item.id] || 0;
       const totalSets = Math.max(item.target_sets + extra, item.logs.length);
       const completedSetsCount = item.logs.length;
@@ -1582,7 +1592,7 @@ export function renderAppHtml(): string {
       }
 
       return \`
-        <div id="ongoing-item-\${item.id}" class="card-glass-subtle p-3.5 sm:p-4 space-y-3 \${isAllDone ? 'card-done' : ''}">
+        <div id="ongoing-item-\${item.id}" class="card-glass-subtle p-3.5 sm:p-4 space-y-3 \${isAllDone ? 'card-done' : ''} \${justDone ? 'just-done' : ''}">
           
           <!-- Top Row: Exercise Info & Status -->
           <div class="flex items-center justify-between gap-3">
@@ -1722,6 +1732,7 @@ export function renderAppHtml(): string {
 
       let totalPlannedSets = 0;
       let totalCompletedSets = 0;
+      const doneExerciseIds = new Set();
 
       const renderedItems = exercisesArray.map((item, exIdx) => {
         const extra = extraSetsCount[item.id] || 0;
@@ -1731,8 +1742,13 @@ export function renderAppHtml(): string {
         totalPlannedSets += totalSets;
         totalCompletedSets += completedSetsCount;
 
-        return renderOngoingExerciseItem(item, exIdx);
+        const isAllDone = completedSetsCount >= totalSets && totalSets > 0;
+        if (isAllDone) doneExerciseIds.add(item.id);
+        const justDone = isAllDone && lastDoneExerciseIds !== null && !lastDoneExerciseIds.has(item.id);
+
+        return renderOngoingExerciseItem(item, exIdx, justDone);
       }).join('');
+      lastDoneExerciseIds = doneExerciseIds;
 
       listContainer.innerHTML = \`<div class="flex w-full flex-col gap-3">\${renderedItems}</div>\`;
 
@@ -1800,8 +1816,6 @@ export function renderAppHtml(): string {
             if (data.is_pr || data.isPr) {
               confetti({ colors: PLATE_COLORS, particleCount: 80, spread: 50, origin: { y: 0.7 } });
               showNotification('🏆 رکورد شخصی جدید ثبت شد (PR)!', 'success');
-            } else {
-              showNotification(\`ست \${toPersianDigits(setNumber)} با موفقیت ثبت شد\`, 'success');
             }
 
             const planned = (activeSession.planned_exercises || []).find(pe => pe.exercise_id === exerciseId);
@@ -1844,7 +1858,6 @@ export function renderAppHtml(): string {
         activeSession.total_volume_kg = activeSession.set_logs.reduce((sum, s) => sum + (s.weight_kg * s.reps), 0);
         localStorage.setItem('jesm_guest_active_session', JSON.stringify(activeSession));
 
-        showNotification(\`ست \${toPersianDigits(setNumber)} با موفقیت ثبت شد\`, 'success');
         renderActiveWorkoutTodoList();
         startRestTimer(planned?.rest_seconds || 60);
       }
@@ -1994,8 +2007,28 @@ export function renderAppHtml(): string {
     }
 
     // --- Rest Timer Floating Controls ---
+    let restTimerEndTimeout = null;
+    let restTimerHideTimeout = null;
+
+    function paintRestRing(seconds, { instant = false } = {}) {
+      const svgPath = document.getElementById('rest-timer-svg-path');
+      if (!svgPath) return;
+      const percent = restTotalSeconds > 0 ? Math.max(0, Math.min(100, (seconds / restTotalSeconds) * 100)) : 0;
+      if (instant) {
+        // Refill without draining backwards through the transition
+        svgPath.style.transition = 'none';
+        svgPath.style.strokeDasharray = percent + ' 100';
+        svgPath.getBoundingClientRect();
+        svgPath.style.transition = '';
+      } else {
+        svgPath.style.strokeDasharray = percent + ' 100';
+      }
+    }
+
     function startRestTimer(seconds = 60) {
       if (restTimerInterval) clearInterval(restTimerInterval);
+      clearTimeout(restTimerEndTimeout);
+      clearTimeout(restTimerHideTimeout);
 
       restTotalSeconds = seconds;
       restRemainingSeconds = seconds;
@@ -2006,17 +2039,17 @@ export function renderAppHtml(): string {
 
       if (!overlay || !textEl || !svgPath) return;
 
-      overlay.classList.remove('hidden');
+      overlay.classList.remove('hidden', 'is-leaving');
+      paintRestRing(seconds, { instant: true });
 
       function tick() {
         textEl.innerText = toPersianDigits(restRemainingSeconds);
-        const percent = (restRemainingSeconds / restTotalSeconds) * 100;
-        svgPath.setAttribute('stroke-dasharray', \`\${percent}, 100\`);
+        paintRestRing(restRemainingSeconds);
 
         if (restRemainingSeconds <= 0) {
           clearInterval(restTimerInterval);
           playChime();
-          setTimeout(() => stopRestTimer(), 1000);
+          restTimerEndTimeout = setTimeout(() => stopRestTimer(), 1000);
         }
         restRemainingSeconds--;
       }
@@ -2030,11 +2063,21 @@ export function renderAppHtml(): string {
       restTotalSeconds = Math.max(restRemainingSeconds, restTotalSeconds + delta);
       const textEl = document.getElementById('rest-timer-seconds');
       if (textEl) textEl.innerText = toPersianDigits(restRemainingSeconds);
+      paintRestRing(restRemainingSeconds, { instant: true });
     }
 
     function stopRestTimer() {
       if (restTimerInterval) clearInterval(restTimerInterval);
-      document.getElementById('rest-timer-overlay')?.classList.add('hidden');
+      clearTimeout(restTimerEndTimeout);
+      const overlay = document.getElementById('rest-timer-overlay');
+      if (!overlay || overlay.classList.contains('hidden')) return;
+      // Slide back down to the edge it came from, then remove it from layout
+      overlay.classList.add('is-leaving');
+      clearTimeout(restTimerHideTimeout);
+      restTimerHideTimeout = setTimeout(() => {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('is-leaving');
+      }, 150);
     }
 
     // ============================================================================
@@ -2224,7 +2267,6 @@ export function renderAppHtml(): string {
             localRoutines.unshift(fullRoutine);
             localStorage.setItem('guest_routines', JSON.stringify(localRoutines));
           }
-          confetti({ colors: PLATE_COLORS, particleCount: 100, spread: 60, origin: { y: 0.6 } });
           showNotification(\`برنامه «\${title}» با موفقیت ساخته شد و آماده اشتراک است!\`, 'success');
           clearDraftProgram();
           loadRoutines();
@@ -3596,7 +3638,6 @@ export function renderAppHtml(): string {
         guestProfile.current_weight_kg = weight;
         localStorage.setItem('guest_profile', JSON.stringify(guestProfile));
 
-        confetti({ colors: PLATE_COLORS, particleCount: 100, spread: 60, origin: { y: 0.6 } });
         showNotification('ثبت روزانه با موفقیت انجام شد!', 'success');
         await loadProfileData();
         if (typeof loadSmartSuggestions === 'function') {
@@ -3618,7 +3659,6 @@ export function renderAppHtml(): string {
 
         const data = await res.json();
         if (data.success) {
-          confetti({ colors: PLATE_COLORS, particleCount: 100, spread: 60, origin: { y: 0.6 } });
           showNotification('ثبت روزانه با موفقیت انجام شد!', 'success');
           await loadProfileData();
           if (typeof loadSmartSuggestions === 'function') {
@@ -3827,7 +3867,6 @@ export function renderAppHtml(): string {
         local.unshift(currentSharedRoutine);
         localStorage.setItem('guest_routines', JSON.stringify(local));
       }
-      confetti({ colors: PLATE_COLORS, particleCount: 120, spread: 70, origin: { y: 0.6 } });
       closeSharedRoutineModal();
       showNotification('برنامه با موفقیت در دستگاه شما ذخیره شد!', 'success');
       loadRoutines();
@@ -3848,7 +3887,6 @@ export function renderAppHtml(): string {
         });
         const data = await res.json();
         if (data.success) {
-          confetti({ colors: PLATE_COLORS, particleCount: 120, spread: 70, origin: { y: 0.6 } });
           closeSharedRoutineModal();
           showNotification(data.message || 'برنامه با موفقیت اضافه شد!', 'success');
           await loadRoutines();
