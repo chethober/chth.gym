@@ -44,16 +44,18 @@ export function renderAppHtml(): string {
     })();
   </script>
   
-  <!-- Favicon: weight plate -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233D7BE0'/><circle cx='16' cy='16' r='9.5' fill='none' stroke='white' stroke-opacity='.35' stroke-width='1.5'/><circle cx='16' cy='16' r='3.2' fill='%231B1D20'/></svg>">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233D7BE0'/><circle cx='16' cy='16' r='9.5' fill='none' stroke='white' stroke-opacity='.35' stroke-width='1.5'/><circle cx='16' cy='16' r='3.2' fill='%231B1D20'/></svg>">
+  <!-- Favicon & app icons -->
+  <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/icons/site.webmanifest">
 
-  <!-- Fonts: Lalezar (Persian display) + Readex Pro (text), Vazirmatn as glyph fallback -->
+  <!-- Font: Vazirmatn variable, one family for display and text -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Readex+Pro:wght@300..700&family=Vazirmatn:wght@400;600&display=swap" rel="stylesheet">
-  <meta name="theme-color" content="#1B1D20" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#ECEEF0" media="(prefers-color-scheme: light)">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300..900&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0E0F11" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F6F6F4" media="(prefers-color-scheme: light)">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -83,14 +85,14 @@ export function renderAppHtml(): string {
   <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 md:pt-24 pb-28 md:pb-16 space-y-6">
     
     <!-- Daily Check-in Reminder Banner (Conditional) -->
-    <div id="daily-reminder-banner" class="hidden card-glass rounded-2xl p-4 border border-emerald-500/30 glow-emerald flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-emerald-500/10">
+    <div id="daily-reminder-banner" class="hidden card-glass p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 card-accent">
       <div class="flex items-center gap-3">
-        <div class="icon-box icon-box-emerald w-9 h-9 rounded-xl">
+        <div class="icon-box icon-box-emerald w-9 h-9">
           <i data-lucide="bell-ring" class="w-4 h-4"></i>
         </div>
-        <h4 class="text-xs md:text-sm font-bold text-white">ثبت روزانه وضعیت و وزن امروز!</h4>
+        <h4 class="text-xs md:text-sm font-bold text-white">وزن امروز را ثبت کنید</h4>
       </div>
-      <button onclick="switchTab('profile')" class="btn btn-primary btn-sm glow-emerald shrink-0">
+      <button onclick="switchTab('profile')" class="btn btn-primary btn-sm shrink-0">
         ثبت وضعیت در پروفایل
       </button>
     </div>
@@ -103,13 +105,13 @@ export function renderAppHtml(): string {
       <!-- Hero: this week's bar, loaded one plate pair per finished session -->
       <div class="hero-panel p-5 md:p-8 grid md:grid-cols-[1.1fr_1fr] gap-6 md:gap-10 items-center">
         <div class="space-y-4">
-          <h2 id="hero-greeting" class="hero-title text-white">سلام قهرمان، آماده تمرین امروز هستی؟</h2>
+          <h2 id="hero-greeting" class="hero-title text-white">آماده‌ی تمرین امروز؟</h2>
           <div class="flex items-center gap-2 flex-wrap">
             <span class="badge badge-gold">
               <i data-lucide="flame" class="w-3.5 h-3.5"></i>
               <span id="hero-streak-text">استریک: ۰ روز</span>
             </span>
-            <button onclick="switchTab('profile')" class="badge badge-zinc hover:border-[color:var(--color-line-strong)] transition cursor-pointer">
+            <button onclick="switchTab('profile')" class="badge badge-zinc cursor-pointer">
               <i data-lucide="target" class="w-3.5 h-3.5"></i>
               <span id="hero-goal-badge">هدف: تنظیم نشده</span>
             </button>
@@ -135,12 +137,12 @@ export function renderAppHtml(): string {
 
       <!-- ================= ONGOING WORKOUT CARD ================= -->
       <div id="dashboard-active-workout-container" class="hidden space-y-6">
-        <div class="card-glass rounded-2xl p-5 md:p-6 border border-emerald-500/30 shadow-2xl glow-emerald space-y-5">
+        <div class="card-glass p-5 md:p-6 space-y-5 card-accent">
           
           <!-- Active Workout Header -->
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4 border-[color:var(--line)]">
             <div class="flex items-center gap-3.5">
-              <div class="icon-box icon-box-emerald w-11 h-11 rounded-xl">
+              <div class="icon-box icon-box-emerald w-11 h-11">
                 <i data-lucide="list-checks" class="w-5 h-5 text-emerald-400"></i>
               </div>
               <div>
@@ -161,7 +163,7 @@ export function renderAppHtml(): string {
                 <i data-lucide="plus" class="w-4 h-4 text-emerald-400"></i>
                 <span>افزودن حرکت</span>
               </button>
-              <button onclick="finishActiveWorkout()" class="btn btn-primary btn-md glow-emerald">
+              <button onclick="finishActiveWorkout()" class="btn btn-primary btn-md">
                 <i data-lucide="check-circle-2" class="w-4 h-4"></i>
                 <span>پایان و ثبت تمرین</span>
               </button>
@@ -172,7 +174,7 @@ export function renderAppHtml(): string {
           </div>
 
           <!-- Progress Bar Indicator -->
-          <div class="space-y-1.5 bg-[#08090d]/60 p-3 rounded-xl border border-white/5">
+          <div class="well-sunken space-y-2 p-3">
             <div class="flex items-center justify-between text-xs">
               <span id="todo-progress-text" class="text-zinc-300 font-medium">پیشرفت تمرین: ۰ از ۰ ست انجام شد</span>
               <span id="todo-progress-percent" class="text-emerald-400 font-mono font-bold">۰٪</span>
@@ -222,14 +224,14 @@ export function renderAppHtml(): string {
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Start Program Quick-Launcher -->
-        <div class="lg:col-span-1 card-glass rounded-2xl p-5 border border-white/10 flex flex-col justify-between space-y-4">
+        <div class="lg:col-span-1 card-glass p-5 flex flex-col justify-between space-y-4">
           <div>
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-sm font-bold text-white flex items-center gap-2">
                 <i data-lucide="play-circle" class="w-4 h-4 text-emerald-400"></i>
-                <span>شروع برنامه‌های تمرینی</span>
+                <span>برنامه‌های من</span>
               </h3>
-              <button onclick="switchTab('movements')" class="text-xs text-emerald-400 hover:underline">طراحی برنامه</button>
+              <button onclick="switchTab('movements')" class="link-btn">طراحی برنامه</button>
             </div>
             
             <div id="dash-routines-list" class="space-y-2.5">
@@ -244,36 +246,29 @@ export function renderAppHtml(): string {
         </div>
 
         <!-- Dashboard Progress Bar & Calendar Hub (Weekly / Monthly / 3-Month) -->
-        <div class="lg:col-span-2 card-glass rounded-2xl p-5 border border-white/10 space-y-4 glow-emerald">
+        <div class="lg:col-span-2 card-glass p-5 space-y-4">
           
           <!-- Header with View Mode Switcher -->
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 border-[color:var(--line)]">
             <div class="flex items-center gap-2.5">
-              <div class="icon-box icon-box-emerald w-8 h-8 rounded-xl">
+              <div class="icon-box icon-box-emerald w-8 h-8">
                 <i data-lucide="calendar" class="w-4 h-4 text-emerald-400"></i>
               </div>
               <div>
-                <h3 class="text-sm font-bold text-white">تقویم و پیگیری پیشرفت تمرین</h3>
-                <p id="cal-period-subtitle" class="text-[10px] text-zinc-400">نمای فعالیت و تداوم تمرینات</p>
+                <h3 class="text-sm font-bold text-white">پیشرفت</h3>
               </div>
             </div>
 
             <!-- View Switcher Tabs: Weekly, Monthly, 3 Months -->
-            <div class="flex items-center bg-[#08090d] p-1 rounded-xl border border-white/10 gap-1 self-start sm:self-auto">
-              <button onclick="switchCalendarView('weekly')" id="cal-btn-weekly" class="btn btn-primary btn-sm text-[11px] py-1 px-2.5 rounded-lg transition-all">
-                هفتگی
-              </button>
-              <button onclick="switchCalendarView('monthly')" id="cal-btn-monthly" class="btn btn-ghost btn-sm text-[11px] py-1 px-2.5 text-zinc-400 hover:text-white rounded-lg transition-all">
-                ماهانه
-              </button>
-              <button onclick="switchCalendarView('3month')" id="cal-btn-3month" class="btn btn-ghost btn-sm text-[11px] py-1 px-2.5 text-zinc-400 hover:text-white rounded-lg transition-all">
-                ۳ ماهه
-              </button>
+            <div class="segmented self-start sm:self-auto" role="tablist" aria-label="بازه زمانی">
+              <button onclick="switchCalendarView('weekly')" id="cal-btn-weekly" role="tab" class="segmented-item is-active">هفتگی</button>
+              <button onclick="switchCalendarView('monthly')" id="cal-btn-monthly" role="tab" class="segmented-item">ماهانه</button>
+              <button onclick="switchCalendarView('3month')" id="cal-btn-3month" role="tab" class="segmented-item">۳ ماهه</button>
             </div>
           </div>
 
           <!-- Dynamic Goal Progress Bar & Metrics -->
-          <div class="bg-[#08090d]/60 p-3 rounded-xl border border-white/5 space-y-2">
+          <div class="well-sunken p-3 space-y-2">
             <div class="flex items-center justify-between text-xs">
               <span id="cal-progress-label" class="text-zinc-300 font-medium">پیشرفت هدف هفتگی</span>
               <span id="cal-progress-percent" class="text-emerald-400 font-mono font-bold">۰٪</span>
@@ -293,7 +288,7 @@ export function renderAppHtml(): string {
           </div>
 
           <!-- Volume Progression Chart for Current View -->
-          <div class="pt-3 border-t border-white/10 space-y-2">
+          <div class="pt-3 divider-top space-y-2">
             <div class="flex items-center justify-between">
               <h4 class="text-xs font-bold text-zinc-300 flex items-center gap-1.5">
                 <i data-lucide="trending-up" class="w-3.5 h-3.5 text-emerald-400"></i>
@@ -309,13 +304,13 @@ export function renderAppHtml(): string {
       </div>
 
       <!-- Recent Completed Workouts Preview -->
-      <div class="card-glass rounded-2xl p-5 border border-white/10 space-y-4">
+      <div class="card-glass p-5 space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
             <i data-lucide="calendar" class="w-4 h-4 text-emerald-400"></i>
-            <span>آخرین جلسات تمرین ثبت شده</span>
+            <span>جلسات اخیر</span>
           </h3>
-          <button onclick="switchTab('history')" class="text-xs text-emerald-400 hover:underline">مشاهده کامل تاریخچه</button>
+          <button onclick="switchTab('history')" class="link-btn">همه</button>
         </div>
 
         <div id="dash-recent-workouts" class="space-y-3">
@@ -329,15 +324,60 @@ export function renderAppHtml(): string {
     <!-- ======================================================= -->
     <section id="tab-history" class="tab-content hidden space-y-6">
       <div class="flex items-center justify-between">
-        <h2 class="text-lg font-black text-white">تاریخچه تمرینات و رکوردهای شخصی</h2>
+        <h2 class="text-lg font-black text-white">تاریخچه</h2>
       </div>
 
       <div id="history-auth-view" class="space-y-6">
+        <!-- Training analytics: one range filter scopes the KPIs and both charts -->
+        <div id="history-analytics" class="space-y-4">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-400"></i>
+              <span>آمار تمرین</span>
+            </h3>
+            <div class="segmented" role="tablist" aria-label="بازه زمانی">
+              <button type="button" id="hist-range-30" role="tab" aria-selected="true" onclick="setHistoryRange(30)" class="segmented-item is-active">۳۰ روز</button>
+              <button type="button" id="hist-range-90" role="tab" aria-selected="false" onclick="setHistoryRange(90)" class="segmented-item">۹۰ روز</button>
+              <button type="button" id="hist-range-365" role="tab" aria-selected="false" onclick="setHistoryRange(365)" class="segmented-item">۱ سال</button>
+            </div>
+          </div>
+
+          <div id="hist-kpis" class="grid grid-cols-2 lg:grid-cols-4 gap-3"></div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+            <div class="viz-card card-glass p-5 space-y-4 lg:col-span-3">
+              <div>
+                <h3 class="text-sm font-bold text-white">حجم تمرین</h3>
+                <p id="hist-volume-sub" class="text-[12px] text-zinc-400">کیلوگرم در هر هفته</p>
+              </div>
+              <div id="hist-volume-chart"></div>
+              <details class="viz-table-wrap">
+                <summary>نمایش جدول</summary>
+                <div id="hist-volume-table"></div>
+              </details>
+              <div class="viz-tip" role="tooltip"></div>
+            </div>
+
+            <div class="viz-card card-glass p-5 space-y-4 lg:col-span-2">
+              <div>
+                <h3 class="text-sm font-bold text-white">ست‌ها بر اساس عضله</h3>
+                <p class="text-[12px] text-zinc-400">تعداد ست ثبت‌شده</p>
+              </div>
+              <div id="hist-muscle-chart"></div>
+              <details class="viz-table-wrap">
+                <summary>نمایش جدول</summary>
+                <div id="hist-muscle-table"></div>
+              </details>
+              <div class="viz-tip" role="tooltip"></div>
+            </div>
+          </div>
+        </div>
+
         <!-- PR Trophies Showcase -->
         <div class="space-y-3">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
             <i data-lucide="trophy" class="w-4 h-4 text-emerald-400"></i>
-            <span>تالار رکوردهای شخصی (Personal Records)</span>
+            <span>رکوردهای شخصی</span>
           </h3>
           <div id="prs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
             <!-- Populated via JS -->
@@ -345,10 +385,10 @@ export function renderAppHtml(): string {
         </div>
 
         <!-- Full Workout Logs Timeline -->
-        <div class="card-glass rounded-2xl p-5 border border-white/10 space-y-4">
+        <div class="card-glass p-5 space-y-4">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
             <i data-lucide="calendar-check" class="w-4 h-4 text-emerald-400"></i>
-            <span>دفترچه ثبت جلسات تمرین</span>
+            <span>جلسات ثبت‌شده</span>
           </h3>
           <div id="full-history-list" class="space-y-4">
             <!-- Populated via JS -->
@@ -357,8 +397,8 @@ export function renderAppHtml(): string {
       </div>
 
       <!-- Guest Prompt -->
-      <div id="history-guest-view" class="hidden card-glass rounded-2xl p-10 border border-white/10 text-center space-y-5 max-w-lg mx-auto my-12">
-        <div class="icon-box icon-box-emerald w-14 h-14 rounded-2xl mx-auto glow-emerald">
+      <div id="history-guest-view" class="hidden card-glass p-10 text-center space-y-5 max-w-lg mx-auto my-12">
+        <div class="icon-box icon-box-emerald w-14 h-14 mx-auto">
           <i data-lucide="lock" class="w-7 h-7"></i>
         </div>
         <div>
@@ -366,7 +406,7 @@ export function renderAppHtml(): string {
           <p class="text-xs text-zinc-400 mt-1">با ورود به حساب گوگل، سوابق و رکوردهای شما ذخیره می‌شوند.</p>
         </div>
         <div class="pt-2 flex justify-center">
-          <a href="/api/auth/google" class="btn btn-primary btn-lg glow-emerald">
+          <a href="/api/auth/google" class="btn btn-primary btn-lg">
             <i data-lucide="log-in" class="w-4 h-4"></i>
             <span>ورود با حساب گوگل</span>
           </a>
@@ -380,25 +420,27 @@ export function renderAppHtml(): string {
     <section id="tab-movements" class="tab-content hidden space-y-8">
       
       <div class="flex items-center justify-between">
-        <h2 class="text-lg font-black text-white">بانک حرکات و برنامه‌های تمرینی</h2>
+        <h2 class="text-lg font-black text-white">برنامه‌ها و حرکات</h2>
       </div>
 
       <!-- ================= SAME-PAGE INLINE PROGRAM BUILDER ================= -->
-      <div id="inline-program-builder-card" class="card-glass rounded-2xl p-5 border border-emerald-500/30 glow-emerald space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+      <div id="inline-program-builder-card" class="card-glass p-5 space-y-4 card-accent">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 border-[color:var(--line)]">
           <div class="flex items-center gap-2.5">
-            <div class="icon-box icon-box-emerald w-9 h-9 rounded-xl">
+            <div class="icon-box icon-box-emerald w-9 h-9">
               <i data-lucide="clipboard-list" class="w-5 h-5"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-white">طراحی برنامه تمرینی (پیش‌نویس در همین صفحه)</h3>
-              <p class="text-[11px] text-zinc-400">با دکمه «افزودن به برنامه» در کارت هر حرکت، حرکت مورد نظر مستقیم به این لیست اضافه می‌شود.</p>
+              <h3 class="text-sm font-bold text-white">طراحی برنامه</h3>
             </div>
           </div>
           
           <div class="flex items-center gap-2">
             <span id="builder-count-badge" class="badge badge-emerald">۰ حرکت انتخاب شده</span>
-            <button onclick="clearDraftProgram()" class="btn-ghost btn-sm text-xs text-rose-400 hover:text-rose-300">پاکسازی</button>
+            <button onclick="clearDraftProgram()" class="btn btn-ghost btn-sm">
+              <i data-lucide="eraser"></i>
+              <span>پاکسازی</span>
+            </button>
           </div>
         </div>
 
@@ -416,17 +458,17 @@ export function renderAppHtml(): string {
 
         <!-- Selected Exercises List in Same-Page Builder -->
         <div id="inline-draft-exercises-list" class="space-y-2.5 pt-1">
-          <p id="inline-empty-hint" class="text-xs text-zinc-500 text-center py-6 border border-dashed border-zinc-800 rounded-xl">
-            هنوز حرکتی به برنامه اضافه نشده است. از لیست حرکات زیر، روی دکمه «افزودن به برنامه» کلیک کنید.
+          <p id="inline-empty-hint" class="empty-state">
+            هنوز حرکتی اضافه نشده
           </p>
         </div>
 
         <!-- Builder Actions -->
-        <div id="inline-builder-actions" class="hidden pt-2 border-t border-white/10 flex items-center justify-between">
-          <span class="text-xs text-zinc-400">تعداد ست و تکرار هر حرکت را به دلخواه تنظیم کنید</span>
-          <button onclick="saveInlineProgram()" class="btn btn-primary btn-md glow-emerald">
+        <div id="inline-builder-actions" class="hidden pt-2 divider-top flex items-center justify-between">
+          <span></span>
+          <button onclick="saveInlineProgram()" class="btn btn-primary btn-md">
             <i data-lucide="check" class="w-4 h-4"></i>
-            <span>ذخیره و ایجاد نهایی برنامه</span>
+            <span>ذخیره برنامه</span>
           </button>
         </div>
       </div>
@@ -448,35 +490,35 @@ export function renderAppHtml(): string {
       </div>
 
       <!-- SECTION B: MOVEMENTS & GIF LIBRARY -->
-      <div class="space-y-4 pt-4 border-t border-zinc-800">
+      <div class="space-y-4 pt-4 divider-top">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
             <i data-lucide="flame" class="w-4 h-4 text-emerald-400"></i>
-            <span>بانک حرکات و گیف‌های آموزشی</span>
+            <span>بانک حرکات</span>
           </h3>
         </div>
 
         <!-- Search & Filter Controls -->
-        <div class="card-glass rounded-2xl p-4 border border-white/10 space-y-3">
-          <div class="relative">
-            <i data-lucide="search" class="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+        <div class="card-glass p-4 space-y-3">
+          <div class="input-icon">
+            <i data-lucide="search"></i>
             <input 
               type="text" 
               id="exercise-search-input" 
               oninput="handleExerciseSearch()" 
               placeholder="مثلاً: پرس سینه، اسکوات، زیربغل..." 
-              class="input-styled pr-10 pl-4 py-2.5"
+              class="input-styled"
             >
           </div>
 
           <!-- Muscle & Tool (Equipment) Selectors in One Line -->
           <div class="grid grid-cols-2 gap-2.5">
             <div>
-              <label for="muscle-filter-select" class="label-styled text-[11px] text-zinc-400 mb-1">عضله هدف:</label>
+              <label for="muscle-filter-select" class="label-styled">عضله</label>
               <select 
                 id="muscle-filter-select" 
                 onchange="setMuscleFilter(this.value)" 
-                class="select-styled px-3 py-2 cursor-pointer text-xs"
+                class="select-styled cursor-pointer"
               >
                 <option value="all">همه عضلات</option>
                 <option value="chest">سینه</option>
@@ -489,11 +531,11 @@ export function renderAppHtml(): string {
             </div>
 
             <div>
-              <label for="equipment-filter-select" class="label-styled text-[11px] text-zinc-400 mb-1">ابزار / تجهیزات:</label>
+              <label for="equipment-filter-select" class="label-styled">تجهیزات</label>
               <select 
                 id="equipment-filter-select" 
                 onchange="setEquipmentFilter(this.value)" 
-                class="select-styled px-3 py-2 cursor-pointer text-xs"
+                class="select-styled cursor-pointer"
               >
                 <option value="all">همه ابزارها</option>
                 <option value="barbell">هالتر</option>
@@ -519,7 +561,7 @@ export function renderAppHtml(): string {
     <section id="tab-profile" class="tab-content hidden max-w-4xl mx-auto space-y-5">
       
       <!-- Profile Header & Quick Stats (Same Line) -->
-      <div class="card-glass rounded-2xl p-3.5 sm:p-5 border border-white/10 flex items-center justify-between gap-2.5 sm:gap-4 overflow-x-auto">
+      <div class="card-glass p-3.5 sm:p-5 flex items-center justify-between gap-2.5 sm:gap-4 overflow-x-auto">
         <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-0 shrink">
           <img id="prof-header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="avatar-frame w-10 h-10 sm:w-14 sm:h-14 shrink-0" alt="Avatar">
           <div class="min-w-0">
@@ -530,15 +572,15 @@ export function renderAppHtml(): string {
 
         <!-- Metric KPI Cards (Always in Same Line as Avatar) -->
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          <div class="metric-pill px-2 sm:px-3 py-1 sm:py-1.5 bg-white/5 rounded-xl border border-white/10 text-center">
+          <div class="metric-pill text-center">
             <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">وزن فعلی</p>
             <h4 id="prof-disp-weight" class="text-xs sm:text-sm font-black text-white font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
-          <div class="metric-pill px-2 sm:px-3 py-1 sm:py-1.5 bg-white/5 rounded-xl border border-white/10 text-center">
+          <div class="metric-pill text-center">
             <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">وزن هدف</p>
             <h4 id="prof-disp-target" class="text-xs sm:text-sm font-black text-emerald-400 font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
-          <div class="metric-pill px-2 sm:px-3 py-1 sm:py-1.5 bg-white/5 rounded-xl border border-white/10 text-center">
+          <div class="metric-pill text-center">
             <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">شاخص BMI</p>
             <h4 id="prof-disp-bmi" class="text-xs sm:text-sm font-black text-emerald-400 font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
@@ -546,17 +588,17 @@ export function renderAppHtml(): string {
       </div>
 
       <!-- Guest Cloud Sync Banner -->
-      <div id="profile-guest-sync-banner" class="hidden card-glass rounded-2xl p-4 border border-emerald-500/30 bg-emerald-500/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div id="profile-guest-sync-banner" class="hidden card-glass p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 card-accent">
         <div class="flex items-center gap-3">
-          <div class="icon-box icon-box-emerald w-9 h-9 rounded-xl shrink-0">
+          <div class="icon-box icon-box-emerald w-9 h-9 shrink-0">
             <i data-lucide="cloud" class="w-4 h-4 text-emerald-400"></i>
           </div>
           <div>
             <h4 class="text-xs font-bold text-white">حالت آفلاین (مهمان)</h4>
-            <p class="text-[11px] text-zinc-400">اطلاعات شما در مرورگر ذخیره می‌شود. برای همگام‌سازی ابری و دسترسی روی دستگاه‌های دیگر وارد شوید.</p>
+            <p class="text-[12px] text-zinc-400">برای همگام‌سازی وارد شوید.</p>
           </div>
         </div>
-        <a href="/api/auth/google" class="btn btn-primary btn-sm glow-emerald whitespace-nowrap justify-center shrink-0">
+        <a href="/api/auth/google" class="btn btn-primary btn-sm whitespace-nowrap shrink-0">
           <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
           <span>ورود با گوگل</span>
         </a>
@@ -565,70 +607,65 @@ export function renderAppHtml(): string {
       ${renderProfileSuggestionsBanner()}
 
       <!-- Theme Appearance Selector Card -->
-      <div class="card-glass rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+      <div class="card-glass p-4 sm:p-5 space-y-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            <div class="icon-box icon-box-cyan w-8 h-8 rounded-xl shrink-0">
+            <div class="icon-box icon-box-cyan w-8 h-8 shrink-0">
               <i data-lucide="palette" class="w-4 h-4"></i>
             </div>
             <div>
-              <h3 class="text-xs sm:text-sm font-bold text-white">پوسته و ظاهر سامانه</h3>
-              <p class="text-[11px] text-zinc-400">انتخاب تم مورد نظر شما (روشن، تاریک یا خودکار بر اساس سیستم)</p>
+              <h3 class="text-xs sm:text-sm font-bold text-white">پوسته</h3>
             </div>
           </div>
-          <span id="theme-active-label" class="badge badge-emerald text-[10px]">تاریک</span>
+          <span id="theme-active-label" class="badge badge-emerald">تاریک</span>
         </div>
 
         <div class="grid grid-cols-3 gap-2.5 pt-1">
-          <button type="button" onclick="setTheme('dark')" id="theme-opt-dark" class="theme-option-btn p-3 rounded-xl border border-white/10 card-glass-subtle flex flex-col items-center justify-center gap-1.5 transition text-xs hover:border-emerald-500/40">
-            <i data-lucide="moon" class="w-5 h-5 text-indigo-400"></i>
-            <span class="font-bold">تاریک</span>
-            <span class="text-[10px] text-zinc-400">گرافیت لاستیکی</span>
+          <button type="button" onclick="setTheme('dark')" id="theme-opt-dark" class="theme-option-btn option-card">
+            <i data-lucide="moon" class="w-5 h-5"></i>
+            <span class="font-semibold">تاریک</span>
           </button>
 
-          <button type="button" onclick="setTheme('light')" id="theme-opt-light" class="theme-option-btn p-3 rounded-xl border border-white/10 card-glass-subtle flex flex-col items-center justify-center gap-1.5 transition text-xs hover:border-emerald-500/40">
-            <i data-lucide="sun" class="w-5 h-5 text-amber-400"></i>
-            <span class="font-bold">روشن</span>
-            <span class="text-[10px] text-zinc-400">گچی روشن</span>
+          <button type="button" onclick="setTheme('light')" id="theme-opt-light" class="theme-option-btn option-card">
+            <i data-lucide="sun" class="w-5 h-5"></i>
+            <span class="font-semibold">روشن</span>
           </button>
 
-          <button type="button" onclick="setTheme('system')" id="theme-opt-system" class="theme-option-btn p-3 rounded-xl border border-white/10 card-glass-subtle flex flex-col items-center justify-center gap-1.5 transition text-xs hover:border-emerald-500/40">
-            <i data-lucide="laptop" class="w-5 h-5 text-emerald-400"></i>
-            <span class="font-bold">سیستم</span>
-            <span class="text-[10px] text-zinc-400">هماهنگ با دستگاه</span>
+          <button type="button" onclick="setTheme('system')" id="theme-opt-system" class="theme-option-btn option-card">
+            <i data-lucide="laptop" class="w-5 h-5"></i>
+            <span class="font-semibold">سیستم</span>
           </button>
         </div>
       </div>
 
       <!-- Main Profile & Goals Card -->
-      <div class="card-glass rounded-2xl p-4 sm:p-6 border border-white/10 space-y-4">
-        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+      <div class="card-glass p-4 sm:p-6 space-y-4">
+        <div class="flex items-center justify-between border-b pb-3 border-[color:var(--line)]">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
             <i data-lucide="target" class="w-4 h-4 text-emerald-400"></i>
-            <span>مشخصات و اهداف ورزشی</span>
+            <span>مشخصات و اهداف</span>
           </h3>
-          <span class="text-[11px] text-zinc-400">اطلاعات پایه شما</span>
         </div>
 
         <form id="profile-info-form" onsubmit="event.preventDefault(); saveProfileData();" class="space-y-4 text-xs">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label class="label-styled text-[11px]">قد (سانتی‌متر)</label>
+              <label class="label-styled">قد (سانتی‌متر)</label>
               <input type="number" id="prof-height" min="100" max="250" placeholder="مثلاً: ۱۷۸" class="input-styled font-mono">
             </div>
 
             <div>
-              <label class="label-styled text-[11px]">وزن فعلی (کیلوگرم)</label>
+              <label class="label-styled">وزن فعلی (کیلوگرم)</label>
               <input type="number" step="0.1" id="prof-weight" min="30" max="250" placeholder="مثلاً: ۷۸" class="input-styled font-mono">
             </div>
 
             <div>
-              <label class="label-styled text-[11px]">وزن هدف (کیلوگرم)</label>
+              <label class="label-styled">وزن هدف (کیلوگرم)</label>
               <input type="number" step="0.1" id="prof-target-weight" min="30" max="250" placeholder="مثلاً: ۸۲" class="input-styled font-mono">
             </div>
 
             <div>
-              <label class="label-styled text-[11px]">هدف اصلی فیتنس</label>
+              <label class="label-styled">هدف اصلی فیتنس</label>
               <select id="prof-goal" class="select-styled">
                 <option value="hypertrophy">هایپرتروفی و عضله‌سازی</option>
                 <option value="fat_loss">چربی‌سوزی و کاهش وزن</option>
@@ -639,7 +676,7 @@ export function renderAppHtml(): string {
             </div>
 
             <div>
-              <label class="label-styled text-[11px]">تعداد جلسات تمرین در هفته</label>
+              <label class="label-styled">تعداد جلسات تمرین در هفته</label>
               <select id="prof-weekly-workouts" class="select-styled">
                 <option value="2">۲ جلسه در هفته</option>
                 <option value="3">۳ جلسه در هفته</option>
@@ -650,7 +687,7 @@ export function renderAppHtml(): string {
             </div>
 
             <div>
-              <label class="label-styled text-[11px]">سطح تجربه</label>
+              <label class="label-styled">سطح تجربه</label>
               <select id="prof-level" class="select-styled">
                 <option value="beginner">مبتدی (زیر ۱ سال)</option>
                 <option value="intermediate">متوسط (۱ تا ۳ سال)</option>
@@ -660,14 +697,14 @@ export function renderAppHtml(): string {
           </div>
 
           <!-- Subtle Extra Fields -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2 border-t border-white/5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2 divider-top">
             <div>
-              <label class="label-styled text-[11px]">سن (سال)</label>
+              <label class="label-styled">سن (سال)</label>
               <input type="number" id="prof-age" min="10" max="100" placeholder="مثلاً: ۲۵" class="input-styled font-mono">
             </div>
 
             <div>
-              <label class="label-styled text-[11px]">جنسیت</label>
+              <label class="label-styled">جنسیت</label>
               <select id="prof-gender" class="select-styled">
                 <option value="male">مرد</option>
                 <option value="female">زن</option>
@@ -676,8 +713,8 @@ export function renderAppHtml(): string {
             </div>
           </div>
 
-          <div class="pt-3 border-t border-white/10 flex justify-end">
-            <button type="submit" class="btn btn-primary btn-md glow-emerald">
+          <div class="pt-3 divider-top flex justify-end">
+            <button type="submit" class="btn btn-primary btn-md">
               <i data-lucide="check" class="w-4 h-4"></i>
               <span>ذخیره تغییرات</span>
             </button>
@@ -689,40 +726,40 @@ export function renderAppHtml(): string {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         <!-- Daily Check-in -->
-        <div class="card-glass rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
-          <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <div class="card-glass p-4 sm:p-5 space-y-3">
+          <div class="flex items-center justify-between border-b pb-2.5 border-[color:var(--line)]">
             <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
               <i data-lucide="scale" class="w-4 h-4 text-emerald-400"></i>
-              <span>ثبت روزانه وزن</span>
+              <span>وزن روزانه</span>
             </h4>
-            <span id="daily-status-tag" class="badge badge-zinc text-[10px]">در انتظار ثبت</span>
+            <span id="daily-status-tag" class="badge badge-zinc">در انتظار ثبت</span>
           </div>
 
           <form id="daily-log-form" onsubmit="event.preventDefault(); submitDailyLog();" class="space-y-3 text-xs">
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="label-styled text-[10px]">وزن امروز (kg)</label>
-                <input type="number" step="0.1" id="daily-weight-input" placeholder="مثلاً: ۷۸.۵" class="input-styled font-mono py-1.5 text-xs">
+                <label class="label-styled">وزن امروز (kg)</label>
+                <input type="number" step="0.1" id="daily-weight-input" placeholder="مثلاً: ۷۸.۵" class="input-styled font-mono">
               </div>
               <div>
-                <label class="label-styled text-[10px]">آب مصرفی (L)</label>
-                <input type="number" step="0.1" id="daily-water-input" placeholder="مثلاً: ۳" class="input-styled font-mono py-1.5 text-xs">
+                <label class="label-styled">آب مصرفی (L)</label>
+                <input type="number" step="0.1" id="daily-water-input" placeholder="مثلاً: ۳" class="input-styled font-mono">
               </div>
             </div>
 
             <div>
-              <label class="label-styled text-[10px]">یادداشت روزانه (اختیاری)</label>
-              <input type="text" id="daily-notes-input" placeholder="مثلاً: انرژی بالا، خواب عالی..." class="input-styled py-1.5 text-xs">
+              <label class="label-styled">یادداشت روزانه (اختیاری)</label>
+              <input type="text" id="daily-notes-input" placeholder="مثلاً: انرژی بالا، خواب عالی..." class="input-styled">
             </div>
 
-            <button type="submit" class="btn btn-primary btn-sm w-full glow-emerald">
+            <button type="submit" class="btn btn-primary btn-sm w-full">
               <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
               <span>ثبت وضعیت امروز</span>
             </button>
           </form>
 
           <!-- History Accordion/List -->
-          <div class="pt-2 border-t border-white/5 space-y-1.5">
+          <div class="pt-2 divider-top space-y-1.5">
             <p class="text-[10px] text-zinc-400 font-bold">آخرین ثبت‌ها:</p>
             <div id="recent-daily-logs-list" class="space-y-1.5 max-h-28 overflow-y-auto pr-1">
               <!-- Populated via JS -->
@@ -731,30 +768,27 @@ export function renderAppHtml(): string {
         </div>
 
         <!-- Daily Reminder -->
-        <div class="card-glass rounded-2xl p-4 sm:p-5 border border-white/10 flex flex-col justify-between space-y-3 text-xs">
+        <div class="card-glass p-4 sm:p-5 flex flex-col justify-between space-y-3 text-xs">
           <div class="space-y-3">
-            <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+            <div class="flex items-center justify-between border-b pb-2.5 border-[color:var(--line)]">
               <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
                 <i data-lucide="bell" class="w-4 h-4 text-emerald-400"></i>
                 <span>یادآور روزانه</span>
               </h4>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="prof-reminder-enabled" onchange="saveProfileData()" class="sr-only peer" checked>
-                <div class="w-9 h-5 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+              <label class="switch" title="یادآور روزانه">
+                <input type="checkbox" id="prof-reminder-enabled" onchange="saveProfileData()" checked>
+                <span class="switch-track"></span>
               </label>
             </div>
 
             <div class="flex items-center justify-between">
               <span class="text-zinc-300 text-xs">ساعت اعلان:</span>
-              <input type="time" id="prof-reminder-time" onchange="saveProfileData()" value="20:00" class="input-styled w-auto font-mono py-1 px-2.5 text-xs">
+              <input type="time" id="prof-reminder-time" onchange="saveProfileData()" value="20:00" class="input-styled input-sm w-28 font-mono">
             </div>
 
-            <p class="text-[11px] text-zinc-400 leading-relaxed">
-              یادآوری ملایم هر روز در ساعت مشخص برای ثبت وزن و پیگیری تمرینات ورزشی شما.
-            </p>
           </div>
 
-          <button onclick="requestNotificationPermission()" class="btn btn-secondary btn-sm w-full border-emerald-500/30 text-emerald-300 hover:text-white">
+          <button onclick="requestNotificationPermission()" class="btn btn-secondary btn-md w-full">
             <i data-lucide="bell-ring" class="w-3.5 h-3.5"></i>
             <span id="notif-perm-btn-text">فعال‌سازی اعلان در مرورگر</span>
           </button>
@@ -773,7 +807,7 @@ export function renderAppHtml(): string {
   <script>
     // Configure Chart.js global defaults
     if (typeof Chart !== 'undefined') {
-      Chart.defaults.font.family = "'Readex Pro', 'Vazirmatn', system-ui, sans-serif";
+      Chart.defaults.font.family = "'Vazirmatn', system-ui, sans-serif";
     }
 
     // --- Global State ---
@@ -813,26 +847,17 @@ export function renderAppHtml(): string {
 
       msgEl.innerText = message;
 
-      if (type === 'error') {
-        card.className = 'card-glass px-5 py-3 rounded-2xl border border-rose-500/40 text-rose-400 font-bold text-xs shadow-2xl flex items-center gap-2.5 glow-rose';
-        iconWrap.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4 text-rose-400"></i>';
-      } else if (type === 'warning') {
-        card.className = 'card-glass px-5 py-3 rounded-2xl border border-amber-500/40 text-amber-400 font-bold text-xs shadow-2xl flex items-center gap-2.5 glow-gold';
-        iconWrap.innerHTML = '<i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400"></i>';
-      } else if (type === 'info') {
-        card.className = 'card-glass px-5 py-3 rounded-2xl border border-cyan-500/40 text-cyan-400 font-bold text-xs shadow-2xl flex items-center gap-2.5 glow-cyan';
-        iconWrap.innerHTML = '<i data-lucide="info" class="w-4 h-4 text-cyan-400"></i>';
-      } else {
-        card.className = 'card-glass px-5 py-3 rounded-2xl border border-emerald-500/40 text-emerald-400 font-bold text-xs shadow-2xl flex items-center gap-2.5 glow-emerald';
-        iconWrap.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>';
-      }
+      const toastIcons = { error: 'alert-circle', warning: 'alert-triangle', info: 'info', success: 'check-circle-2' };
+      const kind = toastIcons[type] ? type : 'success';
+      card.className = 'toast toast-' + kind;
+      iconWrap.innerHTML = '<i data-lucide="' + toastIcons[kind] + '"></i>';
 
       lucide.createIcons();
 
-      toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+      toast.classList.remove('opacity-0', '-translate-y-2');
       toast.classList.add('opacity-100', 'translate-y-0');
       setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-[-20px]');
+        toast.classList.add('opacity-0', '-translate-y-2');
         toast.classList.remove('opacity-100', 'translate-y-0');
       }, 3200);
     }
@@ -885,20 +910,20 @@ export function renderAppHtml(): string {
 
         const color = options.color || 'emerald';
         if (color === 'rose') {
-          iconContainer.className = 'icon-box icon-box-rose w-12 h-12 rounded-2xl shrink-0';
+          iconContainer.className = 'icon-box icon-box-rose w-11 h-11 shrink-0';
           confirmBtn.className = 'btn btn-danger btn-md';
           iconEl.setAttribute('data-lucide', options.icon || 'trash-2');
         } else if (color === 'amber') {
-          iconContainer.className = 'icon-box icon-box-gold w-12 h-12 rounded-2xl shrink-0';
-          confirmBtn.className = 'btn btn-primary btn-md bg-amber-500 hover:bg-amber-400 text-zinc-950 font-black';
+          iconContainer.className = 'icon-box icon-box-gold w-11 h-11 shrink-0';
+          confirmBtn.className = 'btn btn-primary btn-md';
           iconEl.setAttribute('data-lucide', options.icon || 'alert-triangle');
         } else if (color === 'purple') {
-          iconContainer.className = 'icon-box icon-box-purple w-12 h-12 rounded-2xl shrink-0';
-          confirmBtn.className = 'btn btn-primary btn-md bg-purple-600 hover:bg-purple-500';
+          iconContainer.className = 'icon-box icon-box-cyan w-11 h-11 shrink-0';
+          confirmBtn.className = 'btn btn-primary btn-md';
           iconEl.setAttribute('data-lucide', options.icon || 'share-2');
         } else {
-          iconContainer.className = 'icon-box icon-box-emerald w-12 h-12 rounded-2xl shrink-0';
-          confirmBtn.className = 'btn btn-primary btn-md glow-emerald';
+          iconContainer.className = 'icon-box icon-box-emerald w-11 h-11 shrink-0';
+          confirmBtn.className = 'btn btn-primary btn-md';
           iconEl.setAttribute('data-lucide', options.icon || 'check-circle-2');
         }
 
@@ -1004,9 +1029,9 @@ export function renderAppHtml(): string {
         const btn = document.getElementById('theme-opt-' + m);
         if (btn) {
           if (m === mode) {
-            btn.classList.add('active', 'border-emerald-500/80');
+            btn.classList.add('active');
           } else {
-            btn.classList.remove('active', 'border-emerald-500/80');
+            btn.classList.remove('active');
           }
         }
       });
@@ -1020,8 +1045,14 @@ export function renderAppHtml(): string {
 
     function updateChartTheme(isDark) {
       if (!volumeChartInstance) return;
-      const gridColor = isDark ? 'rgba(237,235,230,0.06)' : 'rgba(21,23,26,0.07)';
-      const tickColor = isDark ? '#7D8288' : '#6B727B';
+      const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(16,17,19,0.07)';
+      const tickColor = isDark ? '#6E6F75' : '#85878C';
+      const ds = volumeChartInstance.data && volumeChartInstance.data.datasets && volumeChartInstance.data.datasets[0];
+      if (ds) {
+        ds.borderColor = isDark ? '#FF6A2B' : '#EA580C';
+        ds.pointBackgroundColor = ds.borderColor;
+        ds.backgroundColor = isDark ? 'rgba(255, 106, 43, 0.12)' : 'rgba(234, 88, 12, 0.08)';
+      }
       if (volumeChartInstance.options && volumeChartInstance.options.scales) {
         if (volumeChartInstance.options.scales.x) {
           volumeChartInstance.options.scales.x.grid.color = gridColor;
@@ -1175,7 +1206,7 @@ export function renderAppHtml(): string {
             <img src="\${avatar}" class="w-7 h-7 rounded-full object-cover shrink-0" alt="">
             <span class="max-w-[110px] truncate">\${user.name || 'حساب کاربری'}</span>
           </button>
-          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-ghost hover:text-rose-400">
+          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
           </button>
         \`;
@@ -1186,7 +1217,7 @@ export function renderAppHtml(): string {
           <button onclick="switchTab('profile')" id="nav-m-profile" title="پروفایل و اهداف" aria-label="پروفایل و اهداف" class="account-chip p-0.5\${activeCls}">
             <img src="\${avatar}" class="w-8 h-8 rounded-full object-cover" alt="">
           </button>
-          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-ghost hover:text-rose-400">
+          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
           </button>
         \`;
@@ -1533,17 +1564,17 @@ export function renderAppHtml(): string {
 
         if (isDone) {
           setsCheckboxesHtml += \`
-            <button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, '\${log.id}')" title="ست \${toPersianDigits(sNum)} انجام شد (کلیک برای حذف)" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/70 text-emerald-300 font-bold text-xs transition cursor-pointer shadow-[0_0_8px_rgba(16,185,129,0.25)]">
-              <i data-lucide="check-square" class="w-3.5 h-3.5 text-emerald-400 stroke-[2.5]"></i>
+            <button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, '\${log.id}')" title="ست \${toPersianDigits(sNum)} انجام شد (کلیک برای حذف)" class="set-chip is-done">
+              <i data-lucide="check" class="stroke-[3]"></i>
               <span>ست \${toPersianDigits(sNum)}</span>
-              \${log.weight_kg > 0 ? \`<span class="text-[10px] opacity-80 font-mono font-normal">(\${toPersianDigits(log.weight_kg)}k)</span>\` : ''}
-              \${log.is_pr ? \`<span class="badge badge-gold text-[8px] py-0 px-1">PR</span>\` : ''}
+              \${log.weight_kg > 0 ? \`<span class="text-[11px] opacity-75 font-mono font-normal">\${toPersianDigits(log.weight_kg)}kg</span>\` : ''}
+              \${log.is_pr ? \`<span class="badge badge-gold">PR</span>\` : ''}
             </button>
           \`;
         } else {
           setsCheckboxesHtml += \`
-            <button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, null)" title="ثبت انجام ست \${toPersianDigits(sNum)}" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 hover:border-emerald-500/60 text-zinc-300 hover:text-white font-medium text-xs transition cursor-pointer">
-              <i data-lucide="square" class="w-3.5 h-3.5 text-zinc-400"></i>
+            <button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, null)" title="ثبت انجام ست \${toPersianDigits(sNum)}" class="set-chip">
+              <i data-lucide="circle"></i>
               <span>ست \${toPersianDigits(sNum)}</span>
             </button>
           \`;
@@ -1551,12 +1582,12 @@ export function renderAppHtml(): string {
       }
 
       return \`
-        <div id="ongoing-item-\${item.id}" class="card-glass rounded-xl p-3.5 sm:p-4 border \${isAllDone ? 'border-emerald-500/30 bg-emerald-500/[0.03]' : 'border-white/10'} space-y-3 transition-colors">
+        <div id="ongoing-item-\${item.id}" class="card-glass-subtle p-3.5 sm:p-4 space-y-3 \${isAllDone ? 'card-done' : ''}">
           
           <!-- Top Row: Exercise Info & Status -->
           <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3 min-w-0">
-              \${item.gif_url ? \`<img src="\${item.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-black/40 border border-white/10 shrink-0" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 rounded-lg shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
+              \${item.gif_url ? \`<img src="\${item.gif_url}" class="w-10 h-10 rounded-lg object-cover bg-white border border-[color:var(--line)] shrink-0" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
               <div class="min-w-0">
                 <h4 class="text-xs md:text-sm font-bold truncate \${isAllDone ? 'line-through text-zinc-500' : 'text-white'}">
                   \${item.name_fa} \${item.name_en ? \`<span class="text-[10px] text-zinc-400 font-mono font-normal hidden sm:inline">(\${item.name_en})</span>\` : ''}
@@ -1571,7 +1602,7 @@ export function renderAppHtml(): string {
             <!-- Status Badge -->
             <div class="shrink-0">
               \${isAllDone 
-                ? \`<span class="badge badge-emerald"><i data-lucide="check" class="w-3 h-3 stroke-[3]"></i><span>تکمیل شد (\${toPersianDigits(completedSetsCount)}/\${toPersianDigits(totalSets)})</span></span>\`
+                ? \`<span class="badge badge-done"><i data-lucide="check" class="stroke-[3]"></i><span>تکمیل شد (\${toPersianDigits(completedSetsCount)}/\${toPersianDigits(totalSets)})</span></span>\`
                 : (completedSetsCount > 0 
                     ? \`<span class="badge badge-gold"><span>\${toPersianDigits(completedSetsCount)} از \${toPersianDigits(totalSets)} ست</span></span>\`
                     : \`<span class="badge badge-zinc"><span>۰/\${toPersianDigits(totalSets)} ست</span></span>\`
@@ -1581,26 +1612,26 @@ export function renderAppHtml(): string {
           </div>
 
           <!-- Modular All-in-One-Line Sets & Reps Bar (Weight Log, Rep Count & Checkboxes) -->
-          <div class="flex flex-wrap items-center justify-between gap-2.5 pt-2.5 border-t border-white/5 bg-[#08090d]/60 p-2.5 rounded-xl">
+          <div class="flex flex-wrap items-center justify-between gap-2.5 pt-3 divider-top">
             
             <!-- Weight & Reps Digital Stepper Counters (No Text Inputs) -->
             <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
               
               <!-- Weight Counter -->
-              <div class="flex items-center gap-1.5 bg-white/[0.04] px-2 py-1 rounded-lg border border-white/5 shrink-0">
-                <span class="text-zinc-400 font-medium text-[11px]">وزن:</span>
-                <button type="button" onclick="adjustOngoingWeight('\${item.id}', -2.5)" class="w-6 h-6 rounded-md bg-white/5 hover:bg-white/15 active:scale-95 text-zinc-300 font-bold flex items-center justify-center transition">−</button>
-                <span id="w-val-\${item.id}" class="w-8 text-center font-mono font-bold text-white text-xs">\${toPersianDigits(defaultWeight)}</span>
-                <button type="button" onclick="adjustOngoingWeight('\${item.id}', 2.5)" class="w-6 h-6 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 active:scale-95 text-emerald-400 font-bold flex items-center justify-center transition">+</button>
-                <span class="text-[10px] text-zinc-500 font-mono">kg</span>
+              <div class="stepper">
+                <span class="stepper-label">وزن</span>
+                <button type="button" onclick="adjustOngoingWeight('\${item.id}', -2.5)" class="stepper-btn" aria-label="کاهش وزن">−</button>
+                <span id="w-val-\${item.id}" class="stepper-value">\${toPersianDigits(defaultWeight)}</span>
+                <button type="button" onclick="adjustOngoingWeight('\${item.id}', 2.5)" class="stepper-btn" aria-label="افزایش وزن">+</button>
+                <span class="stepper-unit">kg</span>
               </div>
 
               <!-- Reps Counter -->
-              <div class="flex items-center gap-1.5 bg-white/[0.04] px-2 py-1 rounded-lg border border-white/5 shrink-0">
-                <span class="text-zinc-400 font-medium text-[11px]">تکرار:</span>
-                <button type="button" onclick="adjustOngoingReps('\${item.id}', -1)" class="w-6 h-6 rounded-md bg-white/5 hover:bg-white/15 active:scale-95 text-zinc-300 font-bold flex items-center justify-center transition">−</button>
-                <span id="r-val-\${item.id}" class="w-6 text-center font-mono font-bold text-emerald-400 text-xs">\${toPersianDigits(defaultReps)}</span>
-                <button type="button" onclick="adjustOngoingReps('\${item.id}', 1)" class="w-6 h-6 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 active:scale-95 text-emerald-400 font-bold flex items-center justify-center transition">+</button>
+              <div class="stepper">
+                <span class="stepper-label">تکرار</span>
+                <button type="button" onclick="adjustOngoingReps('\${item.id}', -1)" class="stepper-btn" aria-label="کاهش تکرار">−</button>
+                <span id="r-val-\${item.id}" class="stepper-value">\${toPersianDigits(defaultReps)}</span>
+                <button type="button" onclick="adjustOngoingReps('\${item.id}', 1)" class="stepper-btn" aria-label="افزایش تکرار">+</button>
               </div>
 
             </div>
@@ -1612,9 +1643,9 @@ export function renderAppHtml(): string {
                 type="button" 
                 onclick="addExtraSet('\${item.id}')" 
                 title="افزودن یک ست دیگر به این حرکت" 
-                class="btn btn-ghost btn-sm text-[11px] py-1 px-2 text-zinc-400 hover:text-emerald-400 border border-dashed border-white/15 rounded-lg flex items-center gap-1"
+                class="set-chip set-chip-add"
               >
-                <i data-lucide="plus" class="w-3 h-3"></i>
+                <i data-lucide="plus"></i>
                 <span>ست</span>
               </button>
             </div>
@@ -1677,10 +1708,10 @@ export function renderAppHtml(): string {
 
       if (exercisesArray.length === 0) {
         listContainer.innerHTML = \`
-          <div class="card-glass rounded-2xl p-6 border border-white/10 text-center space-y-3">
+          <div class="card-glass p-6 text-center space-y-3">
             <i data-lucide="dumbbell" class="w-8 h-8 mx-auto text-emerald-400"></i>
             <p class="text-xs text-zinc-400">هنوز حرکتی در این جلسه اضافه نشده است. با دکمه «افزودن حرکت» حرکات دلخواه را اضافه کنید.</p>
-            <button onclick="openAddExerciseToSessionModal()" class="btn btn-primary btn-md glow-emerald">
+            <button onclick="openAddExerciseToSessionModal()" class="btn btn-primary btn-md">
               افزودن حرکت به تمرین
             </button>
           </div>
@@ -2059,19 +2090,19 @@ export function renderAppHtml(): string {
         if (mobBadge) mobBadge.classList.add('hidden');
         if (actions) actions.classList.add('hidden');
         container.innerHTML = \`
-          <p id="inline-empty-hint" class="text-xs text-zinc-500 text-center py-6 border border-dashed border-zinc-800 rounded-xl">
-            هنوز حرکتی به برنامه اضافه نشده است. از لیست حرکات زیر، روی دکمه «افزودن به برنامه» کلیک کنید.
+          <p id="inline-empty-hint" class="empty-state">
+            هنوز حرکتی اضافه نشده
           </p>
         \`;
         return;
       }
 
       container.innerHTML = draftProgramExercises.map((item, idx) => \`
-        <div class="card-glass-subtle p-3 rounded-xl border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div class="card-glass-subtle p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           
           <div class="flex items-center gap-2.5 min-w-0">
-            <span class="w-6 h-6 rounded-lg bg-emerald-500/15 text-emerald-400 font-bold flex items-center justify-center text-xs shrink-0">\${toPersianDigits(idx + 1)}</span>
-            <img src="\${item.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-zinc-900 border border-white/10 shrink-0" alt="">
+            <span class="badge badge-emerald w-6 justify-center shrink-0">\${toPersianDigits(idx + 1)}</span>
+            <img src="\${item.gif_url}" class="w-10 h-10 rounded-lg object-cover bg-white border border-[color:var(--line)] shrink-0" alt="">
             <div class="min-w-0 truncate">
               <h5 class="font-bold text-white text-xs truncate">
                 <span>\${item.name_fa}</span>
@@ -2081,26 +2112,26 @@ export function renderAppHtml(): string {
           </div>
 
           <!-- Sets & Reps Digital Counters + Delete Button (Guaranteed Same Line) -->
-          <div class="flex items-center flex-nowrap gap-2 bg-black/40 p-1.5 rounded-xl border border-white/5 shrink-0 self-end sm:self-auto">
+          <div class="flex items-center flex-nowrap gap-2 shrink-0 self-end sm:self-auto">
             
             <!-- Sets Counter -->
-            <div class="flex items-center gap-1.5 bg-white/[0.04] px-2 py-1 rounded-lg border border-white/5 shrink-0">
-              <span class="text-zinc-400 font-medium text-[11px]">ست:</span>
-              <button type="button" onclick="adjustDraftSets(\${idx}, -1)" class="w-6 h-6 rounded-md bg-white/5 hover:bg-white/15 active:scale-95 text-zinc-300 font-bold flex items-center justify-center transition">−</button>
-              <span class="w-5 text-center font-mono font-bold text-white text-xs">\${toPersianDigits(item.target_sets || 4)}</span>
-              <button type="button" onclick="adjustDraftSets(\${idx}, 1)" class="w-6 h-6 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 active:scale-95 text-emerald-400 font-bold flex items-center justify-center transition">+</button>
+            <div class="stepper">
+              <span class="stepper-label">ست</span>
+              <button type="button" onclick="adjustDraftSets(\${idx}, -1)" class="stepper-btn" aria-label="کاهش ست">−</button>
+              <span class="stepper-value">\${toPersianDigits(item.target_sets || 4)}</span>
+              <button type="button" onclick="adjustDraftSets(\${idx}, 1)" class="stepper-btn" aria-label="افزایش ست">+</button>
             </div>
 
             <!-- Reps Counter -->
-            <div class="flex items-center gap-1.5 bg-white/[0.04] px-2 py-1 rounded-lg border border-white/5 shrink-0">
-              <span class="text-zinc-400 font-medium text-[11px]">تکرار:</span>
-              <button type="button" onclick="adjustDraftReps(\${idx}, -1)" class="w-6 h-6 rounded-md bg-white/5 hover:bg-white/15 active:scale-95 text-zinc-300 font-bold flex items-center justify-center transition">−</button>
-              <span class="w-7 text-center font-mono font-bold text-emerald-400 text-xs">\${toPersianDigits(item.target_reps || 10)}</span>
-              <button type="button" onclick="adjustDraftReps(\${idx}, 1)" class="w-6 h-6 rounded-md bg-emerald-500/20 hover:bg-emerald-500/30 active:scale-95 text-emerald-400 font-bold flex items-center justify-center transition">+</button>
+            <div class="stepper">
+              <span class="stepper-label">تکرار</span>
+              <button type="button" onclick="adjustDraftReps(\${idx}, -1)" class="stepper-btn" aria-label="کاهش تکرار">−</button>
+              <span class="stepper-value">\${toPersianDigits(item.target_reps || 10)}</span>
+              <button type="button" onclick="adjustDraftReps(\${idx}, 1)" class="stepper-btn" aria-label="افزایش تکرار">+</button>
             </div>
 
             <!-- Delete Button (ALWAYS on same line) -->
-            <button type="button" onclick="removeDraftMovement(\${idx})" title="حذف از برنامه" class="btn-icon-sm btn-ghost text-rose-400 hover:bg-rose-500/20 shrink-0">
+            <button type="button" onclick="removeDraftMovement(\${idx})" title="حذف از برنامه" class="btn-icon-sm btn-icon-danger">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
           </div>
@@ -2226,10 +2257,10 @@ export function renderAppHtml(): string {
 
       if (routines.length === 0) {
         grid.innerHTML = \`
-          <div class="col-span-full card-glass p-6 rounded-2xl border border-white/10 text-center space-y-2">
+          <div class="col-span-full card-glass p-6 text-center space-y-2">
             <i data-lucide="clipboard-list" class="w-7 h-7 mx-auto text-emerald-400"></i>
             <h4 class="font-bold text-white text-xs">هنوز برنامه‌ای نساخته‌اید</h4>
-            <p class="text-[11px] text-zinc-400">حرکات دلخواه را از بانک زیر انتخاب و در پیش‌نویس ذخیره کنید.</p>
+            
           </div>
         \`;
         lucide.createIcons();
@@ -2237,7 +2268,7 @@ export function renderAppHtml(): string {
       }
 
       grid.innerHTML = routines.map(r => \`
-        <div class="card-glass-interactive rounded-2xl p-4 border border-white/10 space-y-3 flex flex-col justify-between">
+        <div class="card-glass-interactive p-4 space-y-3 flex flex-col justify-between">
           <div class="space-y-2">
             <div class="flex items-center justify-between">
               <h3 class="font-bold text-sm text-white">\${r.title}</h3>
@@ -2253,7 +2284,7 @@ export function renderAppHtml(): string {
                 const sets = Number(ex.target_sets || ex.sets) || 4;
                 const reps = Number(ex.target_reps || ex.reps) || 10;
                 return \`
-                <div class="bg-[#08090d] px-2.5 py-1.5 rounded-xl border border-white/10 flex items-center justify-between text-xs">
+                <div class="card-glass-subtle px-2.5 py-1.5 flex items-center justify-between text-xs">
                   <span class="text-zinc-200 font-medium">\${toPersianDigits(i + 1)}. \${nameFa}</span>
                   <span class="text-zinc-400 font-mono text-[11px]">\${toPersianDigits(sets)}×\${toPersianDigits(reps)}</span>
                 </div>
@@ -2262,17 +2293,17 @@ export function renderAppHtml(): string {
           </div>
 
           <!-- Routine Bottom Action Controls -->
-          <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+          <div class="pt-3 divider-top flex items-center justify-between gap-2">
             <div class="flex items-center gap-1.5">
               <button onclick="shareRoutine('\${r.id}', '\${r.title}')" title="اشتراک‌گذاری این برنامه" class="btn btn-secondary btn-icon-sm">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
               </button>
-              <button onclick="deleteRoutine('\${r.id}')" title="حذف برنامه" class="btn-icon-sm btn-ghost text-zinc-500 hover:text-rose-400">
+              <button onclick="deleteRoutine('\${r.id}')" title="حذف برنامه" class="btn-icon-sm btn-icon-danger">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
             </div>
 
-            <button onclick="startRoutineWorkout('\${r.id}')" class="btn btn-primary btn-sm glow-emerald">
+            <button onclick="startRoutineWorkout('\${r.id}')" class="btn btn-primary btn-sm">
               <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
               <span>اجرای برنامه</span>
             </button>
@@ -2350,7 +2381,7 @@ export function renderAppHtml(): string {
       const hasMore = filtered.length > exerciseRenderLimit;
 
       const cardsHtml = visible.map(ex => \`
-        <div class="card-glass-interactive rounded-2xl overflow-hidden border border-white/10 group flex flex-col justify-between" style="content-visibility: auto; contain-intrinsic-size: 380px;">
+        <div class="card-glass-interactive overflow-hidden group flex flex-col justify-between" style="content-visibility: auto; contain-intrinsic-size: 380px;">
           
           <!-- Exercise Thumbnail with Category & Equipment Badges -->
           <div class="relative bg-white aspect-video border-b border-[color:var(--color-line)] flex items-center justify-center overflow-hidden">
@@ -2359,13 +2390,13 @@ export function renderAppHtml(): string {
               loading="lazy" 
               decoding="async"
               alt="\${ex.name_fa}" 
-              class="w-full h-full object-contain group-hover:scale-105 transition duration-300"
+              class="w-full h-full object-contain"
               onerror="this.src='https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg'"
             >
-            <span class="absolute top-2 right-2 badge badge-emerald bg-black/60 backdrop-blur-md">
+            <span class="absolute top-2 right-2 badge badge-overlay">
               \${ex.category_fa}
             </span>
-            <span class="absolute top-2 left-2 badge badge-zinc bg-black/60 backdrop-blur-md">
+            <span class="absolute top-2 left-2 badge badge-overlay">
               \${ex.equipment_fa}
             </span>
           </div>
@@ -2376,36 +2407,36 @@ export function renderAppHtml(): string {
               
               <!-- Names Side-by-Side -->
               <div>
-                <h4 class="font-bold text-xs md:text-sm text-white group-hover:text-emerald-400 transition flex items-baseline gap-1.5 flex-wrap">
+                <h4 class="font-bold text-sm text-white flex items-baseline gap-1.5 flex-wrap">
                   <span>\${ex.name_fa}</span>
                   <span class="text-[11px] text-zinc-400 font-mono font-normal">(\${ex.name_en})</span>
                 </h4>
               </div>
 
               <!-- Muscles Info -->
-              <div class="text-[11px] text-zinc-400 leading-snug bg-white/[0.02] p-2.5 rounded-xl border border-white/5 space-y-1">
+              <div class="text-[12px] text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
                 <p><span class="text-emerald-400 font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles}</span></p>
                 \${ex.secondary_muscles ? \`<p><span class="text-zinc-400 font-medium">عضلات کمکی:</span> <span class="text-zinc-300">\${ex.secondary_muscles}</span></p>\` : ''}
               </div>
 
               <!-- Step-by-Step Guidance Box Directly on Card -->
-              <details class="text-[11px] text-zinc-300 bg-[#08090d]/80 rounded-xl p-2.5 border border-white/5 group/guide">
-                <summary class="cursor-pointer font-bold text-emerald-400 text-xs flex items-center justify-between select-none">
+              <details class="text-[12px] text-zinc-300 card-glass-subtle p-2.5 group/guide">
+                <summary class="cursor-pointer font-semibold text-white text-xs flex items-center justify-between select-none">
                   <span class="flex items-center gap-1.5">
                     <svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
                     <span>راهنمای اجرای حرکت</span>
                   </span>
                   <svg class="w-3.5 h-3.5 transition group-open/guide:rotate-180 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                 </summary>
-                <div class="pt-2 text-zinc-300 whitespace-pre-line leading-relaxed border-t border-white/5 mt-2 max-h-36 overflow-y-auto pr-1">
+                <div class="pt-2 text-zinc-300 whitespace-pre-line leading-relaxed divider-top mt-2 max-h-36 overflow-y-auto pr-1">
                   \${ex.instructions_fa}
                 </div>
               </details>
             </div>
 
             <!-- Card Bottom Action: Add to Program -->
-            <div class="pt-2 border-t border-white/10">
-              <button onclick="addMovementToInlineProgram('\${ex.id}')" class="btn btn-primary btn-md w-full glow-emerald">
+            <div class="pt-2 divider-top">
+              <button onclick="addMovementToInlineProgram('\${ex.id}')" class="btn btn-primary btn-md w-full">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                 <span>افزودن به برنامه</span>
               </button>
@@ -2416,7 +2447,7 @@ export function renderAppHtml(): string {
 
       const loadMoreBtn = hasMore ? \`
         <div class="col-span-full pt-4 flex justify-center">
-          <button onclick="loadMoreExercises()" class="btn btn-secondary btn-md border-emerald-500/20 text-emerald-400 hover:text-white">
+          <button onclick="loadMoreExercises()" class="btn btn-secondary btn-md">
             <span>نمایش حرکات بیشتر (\${toPersianDigits(filtered.length - exerciseRenderLimit)} حرکت دیگر)</span>
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
           </button>
@@ -2481,15 +2512,15 @@ export function renderAppHtml(): string {
       );
 
       list.innerHTML = filtered.map(ex => \`
-        <div class="card-glass-subtle p-2.5 rounded-xl border border-white/10 flex items-center justify-between hover:border-emerald-500/40 transition">
+        <div class="card-glass-subtle p-2.5 flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            <img src="\${ex.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-zinc-900" alt="">
+            <img src="\${ex.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-white border border-[color:var(--line)]" alt="">
             <div>
               <h5 class="font-bold text-xs text-white">\${ex.name_fa}</h5>
               <p class="text-[10px] text-zinc-400 font-mono">\${ex.name_en}</p>
             </div>
           </div>
-          <button onclick="addSelectedExToWorkout('\${ex.id}')" class="btn btn-primary btn-sm glow-emerald">
+          <button onclick="addSelectedExToWorkout('\${ex.id}')" class="btn btn-primary btn-sm">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
             <span>افزودن</span>
           </button>
@@ -2536,11 +2567,8 @@ export function renderAppHtml(): string {
       ['weekly', 'monthly', '3month'].forEach(v => {
         const btn = document.getElementById('cal-btn-' + v);
         if (btn) {
-          if (v === view) {
-            btn.className = 'btn btn-primary btn-sm py-1 px-3 rounded-lg';
-          } else {
-            btn.className = 'btn btn-ghost btn-sm py-1 px-3 rounded-lg';
-          }
+          btn.classList.toggle('is-active', v === view);
+          btn.setAttribute('aria-selected', String(v === view));
         }
       });
 
@@ -2623,9 +2651,9 @@ export function renderAppHtml(): string {
 
               if (hasWorkout) {
                 return \`
-                  <div class="card-glass-interactive p-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 text-center flex flex-col items-center justify-between h-20 shadow-lg glow-emerald">
+                  <div class="day-tile is-done">
                     <span class="text-[11px] font-bold text-emerald-400">\${dayName}</span>
-                    <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                    <div class="w-6 h-6 rounded-full bg-[color:var(--accent)] text-[color:var(--on-accent)] flex items-center justify-center">
                       <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
                     </div>
                     <span class="text-[9px] font-mono font-bold text-emerald-300">\${toPersianDigits(Math.round(item.volume / 100) / 10)}k</span>
@@ -2633,15 +2661,15 @@ export function renderAppHtml(): string {
                 \`;
               } else if (isToday) {
                 return \`
-                  <div class="card-glass-subtle p-2 rounded-xl border border-emerald-400/40 bg-emerald-400/5 text-center flex flex-col items-center justify-between h-20">
+                  <div class="day-tile is-today">
                     <span class="text-[11px] font-bold text-white">\${dayName}</span>
-                    <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded-full">امروز</span>
+                    <span class="badge badge-emerald">امروز</span>
                     <span class="text-[9px] text-zinc-400">\${dayNum}</span>
                   </div>
                 \`;
               } else {
                 return \`
-                  <div class="card-glass-subtle p-2 rounded-xl border border-white/5 opacity-50 text-center flex flex-col items-center justify-between h-20">
+                  <div class="day-tile is-empty">
                     <span class="text-[11px] font-medium text-zinc-400">\${dayName}</span>
                     <div class="w-2 h-2 rounded-full bg-zinc-700"></div>
                     <span class="text-[9px] text-zinc-500">\${dayNum}</span>
@@ -2672,21 +2700,21 @@ export function renderAppHtml(): string {
 
                 if (hasWorkout) {
                   return \`
-                    <div title="\${item.dateStr}: \${toPersianDigits(item.volume)} kg" class="p-2 rounded-lg border border-emerald-500/40 bg-emerald-500/20 text-center flex flex-col items-center justify-center gap-1 shadow-sm glow-emerald cursor-pointer hover:scale-105 transition">
+                    <div title="\${item.dateStr}: \${toPersianDigits(item.volume)} kg" class="day-tile day-tile-sm is-done">
                       <span class="text-[11px] font-bold text-white font-mono">\${dayNum}</span>
-                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      <span class="w-1.5 h-1.5 rounded-full bg-[color:var(--accent)]"></span>
                     </div>
                   \`;
                 } else if (isToday) {
                   return \`
-                    <div title="امروز: هنوز ثبت نشده" class="p-2 rounded-lg border border-emerald-400/40 bg-white/5 text-center flex flex-col items-center justify-center gap-1 cursor-pointer">
+                    <div title="امروز: هنوز ثبت نشده" class="day-tile day-tile-sm is-today">
                       <span class="text-[11px] font-bold text-emerald-400 font-mono">\${dayNum}</span>
-                      <span class="text-[8px] text-zinc-400">امروز</span>
+                      <span class="text-[10px] text-zinc-400">امروز</span>
                     </div>
                   \`;
                 } else {
                   return \`
-                    <div class="p-2 rounded-lg border border-white/5 bg-black/20 opacity-40 text-center flex flex-col items-center justify-center gap-1">
+                    <div class="day-tile day-tile-sm is-empty">
                       <span class="text-[11px] font-mono text-zinc-500">\${dayNum}</span>
                       <span class="w-1 h-1 rounded-full bg-zinc-700"></span>
                     </div>
@@ -2710,22 +2738,22 @@ export function renderAppHtml(): string {
 
         calContainer.innerHTML = \`
           <div class="space-y-3 pt-1">
-            <div class="flex flex-wrap gap-1 items-center justify-center bg-black/30 p-3 rounded-xl border border-white/5 max-h-36 overflow-y-auto">
+            <div class="well-sunken flex flex-wrap gap-1 items-center justify-center p-3 max-h-36 overflow-y-auto">
               \${dayList.map(item => {
                 const vol = item.volume || 0;
-                let bgClass = 'bg-white/[0.04] border border-white/5 opacity-40';
+                let bgClass = 'heat-0';
                 if (vol > 0 && vol < 4000) {
-                  bgClass = 'bg-emerald-900/60 border border-emerald-700/40';
+                  bgClass = 'heat-1';
                 } else if (vol >= 4000 && vol < 12000) {
-                  bgClass = 'bg-emerald-600 border border-emerald-500 shadow-sm';
+                  bgClass = 'heat-2';
                 } else if (vol >= 12000) {
-                  bgClass = 'bg-emerald-400 border border-emerald-300 shadow-md glow-emerald';
+                  bgClass = 'heat-3';
                 }
 
                 return \`
                   <div 
                     title="\${item.dateStr} | حجم: \${toPersianDigits(vol)} kg" 
-                    class="w-3.5 h-3.5 rounded-sm \${bgClass} transition hover:scale-125 cursor-pointer"
+                    class="heat-cell \${bgClass}"
                   ></div>
                 \`;
               }).join('')}
@@ -2734,10 +2762,10 @@ export function renderAppHtml(): string {
             <div class="flex items-center justify-between text-[10px] text-zinc-400 px-1">
               <span>کمتر</span>
               <div class="flex items-center gap-1">
-                <span class="w-2.5 h-2.5 rounded-xs bg-white/[0.04] border border-white/5"></span>
-                <span class="w-2.5 h-2.5 rounded-xs bg-emerald-900/60 border border-emerald-700/40"></span>
-                <span class="w-2.5 h-2.5 rounded-xs bg-emerald-600 border border-emerald-500"></span>
-                <span class="w-2.5 h-2.5 rounded-xs bg-emerald-400 border border-emerald-300 glow-emerald"></span>
+                <span class="heat-cell heat-0"></span>
+                <span class="heat-cell heat-1"></span>
+                <span class="heat-cell heat-2"></span>
+                <span class="heat-cell heat-3"></span>
               </div>
               <span>بیشتر</span>
             </div>
@@ -2834,8 +2862,8 @@ export function renderAppHtml(): string {
         }
 
         const isDark = document.documentElement.classList.contains('dark');
-        const gridColor = isDark ? 'rgba(237,235,230,0.06)' : 'rgba(21,23,26,0.07)';
-        const tickColor = isDark ? '#7D8288' : '#6B727B';
+        const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(16,17,19,0.07)';
+        const tickColor = isDark ? '#6E6F75' : '#85878C';
 
         volumeChartInstance = new Chart(ctx, {
           type: 'line',
@@ -2844,12 +2872,12 @@ export function renderAppHtml(): string {
             datasets: [{
               label: 'حجم تمرین (کیلوگرم)',
               data: volumes.length > 0 ? volumes : [0],
-              borderColor: isDark ? '#5A90E8' : '#1F5FCC',
-              backgroundColor: isDark ? 'rgba(61, 123, 224, 0.14)' : 'rgba(31, 95, 204, 0.1)',
+              borderColor: isDark ? '#FF6A2B' : '#EA580C',
+              backgroundColor: isDark ? 'rgba(255, 106, 43, 0.12)' : 'rgba(234, 88, 12, 0.08)',
               borderWidth: 2,
               fill: true,
               tension: 0.3,
-              pointBackgroundColor: isDark ? '#5A90E8' : '#1F5FCC',
+              pointBackgroundColor: isDark ? '#FF6A2B' : '#EA580C',
               pointRadius: days === 90 ? 2 : (days === 30 ? 3 : 5)
             }]
           },
@@ -2862,11 +2890,11 @@ export function renderAppHtml(): string {
             scales: {
               x: {
                 grid: { color: gridColor },
-                ticks: { color: tickColor, font: { family: 'Readex Pro' } }
+                ticks: { color: tickColor, font: { family: 'Vazirmatn' } }
               },
               y: {
                 grid: { color: gridColor },
-                ticks: { color: tickColor, font: { family: 'Readex Pro' } }
+                ticks: { color: tickColor, font: { family: 'Vazirmatn' } }
               }
             }
           }
@@ -2885,9 +2913,9 @@ export function renderAppHtml(): string {
         const dateStr = new Date(w.start_time).toLocaleDateString('fa-IR');
         const durationMin = Math.round(w.duration_seconds / 60);
         return \`
-          <div class="card-glass-subtle p-3 rounded-xl border border-white/10 flex items-center justify-between">
+          <div class="card-glass-subtle p-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
-              <div class="icon-box icon-box-emerald w-9 h-9 rounded-lg">
+              <div class="icon-box icon-box-emerald w-9 h-9">
                 <i data-lucide="check" class="w-4 h-4"></i>
               </div>
               <div>
@@ -2927,7 +2955,7 @@ export function renderAppHtml(): string {
         }
 
         list.innerHTML = routines.slice(0, 3).map(r => \`
-          <div class="card-glass-subtle p-3 rounded-xl border border-white/10 hover:border-emerald-500/30 transition flex items-center justify-between">
+          <div class="card-glass-subtle p-3 flex items-center justify-between">
             <div>
               <h4 class="font-bold text-xs text-white">\${r.title}</h4>
               <p class="text-[10px] text-zinc-400">\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
@@ -2936,7 +2964,7 @@ export function renderAppHtml(): string {
               <button onclick="shareRoutine('\${r.id}', '\${r.title}')" title="اشتراک‌گذاری" class="btn btn-secondary btn-icon-sm">
                 <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
               </button>
-              <button onclick="startRoutineWorkout('\${r.id}')" class="btn btn-primary btn-sm glow-emerald text-[11px]">
+              <button onclick="startRoutineWorkout('\${r.id}')" class="btn btn-primary btn-sm">
                 <i data-lucide="play" class="w-3 h-3 fill-current"></i>
                 <span>اجرا</span>
               </button>
@@ -2948,6 +2976,300 @@ export function renderAppHtml(): string {
     }
 
     // --- Tab 2: History & PRs Logic ---
+    // --- History analytics: KPIs + volume columns + muscle bars, scoped by one range filter ---
+    const HISTORY_FETCH_LIMIT = 200;
+    let historyCache = [];
+    let historyRangeDays = 30;
+
+    // Labels come from the API: always set them with textContent
+    function vizEl(tag, cls, text) {
+      const node = document.createElement(tag);
+      if (cls) node.className = cls;
+      if (text !== undefined && text !== null) node.textContent = text;
+      return node;
+    }
+
+    function compactFa(n) {
+      const v = Math.round(Number(n) || 0);
+      const short = (x, suffix) => {
+        let txt = x.toFixed(1);
+        if (txt.endsWith('.0')) txt = txt.slice(0, -2);
+        return toPersianDigits(txt) + suffix;
+      };
+      if (v >= 1000000) return short(v / 1000000, 'M');
+      if (v >= 10000) return toPersianDigits(Math.round(v / 1000)) + 'K';
+      if (v >= 1000) return short(v / 1000, 'K');
+      return toPersianDigits(v);
+    }
+
+    function niceStep(value) {
+      if (value <= 0) return 1;
+      const exp = Math.pow(10, Math.floor(Math.log10(value)));
+      const f = value / exp;
+      return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * exp;
+    }
+
+    function sessionVolumeOf(w) {
+      const stored = Number(w.total_volume_kg);
+      if (stored > 0) return stored;
+      return (w.set_logs || []).reduce((sum, s) => sum + (Number(s.weight_kg) || 0) * (Number(s.reps) || 0), 0);
+    }
+
+    function summarizeSessions(list) {
+      const totalSeconds = list.reduce((n, w) => n + (Number(w.duration_seconds) || 0), 0);
+      return {
+        sessions: list.length,
+        volume: list.reduce((n, w) => n + sessionVolumeOf(w), 0),
+        minutes: list.length ? totalSeconds / list.length / 60 : 0,
+        sets: list.reduce((n, w) => n + (w.set_logs || []).length, 0)
+      };
+    }
+
+    function setHistoryRange(days) {
+      historyRangeDays = days;
+      [30, 90, 365].forEach(d => {
+        const btn = document.getElementById('hist-range-' + d);
+        if (!btn) return;
+        btn.classList.toggle('is-active', d === days);
+        btn.setAttribute('aria-selected', String(d === days));
+      });
+      renderHistoryAnalytics();
+    }
+
+    function renderHistoryAnalytics() {
+      if (!document.getElementById('history-analytics')) return;
+      const DAY = 86400000;
+      const now = Date.now();
+      const days = historyRangeDays;
+      const curStart = now - days * DAY;
+      const prevStart = now - 2 * days * DAY;
+      const ts = (w) => new Date(w.start_time).getTime();
+
+      const current = historyCache.filter(w => ts(w) >= curStart);
+      const previous = historyCache.filter(w => ts(w) >= prevStart && ts(w) < curStart);
+      // Only compare against the previous period when we actually fetched all of it
+      const oldest = historyCache.length ? Math.min.apply(null, historyCache.map(ts)) : now;
+      const hasPrevious = historyCache.length < HISTORY_FETCH_LIMIT || oldest <= prevStart;
+
+      renderHistoryKpis(current, previous, hasPrevious, days);
+      renderVolumeColumns(days);
+      renderMuscleBars(current);
+    }
+
+    function renderHistoryKpis(current, previous, hasPrevious, days) {
+      const box = document.getElementById('hist-kpis');
+      if (!box) return;
+      const cur = summarizeSessions(current);
+      const prev = summarizeSessions(previous);
+      const tiles = [
+        { key: 'sessions', label: 'جلسات', value: toPersianDigits(cur.sessions), upIsGood: true },
+        { key: 'volume', label: 'حجم کل', value: compactFa(cur.volume) + ' kg', upIsGood: true },
+        { key: 'minutes', label: 'میانگین مدت', value: toPersianDigits(Math.round(cur.minutes)) + ' دقیقه', upIsGood: null },
+        { key: 'sets', label: 'ست‌ها', value: toPersianDigits(cur.sets), upIsGood: true }
+      ];
+
+      box.replaceChildren(...tiles.map(tile => {
+        const card = vizEl('div', 'stat-tile');
+        card.append(vizEl('p', 'stat-label', tile.label), vizEl('p', 'stat-value', tile.value));
+
+        const before = prev[tile.key];
+        const after = cur[tile.key];
+        if (hasPrevious && before > 0) {
+          const pct = Math.round(((after - before) / before) * 100);
+          const dir = pct > 0 ? 'up' : (pct < 0 ? 'down' : 'flat');
+          const tone = (dir === 'flat' || tile.upIsGood === null) ? 'neutral' : ((dir === 'up') === tile.upIsGood ? 'good' : 'bad');
+          const arrow = dir === 'up' ? '↑' : (dir === 'down' ? '↓' : '→');
+          const delta = vizEl('p', 'stat-delta');
+          delta.append(
+            vizEl('span', 'stat-delta-mark is-' + tone, arrow + ' ' + toPersianDigits(Math.abs(pct)) + '٪'),
+            vizEl('span', null, 'نسبت به ' + toPersianDigits(days) + ' روز قبل')
+          );
+          card.append(delta);
+        } else {
+          card.append(vizEl('p', 'stat-delta', toPersianDigits(days) + ' روز اخیر'));
+        }
+        return card;
+      }));
+    }
+
+    function buildVolumeBins(days) {
+      const binDays = days <= 90 ? 7 : 28;
+      const count = Math.ceil(days / binDays);
+      // Bins end with the current Iranian week (weeks start on Saturday)
+      const lastEnd = new Date();
+      lastEnd.setHours(0, 0, 0, 0);
+      lastEnd.setDate(lastEnd.getDate() - ((lastEnd.getDay() + 1) % 7) + 7);
+
+      const bins = [];
+      for (let i = count - 1; i >= 0; i--) {
+        const start = new Date(lastEnd);
+        start.setDate(start.getDate() - (i + 1) * binDays);
+        const stop = new Date(start);
+        stop.setDate(stop.getDate() + binDays);
+        bins.push({
+          start, stop, volume: 0, sessions: 0,
+          label: start.toLocaleDateString('fa-IR', { day: 'numeric', month: 'short' })
+        });
+      }
+      historyCache.forEach(w => {
+        const t = new Date(w.start_time);
+        const bin = bins.find(b => t >= b.start && t < b.stop);
+        if (bin) {
+          bin.volume += sessionVolumeOf(w);
+          bin.sessions += 1;
+        }
+      });
+      return { bins, unit: binDays === 7 ? 'هفته' : '۴ هفته' };
+    }
+
+    function renderVolumeColumns(days) {
+      const host = document.getElementById('hist-volume-chart');
+      const tableHost = document.getElementById('hist-volume-table');
+      const sub = document.getElementById('hist-volume-sub');
+      if (!host || !tableHost) return;
+
+      const { bins, unit } = buildVolumeBins(days);
+      if (sub) sub.textContent = 'کیلوگرم در هر ' + unit;
+
+      tableHost.replaceChildren(buildVizTable(
+        ['شروع ' + unit, 'حجم (kg)', 'جلسات'],
+        bins.map(b => [b.label, Math.round(b.volume).toLocaleString('fa-IR'), toPersianDigits(b.sessions)])
+      ));
+
+      const max = Math.max(0, ...bins.map(b => b.volume));
+      if (max === 0) {
+        host.replaceChildren(vizEl('p', 'empty-state', 'در این بازه تمرینی ثبت نشده'));
+        return;
+      }
+
+      const step = niceStep(max / 4);
+      const top = Math.ceil(max / step) * step;
+      const chart = vizEl('div', 'vcol');
+      chart.setAttribute('dir', 'ltr');
+      const plot = vizEl('div', 'vcol-plot');
+
+      for (let v = 0; v <= top + step / 2; v += step) {
+        const line = vizEl('div', 'vcol-grid' + (v === 0 ? ' is-base' : ''));
+        line.style.bottom = (v / top * 100) + '%';
+        line.append(vizEl('span', 'vcol-tick', compactFa(v)));
+        plot.append(line);
+      }
+
+      const cols = vizEl('div', 'vcol-cols');
+      const maxIdx = bins.findIndex(b => b.volume === max);
+      const lastIdx = bins.length - 1;
+      bins.forEach((b, i) => {
+        const col = vizEl('button', 'vcol-col');
+        col.type = 'button';
+        col.setAttribute('aria-label', unit + ' ' + b.label + ': ' + compactFa(b.volume) + ' کیلوگرم، ' + toPersianDigits(b.sessions) + ' جلسه');
+        const bar = vizEl('span', 'vcol-bar');
+        bar.style.height = (b.volume / top * 100) + '%';
+        // Label only the peak and the latest bin; the axis and tooltip carry the rest
+        if (b.volume > 0 && (i === maxIdx || i === lastIdx)) bar.append(vizEl('span', 'vcol-val', compactFa(b.volume)));
+        col.append(bar);
+        attachVizTooltip(col, bar, compactFa(b.volume) + ' kg', unit + ' ' + b.label + ' · ' + toPersianDigits(b.sessions) + ' جلسه');
+        cols.append(col);
+      });
+      plot.append(cols);
+
+      const axis = vizEl('div', 'vcol-x');
+      const every = bins.length > 8 ? Math.ceil(bins.length / 5) : 1;
+      bins.forEach((b, i) => {
+        const show = i === lastIdx || (i % every === 0 && lastIdx - i >= every);
+        axis.append(vizEl('span', null, show ? b.label : ''));
+      });
+
+      chart.append(plot, axis);
+      host.replaceChildren(chart);
+    }
+
+    function renderMuscleBars(current) {
+      const host = document.getElementById('hist-muscle-chart');
+      const tableHost = document.getElementById('hist-muscle-table');
+      if (!host || !tableHost) return;
+
+      const counts = new Map();
+      current.forEach(w => (w.set_logs || []).forEach(s => {
+        const key = s.exercise_category_fa || 'سایر';
+        counts.set(key, (counts.get(key) || 0) + 1);
+      }));
+      let rows = Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+      if (rows.length > 7) {
+        const rest = rows.slice(6).reduce((n, r) => n + r[1], 0);
+        rows = rows.slice(0, 6).concat([['سایر', rest]]);
+      }
+      const total = rows.reduce((n, r) => n + r[1], 0);
+      const share = (n) => toPersianDigits(Math.round(n / total * 100)) + '٪';
+
+      if (!total) {
+        host.replaceChildren(vizEl('p', 'empty-state', 'در این بازه ستی ثبت نشده'));
+        tableHost.replaceChildren();
+        return;
+      }
+
+      const max = rows[0][1];
+      const list = vizEl('div', 'hbar');
+      rows.forEach(([name, n]) => {
+        const row = vizEl('button', 'hbar-row');
+        row.type = 'button';
+        row.setAttribute('aria-label', name + ': ' + toPersianDigits(n) + ' ست، ' + share(n));
+        const track = vizEl('span', 'hbar-track');
+        const bar = vizEl('span', 'hbar-bar');
+        bar.style.width = 'calc((100% - 2.75rem) * ' + (n / max) + ')';
+        track.append(bar, vizEl('span', 'hbar-val', toPersianDigits(n)));
+        row.append(vizEl('span', 'hbar-label', name), track);
+        attachVizTooltip(row, bar, toPersianDigits(n) + ' ست', name + ' · ' + share(n) + ' از کل');
+        list.append(row);
+      });
+      host.replaceChildren(list);
+
+      tableHost.replaceChildren(buildVizTable(
+        ['عضله', 'ست', 'سهم'],
+        rows.map(([name, n]) => [name, toPersianDigits(n), share(n)])
+      ));
+    }
+
+    function buildVizTable(headers, rows) {
+      const table = vizEl('table', 'viz-table');
+      const head = vizEl('thead');
+      const headRow = vizEl('tr');
+      headers.forEach(h => headRow.append(vizEl('th', null, h)));
+      head.append(headRow);
+      const body = vizEl('tbody');
+      rows.forEach(r => {
+        const tr = vizEl('tr');
+        r.forEach(cell => tr.append(vizEl('td', null, cell)));
+        body.append(tr);
+      });
+      table.append(head, body);
+      return table;
+    }
+
+    // One tooltip per chart card; the whole column/row is the hit target, keyboard focus shows the same
+    function attachVizTooltip(target, mark, value, label) {
+      const show = () => {
+        const card = target.closest('.viz-card');
+        const tip = card && card.querySelector('.viz-tip');
+        if (!tip) return;
+        tip.replaceChildren(vizEl('strong', null, value), vizEl('span', null, label));
+        tip.classList.add('is-visible');
+        const c = card.getBoundingClientRect();
+        const r = mark.getBoundingClientRect();
+        const half = tip.offsetWidth / 2;
+        const x = Math.min(Math.max(r.left + r.width / 2 - c.left, half + 8), c.width - half - 8);
+        tip.style.left = x + 'px';
+        tip.style.top = (r.top - c.top) + 'px';
+      };
+      const hide = () => {
+        const tip = target.closest('.viz-card')?.querySelector('.viz-tip');
+        if (tip) tip.classList.remove('is-visible');
+      };
+      target.addEventListener('pointerenter', show);
+      target.addEventListener('focus', show);
+      target.addEventListener('pointerleave', hide);
+      target.addEventListener('blur', hide);
+    }
+
     async function loadHistoryTab() {
       if (!currentUser) {
         document.getElementById('history-auth-view')?.classList.add('hidden');
@@ -2968,7 +3290,7 @@ export function renderAppHtml(): string {
           prsGrid.innerHTML = '<p class="text-xs text-zinc-500 col-span-full py-4 text-center">هنوز رکوردی ثبت نشده است.</p>';
         } else {
           prsGrid.innerHTML = prs.map(pr => \`
-            <div class="card-glass-interactive p-3.5 rounded-2xl border border-emerald-500/30 flex items-center justify-between glow-emerald">
+            <div class="card-glass-interactive p-4 flex items-center justify-between">
               <div class="space-y-1">
                 <span class="badge badge-emerald">\${pr.category_fa}</span>
                 <h4 class="font-bold text-xs md:text-sm text-white flex items-baseline gap-1.5 flex-wrap">
@@ -2984,9 +3306,11 @@ export function renderAppHtml(): string {
           \`).join('');
         }
 
-        const resHistory = await fetch('/api/workouts/history?limit=50');
+        const resHistory = await fetch('/api/workouts/history?limit=' + HISTORY_FETCH_LIMIT);
         const dataHistory = await resHistory.json();
-        const history = dataHistory.history || [];
+        historyCache = dataHistory.history || [];
+        renderHistoryAnalytics();
+        const history = historyCache.slice(0, 50);
         const histContainer = document.getElementById('full-history-list');
 
         if (history.length === 0) {
@@ -2997,8 +3321,8 @@ export function renderAppHtml(): string {
             const durationMin = Math.round(w.duration_seconds / 60);
 
             return \`
-              <div class="card-glass-subtle p-4 rounded-2xl border border-white/10 space-y-2.5">
-                <div class="flex items-center justify-between border-b border-white/10 pb-2">
+              <div class="card-glass-subtle p-4 space-y-2.5">
+                <div class="flex items-center justify-between border-b pb-2 border-[color:var(--line)]">
                   <div>
                     <h4 class="font-bold text-xs md:text-sm text-white">\${w.title}</h4>
                     <p class="text-[10px] text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
@@ -3010,7 +3334,7 @@ export function renderAppHtml(): string {
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pt-1">
                   \${(w.set_logs || []).map(s => \`
-                    <div class="bg-[#121522] p-2 rounded-xl border border-white/10 text-[11px] flex items-center justify-between">
+                    <div class="card-glass-subtle p-2 text-[11px] flex items-center justify-between">
                       <span class="text-zinc-300 truncate max-w-[85px]">\${s.exercise_name_fa}</span>
                       <span class="font-mono font-bold text-emerald-400">\${toPersianDigits(s.weight_kg)}kg × \${toPersianDigits(s.reps)}</span>
                     </div>
@@ -3160,7 +3484,7 @@ export function renderAppHtml(): string {
       container.innerHTML = logs.map(l => {
         const dateStr = new Date(l.log_date).toLocaleDateString('fa-IR');
         return \`
-          <div class="card-glass-subtle p-2.5 rounded-xl border border-white/10 flex items-center justify-between text-xs">
+          <div class="card-glass-subtle p-2.5 flex items-center justify-between text-xs">
             <div>
               <p class="font-bold text-white text-[11px]">\${dateStr}</p>
               <p class="text-[10px] text-zinc-400 truncate max-w-[150px]">\${l.notes || 'بدون یادداشت'}</p>
@@ -3444,9 +3768,9 @@ export function renderAppHtml(): string {
             const sets = Number(ex.target_sets || ex.sets) || 4;
             const reps = Number(ex.target_reps || ex.reps) || 10;
             return \`
-            <div class="card-glass-subtle p-2.5 rounded-xl border border-white/10 flex items-center justify-between">
+            <div class="card-glass-subtle p-2.5 flex items-center justify-between">
               <div class="flex items-center gap-2.5">
-                <img src="\${ex.gif_url || ''}" class="w-9 h-9 rounded-lg object-cover bg-zinc-900 border border-white/10" alt="">
+                <img src="\${ex.gif_url || ''}" class="w-9 h-9 rounded-lg object-cover bg-white border border-[color:var(--line)]" alt="">
                 <div>
                   <h6 class="font-bold text-xs text-white flex items-baseline gap-1.5 flex-wrap">
                     <span>\${toPersianDigits(idx + 1)}. \${nameFa}</span>
@@ -3464,7 +3788,7 @@ export function renderAppHtml(): string {
         const btnContainer = document.getElementById('shared-import-btn-container');
         if (currentUser) {
           btnContainer.innerHTML = \`
-            <button onclick="importRoutine('\${currentSharedRoutine.id}')" class="btn btn-primary btn-md w-full glow-emerald">
+            <button onclick="importRoutine('\${currentSharedRoutine.id}')" class="btn btn-primary btn-md w-full">
               <i data-lucide="plus-circle" class="w-4 h-4"></i>
               <span>افزودن این برنامه به برنامه‌های من</span>
             </button>
@@ -3472,7 +3796,7 @@ export function renderAppHtml(): string {
         } else {
           btnContainer.innerHTML = \`
             <div class="space-y-2">
-              <button onclick="importGuestRoutine('\${currentSharedRoutine.id}')" class="btn btn-primary btn-md w-full glow-emerald">
+              <button onclick="importGuestRoutine('\${currentSharedRoutine.id}')" class="btn btn-primary btn-md w-full">
                 <i data-lucide="plus-circle" class="w-4 h-4"></i>
                 <span>ذخیره در برنامه‌های من</span>
               </button>

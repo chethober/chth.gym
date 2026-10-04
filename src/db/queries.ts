@@ -673,26 +673,36 @@ export class Database {
 
     if (!sessions || sessions.length === 0) return [];
 
-    const detailedSessions: WorkoutSession[] = [];
-    for (const session of sessions) {
-      const { results: logs } = await this.db
-        .prepare(`
-          SELECT wsl.*, e.name_fa as exercise_name_fa, e.name_en as exercise_name_en,
-                 e.category as exercise_category, e.category_fa as exercise_category_fa,
-                 e.gif_url as exercise_gif_url
-          FROM workout_set_logs wsl
-          JOIN exercises e ON wsl.exercise_id = e.id
-          WHERE wsl.session_id = ?
-          ORDER BY wsl.completed_at ASC
-        `)
-        .bind(session.id)
-        .all<WorkoutSetLogDetail>();
+    // One query for every session's set logs instead of one query per session
+    const { results: logs } = await this.db
+      .prepare(`
+        SELECT wsl.*, e.name_fa as exercise_name_fa, e.name_en as exercise_name_en,
+               e.category as exercise_category, e.category_fa as exercise_category_fa,
+               e.gif_url as exercise_gif_url
+        FROM workout_set_logs wsl
+        JOIN exercises e ON wsl.exercise_id = e.id
+        WHERE wsl.session_id IN (
+          SELECT id FROM workout_sessions
+          WHERE user_id = ? AND status = 'completed'
+          ORDER BY start_time DESC
+          LIMIT ?
+        )
+        ORDER BY wsl.completed_at ASC
+      `)
+      .bind(userId, limit)
+      .all<WorkoutSetLogDetail>();
 
-      detailedSessions.push({
-        ...session,
-        set_logs: logs || []
-      });
+    const logsBySession = new Map<string, WorkoutSetLogDetail[]>();
+    for (const log of logs || []) {
+      const list = logsBySession.get(log.session_id);
+      if (list) list.push(log);
+      else logsBySession.set(log.session_id, [log]);
     }
+
+    const detailedSessions: WorkoutSession[] = sessions.map((session) => ({
+      ...session,
+      set_logs: logsBySession.get(session.id) || []
+    }));
 
     return detailedSessions;
   }

@@ -164,7 +164,7 @@ workoutsRouter.delete('/:id', handleDiscardWorkout);
 // GET /api/workouts/history -> List past completed workouts
 workoutsRouter.get('/history', async (c) => {
   const user = c.get('user');
-  const limit = Number(c.req.query('limit')) || 20;
+  const limit = Math.min(Number(c.req.query('limit')) || 20, 200);
   const db = new Database(c.env.DB);
   const history = await db.getWorkoutHistory(user.id, limit);
 
