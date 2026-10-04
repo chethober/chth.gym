@@ -3,7 +3,7 @@
 // App shell (top bar, bottom nav), toasts, dialogs and shared modals
 // ============================================================================
 
-export const BRAND_MARK_SVG = `<svg class="brand-mark" width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="currentColor"/><circle cx="16" cy="16" r="9.5" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><circle cx="16" cy="16" r="3.2" fill="var(--color-bg-base)"/></svg>`;
+export const BRAND_MARK_SVG = `<svg class="brand-mark" width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><g fill="var(--on-accent)"><rect x="4" y="14.75" width="24" height="2.5" rx="1.25"/><rect x="8.5" y="9" width="3" height="14" rx="1.25"/><rect x="20.5" y="9" width="3" height="14" rx="1.25"/><rect x="5.5" y="11.5" width="2.25" height="9" rx="1"/><rect x="24.25" y="11.5" width="2.25" height="9" rx="1"/></g></svg>`;
 
 export function renderTopNavbar(): string {
   return `
@@ -20,13 +20,13 @@ export function renderTopNavbar(): string {
           <button onclick="switchTab('dashboard')" id="nav-d-dashboard" class="nav-desktop-btn is-active">
             <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
             <span>داشبورد</span>
-            <span id="active-badge-d" class="hidden badge badge-live text-[10px] py-0.5 px-1.5">در حال تمرین</span>
+            <span id="active-badge-d" class="hidden badge badge-live">در حال تمرین</span>
             <span class="nav-underline"></span>
           </button>
           <button onclick="switchTab('movements')" id="nav-d-movements" class="nav-desktop-btn">
             <i data-lucide="clipboard-list" class="w-4 h-4"></i>
             <span>برنامه‌ها و حرکات</span>
-            <span id="nav-draft-count-badge" class="hidden badge badge-emerald text-[10px] py-0.5 px-1.5">۰</span>
+            <span id="nav-draft-count-badge" class="hidden badge badge-emerald">۰</span>
             <span class="nav-underline"></span>
           </button>
           <button onclick="switchTab('history')" id="nav-d-history" class="nav-desktop-btn">
@@ -97,10 +97,10 @@ export function renderMobileBottomNav(): string {
 export function renderToastAndDialogs(): string {
   return `
     <!-- Toast Stack -->
-    <div id="toast-notification" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-[-20px] transition duration-300">
-      <div id="toast-card" class="card-glass px-5 py-3 rounded-2xl border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 font-bold text-xs shadow-2xl flex items-center gap-2.5 glow-emerald">
-        <div id="toast-icon-wrap">
-          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 dark:text-emerald-400"></i>
+    <div id="toast-notification" role="status" aria-live="polite" class="fixed top-4 md:top-20 left-1/2 -translate-x-1/2 z-[60] pointer-events-none opacity-0 -translate-y-2">
+      <div id="toast-card" class="toast toast-success">
+        <div id="toast-icon-wrap" class="flex">
+          <i data-lucide="check-circle-2"></i>
         </div>
         <span id="toast-message">عملیات با موفقیت انجام شد</span>
       </div>
@@ -108,15 +108,15 @@ export function renderToastAndDialogs(): string {
 
     <!-- Modular Dialogue Box Modal -->
     <div id="custom-dialog-modal" class="modal-backdrop hidden">
-      <div id="custom-dialog-box" class="modal-panel max-w-md p-6 space-y-5">
+      <div id="custom-dialog-box" role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="modal-panel max-w-md p-6 space-y-5">
         
         <div class="flex items-start gap-4">
-          <div id="dialog-icon-container" class="icon-box icon-box-emerald w-12 h-12 rounded-2xl shrink-0">
-            <i id="dialog-icon" data-lucide="help-circle" class="w-6 h-6"></i>
+          <div id="dialog-icon-container" class="icon-box icon-box-emerald w-11 h-11 shrink-0">
+            <i id="dialog-icon" data-lucide="help-circle" class="w-5 h-5"></i>
           </div>
-          <div class="space-y-1">
-            <h3 id="dialog-title" class="text-base font-black text-white">پیام سیستم</h3>
-            <p id="dialog-message" class="text-xs text-zinc-400 leading-relaxed"></p>
+          <div class="space-y-1 pt-0.5">
+            <h3 id="dialog-title" class="text-base font-bold text-white">پیام سیستم</h3>
+            <p id="dialog-message" class="text-sm text-zinc-400 leading-relaxed"></p>
           </div>
         </div>
 
@@ -124,7 +124,7 @@ export function renderToastAndDialogs(): string {
           <input type="text" id="dialog-text-input" class="input-styled font-mono">
         </div>
 
-        <div class="pt-3 border-t border-white/10 flex items-center justify-end gap-2.5">
+        <div class="modal-foot">
           <button id="dialog-cancel-btn" onclick="handleDialogClose(false)" class="btn btn-secondary btn-md">
             انصراف
           </button>
@@ -137,23 +137,23 @@ export function renderToastAndDialogs(): string {
 
     <!-- Rest Timer Floating Capsule Overlay -->
     <div id="rest-timer-overlay" class="fixed bottom-24 md:bottom-8 left-4 md:left-8 z-50 hidden">
-      <div class="card-glass rounded-2xl p-4 border border-emerald-500/40 shadow-2xl glow-emerald flex items-center gap-4">
+      <div class="modal-panel p-4 flex items-center gap-4 w-auto">
         <div class="relative w-14 h-14 flex items-center justify-center">
           <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
-            <path class="text-zinc-300 dark:text-zinc-800" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-            <path id="rest-timer-svg-path" class="text-emerald-500 dark:text-emerald-400" stroke-dasharray="100, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path class="text-[color:var(--line-strong)]" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path id="rest-timer-svg-path" class="text-[color:var(--accent)]" stroke-dasharray="100, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
           </svg>
-          <span id="rest-timer-seconds" class="absolute font-mono font-black text-sm text-emerald-500 dark:text-emerald-400">۶۰</span>
+          <span id="rest-timer-seconds" class="absolute font-mono font-bold text-sm text-white">۶۰</span>
         </div>
         <div>
           <div class="flex items-center gap-1.5">
-            <i data-lucide="timer" class="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400"></i>
+            <i data-lucide="timer" class="w-3.5 h-3.5 text-emerald-400"></i>
             <p class="text-xs font-bold text-white">زمان استراحت ست</p>
           </div>
           <div class="flex items-center gap-1.5 mt-2">
-            <button onclick="adjustRestTimer(15)" class="btn btn-secondary btn-sm text-[10px] py-0.5 px-2">+۱۵ ث</button>
-            <button onclick="adjustRestTimer(30)" class="btn btn-secondary btn-sm text-[10px] py-0.5 px-2">+۳۰ ث</button>
-            <button onclick="stopRestTimer()" class="btn btn-danger btn-sm text-[10px] py-0.5 px-2">پایان</button>
+            <button onclick="adjustRestTimer(15)" class="btn btn-secondary btn-sm">+۱۵ ث</button>
+            <button onclick="adjustRestTimer(30)" class="btn btn-secondary btn-sm">+۳۰ ث</button>
+            <button onclick="stopRestTimer()" class="btn btn-danger btn-sm">پایان</button>
           </div>
         </div>
       </div>
@@ -162,13 +162,15 @@ export function renderToastAndDialogs(): string {
     <!-- Add Exercise to Active Workout Modal -->
     <div id="add-to-workout-modal" class="modal-backdrop hidden">
       <div class="modal-panel max-w-md max-h-[85vh] flex flex-col p-5 space-y-4">
-        <div class="flex items-center justify-between pb-2 border-b border-white/10">
-          <h3 class="text-sm font-bold text-white">انتخاب حرکت برای تمرین جاری</h3>
-          <button onclick="closeAddExerciseModal()" class="btn-icon btn-ghost text-zinc-400 hover:text-white">
+        <div class="modal-head">
+          <h3 class="text-base font-bold text-white">افزودن حرکت</h3>
+          <button onclick="closeAddExerciseModal()" class="btn-icon btn-ghost" aria-label="بستن">
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
         
+        <div class="input-icon">
+        <i data-lucide="search"></i>
         <input 
           type="text" 
           id="modal-add-search" 
@@ -176,6 +178,7 @@ export function renderToastAndDialogs(): string {
           placeholder="مثلاً: پرس سینه، نشر جانب، پلانک..." 
           class="input-styled"
         >
+        </div>
 
         <div id="modal-exercises-list" class="flex-1 overflow-y-auto space-y-2 max-h-96 pr-1">
           <!-- Injected via JS -->
@@ -185,34 +188,33 @@ export function renderToastAndDialogs(): string {
 
     <!-- Share Routine QR Code Modal -->
     <div id="share-qr-modal" class="modal-backdrop hidden">
-      <div class="modal-panel max-w-sm p-6 text-center space-y-4 glow-emerald border-emerald-500/30">
-        <div class="flex items-center justify-between pb-2 border-b border-white/10">
+      <div class="modal-panel max-w-sm p-6 text-center space-y-4">
+        <div class="modal-head">
           <div class="flex items-center gap-2">
-            <div class="icon-box icon-box-emerald w-7 h-7 rounded-lg">
+            <div class="icon-box icon-box-emerald w-7 h-7">
               <i data-lucide="qr-code" class="w-4 h-4"></i>
             </div>
             <h3 class="text-sm font-bold text-white">اشتراک‌گذاری برنامه</h3>
           </div>
-          <button onclick="closeShareQrModal()" class="btn-icon btn-ghost text-zinc-400 hover:text-white">
+          <button onclick="closeShareQrModal()" class="btn-icon btn-ghost" aria-label="بستن">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
         <div>
           <h4 id="share-qr-title" class="font-bold text-sm text-white truncate"></h4>
-          <p class="text-[11px] text-zinc-400 mt-0.5">بارکد را با دوربین گوشی اسکن کنید یا لینک را ارسال نمایید</p>
         </div>
 
         <!-- QR Code Canvas / Image Container -->
-        <div class="bg-white p-3 rounded-2xl mx-auto w-fit shadow-2xl border-2 border-emerald-400/40">
+        <div class="bg-white p-3 rounded-[14px] mx-auto w-fit border border-[color:var(--line)]">
           <img id="share-qr-img" class="w-48 h-48 block mx-auto rounded-lg" src="" alt="QR Code">
         </div>
 
         <!-- Copy Link Section -->
         <div class="space-y-2 pt-1">
-          <div class="flex items-center gap-1.5 card-glass-subtle p-1.5 rounded-xl border border-white/10">
-            <input type="text" id="share-qr-url" readonly class="bg-transparent text-[11px] font-mono text-zinc-300 w-full px-2 outline-none select-all" dir="ltr">
-            <button onclick="copyShareQrUrl()" class="btn btn-primary btn-sm shrink-0 glow-emerald">
+          <div class="flex items-center gap-1.5">
+            <input type="text" id="share-qr-url" readonly class="input-styled input-sm font-mono select-all" dir="ltr">
+            <button onclick="copyShareQrUrl()" class="btn btn-primary btn-sm shrink-0">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>کپی لینک</span>
             </button>
@@ -227,21 +229,21 @@ export function renderToastAndDialogs(): string {
 
     <!-- Shared Routine Preview & Import Modal -->
     <div id="shared-routine-modal" class="modal-backdrop hidden">
-      <div class="modal-panel max-w-lg overflow-y-auto border-emerald-500/40 p-6 space-y-5 glow-emerald">
-        <div class="flex items-center justify-between pb-3 border-b border-white/10">
+      <div class="modal-panel max-w-lg overflow-y-auto p-6 space-y-5">
+        <div class="modal-head">
           <div class="flex items-center gap-2.5">
-            <div class="icon-box icon-box-emerald w-8 h-8 rounded-xl">
+            <div class="icon-box icon-box-emerald w-8 h-8">
               <i data-lucide="share-2" class="w-4 h-4"></i>
             </div>
-            <h3 class="text-sm font-bold text-white">برنامه تمرینی اشتراک‌گذاری‌شده</h3>
+            <h3 class="text-sm font-bold text-white">برنامه اشتراکی</h3>
           </div>
-          <button onclick="closeSharedRoutineModal()" class="btn-icon btn-ghost text-zinc-400 hover:text-white">
+          <button onclick="closeSharedRoutineModal()" class="btn-icon btn-ghost" aria-label="بستن">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
         <div class="space-y-4">
-          <div class="card-glass-subtle p-3.5 rounded-xl border border-white/10 space-y-1">
+          <div class="card-glass-subtle p-3.5 space-y-1">
             <h4 id="shared-routine-title" class="text-base font-black text-white">عنوان برنامه</h4>
             <p id="shared-routine-desc" class="text-xs text-zinc-400"></p>
           </div>
@@ -257,7 +259,7 @@ export function renderToastAndDialogs(): string {
           </div>
         </div>
 
-        <div class="pt-3 border-t border-white/10 flex flex-col gap-2">
+        <div class="modal-foot flex-col items-stretch">
           <div id="shared-import-btn-container">
             <!-- Populated by JS based on login state -->
           </div>
