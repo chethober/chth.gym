@@ -41,7 +41,8 @@ exercisesRouter.get('/meta/filters', async (c) => {
     { key: 'dumbbell', name_fa: 'دمبل' },
     { key: 'cable', name_fa: 'سیم‌کش' },
     { key: 'bodyweight', name_fa: 'وزن بدن' },
-    { key: 'machine', name_fa: 'دستگاه' }
+    { key: 'machine', name_fa: 'دستگاه' },
+    { key: 'other', name_fa: 'سایر' }
   ];
 
   return c.json({

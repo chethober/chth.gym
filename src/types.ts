@@ -63,12 +63,16 @@ export interface Exercise {
   name_en: string;
   category: 'chest' | 'back' | 'legs' | 'shoulders' | 'arms' | 'core';
   category_fa: string;
-  equipment: 'barbell' | 'dumbbell' | 'cable' | 'bodyweight' | 'machine';
+  equipment: 'barbell' | 'dumbbell' | 'cable' | 'bodyweight' | 'machine' | 'other';
   equipment_fa: string;
   target_muscles: string;
   secondary_muscles?: string | null;
   instructions_fa: string;
   gif_url: string;
+  muscles_primary?: string | null;   // comma-separated body-map slugs, e.g. "chest"
+  muscles_secondary?: string | null; // e.g. "deltoids,triceps"
+  instructions_en?: string | null;
+  source_id?: string | null;         // exercises-dataset id this row was tagged from
   created_at: string;
 }
 
@@ -145,6 +149,7 @@ export interface PersonalRecord {
   exercise_name_en: string;
   max_weight_kg: number;
   reps_at_max: number;
+  est_1rm: number | null;
   achieved_at: string;
   category_fa: string;
 }

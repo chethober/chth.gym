@@ -12,29 +12,27 @@
   },
   "routes": [
     {
-      "pattern": "chth.gym",
+      "pattern": "chth.space",
       "custom_domain": true
     }
   ],
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "chth-gym-db",
-      "database_id": "<YOUR_D1_DATABASE_ID>",
+      "database_name": "jesm-db",
+      "database_id": "0f35ba89-954c-4203-a452-c6d01cf859cc",
       "migrations_dir": "migrations"
     }
   ],
   "kv_namespaces": [
     {
       "binding": "KV_SESSIONS",
-      "id": "<YOUR_KV_NAMESPACE_ID>"
+      "id": "8ef0d72f24f74b0eae3e182ecb5ed2e5"
     }
   ],
   "vars": {
     "APP_NAME": "CHTH Gym",
     "APP_ENV": "production",
-    "GOOGLE_CLIENT_ID": "<YOUR_GOOGLE_CLIENT_ID>",
-    "GOOGLE_CLIENT_SECRET": "<YOUR_GOOGLE_CLIENT_SECRET>",
-    "REDIRECT_URI": "https://chth.gym/api/auth/google/callback"
+    "REDIRECT_URI": "https://chth.space/api/auth/google/callback"
   }
 }

@@ -14,6 +14,8 @@ import {
   PersonalRecord,
   DashboardSummary
 } from '../types';
+import { E1RM_SQL, estimate1RM } from '../lib/strength';
+import { MuscleSetRow } from '../lib/recovery';
 
 export class Database {
   private db: D1Database;
@@ -240,7 +242,8 @@ export class Database {
       params.push(term, term, term, term);
     }
 
-    sql += ' ORDER BY category, name_fa ASC';
+    // Curated exercises (with media) first, then the extended library
+    sql += " ORDER BY category, gif_url = '', name_fa ASC";
 
     const { results } = await this.db.prepare(sql).bind(...params).all<Exercise>();
     return results || [];
@@ -503,22 +506,25 @@ export class Database {
     reps: number,
     weightKg: number,
     rpe?: number
-  ): Promise<{ log: WorkoutSetLogDetail; isPr: boolean }> {
+  ): Promise<{ log: WorkoutSetLogDetail; isPr: boolean; isE1rmPr: boolean }> {
     const logId = `set_${crypto.randomUUID()}`;
     const now = new Date().toISOString();
 
     // Check if this is a PR (Personal Record for this exercise and user)
     const currentMax = await this.db
       .prepare(`
-        SELECT MAX(weight_kg) as max_w
+        SELECT MAX(weight_kg) as max_w, MAX(${E1RM_SQL}) as max_e1rm
         FROM workout_set_logs
         WHERE user_id = ? AND exercise_id = ?
       `)
       .bind(userId, exerciseId)
-      .first<{ max_w: number | null }>();
+      .first<{ max_w: number | null; max_e1rm: number | null }>();
 
     const previousMax = currentMax?.max_w || 0;
     const isPr = weightKg > previousMax && reps >= 1;
+    // Only a PR in its own right when it isn't already a weight PR, and there was a previous best to beat
+    const e1rm = estimate1RM(weightKg, reps);
+    const isE1rmPr = !isPr && e1rm !== null && currentMax?.max_e1rm != null && e1rm > currentMax.max_e1rm + 1e-9;
 
     await this.db
       .prepare(`
@@ -546,7 +552,8 @@ export class Database {
 
     return {
       log: log!,
-      isPr
+      isPr,
+      isE1rmPr
     };
   }
 
@@ -791,22 +798,32 @@ export class Database {
   async getUserPRs(userId: string, limit: number = 20): Promise<PersonalRecord[]> {
     const { results } = await this.db
       .prepare(`
-        SELECT 
-          wsl.exercise_id,
+        WITH best AS (
+          SELECT exercise_id, MAX(weight_kg) as max_weight_kg, MAX(${E1RM_SQL}) as est_1rm
+          FROM workout_set_logs
+          WHERE user_id = ? AND weight_kg > 0
+          GROUP BY exercise_id
+        )
+        SELECT
+          best.exercise_id,
           e.name_fa as exercise_name_fa,
           e.name_en as exercise_name_en,
           e.category_fa,
-          MAX(wsl.weight_kg) as max_weight_kg,
-          wsl.reps as reps_at_max,
-          MAX(wsl.completed_at) as achieved_at
-        FROM workout_set_logs wsl
-        JOIN exercises e ON wsl.exercise_id = e.id
-        WHERE wsl.user_id = ? AND wsl.weight_kg > 0
-        GROUP BY wsl.exercise_id
-        ORDER BY max_weight_kg DESC
+          best.max_weight_kg,
+          best.est_1rm,
+          -- the set that reached the max weight: most reps, then most recent
+          (SELECT reps FROM workout_set_logs w
+            WHERE w.user_id = ? AND w.exercise_id = best.exercise_id AND w.weight_kg = best.max_weight_kg
+            ORDER BY reps DESC, completed_at DESC LIMIT 1) as reps_at_max,
+          (SELECT completed_at FROM workout_set_logs w
+            WHERE w.user_id = ? AND w.exercise_id = best.exercise_id AND w.weight_kg = best.max_weight_kg
+            ORDER BY completed_at ASC LIMIT 1) as achieved_at
+        FROM best
+        JOIN exercises e ON best.exercise_id = e.id
+        ORDER BY best.max_weight_kg DESC
         LIMIT ?
       `)
-      .bind(userId, limit)
+      .bind(userId, userId, userId, limit)
       .all<PersonalRecord>();
 
     return results || [];
@@ -825,6 +842,24 @@ export class Database {
       `)
       .bind(userId, days)
       .all<{ date: string; volume: number }>();
+
+    return results || [];
+  }
+
+  // Set logs from completed sessions with each exercise's body-map muscle tags
+  async getMuscleSetHistory(userId: string, days: number = 28): Promise<MuscleSetRow[]> {
+    const { results } = await this.db
+      .prepare(`
+        SELECT wsl.session_id, wsl.completed_at, e.muscles_primary, e.muscles_secondary
+        FROM workout_set_logs wsl
+        JOIN workout_sessions ws ON wsl.session_id = ws.id
+        JOIN exercises e ON wsl.exercise_id = e.id
+        WHERE wsl.user_id = ? AND ws.status = 'completed'
+          AND wsl.completed_at >= datetime('now', '-' || ? || ' days')
+        ORDER BY wsl.completed_at ASC
+      `)
+      .bind(userId, days)
+      .all<MuscleSetRow>();
 
     return results || [];
   }

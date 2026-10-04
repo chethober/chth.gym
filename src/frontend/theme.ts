@@ -1259,6 +1259,35 @@ export function renderThemeStyles(): string {
       .viz-table th { text-align: start; font-weight: 600; color: var(--text-2); padding: 0.375rem 0.5rem; border-bottom: 1px solid var(--line-strong); }
       .viz-table td { color: var(--text); padding: 0.375rem 0.5rem; border-bottom: 1px solid var(--line); }
 
+      /* Body map — muscle groups reference shared <g> defs via <use>; fill comes from data-state */
+      .bm-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+      .bm-svg { width: 100%; height: auto; display: block; }
+      .bm-outline { fill: var(--surface-3); }
+      .bm-muscle { fill: var(--surface-3); stroke: var(--bg); stroke-width: 3; transition: fill var(--dur-base) var(--ease-out); outline: none; }
+      .bm-muscle[data-state="fatigued"] { fill: var(--danger); }
+      .bm-muscle[data-state="recovering"] { fill: var(--gold); }
+      .bm-muscle[data-state="ready"] { fill: var(--done); }
+      .bm-muscle[data-state="detrained"] { fill: var(--steel); }
+      .bm-muscle[data-state="primary"] { fill: var(--accent); }
+      .bm-muscle[data-state="secondary"] { fill: var(--accent-line); }
+      .bm-muscle[tabindex]:focus-visible { stroke: var(--text); }
+      @media (hover: hover) and (pointer: fine) {
+        .bm-muscle[tabindex]:hover { stroke: var(--text); }
+      }
+      .bm-legend { display: flex; flex-wrap: wrap; gap: 0.375rem 0.875rem; font-size: 0.6875rem; color: var(--text-2); }
+      .bm-legend span { display: inline-flex; align-items: center; gap: 0.375rem; }
+      .bm-legend i { width: 0.625rem; height: 0.625rem; border-radius: 3px; display: inline-block; }
+      .bm-thumb { display: flex; justify-content: center; gap: 0.75rem; width: 100%; height: 100%; padding: 0.625rem; background: var(--surface-2); }
+      .bm-thumb .bm-svg { width: auto; height: 100%; }
+
+      /* Barbell tools — plates per side, drawn as a sleeve with plates of proportional height */
+      .bar-sleeve { display: flex; align-items: center; gap: 2px; min-height: 3.25rem; direction: ltr; }
+      .bar-sleeve::before { content: ''; width: 1.5rem; height: 0.5rem; background: var(--color-bar); border-radius: 2px; }
+      .bar-plate { width: 0.875rem; border-radius: 3px; border: 1px solid var(--line-strong); }
+      .bar-sleeve::after { content: ''; flex: 1; max-width: 1.5rem; height: 0.5rem; background: var(--color-bar); border-radius: 2px; }
+      .warmup-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.375rem 0.5rem; border-radius: var(--r-sm); font-size: 0.75rem; color: var(--text); background: var(--surface-2); width: 100%; text-align: start; }
+      .warmup-row.is-done { color: var(--text-3); text-decoration: line-through; }
+
       /* ==========================================================================
          17. Motion
          ========================================================================== */

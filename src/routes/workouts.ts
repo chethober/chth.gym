@@ -85,7 +85,7 @@ async function handleLogSet(c: any) {
   }
 
   const db = new Database(c.env.DB);
-  const { log, isPr } = await db.logWorkoutSet(
+  const { log, isPr, isE1rmPr } = await db.logWorkoutSet(
     user.id,
     sessionId,
     body.exercise_id,
@@ -101,6 +101,7 @@ async function handleLogSet(c: any) {
     set_log: log,
     isPr,
     is_pr: isPr,
+    is_e1rm_pr: isE1rmPr,
     message: isPr ? '🔥 تبریک! یک رکورد شخصی (PR) جدید ثبت شد!' : 'ست با موفقیت ثبت شد'
   });
 }

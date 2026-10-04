@@ -17,6 +17,7 @@ import {
   renderProfileSuggestionsBanner, 
   renderPresetsClientScript 
 } from './presetsUi';
+import { BODY_PATHS } from './bodyPaths';
 
 export function renderAppHtml(): string {
   return `<!DOCTYPE html>
@@ -371,6 +372,28 @@ export function renderAppHtml(): string {
               <div class="viz-tip" role="tooltip"></div>
             </div>
           </div>
+
+          <div class="viz-card card-glass p-5 space-y-4">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h3 class="text-sm font-bold text-white">وضعیت ریکاوری عضلات</h3>
+                <p class="text-[12px] text-zinc-400">بر اساس آخرین جلسه هر عضله در ۲۸ روز اخیر</p>
+              </div>
+              <div class="bm-legend">
+                <span><i style="background: var(--danger)"></i>خسته</span>
+                <span><i style="background: var(--gold)"></i>در حال ریکاوری</span>
+                <span><i style="background: var(--done)"></i>آماده</span>
+                <span><i style="background: var(--steel)"></i>بی‌تمرین (+۱۴ روز)</span>
+                <span><i style="background: var(--surface-3)"></i>بدون سابقه</span>
+              </div>
+            </div>
+            <div id="hist-bodymap" class="max-w-md mx-auto"></div>
+            <details class="viz-table-wrap">
+              <summary>نمایش جدول</summary>
+              <div id="hist-bodymap-table"></div>
+            </details>
+            <div class="viz-tip" role="tooltip"></div>
+          </div>
         </div>
 
         <!-- PR Trophies Showcase -->
@@ -543,6 +566,7 @@ export function renderAppHtml(): string {
                 <option value="cable">سیم‌کش</option>
                 <option value="bodyweight">وزن بدن</option>
                 <option value="machine">دستگاه بدنسازی</option>
+                <option value="other">سایر</option>
               </select>
             </div>
           </div>
@@ -1537,6 +1561,7 @@ export function renderAppHtml(): string {
       currentExerciseWeights[exerciseId] = newVal;
       const valEl = document.getElementById(\`w-val-\${exerciseId}\`);
       if (valEl) valEl.innerText = toPersianDigits(newVal);
+      refreshBarbellTools(exerciseId);
     }
 
     function adjustOngoingReps(exerciseId, delta) {
@@ -1548,6 +1573,100 @@ export function renderAppHtml(): string {
     }
 
     // Modular Sets & Reps Component for Ongoing Routine Items
+    // --- Barbell tools: plates per side & warm-up ramp (client-only, never logged) ---
+    const BAR_KG = 20;
+    const PLATE_SIZES = [25, 20, 15, 10, 5, 2.5, 1.25];
+    const PLATE_STYLE = {
+      25: ['#DE4A3A', 100], 20: ['#3D7BE0', 100], 15: ['#F0C33C', 90], 10: ['#45A56A', 78],
+      5: ['#E9E7E2', 60], 2.5: ['var(--steel)', 48], 1.25: ['var(--steel)', 40]
+    };
+    let barbellToolsOpen = {};
+    let warmupDone = {};
+
+    // Greedy per side; leftover is what can't be loaded with the plates above
+    function calcPlates(target, bar = BAR_KG) {
+      let perSide = Math.max(0, (target - bar) / 2);
+      const plates = [];
+      PLATE_SIZES.forEach(size => {
+        while (perSide >= size - 1e-9) {
+          plates.push(size);
+          perSide -= size;
+        }
+      });
+      return { plates, leftover: Math.round(perSide * 2 * 100) / 100 };
+    }
+
+    // bar×10, 40%×5, 60%×3, 80%×2 — rounded to 2.5 kg, nothing at or below the empty bar after the first
+    function warmupSets(work, bar = BAR_KG) {
+      if (!(work > bar)) return [];
+      const ramp = [[0.4, 5], [0.6, 3], [0.8, 2]];
+      const sets = [{ kg: bar, reps: 10 }];
+      ramp.forEach(([pct, reps]) => {
+        const kg = Math.round(work * pct / 2.5) * 2.5;
+        if (kg > sets[sets.length - 1].kg && kg < work) sets.push({ kg, reps });
+      });
+      return sets;
+    }
+
+    function isBarbellExercise(exerciseId) {
+      const ex = (exercisesCache || []).find(e => e.id === exerciseId);
+      return !!ex && ex.equipment === 'barbell';
+    }
+
+    function toggleBarbellTools(exerciseId) {
+      barbellToolsOpen[exerciseId] = !barbellToolsOpen[exerciseId];
+      const panel = document.getElementById(\`bar-tools-\${exerciseId}\`);
+      const btn = document.getElementById(\`bar-tools-btn-\${exerciseId}\`);
+      if (panel) panel.classList.toggle('hidden', !barbellToolsOpen[exerciseId]);
+      if (btn) btn.setAttribute('aria-expanded', barbellToolsOpen[exerciseId] ? 'true' : 'false');
+      refreshBarbellTools(exerciseId);
+    }
+
+    function toggleWarmupSet(exerciseId, idx) {
+      const key = exerciseId + ':' + idx;
+      warmupDone[key] = !warmupDone[key];
+      refreshBarbellTools(exerciseId);
+    }
+
+    function refreshBarbellTools(exerciseId) {
+      const panel = document.getElementById(\`bar-tools-\${exerciseId}\`);
+      if (!panel || !barbellToolsOpen[exerciseId]) return;
+      const work = parseFloat(currentExerciseWeights[exerciseId]) || 0;
+      const { plates, leftover } = calcPlates(work);
+      const warmups = warmupSets(work);
+
+      const platesHtml = work <= BAR_KG
+        ? \`<p class="text-[11px] text-zinc-400">فقط میله خالی (\${toPersianDigits(BAR_KG)} کیلوگرم)</p>\`
+        : \`<div class="bar-sleeve" role="img" aria-label="وزنه‌های هر طرف: \${plates.map(p => toPersianDigits(p)).join('، ')}">
+            \${plates.map(p => \`<span class="bar-plate" style="background: \${PLATE_STYLE[p][0]}; height: \${PLATE_STYLE[p][1] * 0.52}px"></span>\`).join('')}
+          </div>
+          <p class="text-[11px] text-zinc-300">هر طرف: <span class="font-mono">\${plates.map(p => toPersianDigits(p)).join(' + ')}</span></p>
+          \${leftover > 0 ? \`<p class="text-[11px] text-[color:var(--gold)]">\${toPersianDigits(leftover)} کیلوگرم با این وزنه‌ها قابل بستن نیست</p>\` : ''}\`;
+
+      const warmupHtml = warmups.length === 0
+        ? '<p class="text-[11px] text-zinc-400">برای گرم کردن، وزن ست اصلی را بیشتر از میله خالی تنظیم کنید.</p>'
+        : warmups.map((w, i) => {
+            const done = !!warmupDone[exerciseId + ':' + i];
+            return \`<button type="button" onclick="toggleWarmupSet('\${exerciseId}', \${i})" aria-pressed="\${done}" class="warmup-row \${done ? 'is-done' : ''}">
+              <span>\${toPersianDigits(i + 1)}. \${toPersianDigits(w.kg)} کیلوگرم × \${toPersianDigits(w.reps)}</span>
+              <i data-lucide="\${done ? 'check-circle-2' : 'circle'}" class="w-3.5 h-3.5"></i>
+            </button>\`;
+          }).join('');
+
+      panel.innerHTML = \`
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <h5 class="text-[11px] font-bold text-zinc-300">بستن وزنه برای \${toPersianDigits(work)} کیلوگرم</h5>
+            \${platesHtml}
+          </div>
+          <div class="space-y-1.5">
+            <h5 class="text-[11px] font-bold text-zinc-300">ست‌های گرم کردن <span class="font-normal text-zinc-500">(ثبت نمی‌شوند)</span></h5>
+            <div class="space-y-1">\${warmupHtml}</div>
+          </div>
+        </div>\`;
+      lucide.createIcons();
+    }
+
     function renderOngoingExerciseItem(item, exIdx, justDone = false) {
       const extra = extraSetsCount[item.id] || 0;
       const totalSets = Math.max(item.target_sets + extra, item.logs.length);
@@ -1658,9 +1777,24 @@ export function renderAppHtml(): string {
                 <i data-lucide="plus"></i>
                 <span>ست</span>
               </button>
+              \${isBarbellExercise(item.id) ? \`
+              <button
+                type="button"
+                id="bar-tools-btn-\${item.id}"
+                onclick="toggleBarbellTools('\${item.id}')"
+                aria-expanded="\${barbellToolsOpen[item.id] ? 'true' : 'false'}"
+                aria-controls="bar-tools-\${item.id}"
+                title="محاسبه وزنه‌ها و ست‌های گرم کردن"
+                class="set-chip"
+              >
+                <i data-lucide="calculator"></i>
+                <span>وزنه‌ها</span>
+              </button>\` : ''}
             </div>
 
           </div>
+
+          <div id="bar-tools-\${item.id}" class="\${barbellToolsOpen[item.id] ? '' : 'hidden'} pt-3 divider-top"></div>
 
         </div>
       \`;
@@ -1751,6 +1885,7 @@ export function renderAppHtml(): string {
       lastDoneExerciseIds = doneExerciseIds;
 
       listContainer.innerHTML = \`<div class="flex w-full flex-col gap-3">\${renderedItems}</div>\`;
+      Object.keys(barbellToolsOpen).forEach(refreshBarbellTools);
 
       // Update Overall Progress Bar
       const percent = totalPlannedSets > 0 ? Math.round((totalCompletedSets / totalPlannedSets) * 100) : 0;
@@ -1816,6 +1951,8 @@ export function renderAppHtml(): string {
             if (data.is_pr || data.isPr) {
               confetti({ colors: PLATE_COLORS, particleCount: 80, spread: 50, origin: { y: 0.7 } });
               showNotification('🏆 رکورد شخصی جدید ثبت شد (PR)!', 'success');
+            } else if (data.is_e1rm_pr) {
+              showNotification('📈 رکورد تخمینی جدید (۱RM) ثبت شد!', 'success');
             }
 
             const planned = (activeSession.planned_exercises || []).find(pe => pe.exercise_id === exerciseId);
@@ -1962,6 +2099,8 @@ export function renderAppHtml(): string {
         activeSession = null;
         sessionPlannedExercises = [];
         extraSetsCount = {};
+        barbellToolsOpen = {};
+        warmupDone = {};
         currentExerciseWeights = {};
         currentExerciseReps = {};
         showActiveWorkoutInDashboard(false);
@@ -1999,6 +2138,8 @@ export function renderAppHtml(): string {
       activeSession = null;
       sessionPlannedExercises = [];
       extraSetsCount = {};
+      barbellToolsOpen = {};
+      warmupDone = {};
       currentExerciseWeights = {};
       currentExerciseReps = {};
       showActiveWorkoutInDashboard(false);
@@ -2145,7 +2286,7 @@ export function renderAppHtml(): string {
           
           <div class="flex items-center gap-2.5 min-w-0">
             <span class="badge badge-emerald w-6 justify-center shrink-0">\${toPersianDigits(idx + 1)}</span>
-            <img src="\${item.gif_url}" class="w-10 h-10 rounded-lg object-cover bg-white border border-[color:var(--line)] shrink-0" alt="">
+            \${item.gif_url ? \`<img src="\${item.gif_url}" class="w-10 h-10 rounded-lg object-cover bg-white border border-[color:var(--line)] shrink-0" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div class="min-w-0 truncate">
               <h5 class="font-bold text-white text-xs truncate">
                 <span>\${item.name_fa}</span>
@@ -2426,15 +2567,15 @@ export function renderAppHtml(): string {
         <div class="card-glass-interactive overflow-hidden group flex flex-col justify-between" style="content-visibility: auto; contain-intrinsic-size: 380px;">
           
           <!-- Exercise Thumbnail with Category & Equipment Badges -->
-          <div class="relative bg-white aspect-video border-b border-[color:var(--color-line)] flex items-center justify-center overflow-hidden">
-            <img 
+          <div class="relative \${ex.gif_url ? 'bg-white' : ''} aspect-video border-b border-[color:var(--color-line)] flex items-center justify-center overflow-hidden">
+            \${ex.gif_url ? \`<img 
               src="\${ex.gif_url}" 
               loading="lazy" 
               decoding="async"
               alt="\${ex.name_fa}" 
               class="w-full h-full object-contain"
               onerror="this.src='https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg'"
-            >
+            >\` : renderExerciseMuscleMap(ex)}
             <span class="absolute top-2 right-2 badge badge-overlay">
               \${ex.category_fa}
             </span>
@@ -2470,9 +2611,7 @@ export function renderAppHtml(): string {
                   </span>
                   <svg class="w-3.5 h-3.5 transition group-open/guide:rotate-180 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                 </summary>
-                <div class="pt-2 text-zinc-300 whitespace-pre-line leading-relaxed divider-top mt-2 max-h-36 overflow-y-auto pr-1">
-                  \${ex.instructions_fa}
-                </div>
+                <div class="pt-2 text-zinc-300 whitespace-pre-line leading-relaxed divider-top mt-2 max-h-36 overflow-y-auto pr-1" \${ex.instructions_fa ? '' : 'dir="ltr"'}>\${ex.instructions_fa || ex.instructions_en || ''}</div>
               </details>
             </div>
 
@@ -2553,10 +2692,11 @@ export function renderAppHtml(): string {
         !q || e.name_fa.toLowerCase().includes(q) || e.name_en.toLowerCase().includes(q)
       );
 
-      list.innerHTML = filtered.map(ex => \`
+      // The library has 1,300+ movements; show the first matches and let search narrow it down
+      list.innerHTML = filtered.slice(0, 60).map(ex => \`
         <div class="card-glass-subtle p-2.5 flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            <img src="\${ex.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-white border border-[color:var(--line)]" alt="">
+            \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-white border border-[color:var(--line)]" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div>
               <h5 class="font-bold text-xs text-white">\${ex.name_fa}</h5>
               <p class="text-[10px] text-zinc-400 font-mono">\${ex.name_en}</p>
@@ -3312,6 +3452,112 @@ export function renderAppHtml(): string {
       target.addEventListener('blur', hide);
     }
 
+    // --- Body map (MuscleMap outlines, see NOTICE.md) ---
+    // Each muscle's paths live once in a hidden <defs>; every map draws them with <use>,
+    // so a card costs a few dozen elements instead of the full path data.
+    const BODY_PATHS = ${JSON.stringify(BODY_PATHS)};
+    const MUSCLE_FA = {
+      'abs': 'شکم', 'adductors': 'نزدیک‌کننده ران', 'biceps': 'جلو بازو', 'calves': 'ساق پا',
+      'chest': 'سینه', 'deltoids': 'سرشانه', 'forearm': 'ساعد', 'gluteal': 'سرینی',
+      'hamstring': 'پشت ران', 'hip-flexors': 'خم‌کننده ران', 'lower-back': 'فیله کمر',
+      'obliques': 'پهلو', 'quadriceps': 'جلو ران', 'serratus': 'دندانه‌ای', 'tibialis': 'ساق جلویی',
+      'trapezius': 'کول (ذوزنقه)', 'triceps': 'پشت بازو', 'upper-back': 'زیربغل و پشت'
+    };
+    const RECOVERY_FA = {
+      fatigued: 'خسته', recovering: 'در حال ریکاوری', ready: 'آماده',
+      detrained: 'بی‌تمرین', untrained: 'بدون سابقه'
+    };
+
+    function ensureBodyMapDefs() {
+      if (document.getElementById('bm-defs')) return;
+      const svgNs = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNs, 'svg');
+      svg.id = 'bm-defs';
+      svg.setAttribute('aria-hidden', 'true');
+      svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+      const defs = document.createElementNS(svgNs, 'defs');
+      const addGroup = (id, paths) => {
+        const g = document.createElementNS(svgNs, 'g');
+        g.id = id;
+        paths.forEach(d => {
+          const path = document.createElementNS(svgNs, 'path');
+          path.setAttribute('d', d);
+          g.append(path);
+        });
+        defs.append(g);
+      };
+      ['front', 'back'].forEach(view => {
+        addGroup('bm-' + view + '-outline', BODY_PATHS[view].outline);
+        Object.entries(BODY_PATHS[view].muscles).forEach(([slug, paths]) => addGroup('bm-' + view + '-' + slug, paths));
+      });
+      svg.append(defs);
+      document.body.append(svg);
+    }
+
+    // stateOf(slug) -> data-state value ('' leaves the muscle neutral)
+    function renderBodyMap(stateOf, { interactive = false, wrapClass = 'bm-pair', label = '' } = {}) {
+      ensureBodyMapDefs();
+      const views = [['front', 'نمای جلو'], ['back', 'نمای پشت']];
+      return \`<div class="\${wrapClass}" \${label ? \`role="img" aria-label="\${label}"\` : ''}>\${views.map(([view, viewLabel]) => \`
+        <svg class="bm-svg" viewBox="\${BODY_PATHS[view].viewBox}" \${label ? 'aria-hidden="true"' : \`role="img" aria-label="\${viewLabel}"\`}>
+          <use href="#bm-\${view}-outline" class="bm-outline"></use>
+          \${Object.keys(BODY_PATHS[view].muscles).map(slug => \`<use href="#bm-\${view}-\${slug}" class="bm-muscle" data-slug="\${slug}" data-state="\${stateOf(slug) || ''}" \${interactive ? 'tabindex="0"' : ''}></use>\`).join('')}
+        </svg>\`).join('')}</div>\`;
+    }
+
+    function splitMuscles(value) {
+      return (value || '').split(',').map(s => s.trim()).filter(Boolean);
+    }
+
+    function renderExerciseMuscleMap(ex) {
+      const primary = splitMuscles(ex.muscles_primary);
+      const secondary = splitMuscles(ex.muscles_secondary);
+      const names = primary.concat(secondary).map(m => MUSCLE_FA[m] || m).join('، ');
+      return renderBodyMap(
+        slug => primary.includes(slug) ? 'primary' : (secondary.includes(slug) ? 'secondary' : ''),
+        { wrapClass: 'bm-thumb', label: names ? 'عضلات درگیر: ' + names : ex.name_fa }
+      );
+    }
+
+    async function loadMuscleMap() {
+      const host = document.getElementById('hist-bodymap');
+      const tableHost = document.getElementById('hist-bodymap-table');
+      if (!host || !tableHost) return;
+      try {
+        const res = await fetch('/api/analytics/muscles');
+        const data = await res.json();
+        const muscles = data.muscles || [];
+        const bySlug = Object.fromEntries(muscles.map(m => [m.slug, m]));
+
+        host.innerHTML = renderBodyMap(slug => {
+          const m = bySlug[slug];
+          return m && m.state !== 'untrained' ? m.state : '';
+        }, { interactive: true });
+
+        host.querySelectorAll('.bm-muscle').forEach(el => {
+          const m = bySlug[el.dataset.slug];
+          if (!m) return;
+          const detail = m.state === 'untrained'
+            ? RECOVERY_FA.untrained
+            : \`\${RECOVERY_FA[m.state]} • ریکاوری \${toPersianDigits(m.recoveryPct)}٪ • \${toPersianDigits(m.weeklySets)} ست در ۷ روز\`;
+          el.setAttribute('aria-label', MUSCLE_FA[m.slug] + ': ' + detail);
+          attachVizTooltip(el, el, MUSCLE_FA[m.slug] || m.slug, detail);
+        });
+
+        const order = ['fatigued', 'recovering', 'ready', 'detrained', 'untrained'];
+        const rows = muscles
+          .slice()
+          .sort((a, b) => order.indexOf(a.state) - order.indexOf(b.state) || a.recoveryPct - b.recoveryPct)
+          .map(m => [
+            MUSCLE_FA[m.slug] || m.slug,
+            RECOVERY_FA[m.state],
+            m.state === 'untrained' ? '—' : toPersianDigits(m.recoveryPct) + '٪',
+            toPersianDigits(m.weeklySets)
+          ]);
+        tableHost.replaceChildren(buildVizTable(['عضله', 'وضعیت', 'ریکاوری', 'ست در ۷ روز'], rows));
+      } catch (e) {}
+    }
+
     async function loadHistoryTab() {
       if (!currentUser) {
         document.getElementById('history-auth-view')?.classList.add('hidden');
@@ -3343,6 +3589,7 @@ export function renderAppHtml(): string {
               <div class="text-left">
                 <span class="text-base md:text-lg font-black font-mono text-emerald-400">\${toPersianDigits(pr.max_weight_kg)} kg</span>
                 <p class="text-[10px] text-zinc-400">\${toPersianDigits(pr.reps_at_max)} تکرار</p>
+                \${pr.est_1rm ? \`<p class="text-[10px] text-zinc-400" title="یک تکرار بیشینه تخمینی (فرمول اپلی)">۱RM تخمینی: <span class="font-mono text-zinc-200">\${toPersianDigits(Math.round(pr.est_1rm * 2) / 2)}</span></p>\` : ''}
               </div>
             </div>
           \`).join('');
@@ -3352,6 +3599,7 @@ export function renderAppHtml(): string {
         const dataHistory = await resHistory.json();
         historyCache = dataHistory.history || [];
         renderHistoryAnalytics();
+        loadMuscleMap();
         const history = historyCache.slice(0, 50);
         const histContainer = document.getElementById('full-history-list');
 
@@ -3810,7 +4058,7 @@ export function renderAppHtml(): string {
             return \`
             <div class="card-glass-subtle p-2.5 flex items-center justify-between">
               <div class="flex items-center gap-2.5">
-                <img src="\${ex.gif_url || ''}" class="w-9 h-9 rounded-lg object-cover bg-white border border-[color:var(--line)]" alt="">
+                \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-white border border-[color:var(--line)]" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
                 <div>
                   <h6 class="font-bold text-xs text-white flex items-baseline gap-1.5 flex-wrap">
                     <span>\${toPersianDigits(idx + 1)}. \${nameFa}</span>
