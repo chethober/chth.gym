@@ -1,10 +1,10 @@
 // ============================================================================
 // Single Page Application (SPA) HTML / JS / CSS for جسم و اندیشه
-// Unified Modular Classy Dark Obsidian Design System
+// Styled by the "Iron & Ember" design system in theme.ts
 // Interactive To-Do Workout Tracker & Same-Page Inline Program Builder
 // ============================================================================
 
-import { renderThemeStyles } from './theme';
+import { renderThemeStyles, ACCENTS, DEFAULT_PREFS } from './theme';
 import { 
   renderTopNavbar, 
   renderMobileTopHeader, 
@@ -41,6 +41,10 @@ export function renderAppHtml(): string {
           document.documentElement.classList.add('light');
           document.documentElement.classList.remove('dark');
         }
+        var p = JSON.parse(localStorage.getItem('jesm_prefs') || '{}');
+        ['accent', 'text', 'radius', 'motion'].forEach(function(k) {
+          if (p[k]) document.documentElement.setAttribute('data-' + k, p[k]);
+        });
       } catch(e) {}
     })();
   </script>
@@ -144,16 +148,16 @@ export function renderAppHtml(): string {
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4 border-[color:var(--line)]">
             <div class="flex items-center gap-3.5">
               <div class="icon-box icon-box-emerald w-11 h-11">
-                <i data-lucide="list-checks" class="w-5 h-5 text-emerald-400"></i>
+                <i data-lucide="list-checks" class="w-5 h-5 text-accent"></i>
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span class="inline-block w-2 h-2 rounded-full bg-accent"></span>
                   <h3 id="active-session-title" class="text-base md:text-lg font-black text-white">تمرین زنده</h3>
                 </div>
                 <div class="flex items-center gap-3 text-xs text-zinc-400 mt-0.5">
-                  <span>زمان: <strong id="active-timer-display" class="text-emerald-400 font-mono font-bold">۰۰:۰۰:۰۰</strong></span>
-                  <span>حجم کل: <strong id="active-session-volume" class="text-emerald-400 font-mono font-bold">۰</strong> کیلوگرم</span>
+                  <span>زمان: <strong id="active-timer-display" class="text-accent font-mono font-bold">۰۰:۰۰:۰۰</strong></span>
+                  <span>حجم کل: <strong id="active-session-volume" class="text-accent font-mono font-bold">۰</strong> کیلوگرم</span>
                 </div>
               </div>
             </div>
@@ -161,7 +165,7 @@ export function renderAppHtml(): string {
             <!-- Action Controls -->
             <div class="flex flex-wrap items-center gap-2">
               <button onclick="openAddExerciseToSessionModal()" class="btn btn-secondary btn-md">
-                <i data-lucide="plus" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="plus" class="w-4 h-4 text-accent"></i>
                 <span>افزودن حرکت</span>
               </button>
               <button onclick="finishActiveWorkout()" class="btn btn-primary btn-md">
@@ -178,7 +182,7 @@ export function renderAppHtml(): string {
           <div class="well-sunken space-y-2 p-3">
             <div class="flex items-center justify-between text-xs">
               <span id="todo-progress-text" class="text-zinc-300 font-medium">پیشرفت تمرین: ۰ از ۰ ست انجام شد</span>
-              <span id="todo-progress-percent" class="text-emerald-400 font-mono font-bold">۰٪</span>
+              <span id="todo-progress-percent" class="text-accent font-mono font-bold">۰٪</span>
             </div>
             <div class="progress-track">
               <div id="todo-progress-bar" class="progress-bar-emerald" style="width: 0%"></div>
@@ -229,7 +233,7 @@ export function renderAppHtml(): string {
           <div>
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                <i data-lucide="play-circle" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="play-circle" class="w-4 h-4 text-accent"></i>
                 <span>برنامه‌های من</span>
               </h3>
               <button onclick="switchTab('movements')" class="link-btn">طراحی برنامه</button>
@@ -253,7 +257,7 @@ export function renderAppHtml(): string {
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 border-[color:var(--line)]">
             <div class="flex items-center gap-2.5">
               <div class="icon-box icon-box-emerald w-8 h-8">
-                <i data-lucide="calendar" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="calendar" class="w-4 h-4 text-accent"></i>
               </div>
               <div>
                 <h3 class="text-sm font-bold text-white">پیشرفت</h3>
@@ -272,7 +276,7 @@ export function renderAppHtml(): string {
           <div class="well-sunken p-3 space-y-2">
             <div class="flex items-center justify-between text-xs">
               <span id="cal-progress-label" class="text-zinc-300 font-medium">پیشرفت هدف هفتگی</span>
-              <span id="cal-progress-percent" class="text-emerald-400 font-mono font-bold">۰٪</span>
+              <span id="cal-progress-percent" class="text-accent font-mono font-bold">۰٪</span>
             </div>
             <div class="progress-track">
               <div id="cal-progress-bar" class="progress-bar-emerald" style="width: 0%"></div>
@@ -292,7 +296,7 @@ export function renderAppHtml(): string {
           <div class="pt-3 divider-top space-y-2">
             <div class="flex items-center justify-between">
               <h4 class="text-xs font-bold text-zinc-300 flex items-center gap-1.5">
-                <i data-lucide="trending-up" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <i data-lucide="trending-up" class="w-3.5 h-3.5 text-accent"></i>
                 <span id="chart-timeframe-title">نمودار حجم تمرینی ۷ روز اخیر</span>
               </h4>
             </div>
@@ -308,7 +312,7 @@ export function renderAppHtml(): string {
       <div class="card-glass p-5 space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i data-lucide="calendar" class="w-4 h-4 text-emerald-400"></i>
+            <i data-lucide="calendar" class="w-4 h-4 text-accent"></i>
             <span>جلسات اخیر</span>
           </h3>
           <button onclick="switchTab('history')" class="link-btn">همه</button>
@@ -333,7 +337,7 @@ export function renderAppHtml(): string {
         <div id="history-analytics" class="space-y-4">
           <div class="flex items-center justify-between gap-3">
             <h3 class="text-sm font-bold text-white flex items-center gap-2">
-              <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-400"></i>
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-accent"></i>
               <span>آمار تمرین</span>
             </h3>
             <div class="segmented" role="tablist" aria-label="بازه زمانی">
@@ -399,7 +403,7 @@ export function renderAppHtml(): string {
         <!-- PR Trophies Showcase -->
         <div class="space-y-3">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i data-lucide="trophy" class="w-4 h-4 text-emerald-400"></i>
+            <i data-lucide="trophy" class="w-4 h-4 text-accent"></i>
             <span>رکوردهای شخصی</span>
           </h3>
           <div id="prs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
@@ -410,7 +414,7 @@ export function renderAppHtml(): string {
         <!-- Full Workout Logs Timeline -->
         <div class="card-glass p-5 space-y-4">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i data-lucide="calendar-check" class="w-4 h-4 text-emerald-400"></i>
+            <i data-lucide="calendar-check" class="w-4 h-4 text-accent"></i>
             <span>جلسات ثبت‌شده</span>
           </h3>
           <div id="full-history-list" class="space-y-4">
@@ -502,7 +506,7 @@ export function renderAppHtml(): string {
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i data-lucide="folder-check" class="w-4 h-4 text-emerald-400"></i>
+            <i data-lucide="folder-check" class="w-4 h-4 text-accent"></i>
             <span>برنامه‌های تمرینی من</span>
           </h3>
         </div>
@@ -516,7 +520,7 @@ export function renderAppHtml(): string {
       <div class="space-y-4 pt-4 divider-top">
         <div class="flex items-center justify-between">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i data-lucide="flame" class="w-4 h-4 text-emerald-400"></i>
+            <i data-lucide="flame" class="w-4 h-4 text-accent"></i>
             <span>بانک حرکات</span>
           </h3>
         </div>
@@ -590,7 +594,7 @@ export function renderAppHtml(): string {
           <img id="prof-header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="avatar-frame w-10 h-10 sm:w-14 sm:h-14 shrink-0" alt="Avatar">
           <div class="min-w-0">
             <h2 id="prof-header-name" class="text-xs sm:text-base font-black text-white truncate">پروفایل کاربری</h2>
-            <p id="prof-header-email" class="text-[10px] sm:text-xs text-emerald-400 font-mono truncate hidden sm:block"></p>
+            <p id="prof-header-email" class="text-[10px] sm:text-xs text-accent font-mono truncate hidden sm:block"></p>
           </div>
         </div>
 
@@ -602,11 +606,11 @@ export function renderAppHtml(): string {
           </div>
           <div class="metric-pill text-center">
             <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">وزن هدف</p>
-            <h4 id="prof-disp-target" class="text-xs sm:text-sm font-black text-emerald-400 font-mono mt-0.5 whitespace-nowrap">--</h4>
+            <h4 id="prof-disp-target" class="text-xs sm:text-sm font-black text-accent font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
           <div class="metric-pill text-center">
             <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">شاخص BMI</p>
-            <h4 id="prof-disp-bmi" class="text-xs sm:text-sm font-black text-emerald-400 font-mono mt-0.5 whitespace-nowrap">--</h4>
+            <h4 id="prof-disp-bmi" class="text-xs sm:text-sm font-black text-accent font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
         </div>
       </div>
@@ -615,7 +619,7 @@ export function renderAppHtml(): string {
       <div id="profile-guest-sync-banner" class="hidden card-glass p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 card-accent">
         <div class="flex items-center gap-3">
           <div class="icon-box icon-box-emerald w-9 h-9 shrink-0">
-            <i data-lucide="cloud" class="w-4 h-4 text-emerald-400"></i>
+            <i data-lucide="cloud" class="w-4 h-4 text-accent"></i>
           </div>
           <div>
             <h4 class="text-xs font-bold text-white">حالت آفلاین (مهمان)</h4>
@@ -630,21 +634,26 @@ export function renderAppHtml(): string {
 
       ${renderProfileSuggestionsBanner()}
 
-      <!-- Theme Appearance Selector Card -->
-      <div class="card-glass p-4 sm:p-5 space-y-3">
+      <!-- Appearance: theme, accent, text size, corners, motion. Saved per device. -->
+      <div class="card-glass p-4 sm:p-5 space-y-3.5">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            <div class="icon-box icon-box-cyan w-8 h-8 shrink-0">
+            <div class="icon-box icon-box-emerald w-8 h-8 shrink-0">
               <i data-lucide="palette" class="w-4 h-4"></i>
             </div>
-            <div>
-              <h3 class="text-xs sm:text-sm font-bold text-white">پوسته</h3>
-            </div>
+            <h3 class="text-xs sm:text-sm font-bold text-white">ظاهر</h3>
           </div>
-          <span id="theme-active-label" class="badge badge-emerald">تاریک</span>
+          <button type="button" onclick="resetPrefs()" class="link-btn">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <span>پیش‌فرض</span>
+          </button>
         </div>
 
-        <div class="grid grid-cols-3 gap-2.5 pt-1">
+        <div class="flex items-center justify-between">
+          <span class="pref-label">پوسته</span>
+          <span id="theme-active-label" class="badge badge-emerald">تاریک</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2.5">
           <button type="button" onclick="setTheme('dark')" id="theme-opt-dark" class="theme-option-btn option-card">
             <i data-lucide="moon" class="w-5 h-5"></i>
             <span class="font-semibold">تاریک</span>
@@ -660,13 +669,55 @@ export function renderAppHtml(): string {
             <span class="font-semibold">سیستم</span>
           </button>
         </div>
+
+        <div class="pref-row">
+          <span class="pref-label">رنگ اصلی</span>
+          <span id="accent-active-label" class="pref-hint">${ACCENTS[0].name}</span>
+          <div class="swatch-row w-full" role="radiogroup" aria-label="رنگ اصلی">
+            ${ACCENTS.map(a => `
+            <button type="button" role="radio" aria-checked="false" aria-label="${a.name}" title="${a.name}"
+              data-swatch="${a.id}" onclick="setPref('accent', '${a.id}')" class="swatch">
+              <i data-lucide="check"></i>
+            </button>`).join('')}
+          </div>
+        </div>
+
+        <div class="pref-row">
+          <span class="pref-label">اندازه متن</span>
+          <div class="segmented" role="radiogroup" aria-label="اندازه متن">
+            <button type="button" role="radio" data-pref="text" data-value="sm" onclick="setPref('text', 'sm')" class="segmented-item text-xs">کوچک</button>
+            <button type="button" role="radio" data-pref="text" data-value="md" onclick="setPref('text', 'md')" class="segmented-item">معمولی</button>
+            <button type="button" role="radio" data-pref="text" data-value="lg" onclick="setPref('text', 'lg')" class="segmented-item text-[0.9rem]">بزرگ</button>
+            <button type="button" role="radio" data-pref="text" data-value="xl" onclick="setPref('text', 'xl')" class="segmented-item text-base">خیلی بزرگ</button>
+          </div>
+        </div>
+
+        <div class="pref-row">
+          <span class="pref-label">گوشه‌ها</span>
+          <div class="segmented" role="radiogroup" aria-label="گوشه‌ها">
+            <button type="button" role="radio" data-pref="radius" data-value="sharp" onclick="setPref('radius', 'sharp')" class="segmented-item">تیز</button>
+            <button type="button" role="radio" data-pref="radius" data-value="md" onclick="setPref('radius', 'md')" class="segmented-item">معمولی</button>
+            <button type="button" role="radio" data-pref="radius" data-value="round" onclick="setPref('radius', 'round')" class="segmented-item">گرد</button>
+          </div>
+        </div>
+
+        <div class="pref-row">
+          <div>
+            <p class="pref-label">کاهش حرکت</p>
+            <p class="pref-hint">انیمیشن‌های جابه‌جایی حذف می‌شوند</p>
+          </div>
+          <label class="switch" title="کاهش حرکت">
+            <input type="checkbox" id="pref-motion" onchange="setPref('motion', this.checked ? 'reduce' : 'full')">
+            <span class="switch-track"></span>
+          </label>
+        </div>
       </div>
 
       <!-- Main Profile & Goals Card -->
       <div class="card-glass p-4 sm:p-6 space-y-4">
         <div class="flex items-center justify-between border-b pb-3 border-[color:var(--line)]">
           <h3 class="text-sm font-bold text-white flex items-center gap-2">
-            <i data-lucide="target" class="w-4 h-4 text-emerald-400"></i>
+            <i data-lucide="target" class="w-4 h-4 text-accent"></i>
             <span>مشخصات و اهداف</span>
           </h3>
         </div>
@@ -753,7 +804,7 @@ export function renderAppHtml(): string {
         <div class="card-glass p-4 sm:p-5 space-y-3">
           <div class="flex items-center justify-between border-b pb-2.5 border-[color:var(--line)]">
             <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
-              <i data-lucide="scale" class="w-4 h-4 text-emerald-400"></i>
+              <i data-lucide="scale" class="w-4 h-4 text-accent"></i>
               <span>وزن روزانه</span>
             </h4>
             <span id="daily-status-tag" class="badge badge-zinc">در انتظار ثبت</span>
@@ -796,7 +847,7 @@ export function renderAppHtml(): string {
           <div class="space-y-3">
             <div class="flex items-center justify-between border-b pb-2.5 border-[color:var(--line)]">
               <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
-                <i data-lucide="bell" class="w-4 h-4 text-emerald-400"></i>
+                <i data-lucide="bell" class="w-4 h-4 text-accent"></i>
                 <span>یادآور روزانه</span>
               </h4>
               <label class="switch" title="یادآور روزانه">
@@ -992,6 +1043,7 @@ export function renderAppHtml(): string {
     // --- Theme Engine (Dark / Light / System Mode) ---
     function initTheme() {
       const stored = localStorage.getItem('jesm_theme') || 'dark';
+      applyPrefs(getPrefs());
       applyTheme(stored, false);
       
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
@@ -1067,15 +1119,92 @@ export function renderAppHtml(): string {
       }
     }
 
+    // --- Appearance preferences (accent, text size, corners, motion) ---
+    // Applied as data-* attributes on <html>; theme.ts owns what each value looks like.
+    const DEFAULT_PREFS = ${JSON.stringify(DEFAULT_PREFS)};
+    const ACCENT_NAMES = ${JSON.stringify(Object.fromEntries(ACCENTS.map(a => [a.id, a.name])))};
+
+    function getPrefs() {
+      try {
+        return Object.assign({}, DEFAULT_PREFS, JSON.parse(localStorage.getItem('jesm_prefs') || '{}'));
+      } catch (e) {
+        return Object.assign({}, DEFAULT_PREFS);
+      }
+    }
+
+    function applyPrefs(prefs) {
+      const root = document.documentElement;
+      Object.keys(DEFAULT_PREFS).forEach(k => {
+        if (prefs[k] && prefs[k] !== DEFAULT_PREFS[k]) root.setAttribute('data-' + k, prefs[k]);
+        else root.removeAttribute('data-' + k);
+      });
+      updatePrefsUI(prefs);
+    }
+
+    function setPref(key, value) {
+      const prefs = getPrefs();
+      if (prefs[key] === value) return;
+      prefs[key] = value;
+      try { localStorage.setItem('jesm_prefs', JSON.stringify(prefs)); } catch (e) {}
+
+      // Color swaps crossfade; size and shape changes snap, since they reflow the page
+      const root = document.documentElement;
+      if (key === 'accent') root.classList.add('theme-transition');
+      applyPrefs(prefs);
+      if (key === 'accent') {
+        updateChartTheme(root.classList.contains('dark'));
+        setTimeout(() => root.classList.remove('theme-transition'), 250);
+      }
+    }
+
+    function resetPrefs() {
+      try { localStorage.removeItem('jesm_prefs'); } catch (e) {}
+      applyPrefs(getPrefs());
+      applyTheme('dark', true);
+      showNotification('ظاهر به حالت پیش‌فرض برگشت', 'success');
+    }
+
+    function updatePrefsUI(prefs) {
+      document.querySelectorAll('[data-swatch]').forEach(btn => {
+        const on = btn.getAttribute('data-swatch') === prefs.accent;
+        btn.classList.toggle('is-selected', on);
+        btn.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-pref]').forEach(btn => {
+        const on = prefs[btn.getAttribute('data-pref')] === btn.getAttribute('data-value');
+        btn.classList.toggle('is-active', on);
+        btn.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+      const label = document.getElementById('accent-active-label');
+      if (label) label.innerText = ACCENT_NAMES[prefs.accent] || '';
+      const motion = document.getElementById('pref-motion');
+      if (motion) motion.checked = prefs.motion === 'reduce';
+    }
+
+    // Canvas can't read CSS variables, so charts resolve the tokens at draw time
+    function chartColors() {
+      const css = getComputedStyle(document.documentElement);
+      const accent = css.getPropertyValue('--accent').trim() || '#FF6A2B';
+      const isDark = document.documentElement.classList.contains('dark');
+      const n = parseInt(accent.slice(1), 16);
+      return {
+        line: accent,
+        fill: 'rgba(' + (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + (isDark ? 0.12 : 0.08) + ')',
+        grid: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(16,17,19,0.07)',
+        tick: css.getPropertyValue('--text-3').trim()
+      };
+    }
+
     function updateChartTheme(isDark) {
       if (!volumeChartInstance) return;
-      const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(16,17,19,0.07)';
-      const tickColor = isDark ? '#6E6F75' : '#85878C';
+      const c = chartColors();
+      const gridColor = c.grid;
+      const tickColor = c.tick;
       const ds = volumeChartInstance.data && volumeChartInstance.data.datasets && volumeChartInstance.data.datasets[0];
       if (ds) {
-        ds.borderColor = isDark ? '#FF6A2B' : '#EA580C';
-        ds.pointBackgroundColor = ds.borderColor;
-        ds.backgroundColor = isDark ? 'rgba(255, 106, 43, 0.12)' : 'rgba(234, 88, 12, 0.08)';
+        ds.borderColor = c.line;
+        ds.pointBackgroundColor = c.line;
+        ds.backgroundColor = c.fill;
       }
       if (volumeChartInstance.options && volumeChartInstance.options.scales) {
         if (volumeChartInstance.options.scales.x) {
@@ -1150,8 +1279,8 @@ export function renderAppHtml(): string {
             const targetCard = targetBtn ? targetBtn.closest('.card-glass-interactive') : null;
             if (targetCard) {
               targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              targetCard.classList.add('ring-2', 'ring-emerald-400');
-              setTimeout(() => targetCard.classList.remove('ring-2', 'ring-emerald-400'), 3000);
+              targetCard.classList.add('is-highlighted');
+              setTimeout(() => targetCard.classList.remove('is-highlighted'), 3000);
             }
           }, 350);
         }, 150);
@@ -1716,7 +1845,7 @@ export function renderAppHtml(): string {
           <!-- Top Row: Exercise Info & Status -->
           <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3 min-w-0">
-              \${item.gif_url ? \`<img src="\${item.gif_url}" class="w-10 h-10 rounded-lg object-cover bg-white border border-[color:var(--line)] shrink-0" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
+              \${item.gif_url ? \`<img src="\${item.gif_url}" class="thumb w-10 h-10" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
               <div class="min-w-0">
                 <h4 class="text-xs md:text-sm font-bold truncate \${isAllDone ? 'line-through text-zinc-500' : 'text-white'}">
                   \${item.name_fa} \${item.name_en ? \`<span class="text-[10px] text-zinc-400 font-mono font-normal hidden sm:inline">(\${item.name_en})</span>\` : ''}
@@ -1853,7 +1982,7 @@ export function renderAppHtml(): string {
       if (exercisesArray.length === 0) {
         listContainer.innerHTML = \`
           <div class="card-glass p-6 text-center space-y-3">
-            <i data-lucide="dumbbell" class="w-8 h-8 mx-auto text-emerald-400"></i>
+            <i data-lucide="dumbbell" class="w-8 h-8 mx-auto text-accent"></i>
             <p class="text-xs text-zinc-400">هنوز حرکتی در این جلسه اضافه نشده است. با دکمه «افزودن حرکت» حرکات دلخواه را اضافه کنید.</p>
             <button onclick="openAddExerciseToSessionModal()" class="btn btn-primary btn-md">
               افزودن حرکت به تمرین
@@ -2286,7 +2415,7 @@ export function renderAppHtml(): string {
           
           <div class="flex items-center gap-2.5 min-w-0">
             <span class="badge badge-emerald w-6 justify-center shrink-0">\${toPersianDigits(idx + 1)}</span>
-            \${item.gif_url ? \`<img src="\${item.gif_url}" class="w-10 h-10 rounded-lg object-cover bg-white border border-[color:var(--line)] shrink-0" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
+            \${item.gif_url ? \`<img src="\${item.gif_url}" class="thumb w-10 h-10" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div class="min-w-0 truncate">
               <h5 class="font-bold text-white text-xs truncate">
                 <span>\${item.name_fa}</span>
@@ -2441,7 +2570,7 @@ export function renderAppHtml(): string {
       if (routines.length === 0) {
         grid.innerHTML = \`
           <div class="col-span-full card-glass p-6 text-center space-y-2">
-            <i data-lucide="clipboard-list" class="w-7 h-7 mx-auto text-emerald-400"></i>
+            <i data-lucide="clipboard-list" class="w-7 h-7 mx-auto text-accent"></i>
             <h4 class="font-bold text-white text-xs">هنوز برنامه‌ای نساخته‌اید</h4>
             
           </div>
@@ -2598,7 +2727,7 @@ export function renderAppHtml(): string {
 
               <!-- Muscles Info -->
               <div class="text-[12px] text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
-                <p><span class="text-emerald-400 font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles}</span></p>
+                <p><span class="text-accent font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles}</span></p>
                 \${ex.secondary_muscles ? \`<p><span class="text-zinc-400 font-medium">عضلات کمکی:</span> <span class="text-zinc-300">\${ex.secondary_muscles}</span></p>\` : ''}
               </div>
 
@@ -2606,7 +2735,7 @@ export function renderAppHtml(): string {
               <details class="text-[12px] text-zinc-300 card-glass-subtle p-2.5 group/guide">
                 <summary class="cursor-pointer font-semibold text-white text-xs flex items-center justify-between select-none">
                   <span class="flex items-center gap-1.5">
-                    <svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                    <svg class="w-3.5 h-3.5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
                     <span>راهنمای اجرای حرکت</span>
                   </span>
                   <svg class="w-3.5 h-3.5 transition group-open/guide:rotate-180 text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -2696,7 +2825,7 @@ export function renderAppHtml(): string {
       list.innerHTML = filtered.slice(0, 60).map(ex => \`
         <div class="card-glass-subtle p-2.5 flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-white border border-[color:var(--line)]" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
+            \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="thumb w-9 h-9" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div>
               <h5 class="font-bold text-xs text-white">\${ex.name_fa}</h5>
               <p class="text-[10px] text-zinc-400 font-mono">\${ex.name_en}</p>
@@ -2834,11 +2963,11 @@ export function renderAppHtml(): string {
               if (hasWorkout) {
                 return \`
                   <div class="day-tile is-done">
-                    <span class="text-[11px] font-bold text-emerald-400">\${dayName}</span>
-                    <div class="w-6 h-6 rounded-full bg-[color:var(--accent)] text-[color:var(--on-accent)] flex items-center justify-center">
+                    <span class="text-[11px] font-bold text-accent">\${dayName}</span>
+                    <div class="w-6 h-6 rounded-full bg-accent text-on-accent flex items-center justify-center">
                       <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
                     </div>
-                    <span class="text-[9px] font-mono font-bold text-emerald-300">\${toPersianDigits(Math.round(item.volume / 100) / 10)}k</span>
+                    <span class="text-[9px] font-mono font-bold text-accent">\${toPersianDigits(Math.round(item.volume / 100) / 10)}k</span>
                   </div>
                 \`;
               } else if (isToday) {
@@ -2853,7 +2982,7 @@ export function renderAppHtml(): string {
                 return \`
                   <div class="day-tile is-empty">
                     <span class="text-[11px] font-medium text-zinc-400">\${dayName}</span>
-                    <div class="w-2 h-2 rounded-full bg-zinc-700"></div>
+                    <div class="w-2 h-2 rounded-full bg-muted"></div>
                     <span class="text-[9px] text-zinc-500">\${dayNum}</span>
                   </div>
                 \`;
@@ -2884,13 +3013,13 @@ export function renderAppHtml(): string {
                   return \`
                     <div title="\${item.dateStr}: \${toPersianDigits(item.volume)} kg" class="day-tile day-tile-sm is-done">
                       <span class="text-[11px] font-bold text-white font-mono">\${dayNum}</span>
-                      <span class="w-1.5 h-1.5 rounded-full bg-[color:var(--accent)]"></span>
+                      <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
                     </div>
                   \`;
                 } else if (isToday) {
                   return \`
                     <div title="امروز: هنوز ثبت نشده" class="day-tile day-tile-sm is-today">
-                      <span class="text-[11px] font-bold text-emerald-400 font-mono">\${dayNum}</span>
+                      <span class="text-[11px] font-bold text-accent font-mono">\${dayNum}</span>
                       <span class="text-[10px] text-zinc-400">امروز</span>
                     </div>
                   \`;
@@ -2898,7 +3027,7 @@ export function renderAppHtml(): string {
                   return \`
                     <div class="day-tile day-tile-sm is-empty">
                       <span class="text-[11px] font-mono text-zinc-500">\${dayNum}</span>
-                      <span class="w-1 h-1 rounded-full bg-zinc-700"></span>
+                      <span class="w-1 h-1 rounded-full bg-muted"></span>
                     </div>
                   \`;
                 }
@@ -3043,9 +3172,9 @@ export function renderAppHtml(): string {
           volumeChartInstance.destroy();
         }
 
-        const isDark = document.documentElement.classList.contains('dark');
-        const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(16,17,19,0.07)';
-        const tickColor = isDark ? '#6E6F75' : '#85878C';
+        const c = chartColors();
+        const gridColor = c.grid;
+        const tickColor = c.tick;
 
         volumeChartInstance = new Chart(ctx, {
           type: 'line',
@@ -3054,12 +3183,12 @@ export function renderAppHtml(): string {
             datasets: [{
               label: 'حجم تمرین (کیلوگرم)',
               data: volumes.length > 0 ? volumes : [0],
-              borderColor: isDark ? '#FF6A2B' : '#EA580C',
-              backgroundColor: isDark ? 'rgba(255, 106, 43, 0.12)' : 'rgba(234, 88, 12, 0.08)',
+              borderColor: c.line,
+              backgroundColor: c.fill,
               borderWidth: 2,
               fill: true,
               tension: 0.3,
-              pointBackgroundColor: isDark ? '#FF6A2B' : '#EA580C',
+              pointBackgroundColor: c.line,
               pointRadius: days === 90 ? 2 : (days === 30 ? 3 : 5)
             }]
           },
@@ -3106,7 +3235,7 @@ export function renderAppHtml(): string {
               </div>
             </div>
             <div class="text-left">
-              <span class="text-xs font-mono font-bold text-emerald-400">\${toPersianDigits(w.total_volume_kg)} kg</span>
+              <span class="text-xs font-mono font-bold text-accent">\${toPersianDigits(w.total_volume_kg)} kg</span>
               <p class="text-[10px] text-zinc-400">\${toPersianDigits(w.set_logs ? w.set_logs.length : 0)} ست</p>
             </div>
           </div>
@@ -3587,7 +3716,7 @@ export function renderAppHtml(): string {
                 </h4>
               </div>
               <div class="text-left">
-                <span class="text-base md:text-lg font-black font-mono text-emerald-400">\${toPersianDigits(pr.max_weight_kg)} kg</span>
+                <span class="text-base md:text-lg font-black font-mono text-accent">\${toPersianDigits(pr.max_weight_kg)} kg</span>
                 <p class="text-[10px] text-zinc-400">\${toPersianDigits(pr.reps_at_max)} تکرار</p>
                 \${pr.est_1rm ? \`<p class="text-[10px] text-zinc-400" title="یک تکرار بیشینه تخمینی (فرمول اپلی)">۱RM تخمینی: <span class="font-mono text-zinc-200">\${toPersianDigits(Math.round(pr.est_1rm * 2) / 2)}</span></p>\` : ''}
               </div>
@@ -3618,7 +3747,7 @@ export function renderAppHtml(): string {
                     <p class="text-[10px] text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
                   </div>
                   <div class="text-left">
-                    <span class="text-xs md:text-sm font-bold font-mono text-emerald-400">\${toPersianDigits(w.total_volume_kg)} kg</span>
+                    <span class="text-xs md:text-sm font-bold font-mono text-accent">\${toPersianDigits(w.total_volume_kg)} kg</span>
                   </div>
                 </div>
 
@@ -3626,7 +3755,7 @@ export function renderAppHtml(): string {
                   \${(w.set_logs || []).map(s => \`
                     <div class="card-glass-subtle p-2 text-[11px] flex items-center justify-between">
                       <span class="text-zinc-300 truncate max-w-[85px]">\${s.exercise_name_fa}</span>
-                      <span class="font-mono font-bold text-emerald-400">\${toPersianDigits(s.weight_kg)}kg × \${toPersianDigits(s.reps)}</span>
+                      <span class="font-mono font-bold text-accent">\${toPersianDigits(s.weight_kg)}kg × \${toPersianDigits(s.reps)}</span>
                     </div>
                   \`).join('')}
                 </div>
@@ -3780,8 +3909,8 @@ export function renderAppHtml(): string {
               <p class="text-[10px] text-zinc-400 truncate max-w-[150px]">\${l.notes || 'بدون یادداشت'}</p>
             </div>
             <div class="text-left">
-              <span class="font-mono font-bold text-emerald-400 text-xs">\${toPersianDigits(l.weight_kg || '--')} kg</span>
-              <p class="text-[10px] text-emerald-400">\${toPersianDigits(l.water_liters || 0)} L آب</p>
+              <span class="font-mono font-bold text-accent text-xs">\${toPersianDigits(l.weight_kg || '--')} kg</span>
+              <p class="text-[10px] text-accent">\${toPersianDigits(l.water_liters || 0)} L آب</p>
             </div>
           </div>
         \`;
@@ -4058,7 +4187,7 @@ export function renderAppHtml(): string {
             return \`
             <div class="card-glass-subtle p-2.5 flex items-center justify-between">
               <div class="flex items-center gap-2.5">
-                \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="w-9 h-9 rounded-lg object-cover bg-white border border-[color:var(--line)]" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
+                \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="thumb w-9 h-9" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
                 <div>
                   <h6 class="font-bold text-xs text-white flex items-baseline gap-1.5 flex-wrap">
                     <span>\${toPersianDigits(idx + 1)}. \${nameFa}</span>

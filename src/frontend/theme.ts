@@ -1,6 +1,10 @@
 // ============================================================================
 // Design System for جسم و اندیشه — "Iron & Ember"
-// Graphite neutrals, one ember accent, one font (Vazirmatn).
+// Graphite neutrals, one accent (ember by default, user-selectable), one font (Vazirmatn).
+//
+// Appearance preferences live as data-* attributes on <html>: data-accent,
+// data-text, data-radius, data-motion. Markup names roles (text-accent,
+// badge-emerald, btn-primary); only the tokens here decide the colors.
 //
 // Rule of the system: components own their surface (background, border,
 // radius, shadow); Tailwind utilities only handle layout and spacing.
@@ -19,6 +23,72 @@ export const THEME = {
   },
 };
 
+// User-selectable accents. Each is tuned per mode: `accent` fills buttons,
+// `text` is the readable-on-surface variant, `on` is text placed on `accent`.
+// Green and red are left out on purpose: they mean "done" and "danger".
+type AccentTone = { accent: string; hover: string; text: string; on: string };
+export const ACCENTS: { id: string; name: string; dark: AccentTone; light: AccentTone }[] = [
+  {
+    id: 'ember', name: 'اخگر',
+    dark: { accent: '#FF6A2B', hover: '#FF7D45', text: '#FF8A57', on: '#1A0A02' },
+    light: { accent: '#F2601F', hover: '#FF6E2E', text: '#C2410C', on: '#1A0A02' },
+  },
+  {
+    id: 'azure', name: 'آبی',
+    dark: { accent: '#4C9AFF', hover: '#66AAFF', text: '#7DB5FF', on: '#03122A' },
+    light: { accent: '#2F6FEB', hover: '#3D7DF5', text: '#1D4FBF', on: '#FFFFFF' },
+  },
+  {
+    id: 'violet', name: 'بنفش',
+    dark: { accent: '#9B7BFF', hover: '#AA8EFF', text: '#B39CFF', on: '#12082E' },
+    light: { accent: '#7151E8', hover: '#7E60F0', text: '#5B3CC4', on: '#FFFFFF' },
+  },
+  {
+    id: 'pink', name: 'صورتی',
+    dark: { accent: '#F2589B', hover: '#F56FA9', text: '#F78BB9', on: '#2A0614' },
+    light: { accent: '#D61F69', hover: '#E2307A', text: '#A3195A', on: '#FFFFFF' },
+  },
+  {
+    id: 'cyan', name: 'فیروزه‌ای',
+    dark: { accent: '#2EC4E6', hover: '#4DCFEC', text: '#5BD3EE', on: '#031C24' },
+    light: { accent: '#0891B2', hover: '#0AA0C4', text: '#0E7490', on: '#031C24' },
+  },
+  {
+    id: 'mono', name: 'خنثی',
+    dark: { accent: '#F2F2F0', hover: '#FFFFFF', text: '#F2F2F0', on: '#0E0F11' },
+    light: { accent: '#111214', hover: '#2A2E33', text: '#111214', on: '#FFFFFF' },
+  },
+];
+
+export const DEFAULT_PREFS = { accent: 'ember', text: 'md', radius: 'md', motion: 'full' };
+
+function renderAccentTokens(): string {
+  const tone = (t: AccentTone) =>
+    `--accent: ${t.accent}; --accent-hover: ${t.hover}; --accent-text: ${t.text}; --on-accent: ${t.on};`;
+  return ACCENTS.filter(a => a.id !== 'ember').map(a => `
+      html.dark[data-accent="${a.id}"] { ${tone(a.dark)} }
+      html.light[data-accent="${a.id}"] { ${tone(a.light)} }`).join('') +
+    // Swatches always show their own hue for the current mode, whatever accent is active
+    ACCENTS.map(a => `
+      html.dark [data-swatch="${a.id}"] { --swatch: ${a.dark.accent}; --swatch-on: ${a.dark.on}; }
+      html.light [data-swatch="${a.id}"] { --swatch: ${a.light.accent}; --swatch-on: ${a.light.on}; }`).join('');
+}
+
+// Reduced motion applies both from the OS setting and from the in-app preference
+function renderReducedMotionRules(scope: string): string {
+  return `
+        ${scope} *, ${scope} ::before, ${scope} ::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+        }
+        ${scope} .btn:active, ${scope} .btn-icon:active, ${scope} .btn-icon-sm:active, ${scope} .chip:active, ${scope} .set-chip:active,
+        ${scope} .option-card:active, ${scope} .segmented-item:active, ${scope} .stepper-btn:active, ${scope} .swatch:active { transform: none; }
+        /* Gentler, not zero: these keep their fade but lose the movement */
+        ${scope} .rest-timer, ${scope} .rest-timer.is-leaving, ${scope} .reveal, ${scope} .modal-panel { transform: none !important; }
+        ${scope} #rest-timer-svg-path { transition: none; }`;
+}
+
 export function renderThemeStyles(): string {
   return `
     <script>
@@ -32,10 +102,11 @@ export function renderThemeStyles(): string {
               display: ['Vazirmatn', 'system-ui', 'sans-serif'],
             },
             colors: {
-              // Legacy "emerald" utilities resolve to the ember accent
+              // Legacy "emerald" utilities follow the user's accent
               emerald: {
-                50: '#FFF4ED', 100: '#FFE6D5', 200: '#FECCAA', 300: '#FFA77A', 400: '#FF8A57',
-                500: '#FF6A2B', 600: '#EA580C', 700: '#C2410C', 800: '#9A3412', 900: '#7C2D12', 950: '#431407'
+                50: 'var(--accent-soft)', 100: 'var(--accent-soft)', 200: 'var(--accent-line)',
+                300: 'var(--accent-text)', 400: 'var(--accent-text)', 500: 'var(--accent)', 600: 'var(--accent-text)',
+                700: 'var(--accent-text)', 800: 'var(--accent-text)', 900: 'var(--accent-text)', 950: 'var(--accent-text)'
               },
               // Secondary tag hue: cool steel, never competes with the accent
               cyan: {
@@ -60,6 +131,7 @@ export function renderThemeStyles(): string {
       :root {
         --font-sans: 'Vazirmatn', system-ui, sans-serif;
 
+        --r-xs: 6px;      /* badges, tiny inner controls */
         --r-sm: 8px;      /* chips, small inner controls */
         --r-md: 10px;     /* buttons, inputs, inset wells */
         --r-lg: 14px;     /* cards */
@@ -94,8 +166,6 @@ export function renderThemeStyles(): string {
         --accent: #FF6A2B;
         --accent-hover: #FF7D45;
         --accent-text: #FF8A57;
-        --accent-soft: rgba(255, 106, 43, 0.12);
-        --accent-line: rgba(255, 106, 43, 0.45);
         --on-accent: #1A0A02;
 
         --done: #3FCF8E;
@@ -113,8 +183,6 @@ export function renderThemeStyles(): string {
         --shadow-pop: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 16px 40px -12px rgba(0, 0, 0, 0.7);
         --backdrop: rgba(5, 6, 7, 0.7);
 
-        --plate-red: #FF6A2B;
-        --plate-blue: #E5582A;
         --plate-yellow: #F5B83D;
         --plate-green: #A1A1A6;
         --plate-white: #5A5B60;
@@ -138,8 +206,6 @@ export function renderThemeStyles(): string {
         --accent: #F2601F;
         --accent-hover: #FF6E2E;
         --accent-text: #C2410C;
-        --accent-soft: rgba(234, 88, 12, 0.09);
-        --accent-line: rgba(234, 88, 12, 0.45);
         --on-accent: #1A0A02;
 
         --done: #16A34A;
@@ -157,13 +223,38 @@ export function renderThemeStyles(): string {
         --shadow-pop: 0 0 0 1px rgba(16, 17, 19, 0.06), 0 16px 40px -12px rgba(16, 17, 19, 0.25);
         --backdrop: rgba(17, 18, 20, 0.4);
 
-        --plate-red: #F2601F;
-        --plate-blue: #D24E14;
         --plate-yellow: #E0A21F;
         --plate-green: #85878C;
         --plate-white: #C4C4C0;
         --color-bar: #A1A1A6;
       }
+
+      /* Accent presets (ember is the default above) */${renderAccentTokens()}
+
+      /* Everything tinted by the accent derives from it, so any preset gets them free */
+      :root, html.dark {
+        --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+        --accent-line: color-mix(in srgb, var(--accent) 45%, transparent);
+      }
+      html.light {
+        --accent-soft: color-mix(in srgb, var(--accent) 9%, transparent);
+        --accent-line: color-mix(in srgb, var(--accent) 45%, transparent);
+      }
+      :root, html.dark, html.light {
+        --plate-red: var(--accent);
+        --plate-blue: color-mix(in srgb, var(--accent) 82%, #000);
+        --viz-1: var(--accent);
+        --viz-1-hover: var(--accent-hover);
+      }
+
+      /* Text size preference: everything is rem-based, so the root scales the app */
+      html[data-text="sm"] { font-size: 93.75%; }
+      html[data-text="lg"] { font-size: 106.25%; }
+      html[data-text="xl"] { font-size: 112.5%; }
+
+      /* Corner preference */
+      html[data-radius="sharp"] { --r-xs: 3px; --r-sm: 4px; --r-md: 6px; --r-lg: 8px; --r-xl: 10px; }
+      html[data-radius="round"] { --r-xs: 8px; --r-sm: 11px; --r-md: 14px; --r-lg: 20px; --r-xl: 26px; }
 
       /* Back-compat aliases for any remaining inline references */
       :root, html.dark, html.light {
@@ -430,7 +521,7 @@ export function renderThemeStyles(): string {
         font-size: 0.8125rem;
         font-weight: 600;
         color: var(--accent-text);
-        border-radius: 6px;
+        border-radius: var(--r-xs);
         transition: opacity var(--dur-fast) ease;
       }
       @media (hover: hover) and (pointer: fine) {
@@ -456,7 +547,7 @@ export function renderThemeStyles(): string {
         font-size: 0.8125rem;
         font-weight: 500;
         color: var(--text-2);
-        border-radius: 7px;
+        border-radius: max(2px, calc(var(--r-md) - 3px));
         transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
       html .segmented-item:active { transform: scale(0.97); }
@@ -551,6 +642,54 @@ export function renderThemeStyles(): string {
       .switch input:checked + .switch-track::after { transform: translateX(1rem); }
       [dir="rtl"] .switch input:checked + .switch-track::after { transform: translateX(-1rem); }
       .switch input:focus-visible + .switch-track { outline: 2px solid var(--accent); outline-offset: 2px; }
+      /* A white thumb disappears on the neutral accent's light fill */
+      html[data-accent="mono"] .switch input:checked + .switch-track::after { background: var(--on-accent); }
+
+      /* Accent swatch: a color dot that rings itself when chosen */
+      html .swatch {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: var(--r-full);
+        background: var(--swatch);
+        color: var(--swatch-on);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        transition: box-shadow var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
+      }
+      html .swatch:active { transform: scale(0.94); }
+      html .swatch i[data-lucide], html .swatch svg {
+        width: 1rem;
+        height: 1rem;
+        opacity: 0;
+        transform: scale(0.6);
+        transition: opacity var(--dur-fast) ease, transform var(--dur-base) var(--ease-out);
+      }
+      html .swatch.is-selected {
+        box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--swatch);
+      }
+      html .swatch.is-selected i[data-lucide], html .swatch.is-selected svg { opacity: 1; transform: none; }
+      /* The page-wide color crossfade must not flatten the swatch's own check-in motion */
+      html.theme-transition .swatch, html.theme-transition .swatch * {
+        transition: box-shadow var(--dur-fast) ease, opacity var(--dur-fast) ease, transform var(--dur-base) var(--ease-out) !important;
+      }
+      .swatch-row { display: flex; flex-wrap: wrap; gap: 0.75rem; padding: 0.25rem; }
+
+      /* Settings rows: label on one side, control on the other */
+      .pref-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        padding-top: 0.875rem;
+        border-top: 1px solid var(--line);
+      }
+      .pref-label { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
+      .pref-hint { font-size: 0.75rem; color: var(--text-3); }
 
       /* ==========================================================================
          6. Badges
@@ -561,7 +700,7 @@ export function renderThemeStyles(): string {
         gap: 0.3rem;
         height: 1.375rem;
         padding: 0 0.5rem;
-        border-radius: 6px;
+        border-radius: var(--r-xs);
         font-size: 0.71875rem;
         font-weight: 600;
         line-height: 1;
@@ -728,7 +867,7 @@ export function renderThemeStyles(): string {
         justify-content: center;
         font-weight: 700;
         line-height: 1;
-        border-radius: 6px;
+        border-radius: var(--r-xs);
         color: var(--text-2);
         background: var(--surface-3);
         transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
@@ -757,6 +896,15 @@ export function renderThemeStyles(): string {
       html .icon-box-purple { background: var(--surface-3); color: var(--text-2); }
       html .icon-box-rose { background: var(--danger-soft); color: var(--danger); }
       html .icon-box-done { background: var(--done-soft); color: var(--done); }
+
+      /* Exercise GIF thumbnail: the GIFs are drawn on white, so the frame stays white in both modes */
+      html .thumb {
+        flex-shrink: 0;
+        object-fit: cover;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--r-sm);
+      }
 
       .avatar-frame {
         border-radius: var(--r-full);
@@ -1092,25 +1240,32 @@ export function renderThemeStyles(): string {
       html.light .text-zinc-300 { color: #3E4045 !important; }
       html.light .text-zinc-400 { color: var(--text-2) !important; }
       html.light .text-zinc-500 { color: var(--text-3) !important; }
-      html.light .text-emerald-300, html.light .text-emerald-400 { color: var(--accent-text) !important; }
       html.light .text-amber-300, html.light .text-amber-400 { color: var(--gold) !important; }
       html.light [class*="border-white"] { border-color: var(--line) !important; }
       html.light [class*="bg-white/5"],
       html.light [class*="bg-white/10"] { background-color: rgba(16, 17, 19, 0.04) !important; }
       html.light [class*="bg-black/"]:not(.badge-overlay) { background-color: var(--surface-2) !important; }
       html.light .border-zinc-800 { border-color: var(--line) !important; }
-      html .text-emerald-400, html .text-emerald-300 { color: var(--accent-text); }
+
+      /* Semantic color utilities: markup names the role, the tokens pick the color */
+      html .text-accent { color: var(--accent-text); }
+      html .text-gold { color: var(--gold); }
+      html .text-steel { color: var(--steel); }
+      html .text-done { color: var(--done); }
+      html .text-danger { color: var(--danger); }
+      html .bg-accent { background-color: var(--accent); }
+      html .bg-danger { background-color: var(--danger); }
+      html .bg-muted { background-color: var(--line-strong); }
+      html .text-on-accent { color: var(--on-accent); }
+      html .is-highlighted { box-shadow: 0 0 0 2px var(--accent), var(--shadow-card); transition: box-shadow var(--dur-base) ease; }
 
       [class*="bg-[#08090d]"] { background-color: var(--bg-sunken) !important; }
       [class*="bg-[#0d0f17]"] { background-color: var(--surface) !important; }
       [class*="bg-[#121522]"] { background-color: var(--surface-2) !important; }
 
       /* ==========================================================================
-         16. Data viz — one series color, validated per mode
-         (light #F2601F on #FFFFFF, dark #F45E20 on #16181B: band, chroma, contrast pass)
+         16. Data viz — one series color: the accent (see tokens)
          ========================================================================== */
-      :root, html.dark { --viz-1: #F45E20; --viz-1-hover: #FF7A42; }
-      html.light { --viz-1: #F2601F; --viz-1-hover: #F5793F; }
 
       .viz-card { position: relative; }
 
@@ -1320,18 +1475,9 @@ export function renderThemeStyles(): string {
         @starting-style { opacity: 0; transform: translateY(-4px); }
       }
 
-      @media (prefers-reduced-motion: reduce) {
-        *, ::before, ::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          scroll-behavior: auto !important;
-        }
-        html .btn:active, html .btn-icon:active, html .chip:active, html .set-chip:active,
-        html .option-card:active, html .segmented-item:active, html .stepper-btn:active { transform: none; }
-        /* Gentler, not zero: these keep their fade but lose the movement */
-        .rest-timer, .rest-timer.is-leaving, .reveal { transform: none !important; }
-        #rest-timer-svg-path { transition: none; }
+      @media (prefers-reduced-motion: reduce) {${renderReducedMotionRules('html')}
       }
+      ${renderReducedMotionRules('html[data-motion="reduce"]')}
     </style>
   `;
 }
