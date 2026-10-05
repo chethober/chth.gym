@@ -82,4 +82,33 @@ profileRouter.get('/daily-logs', async (c) => {
   return c.json({ logs });
 });
 
+// GET /api/profile/weekly-plan -> Saved routines scheduled per weekday (0 = Saturday)
+profileRouter.get('/weekly-plan', async (c) => {
+  const user = c.get('user');
+  const db = new Database(c.env.DB);
+  const plan = await db.getWeeklyPlan(user.id);
+
+  return c.json({ plan });
+});
+
+// PUT /api/profile/weekly-plan -> Replace the weekly plan
+profileRouter.put('/weekly-plan', async (c) => {
+  const user = c.get('user');
+  const body = await c.req.json<{ plan?: Record<string, unknown> }>().catch(() => ({} as { plan?: Record<string, unknown> }));
+  const input = body.plan && typeof body.plan === 'object' ? body.plan : {};
+
+  const plan: Record<string, string[]> = {};
+  for (let day = 0; day < 7; day++) {
+    const ids = input[String(day)];
+    if (!Array.isArray(ids)) continue;
+    const clean = [...new Set(ids.filter((id): id is string => typeof id === 'string' && id.length > 0 && id.length <= 64))].slice(0, 6);
+    if (clean.length > 0) plan[String(day)] = clean;
+  }
+
+  const db = new Database(c.env.DB);
+  await db.saveWeeklyPlan(user.id, plan);
+
+  return c.json({ success: true, plan });
+});
+
 export { profileRouter };

@@ -213,6 +213,29 @@ export class Database {
       .first<DailyLog>())!;
   }
 
+  async getWeeklyPlan(userId: string): Promise<Record<string, string[]>> {
+    const row = await this.db
+      .prepare('SELECT plan_json FROM weekly_plans WHERE user_id = ?')
+      .bind(userId)
+      .first<{ plan_json: string }>();
+    if (!row) return {};
+    try {
+      return JSON.parse(row.plan_json) || {};
+    } catch {
+      return {};
+    }
+  }
+
+  async saveWeeklyPlan(userId: string, plan: Record<string, string[]>): Promise<void> {
+    await this.db
+      .prepare(`
+        INSERT INTO weekly_plans (user_id, plan_json, updated_at) VALUES (?, ?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET plan_json = excluded.plan_json, updated_at = excluded.updated_at
+      `)
+      .bind(userId, JSON.stringify(plan), new Date().toISOString())
+      .run();
+  }
+
   async getDailyLogs(userId: string, limit: number = 30): Promise<DailyLog[]> {
     const { results } = await this.db
       .prepare('SELECT * FROM daily_logs WHERE user_id = ? ORDER BY log_date DESC LIMIT ?')
