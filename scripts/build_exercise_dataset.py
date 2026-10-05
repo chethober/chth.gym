@@ -104,7 +104,7 @@ EXERCISES = [
         "instructions_fa": "۱. نیمکت را شیب‌دار کرده و دمبل‌ها را با قوس ملایم آرنج باز کنید.\n۲. در اوج کشش مکث کرده و به سمت بالای سینه جمع کنید."
     },
     {
-        "id": "0179",
+        "id": "0227",
         "key": "ex_cable_crossover",
         "name_fa": "کراس اور با سیم‌کش از بالا",
         "name_en": "High Cable Crossover",
@@ -117,7 +117,7 @@ EXERCISES = [
         "instructions_fa": "۱. دسته‌های سیم‌کش را در بالاترین ارتفاع قرار دهید.\n۲. یک گام به جلو بگذارید و دست‌ها را به سمت جلوی ناف و پایین فشرده کنید."
     },
     {
-        "id": "0197",
+        "id": "0179",
         "key": "ex_cable_low_fly",
         "name_fa": "کراس اور از پایین با سیم‌کش",
         "name_en": "Low Cable Crossover",
@@ -169,7 +169,7 @@ EXERCISES = [
         "instructions_fa": "۱. میله‌های پارالل را گرفته و بالاتنه را ۳۰ درجه به جلو متمایل کنید.\n۲. تا زاویه ۹۰ درجه آرنج پایین رفته و سپس به بالا فشار دهید."
     },
     {
-        "id": "0022",
+        "id": "0577",
         "key": "ex_machine_chest_press",
         "name_fa": "پرس سینه با دستگاه",
         "name_en": "Machine Chest Press",
@@ -236,7 +236,7 @@ EXERCISES = [
         "instructions_fa": "۱. ران‌ها را زیر بالشتک دستگاه قفل کنید و میله را با دستان باز بگیرید.\n۲. میله را به سمت بالای سینه پایین بکشید و کتف‌ها را منقبض کنید."
     },
     {
-        "id": "0210",
+        "id": "2616",
         "key": "ex_close_grip_lat_pulldown",
         "name_fa": "زیربغل سیم‌کش لت دست جمع",
         "name_en": "Close-Grip Lat Pulldown",
@@ -249,7 +249,7 @@ EXERCISES = [
         "instructions_fa": "۱. از دسته V شکل (دست جمع) استفاده کنید.\n۲. با تکیه ملایم به عقب، دسته را تا وسط سینه پایین بکشید."
     },
     {
-        "id": "0198",
+        "id": "0861",
         "key": "ex_seated_cable_row",
         "name_fa": "زیربغل قایقی با سیم‌کش",
         "name_en": "Seated Cable Row",
@@ -340,7 +340,7 @@ EXERCISES = [
         "instructions_fa": "۱. هالتر را جلوی ران‌ها نگه دارید و شانه‌ها را مستقیماً به سمت گوش‌ها بالا بکشید.\n۲. از چرخاندن شانه‌ها خودداری کرده و در اوج ۲ ثانیه مکث کنید."
     },
     {
-        "id": "0411",
+        "id": "0406",
         "key": "ex_dumbbell_shrug",
         "name_fa": "شراگ با دمبل",
         "name_en": "Dumbbell Shrug",
@@ -381,7 +381,7 @@ EXERCISES = [
         "instructions_fa": "۱. هالتر را روی بخش جلویی شانه‌ها و ترقوه مهار کنید.\n۲. بالاتنه را کاملاً عمود نگه داشته و اسکوات بروید."
     },
     {
-        "id": "0585",
+        "id": "0739",
         "key": "ex_leg_press",
         "name_fa": "پرس پا با دستگاه ۴۵ درجه",
         "name_en": "Leg Press Machine",
@@ -407,7 +407,7 @@ EXERCISES = [
         "instructions_fa": "۱. با زانوهای کمی خم و پشت صاف، با عقب دادن باسن خم شوید.\n۲. میله را تا زیر زانو پایین برده و با انقباض همسترینگ صاف شوید."
     },
     {
-        "id": "0380",
+        "id": "1459",
         "key": "ex_romanian_deadlift_dumbbell",
         "name_fa": "ددلیفت رومانیایی با دمبل",
         "name_en": "Romanian Dumbbell Deadlift",
@@ -420,7 +420,7 @@ EXERCISES = [
         "instructions_fa": "۱. دمبل‌ها را جلوی ران نگه دارید و با لولای لگن خم شوید تا کشش پشت پا احساس شود."
     },
     {
-        "id": "0367",
+        "id": "0336",
         "key": "ex_dumbbell_walking_lunge",
         "name_fa": "لانج راه‌رفتنی با دمبل",
         "name_en": "Dumbbell Walking Lunge",
@@ -433,7 +433,7 @@ EXERCISES = [
         "instructions_fa": "۱. یک گام بلند به جلو بردارید و زانوی عقب را به زمین نزدیک کنید.\n۲. با فشار پای جلو گام بعدی را بردارید."
     },
     {
-        "id": "0588",
+        "id": "0585",
         "key": "ex_leg_extension",
         "name_fa": "جلو پا با دستگاه (اکستنشن)",
         "name_en": "Leg Extension Machine",
@@ -446,7 +446,7 @@ EXERCISES = [
         "instructions_fa": "۱. ساق را پشت بالشتک قرار داده و پا را تا صاف شدن زانو بالا بیاورید.\n۲. یک ثانیه در اوج منقبض کنید و آرام پایین بیاورید."
     },
     {
-        "id": "0599",
+        "id": "0586",
         "key": "ex_lying_leg_curl",
         "name_fa": "پشت پا خوابیده با دستگاه (لگ کرل)",
         "name_en": "Lying Leg Curl Machine",
@@ -459,7 +459,7 @@ EXERCISES = [
         "instructions_fa": "۱. روی شکم دراز بکشید و بالشتک را پشت مچ پا مهار کنید.\n۲. پاها را به سمت باسن جمع کرده و آرام رها کنید."
     },
     {
-        "id": "0772",
+        "id": "0605",
         "key": "ex_standing_calf_raise",
         "name_fa": "ساق پا ایستاده با دستگاه",
         "name_en": "Standing Calf Raise",
@@ -485,7 +485,7 @@ EXERCISES = [
         "instructions_fa": "۱. در حالت نشسته وزنه را روی زانوها مهار کنید.\n۲. با انقباض ساق، پاشنه‌ها را بالا بیاورید."
     },
     {
-        "id": "0284",
+        "id": "0410",
         "key": "ex_bulgarian_split_squat",
         "name_fa": "اسکوات بلغاری با دمبل",
         "name_en": "Bulgarian Split Squat",
@@ -498,7 +498,7 @@ EXERCISES = [
         "instructions_fa": "۱. پای عقب را روی نیمکت قرار داده و با پای جلو اسکوات عمیق اجرا کنید."
     },
     {
-        "id": "0311",
+        "id": "1760",
         "key": "ex_goblet_squat",
         "name_fa": "گابلت اسکوات با دمبل",
         "name_en": "Goblet Squat",
@@ -513,7 +513,7 @@ EXERCISES = [
 
     # --- SHOULDERS (سرشانه) ---
     {
-        "id": "0091",
+        "id": "1456",
         "key": "ex_overhead_press",
         "name_fa": "پرس سرشانه هالتر نظامی ایستاده (OHP)",
         "name_en": "Standing Barbell Military Press",
@@ -552,7 +552,7 @@ EXERCISES = [
         "instructions_fa": "۱. دمبل‌ها را کنار ران‌ها نگه داشته و بدون تاب دادن تنه تا ارتفاع شانه بالا بیاورید."
     },
     {
-        "id": "0188",
+        "id": "0178",
         "key": "ex_cable_lateral_raise",
         "name_fa": "نشر جانب با سیم‌کش تک‌دست",
         "name_en": "Cable Lateral Raise",
@@ -591,7 +591,7 @@ EXERCISES = [
         "instructions_fa": "۱. هالتر را با دستان به عرض شانه تا ارتفاع دید چشم بالا بکشید."
     },
     {
-        "id": "0184",
+        "id": "0203",
         "key": "ex_cable_face_pull",
         "name_fa": "فیس‌پول با طناب سیم‌کش",
         "name_en": "Cable Face Pull",
@@ -604,7 +604,7 @@ EXERCISES = [
         "instructions_fa": "۱. طناب را در سطح پیشانی تنظیم کرده و دو سر طناب را به سمت گوش‌ها بکشید."
     },
     {
-        "id": "0377",
+        "id": "0378",
         "key": "ex_dumbbell_rear_delt_fly",
         "name_fa": "نشر خم دمبل (دلتوئید خلفی)",
         "name_en": "Dumbbell Rear Delt Fly",
@@ -617,7 +617,7 @@ EXERCISES = [
         "instructions_fa": "۱. بالاتنه را خم کرده و دمبل‌ها را به طرفین مثل بال پرنده باز کنید."
     },
     {
-        "id": "0013",
+        "id": "2137",
         "key": "ex_arnold_press",
         "name_fa": "پرس سرشانه آرنولدی با دمبل",
         "name_en": "Arnold Dumbbell Press",
@@ -645,7 +645,7 @@ EXERCISES = [
         "instructions_fa": "۱. هالتر را اندازه عرض شانه بگیرید و با قفل کردن آرنج‌ها میله را تا سینه بالا ببرید."
     },
     {
-        "id": "0040",
+        "id": "0447",
         "key": "ex_ez_bar_curl",
         "name_fa": "جلو بازو با میله خم EZ",
         "name_en": "EZ-Bar Bicep Curl",
@@ -723,7 +723,7 @@ EXERCISES = [
         "instructions_fa": "۱. طناب را گرفته و در انتهای پایین کشیدن، دو سر طناب را از هم باز کنید."
     },
     {
-        "id": "0240",
+        "id": "0201",
         "key": "ex_triceps_bar_pushdown",
         "name_fa": "پشت بازو سیم‌کش با میله صاف",
         "name_en": "Triceps Straight-Bar Pushdown",
@@ -749,7 +749,7 @@ EXERCISES = [
         "instructions_fa": "۱. روی نیمکت خوابیده و میله را با خم کردن آرنج‌ها تا بالای پیشانی بیاورید."
     },
     {
-        "id": "0400",
+        "id": "0430",
         "key": "ex_overhead_dumbbell_triceps",
         "name_fa": "پشت بازو دمبل تک جفت‌دست از پشت سر",
         "name_en": "Overhead Dumbbell Triceps Extension",
@@ -762,7 +762,7 @@ EXERCISES = [
         "instructions_fa": "۱. دمبل را با دو دست پشت سر نگه داشته و با باز کردن آرنج‌ها بالا ببرید."
     },
     {
-        "id": "0140",
+        "id": "0814",
         "key": "ex_parallel_bar_triceps_dip",
         "name_fa": "دیپ پارالل عمودی (پشت بازو)",
         "name_en": "Parallel Bar Triceps Dip",
@@ -775,7 +775,7 @@ EXERCISES = [
         "instructions_fa": "۱. بدن را کاملاً عمود نگه دارید و با خم کردن آرنج‌ها پایین بروید."
     },
     {
-        "id": "0328",
+        "id": "0333",
         "key": "ex_dumbbell_kickback",
         "name_fa": "پشت بازو دمبل کیک‌بک",
         "name_en": "Dumbbell Triceps Kickback",
@@ -816,7 +816,7 @@ EXERCISES = [
         "instructions_fa": "۱. از بارفیکس آویزان شده و بدون تاب پاها را تا زاویه ۹۰ درجه بالا بیاورید."
     },
     {
-        "id": "0630",
+        "id": "2135",
         "key": "ex_forearm_plank",
         "name_fa": "پلانک روی آرنج",
         "name_en": "Forearm Plank",
@@ -842,7 +842,7 @@ EXERCISES = [
         "instructions_fa": "۱. زانوها را خم کرده و با انقباض شکم، تیغه‌های شانه را از زمین بلند کنید."
     },
     {
-        "id": "0221",
+        "id": "0175",
         "key": "ex_kneeling_cable_crunch",
         "name_fa": "کرانچ شکم با طناب سیم‌کش (سجده‌ای)",
         "name_en": "Kneeling Cable Crunch",
@@ -868,7 +868,7 @@ EXERCISES = [
         "instructions_fa": "۱. در حالت V بنشینید و بالاتنه را به صورت متناوب به چپ و راست بچرخانید."
     },
     {
-        "id": "0001",
+        "id": "0857",
         "key": "ex_ab_wheel_rollout",
         "name_fa": "رول‌اوت شکم با چرخ تمرین (Ab Wheel)",
         "name_en": "Ab Wheel Rollout",
@@ -881,7 +881,7 @@ EXERCISES = [
         "instructions_fa": "۱. زانو زده و چرخ را تا کشش کامل به جلو برانید و با انقباض شکم بازگردید."
     },
     {
-        "id": "0245",
+        "id": "0862",
         "key": "ex_cable_woodchopper",
         "name_fa": "هیزم‌شکن چرخشی با سیم‌کش",
         "name_en": "Cable Woodchopper",
@@ -1189,8 +1189,161 @@ def build_library():
     print("Wrote migrations/0004_exercise_library.sql")
 
 
+# ----------------------------------------------------------------------------
+# Persian library + media: migrations/0005_persian_library.sql
+#
+# Gives every exercise the same shape as the curated ones: Persian name (the UI
+# shows the English name in parentheses), Persian target/secondary muscles,
+# numbered Persian instructions, and an animated GIF. Translations live in
+# scripts/i18n/exercises_fa.json. Library GIFs are served from jsDelivr at a
+# pinned commit of the same GIF repo the curated /gifs/*.gif come from.
+# ----------------------------------------------------------------------------
+
+GIFS_SHA = "ebf642cd90fdf73a6c73e7127e93b607b12c229e"
+GIF_CDN = f"https://cdn.jsdelivr.net/gh/omercotkd/exercises-gifs@{GIFS_SHA}/assets"
+GIFS_MISSING = {"0609"}  # not present in the GIF repo; the UI falls back to the body map
+
+MUSCLE_FA = {
+    "abs": "شکم", "abdominals": "شکم", "lower abs": "پایین شکم", "core": "میان‌تنه",
+    "obliques": "پهلوها", "pectorals": "سینه", "chest": "سینه", "upper chest": "بالاسینه",
+    "serratus anterior": "دندانه‌ای قدامی", "delts": "سرشانه", "deltoids": "سرشانه",
+    "shoulders": "شانه‌ها", "rear deltoids": "دلتوئید خلفی", "rotator cuff": "روتاتور کاف",
+    "biceps": "جلو بازو", "brachialis": "بازویی", "triceps": "پشت بازو",
+    "forearms": "ساعد", "wrist flexors": "خم‌کننده‌های مچ", "wrist extensors": "بازکننده‌های مچ",
+    "wrists": "مچ دست", "grip muscles": "عضلات پنجه", "hands": "دست‌ها",
+    "traps": "کول (ذوزنقه)", "trapezius": "کول (ذوزنقه)", "levator scapulae": "بالابرنده کتف",
+    "lats": "زیربغل", "latissimus dorsi": "زیربغل", "upper back": "بالای پشت",
+    "rhomboids": "متوازی‌الاضلاع", "back": "پشت", "spine": "فیله کمر", "lower back": "پایین کمر",
+    "glutes": "سرینی (باسن)", "abductors": "دورکننده ران", "adductors": "نزدیک‌کننده ران",
+    "inner thighs": "داخل ران", "groin": "کشاله ران", "hip flexors": "خم‌کننده ران",
+    "quads": "چهارسر ران", "quadriceps": "چهارسر ران", "hamstrings": "همسترینگ (پشت ران)",
+    "calves": "ساق پا", "soleus": "نعلی", "shins": "ساق جلویی", "ankles": "مچ پا",
+    "ankle stabilizers": "تثبیت‌کننده‌های مچ پا", "feet": "پاها",
+    "sternocleidomastoid": "جناغی‌چنبری", "cardiovascular system": "قلبی‌عروقی",
+}
+
+FA_DIGITS = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
+
+
+def muscles_fa(names):
+    out = []
+    for n in names:
+        fa = MUSCLE_FA[n.strip().lower()]
+        if fa not in out:
+            out.append(fa)
+    return "، ".join(out)
+
+
+def persian_steps(item, sentences):
+    steps = [s.strip() for s in item["instruction_steps"]["en"]]
+    return "\n".join(f"{str(i).translate(FA_DIGITS)}. {sentences[s]}" for i, s in enumerate(steps, 1))
+
+
+def clean_name_en(name):
+    name = name.replace("в°", "°")
+    return name[:1].upper() + name[1:]
+
+
+def build_persian():
+    with open("scripts/i18n/exercises_fa.json", encoding="utf-8") as f:
+        fa = json.load(f)
+    print(f"Fetching exercise dataset @ {DATASET_SHA[:7]}...")
+    with urllib.request.urlopen(DATASET_URL) as res:
+        dataset = {item["id"]: item for item in json.load(res)}
+
+    unmapped = {}
+    curated_ids = {ex["id"] for ex in EXERCISES}
+    lines = []
+
+    # Curated rows: correct GIF + dataset muscle tags; keep their hand-written Persian name/instructions
+    for ex in EXERCISES:
+        item = dataset[ex["id"]]
+        primary = map_muscles([item["target"]], unmapped)
+        secondary = [m for m in map_muscles(item.get("secondary_muscles") or [], unmapped) if m not in primary]
+        lines.append(
+            f"UPDATE exercises SET gif_url = {sql_str('/gifs/' + ex['id'] + '.gif')}, "
+            f"target_muscles = {sql_str(muscles_fa([item['target']]))}, "
+            f"secondary_muscles = {sql_str(muscles_fa(item.get('secondary_muscles') or []))}, "
+            f"muscles_primary = {sql_str(','.join(primary))}, muscles_secondary = {sql_str(','.join(secondary))}, "
+            f"instructions_en = {sql_str(english_steps(item))}, source_id = {sql_str(item['id'])} "
+            f"WHERE id = {sql_str(ex['key'])};"
+        )
+        # A library row that duplicates a (re-pointed) curated exercise goes, unless someone already used it
+        dup = sql_str("ex_db_" + ex["id"])
+        lines.append(
+            f"DELETE FROM exercises WHERE id = {dup} "
+            f"AND id NOT IN (SELECT exercise_id FROM workout_set_logs) "
+            f"AND id NOT IN (SELECT exercise_id FROM routine_exercises);"
+        )
+
+    upserts = 0
+    for item in dataset.values():
+        category = CATEGORY_MAP.get(item["body_part"])
+        if not category or item["id"] in curated_ids:
+            continue
+        primary = map_muscles([item["target"]], unmapped)
+        secondary = [m for m in map_muscles(item.get("secondary_muscles") or [], unmapped) if m not in primary]
+        equipment = EQUIPMENT_MAP.get(item["equipment"], "other")
+        gif = "" if item["id"] in GIFS_MISSING else f"{GIF_CDN}/{item['id']}.gif"
+        values = {
+            "id": "ex_db_" + item["id"],
+            "name_fa": fa["names"][item["id"]],
+            "name_en": clean_name_en(item["name"]),
+            "category": category,
+            "category_fa": CATEGORY_FA[category],
+            "equipment": equipment,
+            "equipment_fa": EQUIPMENT_FA[equipment],
+            "target_muscles": muscles_fa([item["target"]]),
+            "secondary_muscles": muscles_fa(item.get("secondary_muscles") or []),
+            "instructions_fa": persian_steps(item, fa["sentences"]),
+            "gif_url": gif,
+            "muscles_primary": ",".join(primary),
+            "muscles_secondary": ",".join(secondary),
+            "instructions_en": english_steps(item),
+            "source_id": item["id"],
+        }
+        cols = ", ".join(values)
+        vals = ", ".join(sql_str(v) for v in values.values())
+        updates = ", ".join(f"{c} = excluded.{c}" for c in values if c != "id")
+        lines.append(f"INSERT INTO exercises ({cols}) VALUES ({vals}) ON CONFLICT(id) DO UPDATE SET {updates};")
+        upserts += 1
+
+    if unmapped:
+        raise SystemExit(f"Unmapped muscle names: {unmapped}")
+
+    # D1 rejects very large migration files, so split into parts under ~800 KB
+    parts, current, size = [], [], 0
+    for line in lines:
+        n = len(line.encode("utf-8")) + 1
+        if current and size + n > 800_000:
+            parts.append(current)
+            current, size = [], 0
+        current.append(line)
+        size += n
+    parts.append(current)
+
+    for i, part in enumerate(parts):
+        name = f"{5 + i:04d}_persian_library_{i + 1}.sql"
+        header = [
+            "-- ============================================================================",
+            f"-- Migration: {name} (part {i + 1} of {len(parts)})",
+            "-- Generated by scripts/build_exercise_dataset.py --persian",
+            "-- Persian names/muscles/instructions for the whole library (scripts/i18n/exercises_fa.json),",
+            f"-- GIFs for every exercise (library via jsDelivr @ omercotkd/exercises-gifs {GIFS_SHA[:7]}),",
+            "-- and curated rows re-pointed at the GIF that actually shows them.",
+            "-- ============================================================================",
+            "",
+        ]
+        with open(f"migrations/{name}", "w", encoding="utf-8") as f:
+            f.write("\n".join(header + part) + "\n")
+        print(f"Wrote migrations/{name} ({len(part)} statements)")
+    print(f"{len(EXERCISES)} curated, {upserts} library rows")
+
+
 if __name__ == "__main__":
     if "--library" in sys.argv:
         build_library()
+    elif "--persian" in sys.argv:
+        build_persian()
     else:
         main()
