@@ -16,17 +16,28 @@ export function renderTopNavbar(): string {
           <span class="brand-word">جسم و اندیشه</span>
         </button>
 
+        <!-- Same order as the mobile bar (RTL): suggestions, movements, dashboard, plan, history -->
         <nav class="flex items-stretch" aria-label="بخش‌های اصلی">
+          <button onclick="switchTab('presets')" id="nav-d-presets" class="nav-desktop-btn">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>پیشنهادها</span>
+            <span class="nav-underline"></span>
+          </button>
+          <button onclick="switchTab('movements')" id="nav-d-movements" class="nav-desktop-btn">
+            <i data-lucide="dumbbell" class="w-4 h-4"></i>
+            <span>حرکات</span>
+            <span id="nav-draft-count-badge" class="hidden badge badge-emerald">۰</span>
+            <span class="nav-underline"></span>
+          </button>
           <button onclick="switchTab('dashboard')" id="nav-d-dashboard" class="nav-desktop-btn is-active">
             <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
             <span>داشبورد</span>
             <span id="active-badge-d" class="hidden badge badge-live">در حال تمرین</span>
             <span class="nav-underline"></span>
           </button>
-          <button onclick="switchTab('movements')" id="nav-d-movements" class="nav-desktop-btn">
-            <i data-lucide="clipboard-list" class="w-4 h-4"></i>
-            <span>برنامه‌ها و حرکات</span>
-            <span id="nav-draft-count-badge" class="hidden badge badge-emerald">۰</span>
+          <button onclick="switchTab('plan')" id="nav-d-plan" class="nav-desktop-btn">
+            <i data-lucide="calendar-days" class="w-4 h-4"></i>
+            <span>برنامه</span>
             <span class="nav-underline"></span>
           </button>
           <button onclick="switchTab('history')" id="nav-d-history" class="nav-desktop-btn">
@@ -74,17 +85,26 @@ export function renderMobileTopHeader(): string {
 
 export function renderMobileBottomNav(): string {
   return `
-    <!-- Mobile bottom navigation (RTL order: programs, dashboard, history) -->
-    <nav id="mobile-bottom-nav" class="md:hidden fixed bottom-0 inset-x-0 z-40 app-bottomnav flex items-stretch px-2" aria-label="بخش‌های اصلی">
+    <!-- Mobile bottom navigation. DOM order is right-to-left on screen (RTL),
+         so visually left→right it reads: history, plan, dashboard, movements, suggestions -->
+    <nav id="mobile-bottom-nav" class="md:hidden fixed bottom-0 inset-x-0 z-40 app-bottomnav flex items-stretch px-1" aria-label="بخش‌های اصلی">
+      <button onclick="switchTab('presets')" id="nav-m-presets" class="nav-mobile-btn">
+        <span class="nav-m-pill"><i data-lucide="sparkles" class="w-5 h-5"></i></span>
+        <span>پیشنهادها</span>
+      </button>
       <button onclick="switchTab('movements')" id="nav-m-movements" class="nav-mobile-btn">
-        <span class="nav-m-pill"><i data-lucide="clipboard-list" class="w-5 h-5"></i></span>
-        <span>برنامه‌ها</span>
+        <span class="nav-m-pill"><i data-lucide="dumbbell" class="w-5 h-5"></i></span>
+        <span>حرکات</span>
         <span id="nav-m-draft-badge" class="hidden absolute top-1.5 right-[calc(50%-1.9rem)] w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[color:var(--color-surface)]"></span>
       </button>
       <button onclick="switchTab('dashboard')" id="nav-m-dashboard" class="nav-mobile-btn is-active">
         <span class="nav-m-pill"><i data-lucide="layout-dashboard" class="w-5 h-5"></i></span>
         <span>داشبورد</span>
         <span id="active-badge-m" class="hidden absolute top-1.5 right-[calc(50%-1.9rem)] w-2.5 h-2.5 rounded-full bg-rose-500 ring-2 ring-[color:var(--color-surface)]"></span>
+      </button>
+      <button onclick="switchTab('plan')" id="nav-m-plan" class="nav-mobile-btn">
+        <span class="nav-m-pill"><i data-lucide="calendar-days" class="w-5 h-5"></i></span>
+        <span>برنامه</span>
       </button>
       <button onclick="switchTab('history')" id="nav-m-history" class="nav-mobile-btn">
         <span class="nav-m-pill"><i data-lucide="history" class="w-5 h-5"></i></span>

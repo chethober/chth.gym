@@ -8,11 +8,11 @@ export function renderSmartSuggestionsSection(): string {
     <!-- SMART WORKOUT SUGGESTIONS (BMI & FITNESS GOAL) -->
     <div id="dash-smart-suggestions-section" class="card-glass p-5 space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 border-[color:var(--line)]">
-        <div class="flex items-center gap-2.5">
+        <div class="flex items-center gap-2.5 min-w-0">
           <div class="icon-box icon-box-emerald w-9 h-9 shrink-0">
             <i data-lucide="sparkles" class="w-5 h-5 text-emerald-400"></i>
           </div>
-          <div>
+          <div class="min-w-0">
             <div class="flex items-center gap-2 flex-wrap">
               <h3 class="text-sm font-bold text-white">پیشنهاد برای شما</h3>
               <span id="dash-suggest-badge-bmi" class="badge badge-emerald">شاخص BMI: --</span>
@@ -86,7 +86,7 @@ export function renderSmartSuggestionsSection(): string {
       <!-- Scientific Rationale Insight Box -->
       <div id="dash-suggest-insight-box" class="callout p-3 flex items-start gap-2.5 text-[13px]">
         <i data-lucide="info" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-        <p id="dash-suggest-insight-text" class="leading-relaxed">در حال تحلیل شاخص بدنی و بارگذاری برنامه‌های متناسب با فیزیولوژی شما...</p>
+        <p id="dash-suggest-insight-text" class="leading-relaxed min-w-0 break-words">در حال تحلیل شاخص بدنی و بارگذاری برنامه‌های متناسب با فیزیولوژی شما...</p>
       </div>
 
       <!-- Primary Suggestions Cards Container -->
@@ -532,7 +532,7 @@ export function renderPresetsClientScript(): string {
         const notesHtml = ex.notes_fa ? (
           '<div class="text-[10px] text-zinc-400 leading-tight pt-1 flex items-start gap-1 divider-top mt-1">' +
             '<i data-lucide="lightbulb" class="w-3 h-3 text-amber-400 shrink-0 mt-0.5"></i>' +
-            '<span>' + ex.notes_fa + '</span>' +
+            '<span class="min-w-0 break-words">' + ex.notes_fa + '</span>' +
           '</div>'
         ) : '';
 
@@ -541,9 +541,9 @@ export function renderPresetsClientScript(): string {
             '<div class="flex items-center gap-2 min-w-0">' +
               '<img src="' + ex.gif_url + '" loading="lazy" class="w-8 h-8 rounded-lg object-cover bg-zinc-200 dark:bg-zinc-900 border border-white/10 shrink-0" alt="" onerror="this.src=\\'/icons/icon-192x192.png\\'">' +
               '<div class="min-w-0">' +
-                '<div class="flex items-center gap-1.5">' +
-                  '<span class="text-zinc-500 font-mono text-[10px]">' + toPersianDigits(i + 1) + '.</span>' +
-                  '<span class="text-zinc-800 dark:text-zinc-200 font-bold text-xs truncate">' + ex.name_fa + '</span>' +
+                '<div class="flex items-center gap-1.5 min-w-0">' +
+                  '<span class="text-zinc-500 font-mono text-[10px] shrink-0">' + toPersianDigits(i + 1) + '.</span>' +
+                  '<span class="text-zinc-800 dark:text-zinc-200 font-bold text-xs truncate min-w-0">' + ex.name_fa + '</span>' +
                 '</div>' +
                 '<span class="badge badge-zinc">' + ex.equipment_fa + '</span>' +
               '</div>' +
@@ -574,7 +574,7 @@ export function renderPresetsClientScript(): string {
 
       const jointFriendlyBadge = isJointFriendly ? '<span class="badge badge-done"><i data-lucide="shield-check"></i>حامی مفاصل</span>' : '';
 
-      return '<div class="card-glass-interactive p-4 sm:p-5 space-y-3 flex flex-col justify-between">' +
+      return '<div class="card-glass-interactive min-w-0 p-4 sm:p-5 space-y-3 flex flex-col justify-between">' +
         '<div class="space-y-3">' +
           '<div class="flex items-center justify-between flex-wrap gap-1.5">' +
             '<div class="flex items-center gap-1.5 flex-wrap">' +
@@ -589,11 +589,11 @@ export function renderPresetsClientScript(): string {
             '</div>' +
           '</div>' +
           '<div>' +
-            '<h4 class="font-bold text-sm sm:text-base text-zinc-900 dark:text-white">' + preset.title + '</h4>' +
-            '<p class="text-[10px] text-zinc-400 font-mono mt-0.5">' + preset.title_en + '</p>' +
+            '<h4 class="font-bold text-sm sm:text-base text-zinc-900 dark:text-white break-words">' + preset.title + '</h4>' +
+            '<p class="text-[10px] text-zinc-400 font-mono mt-0.5 break-words">' + preset.title_en + '</p>' +
           '</div>' +
-          '<p class="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">' + preset.description + '</p>' +
-          '<div class="card-glass-subtle p-2.5 text-[11px] text-zinc-700 dark:text-zinc-300 leading-normal">' +
+          '<p class="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed break-words">' + preset.description + '</p>' +
+          '<div class="card-glass-subtle p-2.5 text-[11px] text-zinc-700 dark:text-zinc-300 leading-normal break-words">' +
             '<strong class="text-emerald-600 dark:text-emerald-400">منطق علمی:</strong> ' + preset.rationale_fa +
           '</div>' +
           '<div class="space-y-1.5 pt-1">' +
@@ -846,7 +846,7 @@ export function renderPresetsClientScript(): string {
     }
 
     function openPreloadedPresetsSection() {
-      switchTab('movements');
+      switchTab('presets');
       setTimeout(function() {
         const el = document.getElementById('preloaded-presets-explorer');
         if (el) el.scrollIntoView({ behavior: 'smooth' });

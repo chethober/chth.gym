@@ -1029,12 +1029,14 @@ export function renderThemeStyles(): string {
         font-size: 0.75rem;
         color: var(--text-3);
         position: relative;
+        min-width: 0;
+        white-space: nowrap;
       }
       .nav-mobile-btn .nav-m-pill {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 3.5rem;
+        width: min(3.5rem, 100%);
         height: 1.875rem;
         border-radius: var(--r-full);
         transition: background-color var(--dur-base) ease, color var(--dur-base) ease, transform var(--dur-press) var(--ease-out);

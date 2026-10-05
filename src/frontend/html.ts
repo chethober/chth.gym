@@ -17,6 +17,11 @@ import {
   renderProfileSuggestionsBanner, 
   renderPresetsClientScript 
 } from './presetsUi';
+import {
+  renderWeeklyPlanStyles,
+  renderWeeklyPlanSection,
+  renderWeeklyPlanClientScript
+} from './weeklyPlanUi';
 import { BODY_PATHS } from './bodyPaths';
 
 export function renderAppHtml(): string {
@@ -63,6 +68,7 @@ export function renderAppHtml(): string {
   
   <!-- Unified Theme Configuration & Styled Components CSS -->
   ${renderThemeStyles()}
+  ${renderWeeklyPlanStyles()}
 
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -218,8 +224,6 @@ export function renderAppHtml(): string {
           <h3 id="stat-prs-count" class="stat-value">۰ حرکت</h3>
         </div>
       </div>
-
-      ${renderSmartSuggestionsSection()}
 
       <!-- Work Progress & Quick Start Programs Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -443,7 +447,7 @@ export function renderAppHtml(): string {
     <section id="tab-movements" class="tab-content hidden space-y-8">
       
       <div class="flex items-center justify-between">
-        <h2 class="text-lg font-black text-white">برنامه‌ها و حرکات</h2>
+        <h2 class="text-lg font-black text-white">حرکات</h2>
       </div>
 
       <!-- ================= SAME-PAGE INLINE PROGRAM BUILDER ================= -->
@@ -495,8 +499,6 @@ export function renderAppHtml(): string {
           </button>
         </div>
       </div>
-
-      ${renderPreloadedPresetsExplorer()}
 
       <!-- SECTION A: SAVED WORKOUT PROGRAMS -->
       <div class="space-y-4">
@@ -580,7 +582,25 @@ export function renderAppHtml(): string {
     </section>
 
     <!-- ======================================================= -->
-    <!-- TAB 4: SIMPLIFIED PROFILE & GOALS                       -->
+    <!-- TAB: WEEKLY PLANNER                                     -->
+    <!-- ======================================================= -->
+    ${renderWeeklyPlanSection()}
+
+    <!-- ======================================================= -->
+    <!-- TAB 4: SUGGESTIONS, TIPS & PRESET WORKOUTS              -->
+    <!-- ======================================================= -->
+    <section id="tab-presets" class="tab-content hidden space-y-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-black text-white">پیشنهادها و برنامه‌های آماده</h2>
+      </div>
+
+      ${renderSmartSuggestionsSection()}
+
+      ${renderPreloadedPresetsExplorer()}
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- TAB 5: SIMPLIFIED PROFILE & GOALS                       -->
     <!-- ======================================================= -->
     <section id="tab-profile" class="tab-content hidden max-w-4xl mx-auto space-y-5">
       
@@ -1184,13 +1204,16 @@ export function renderAppHtml(): string {
         loadHistoryTab();
       } else if (tabId === 'movements') {
         loadRoutines();
-        loadPreloadedPresets();
         if (exercisesCache.length === 0) {
           loadExercises();
         } else if (!exercisesRenderedOnce) {
           renderExercisesGrid();
         }
         renderInlineDraftExercises();
+      } else if (tabId === 'plan') {
+        loadWeeklyPlan();
+      } else if (tabId === 'presets') {
+        loadSmartSuggestions().then(loadPreloadedPresets);
       } else if (tabId === 'profile') {
         loadProfileData();
       }
@@ -1334,7 +1357,6 @@ export function renderAppHtml(): string {
         );
         checkActiveWorkout();
         loadDashboardRoutines();
-        loadSmartSuggestions();
         return;
       }
 
@@ -1362,7 +1384,6 @@ export function renderAppHtml(): string {
         }
 
         loadDashboardRoutines();
-        loadSmartSuggestions();
       } catch (err) {}
     }
 
@@ -4149,6 +4170,8 @@ export function renderAppHtml(): string {
     }
 
     ${renderPresetsClientScript()}
+
+    ${renderWeeklyPlanClientScript()}
   </script>
 </body>
 </html>
