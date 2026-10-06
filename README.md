@@ -17,6 +17,18 @@ A comprehensive cloud-based workout tracker, smart routine planner, and fitness 
 
 ---
 
+## Screenshots
+
+![Dashboard on desktop](docs/screenshots/desktop-dashboard.png)
+
+![Exercise library on desktop](docs/screenshots/desktop-library.png)
+
+| Dashboard | Exercise library | Suggestions | Profile |
+|---|---|---|---|
+| ![Dashboard](docs/screenshots/mobile-dashboard.png) | ![Exercise library](docs/screenshots/mobile-library.png) | ![Suggested programs](docs/screenshots/mobile-presets.png) | ![Profile](docs/screenshots/mobile-profile.png) |
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -34,7 +46,7 @@ A comprehensive cloud-based workout tracker, smart routine planner, and fitness 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) 18+
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [npm](https://www.npmjs.com/) (the repo ships a `package-lock.json`)
 - A [Cloudflare](https://www.cloudflare.com/) account (for D1 and KV)
 
 ### Installation
@@ -82,19 +94,19 @@ npm run deploy
 ## Project Structure
 
 ```
-├── migrations/          # D1 database migrations
-│   ├── 0001_initial_schema.sql
-│   ├── 0002_seed_exercises.sql
-│   └── 0003_user_profile_and_daily_logs.sql
+├── migrations/          # D1 migrations (schema, seed data, exercise library, weekly plan)
 ├── src/
 │   ├── auth/           # Google OAuth & session management
+│   ├── data/           # Preloaded workout programs
 │   ├── db/             # D1 database queries
-│   ├── frontend/       # SPA frontend (HTML, Tailwind, JS)
+│   ├── frontend/       # SPA frontend (HTML, Tailwind, JS) rendered by the worker
+│   ├── lib/            # Domain logic (strength/e1RM, muscle recovery)
 │   ├── routes/         # API route handlers
 │   ├── types.ts        # TypeScript interfaces
 │   └── index.ts        # Main Hono worker entry point
-├── scripts/            # Build and utility scripts
-├── public/             # Static assets (GIFs, etc.)
+├── scripts/            # Dataset build scripts and Persian translations
+├── public/             # Static assets (exercise GIFs, icons)
+├── docs/screenshots/   # README screenshots
 └── wrangler.jsonc      # Cloudflare Workers configuration
 ```
 
