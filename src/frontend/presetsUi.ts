@@ -634,6 +634,8 @@ export function renderPresetsClientScript(): string {
         return;
       }
 
+      if (!(await ensurePreWorkoutCheckin(preset.title))) return;
+
       // Check if an active workout session is currently ongoing
       if (activeSession) {
         const confirmed = await showConfirmDialog({

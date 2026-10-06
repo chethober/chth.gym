@@ -22,6 +22,11 @@ import {
   renderWeeklyPlanSection,
   renderWeeklyPlanClientScript
 } from './weeklyPlanUi';
+import {
+  renderCheckinStyles,
+  renderCheckinModal,
+  renderCheckinClientScript
+} from './checkinUi';
 import { BODY_PATHS } from './bodyPaths';
 
 export function renderAppHtml(): string {
@@ -69,6 +74,7 @@ export function renderAppHtml(): string {
   <!-- Unified Theme Configuration & Styled Components CSS -->
   ${renderThemeStyles()}
   ${renderWeeklyPlanStyles()}
+  ${renderCheckinStyles()}
 
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -87,23 +93,11 @@ export function renderAppHtml(): string {
 
   <!-- Modular Modals, Dialogs, Toasts, Timers -->
   ${renderToastAndDialogs()}
+  ${renderCheckinModal()}
 
   <!-- ================= MAIN CONTENT CONTAINER ================= -->
   <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 md:pt-24 pb-28 md:pb-16 space-y-6">
     
-    <!-- Daily Check-in Reminder Banner (Conditional) -->
-    <div id="daily-reminder-banner" class="hidden card-glass p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 card-accent">
-      <div class="flex items-center gap-3">
-        <div class="icon-box icon-box-emerald w-9 h-9">
-          <i data-lucide="bell-ring" class="w-4 h-4"></i>
-        </div>
-        <h4 class="text-xs md:text-sm font-bold text-white">وزن امروز را ثبت کنید</h4>
-      </div>
-      <button onclick="switchTab('profile')" class="btn btn-primary btn-sm shrink-0">
-        ثبت وضعیت در پروفایل
-      </button>
-    </div>
-
     <!-- ======================================================= -->
     <!-- TAB 1: MAIN DASHBOARD                                   -->
     <!-- ======================================================= -->
@@ -766,80 +760,6 @@ export function renderAppHtml(): string {
         </form>
       </div>
 
-      <!-- Quick Daily Log & Reminder (Unified Card) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        <!-- Daily Check-in -->
-        <div class="card-glass p-4 sm:p-5 space-y-3">
-          <div class="flex items-center justify-between border-b pb-2.5 border-[color:var(--line)]">
-            <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
-              <i data-lucide="scale" class="w-4 h-4 text-emerald-400"></i>
-              <span>وزن روزانه</span>
-            </h4>
-            <span id="daily-status-tag" class="badge badge-zinc">در انتظار ثبت</span>
-          </div>
-
-          <form id="daily-log-form" onsubmit="event.preventDefault(); submitDailyLog();" class="space-y-3 text-xs">
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="label-styled">وزن امروز (kg)</label>
-                <input type="number" step="0.1" id="daily-weight-input" placeholder="مثلاً: ۷۸.۵" class="input-styled font-mono">
-              </div>
-              <div>
-                <label class="label-styled">آب مصرفی (L)</label>
-                <input type="number" step="0.1" id="daily-water-input" placeholder="مثلاً: ۳" class="input-styled font-mono">
-              </div>
-            </div>
-
-            <div>
-              <label class="label-styled">یادداشت روزانه (اختیاری)</label>
-              <input type="text" id="daily-notes-input" placeholder="مثلاً: انرژی بالا، خواب عالی..." class="input-styled">
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-sm w-full">
-              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-              <span>ثبت وضعیت امروز</span>
-            </button>
-          </form>
-
-          <!-- History Accordion/List -->
-          <div class="pt-2 divider-top space-y-1.5">
-            <p class="text-[10px] text-zinc-400 font-bold">آخرین ثبت‌ها:</p>
-            <div id="recent-daily-logs-list" class="space-y-1.5 max-h-28 overflow-y-auto pr-1">
-              <!-- Populated via JS -->
-            </div>
-          </div>
-        </div>
-
-        <!-- Daily Reminder -->
-        <div class="card-glass p-4 sm:p-5 flex flex-col justify-between space-y-3 text-xs">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between border-b pb-2.5 border-[color:var(--line)]">
-              <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
-                <i data-lucide="bell" class="w-4 h-4 text-emerald-400"></i>
-                <span>یادآور روزانه</span>
-              </h4>
-              <label class="switch" title="یادآور روزانه">
-                <input type="checkbox" id="prof-reminder-enabled" onchange="saveProfileData()" checked>
-                <span class="switch-track"></span>
-              </label>
-            </div>
-
-            <div class="flex items-center justify-between">
-              <span class="text-zinc-300 text-xs">ساعت اعلان:</span>
-              <input type="time" id="prof-reminder-time" onchange="saveProfileData()" value="20:00" class="input-styled input-sm w-28 font-mono">
-            </div>
-
-          </div>
-
-          <button onclick="requestNotificationPermission()" class="btn btn-secondary btn-md w-full">
-            <i data-lucide="bell-ring" class="w-3.5 h-3.5"></i>
-            <span id="notif-perm-btn-text">فعال‌سازی اعلان در مرورگر</span>
-          </button>
-        </div>
-
-      </div>
-
     </section>
 
   </main>
@@ -1121,7 +1041,6 @@ export function renderAppHtml(): string {
       switchTab(savedTab);
       
       await checkUrlParams();
-      checkBrowserNotificationState();
     });
 
     async function checkUrlParams() {
@@ -1441,6 +1360,7 @@ export function renderAppHtml(): string {
     }
 
     async function startQuickWorkout() {
+      if (!(await ensurePreWorkoutCheckin('تمرین آزاد'))) return;
       if (currentUser) {
         try {
           const res = await fetch('/api/workouts/start', {
@@ -1480,6 +1400,7 @@ export function renderAppHtml(): string {
     }
 
     async function startRoutineWorkout(routineId) {
+      if (!(await ensurePreWorkoutCheckin())) return;
       if (currentUser) {
         try {
           const res = await fetch('/api/workouts/start', {
@@ -3672,9 +3593,7 @@ export function renderAppHtml(): string {
           target_weight_kg: guestProfile.target_weight_kg || 80,
           fitness_goal: guestProfile.fitness_goal || 'hypertrophy',
           fitness_level: guestProfile.fitness_level || 'intermediate',
-          target_weekly_workouts: guestProfile.target_weekly_workouts || 4,
-          daily_reminder_enabled: guestProfile.daily_reminder_enabled !== undefined ? guestProfile.daily_reminder_enabled : 1,
-          daily_reminder_time: guestProfile.daily_reminder_time || '20:00'
+          target_weekly_workouts: guestProfile.target_weekly_workouts || 4
         };
 
         const gEl = (id) => document.getElementById(id);
@@ -3686,8 +3605,6 @@ export function renderAppHtml(): string {
         if (gEl('prof-goal')) gEl('prof-goal').value = currentProfile.fitness_goal;
         if (gEl('prof-level')) gEl('prof-level').value = currentProfile.fitness_level;
         if (gEl('prof-weekly-workouts')) gEl('prof-weekly-workouts').value = currentProfile.target_weekly_workouts;
-        if (gEl('prof-reminder-enabled')) gEl('prof-reminder-enabled').checked = !!currentProfile.daily_reminder_enabled;
-        if (gEl('prof-reminder-time')) gEl('prof-reminder-time').value = currentProfile.daily_reminder_time;
 
         if (gEl('prof-disp-weight')) gEl('prof-disp-weight').innerText = toPersianDigits(currentProfile.current_weight_kg) + ' kg';
         if (gEl('prof-disp-target')) gEl('prof-disp-target').innerText = toPersianDigits(currentProfile.target_weight_kg) + ' kg';
@@ -3700,29 +3617,7 @@ export function renderAppHtml(): string {
         if (gEl('hero-goal-badge')) gEl('hero-goal-badge').innerText = 'هدف: ' + goalFa;
 
         const guestLogs = JSON.parse(localStorage.getItem('guest_daily_logs') || '[]');
-        const todayStr = new Date().toISOString().split('T')[0];
-        const todayLog = guestLogs.find(l => l.log_date === todayStr);
-
-        const tag = gEl('daily-status-tag');
-        if (todayLog) {
-          if (tag) {
-            tag.className = 'badge badge-emerald';
-            tag.innerText = 'امروز ثبت شده ✓';
-          }
-          if (gEl('daily-weight-input')) gEl('daily-weight-input').value = todayLog.weight_kg || '';
-          if (gEl('daily-water-input')) gEl('daily-water-input').value = todayLog.water_liters || '';
-          if (gEl('daily-notes-input')) gEl('daily-notes-input').value = todayLog.notes || '';
-        } else {
-          if (tag) {
-            tag.className = 'badge badge-zinc';
-            tag.innerText = 'در انتظار ثبت امروز';
-          }
-          if (gEl('daily-weight-input')) gEl('daily-weight-input').value = currentProfile.current_weight_kg || '';
-          if (gEl('daily-water-input')) gEl('daily-water-input').value = '';
-          if (gEl('daily-notes-input')) gEl('daily-notes-input').value = '';
-        }
-
-        renderDailyLogsList(guestLogs);
+        setCheckinState(guestLogs, currentProfile.current_weight_kg);
         return;
       }
 
@@ -3740,8 +3635,6 @@ export function renderAppHtml(): string {
         document.getElementById('prof-goal').value = currentProfile.fitness_goal || 'hypertrophy';
         document.getElementById('prof-level').value = currentProfile.fitness_level || 'intermediate';
         document.getElementById('prof-weekly-workouts').value = currentProfile.target_weekly_workouts || 4;
-        document.getElementById('prof-reminder-enabled').checked = !!currentProfile.daily_reminder_enabled;
-        document.getElementById('prof-reminder-time').value = currentProfile.daily_reminder_time || '20:00';
 
         document.getElementById('prof-disp-weight').innerText = toPersianDigits(currentProfile.current_weight_kg) + ' kg';
         document.getElementById('prof-disp-target').innerText = toPersianDigits(currentProfile.target_weight_kg) + ' kg';
@@ -3753,60 +3646,9 @@ export function renderAppHtml(): string {
         const goalFa = GOAL_TRANSLATIONS[currentProfile.fitness_goal] || 'عضله‌سازی';
         document.getElementById('hero-goal-badge').innerText = 'هدف: ' + goalFa;
 
-        const banner = document.getElementById('daily-reminder-banner');
-        const tag = document.getElementById('daily-status-tag');
-        if (data.hasLoggedToday && data.todayLog) {
-          banner?.classList.add('hidden');
-          if (tag) {
-            tag.className = 'badge badge-emerald';
-            tag.innerText = 'امروز ثبت شده ✓';
-          }
-          document.getElementById('daily-weight-input').value = data.todayLog.weight_kg || '';
-          document.getElementById('daily-water-input').value = data.todayLog.water_liters || '';
-          document.getElementById('daily-notes-input').value = data.todayLog.notes || '';
-        } else {
-          if (currentProfile.daily_reminder_enabled) {
-            banner?.classList.remove('hidden');
-          }
-          if (tag) {
-            tag.className = 'badge badge-zinc';
-            tag.innerText = 'در انتظار ثبت امروز';
-          }
-          document.getElementById('daily-weight-input').value = currentProfile.current_weight_kg || '';
-          document.getElementById('daily-water-input').value = '';
-          document.getElementById('daily-notes-input').value = '';
-        }
-
-        renderDailyLogsList(data.dailyLogs || []);
-        scheduleDailyReminderCheck(currentProfile);
+        setCheckinState(data.dailyLogs || [], currentProfile.current_weight_kg);
 
       } catch (err) {}
-    }
-
-    function renderDailyLogsList(logs) {
-      const container = document.getElementById('recent-daily-logs-list');
-      if (!container) return;
-
-      if (logs.length === 0) {
-        container.innerHTML = '<p class="text-[11px] text-zinc-500 py-3 text-center">هنوز ثبت روزانه‌ای انجام نشده است.</p>';
-        return;
-      }
-
-      container.innerHTML = logs.map(l => {
-        const dateStr = new Date(l.log_date).toLocaleDateString('fa-IR');
-        return \`
-          <div class="card-glass-subtle p-2.5 flex items-center justify-between text-xs">
-            <div>
-              <p class="font-bold text-white text-[11px]">\${dateStr}</p>
-              <p class="text-[10px] text-zinc-400 truncate max-w-[150px]">\${l.notes || 'بدون یادداشت'}</p>
-            </div>
-            <div class="text-left">
-              <span class="font-mono font-bold text-emerald-400 text-xs">\${toPersianDigits(l.weight_kg || '--')} kg</span>
-              <p class="text-[10px] text-emerald-400">\${toPersianDigits(l.water_liters || 0)} L آب</p>
-            </div>
-          </div>
-        \`;
-      }).join('');
     }
 
     async function saveProfileData() {
@@ -3818,8 +3660,6 @@ export function renderAppHtml(): string {
       const goal = document.getElementById('prof-goal').value;
       const level = document.getElementById('prof-level').value;
       const weekly = parseInt(document.getElementById('prof-weekly-workouts').value) || 4;
-      const reminderEnabled = document.getElementById('prof-reminder-enabled').checked ? 1 : 0;
-      const reminderTime = document.getElementById('prof-reminder-time').value || '20:00';
 
       if (!currentUser) {
         const guestProfile = {
@@ -3830,9 +3670,7 @@ export function renderAppHtml(): string {
           target_weight_kg: targetWeight,
           fitness_goal: goal,
           fitness_level: level,
-          target_weekly_workouts: weekly,
-          daily_reminder_enabled: reminderEnabled,
-          daily_reminder_time: reminderTime
+          target_weekly_workouts: weekly
         };
         localStorage.setItem('guest_profile', JSON.stringify(guestProfile));
         showNotification('مشخصات و اهداف ذخیره شدند', 'success');
@@ -3855,9 +3693,7 @@ export function renderAppHtml(): string {
             target_weight_kg: targetWeight,
             fitness_goal: goal,
             fitness_level: level,
-            target_weekly_workouts: weekly,
-            daily_reminder_enabled: reminderEnabled,
-            daily_reminder_time: reminderTime
+            target_weekly_workouts: weekly
           })
         });
 
@@ -3871,133 +3707,6 @@ export function renderAppHtml(): string {
         }
       } catch (e) {
         showNotification('خطا در ذخیره اطلاعات پروفایل', 'error');
-      }
-    }
-
-    async function submitDailyLog() {
-      const weight = parseFloat(document.getElementById('daily-weight-input').value);
-      const water = parseFloat(document.getElementById('daily-water-input').value) || 0;
-      const notes = document.getElementById('daily-notes-input').value.trim();
-
-      if (!weight || weight <= 0) {
-        showNotification('لطفاً وزن امروز را وارد نمایید', 'warning');
-        return;
-      }
-
-      if (!currentUser) {
-        const todayStr = new Date().toISOString().split('T')[0];
-        const guestLogs = JSON.parse(localStorage.getItem('guest_daily_logs') || '[]');
-        const existingIdx = guestLogs.findIndex(l => l.log_date === todayStr);
-        const newLog = {
-          id: 'guest-log-' + Date.now(),
-          log_date: todayStr,
-          weight_kg: weight,
-          water_liters: water,
-          notes: notes
-        };
-        if (existingIdx >= 0) {
-          guestLogs[existingIdx] = newLog;
-        } else {
-          guestLogs.unshift(newLog);
-        }
-        localStorage.setItem('guest_daily_logs', JSON.stringify(guestLogs));
-
-        // Update current guest weight
-        const guestProfile = JSON.parse(localStorage.getItem('guest_profile') || '{}');
-        guestProfile.current_weight_kg = weight;
-        localStorage.setItem('guest_profile', JSON.stringify(guestProfile));
-
-        showNotification('ثبت روزانه با موفقیت انجام شد!', 'success');
-        await loadProfileData();
-        if (typeof loadSmartSuggestions === 'function') {
-          await loadSmartSuggestions();
-        }
-        return;
-      }
-
-      try {
-        const res = await fetch('/api/profile/daily-log', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            weight_kg: weight,
-            water_liters: water,
-            notes: notes
-          })
-        });
-
-        const data = await res.json();
-        if (data.success) {
-          showNotification('ثبت روزانه با موفقیت انجام شد!', 'success');
-          await loadProfileData();
-          if (typeof loadSmartSuggestions === 'function') {
-            await loadSmartSuggestions();
-          }
-        }
-      } catch (e) {
-        showNotification('خطا در ثبت روزانه', 'error');
-      }
-    }
-
-    // --- Browser Notifications & Daily Reminders ---
-    function checkBrowserNotificationState() {
-      const btnText = document.getElementById('notif-perm-btn-text');
-      if (!('Notification' in window)) {
-        if (btnText) btnText.innerText = 'عدم پشتیبانی مرورگر از اعلان';
-        return;
-      }
-      if (Notification.permission === 'granted') {
-        if (btnText) btnText.innerText = 'اعلان مرورگر فعال است ✓';
-      }
-    }
-
-    async function requestNotificationPermission() {
-      if (!('Notification' in window)) {
-        showConfirmDialog({
-          title: 'عدم پشتیبانی مرورگر',
-          message: 'مرورگر شما از سیستم اعلان وب پشتیبانی نمی‌کند.',
-          isAlertOnly: true,
-          color: 'emerald',
-          icon: 'bell',
-          confirmText: 'متوجه شدم'
-        });
-        return;
-      }
-
-      try {
-        const perm = await Notification.requestPermission();
-        if (perm === 'granted') {
-          showNotification('اعلان‌های مرورگر فعال شدند!', 'success');
-          checkBrowserNotificationState();
-          new Notification('جسم و اندیشه', {
-            body: 'یادآور روزانه فعال شد. آماده تمرین و ثبت پیشرفت باشید!',
-            icon: 'https://cdn-icons-png.flaticon.com/512/2936/2936886.png'
-          });
-        } else {
-          showNotification('دسترسی اعلان تایید نشد', 'warning');
-        }
-      } catch (e) {}
-    }
-
-    function scheduleDailyReminderCheck(profile) {
-      if (!profile || !profile.daily_reminder_enabled) return;
-      if (!('Notification' in window) || Notification.permission !== 'granted') return;
-
-      const now = new Date();
-      const currentHour = String(now.getHours()).padStart(2, '0');
-      const currentMin = String(now.getMinutes()).padStart(2, '0');
-      const currentHourMin = currentHour + ':' + currentMin;
-      const reminderTime = profile.daily_reminder_time || '20:00';
-
-      const lastNotifDate = localStorage.getItem('last_daily_reminder_notified');
-      const todayDate = now.toISOString().split('T')[0];
-
-      if (currentHourMin >= reminderTime && lastNotifDate !== todayDate) {
-        localStorage.setItem('last_daily_reminder_notified', todayDate);
-        new Notification('جسم و اندیشه | یادآور روزانه', {
-          body: 'قهرمان، وقتشه وضعیت امروزت رو در سامانه ثبت کنی!',
-          icon: 'https://cdn-icons-png.flaticon.com/512/2936/2936886.png'
-        });
       }
     }
 
@@ -4172,6 +3881,7 @@ export function renderAppHtml(): string {
     ${renderPresetsClientScript()}
 
     ${renderWeeklyPlanClientScript()}
+    ${renderCheckinClientScript()}
   </script>
 </body>
 </html>
