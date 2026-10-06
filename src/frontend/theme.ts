@@ -848,6 +848,161 @@ export function renderThemeStyles(): string {
         html .set-chip-add:hover { border-color: var(--accent-line) !important; color: var(--accent-text) !important; }
       }
 
+      /* Ongoing workout: one row per movement */
+      html .ex-list {
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+      }
+      html .ex-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 0.75rem;
+      }
+      html .ex-row + .ex-row { border-top: 1px solid var(--line); }
+      html .ex-row-main {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.25rem;
+        margin: -0.25rem;
+        text-align: start;
+        border-radius: var(--r-md);
+        transition: background-color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
+      }
+      html .ex-row-main:active { transform: scale(0.98); }
+      @media (hover: hover) and (pointer: fine) {
+        html .ex-row-main:hover { background: var(--surface-3); }
+      }
+      html .ex-row-thumb {
+        width: 2.5rem;
+        height: 2.5rem;
+        flex-shrink: 0;
+        object-fit: cover;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: var(--r-sm);
+      }
+      html .ex-row-thumb.icon-box { background: var(--surface-3); border-color: transparent; }
+      html .ex-row-name {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        font-size: 0.8125rem;
+        font-weight: 700;
+        line-height: 1.35;
+        color: var(--text);
+      }
+      html .ex-row-meta {
+        display: block;
+        margin-top: 0.125rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.6875rem;
+        color: var(--text-3);
+        font-variant-numeric: tabular-nums;
+      }
+      html .ex-row.is-done .ex-row-name {
+        color: var(--text-3);
+        text-decoration: line-through;
+        text-decoration-color: var(--done-line);
+      }
+
+      /* Rolling number inside a counter; the wrapper clips the roll */
+      .roll { display: inline-block; }
+      html .stepper-value { overflow: hidden; }
+
+      /* Rep counter: round − / + around a rolling number */
+      html .rep-pill {
+        display: inline-flex;
+        align-items: center;
+        flex-shrink: 0;
+        gap: 0.125rem;
+        padding: 0.1875rem;
+        border-radius: var(--r-full);
+        background: var(--surface-3);
+      }
+      html .rep-pill-btn {
+        width: 1.75rem;
+        height: 1.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--text-2);
+        background: var(--surface);
+        border-radius: var(--r-full);
+        transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
+      }
+      html .rep-pill-btn:active { transform: scale(0.88); }
+      @media (hover: hover) and (pointer: fine) {
+        html .rep-pill-btn:hover { background: var(--accent-soft); color: var(--accent-text); }
+      }
+      html .rep-pill-value {
+        min-width: 1.5rem;
+        overflow: hidden;
+        text-align: center;
+        font-size: 0.9375rem;
+        font-weight: 800;
+        line-height: 1.75rem;
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* Set ring: tap to log the next set; the ring fills as sets land */
+      html .set-ring {
+        position: relative;
+        width: 2.75rem;
+        height: 2.75rem;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text);
+        border-radius: var(--r-full);
+        transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, opacity var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
+      }
+      html .set-ring:active { transform: scale(0.9); }
+      html .set-ring > svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+      html .set-ring-track { fill: none; stroke: var(--line-strong); stroke-width: 3.5; }
+      html .set-ring-fill {
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 3.5;
+        stroke-dasharray: 100;
+        transition: stroke var(--dur-base) ease;
+      }
+      /* A zero-length dash still antialiases into a sliver at 12 o'clock */
+      html .set-ring-fill.is-empty { visibility: hidden; }
+      html .set-ring-label {
+        position: relative;
+        display: inline-flex;
+        font-size: 0.75rem;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+      }
+      html .set-ring.is-busy { opacity: 0.55; pointer-events: none; }
+      html .ex-row.is-done .set-ring { color: var(--done); background: var(--done-soft); }
+      html .ex-row.is-done .set-ring-fill { stroke: var(--done); }
+
+      /* Exercise popup: movement GIF on white, flush with the panel's top corners */
+      html .ex-sheet-media {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 16 / 10;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      html .ex-sheet-media.hidden { display: none; }
+      html .ex-sheet-media img { width: 100%; height: 100%; object-fit: contain; }
+
       .todo-card, .set-row { border-radius: var(--r-md); }
 
       .check-btn {
@@ -1314,7 +1469,7 @@ export function renderThemeStyles(): string {
       .is-entering { animation: fade-up 260ms var(--ease-out); }
 
       /* An exercise's last set was just logged: only its done badge pops */
-      .just-done .badge-done { animation: pop-in 220ms var(--ease-out); }
+      .just-done .badge-done, .just-done .set-ring-label { animation: pop-in 220ms var(--ease-out); }
 
       /* Panels revealed from a hidden toggle */
       .reveal {
@@ -1329,7 +1484,8 @@ export function renderThemeStyles(): string {
           scroll-behavior: auto !important;
         }
         html .btn:active, html .btn-icon:active, html .chip:active, html .set-chip:active,
-        html .option-card:active, html .segmented-item:active, html .stepper-btn:active { transform: none; }
+        html .option-card:active, html .segmented-item:active, html .stepper-btn:active,
+        html .ex-row-main:active, html .rep-pill-btn:active, html .set-ring:active { transform: none; }
         /* Gentler, not zero: these keep their fade but lose the movement */
         .rest-timer, .rest-timer.is-leaving, .reveal { transform: none !important; }
         #rest-timer-svg-path { transition: none; }

@@ -1332,6 +1332,8 @@ export function renderAppHtml(): string {
         mobBadge?.classList.add('hidden');
         if (activeTimerInterval) clearInterval(activeTimerInterval);
         lastDoneExerciseIds = null;
+        lastRingOffsets = {};
+        closeExerciseSheet();
       }
       lucide.createIcons();
     }
@@ -1497,24 +1499,42 @@ export function renderAppHtml(): string {
     let currentExerciseWeights = {};
     let currentExerciseReps = {};
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // Odometer roll: the new number slides in from the side it's counting toward
+    function rollValue(el, text, dir) {
+      if (el.innerText === text) return;
+      el.getAnimations().forEach(a => a.cancel());
+      el.innerText = text;
+      const from = prefersReducedMotion.matches || !dir ? 'none' : \`translateY(\${dir > 0 ? 45 : -45}%)\`;
+      el.animate(
+        [{ transform: from, opacity: 0 }, { transform: 'none', opacity: 1 }],
+        { duration: 180, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }
+      );
+    }
+
+    function formatOngoingWeight(kg) {
+      return kg > 0 ? '· ' + toPersianDigits(kg) + ' کیلو' : '';
+    }
+
     function adjustOngoingWeight(exerciseId, delta) {
       const currentVal = parseFloat(currentExerciseWeights[exerciseId] !== undefined ? currentExerciseWeights[exerciseId] : 0) || 0;
       const newVal = Math.max(0, Math.round((currentVal + delta) * 10) / 10);
+      if (newVal === currentVal) return;
       currentExerciseWeights[exerciseId] = newVal;
-      const valEl = document.getElementById(\`w-val-\${exerciseId}\`);
-      if (valEl) valEl.innerText = toPersianDigits(newVal);
+      document.querySelectorAll(\`[data-weight-for="\${exerciseId}"]\`).forEach(el => rollValue(el, toPersianDigits(newVal), delta));
+      document.querySelectorAll(\`[data-weight-label-for="\${exerciseId}"]\`).forEach(el => { el.innerText = formatOngoingWeight(newVal); });
       refreshBarbellTools(exerciseId);
     }
 
     function adjustOngoingReps(exerciseId, delta) {
       const currentVal = parseInt(currentExerciseReps[exerciseId] !== undefined ? currentExerciseReps[exerciseId] : 10) || 10;
       const newVal = Math.max(1, Math.min(100, currentVal + delta));
+      if (newVal === currentVal) return;
       currentExerciseReps[exerciseId] = newVal;
-      const valEl = document.getElementById(\`r-val-\${exerciseId}\`);
-      if (valEl) valEl.innerText = toPersianDigits(newVal);
+      document.querySelectorAll(\`[data-reps-for="\${exerciseId}"]\`).forEach(el => rollValue(el, toPersianDigits(newVal), delta));
     }
 
-    // Modular Sets & Reps Component for Ongoing Routine Items
     // --- Barbell tools: plates per side & warm-up ramp (client-only, never logged) ---
     const BAR_KG = 20;
     const PLATE_SIZES = [25, 20, 15, 10, 5, 2.5, 1.25];
@@ -1609,171 +1629,262 @@ export function renderAppHtml(): string {
       lucide.createIcons();
     }
 
-    function renderOngoingExerciseItem(item, exIdx, justDone = false) {
+    // Ring fill at the last render, so a ring that just changed (set logged, removed or added) animates
+    let lastRingOffsets = {};
+    let loggingSetFor = {};
+
+    function getOngoingItemSets(item) {
       const extra = extraSetsCount[item.id] || 0;
       const totalSets = Math.max(item.target_sets + extra, item.logs.length);
       const completedSetsCount = item.logs.length;
-      const isAllDone = completedSetsCount >= totalSets && totalSets > 0;
+      return { totalSets, completedSetsCount, isAllDone: completedSetsCount >= totalSets && totalSets > 0 };
+    }
 
-      // Get latest weight from last logged set or cache
+    // Ring circles use pathLength="100", so the offset is simply the undone percentage
+    function setRingOffset(done, total) {
+      return total > 0 ? 100 - Math.min(100, (done / total) * 100) : 100;
+    }
+
+    function seedOngoingInputs(item) {
       const latestLog = item.logs.length > 0 ? item.logs[item.logs.length - 1] : null;
-      const defaultWeight = currentExerciseWeights[item.id] !== undefined 
-        ? currentExerciseWeights[item.id] 
-        : (latestLog && latestLog.weight_kg > 0 ? latestLog.weight_kg : 0);
-      const defaultReps = currentExerciseReps[item.id] !== undefined 
-        ? currentExerciseReps[item.id] 
-        : (item.target_reps || 10);
-
-      currentExerciseWeights[item.id] = defaultWeight;
-      currentExerciseReps[item.id] = defaultReps;
-
-      // Build Set Checkboxes in a single row
-      let setsCheckboxesHtml = '';
-      for (let sNum = 1; sNum <= totalSets; sNum++) {
-        const log = item.logs.find(l => l.set_number === sNum) || item.logs[sNum - 1];
-        const isDone = !!log;
-
-        if (isDone) {
-          setsCheckboxesHtml += \`
-            <button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, '\${log.id}')" title="ست \${toPersianDigits(sNum)} انجام شد (کلیک برای حذف)" class="set-chip is-done">
-              <i data-lucide="check" class="stroke-[3]"></i>
-              <span>ست \${toPersianDigits(sNum)}</span>
-              \${log.weight_kg > 0 ? \`<span class="text-[11px] opacity-75 font-mono font-normal">\${toPersianDigits(log.weight_kg)}kg</span>\` : ''}
-              \${log.is_pr ? \`<span class="badge badge-gold">PR</span>\` : ''}
-            </button>
-          \`;
-        } else {
-          setsCheckboxesHtml += \`
-            <button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, null)" title="ثبت انجام ست \${toPersianDigits(sNum)}" class="set-chip">
-              <i data-lucide="circle"></i>
-              <span>ست \${toPersianDigits(sNum)}</span>
-            </button>
-          \`;
-        }
+      if (currentExerciseWeights[item.id] === undefined) {
+        currentExerciseWeights[item.id] = latestLog && latestLog.weight_kg > 0 ? latestLog.weight_kg : 0;
       }
+      if (currentExerciseReps[item.id] === undefined) {
+        currentExerciseReps[item.id] = item.target_reps || 10;
+      }
+    }
+
+    // One compact row per movement: tap the name for the guide, − / + for reps, the ring logs a set
+    function renderOngoingExerciseItem(item, exIdx, justDone = false) {
+      const { totalSets, completedSetsCount, isAllDone } = getOngoingItemSets(item);
+      seedOngoingInputs(item);
+      const weight = currentExerciseWeights[item.id];
+      const reps = currentExerciseReps[item.id];
+
+      const offset = setRingOffset(completedSetsCount, totalSets);
+      const prevOffset = lastRingOffsets[item.id];
+      const ringFrom = prevOffset !== undefined && prevOffset !== offset ? \`data-ring-from="\${prevOffset}"\` : '';
+      const ringLabel = isAllDone
+        ? 'همه ست‌ها انجام شد؛ برای جزئیات بزنید'
+        : \`ثبت ست \${toPersianDigits(completedSetsCount + 1)} از \${toPersianDigits(totalSets)}\`;
 
       return \`
-        <div id="ongoing-item-\${item.id}" class="card-glass-subtle p-3.5 sm:p-4 space-y-3 \${isAllDone ? 'card-done' : ''} \${justDone ? 'just-done' : ''}">
-          
-          <!-- Top Row: Exercise Info & Status -->
-          <div class="flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3 min-w-0">
-              \${item.gif_url ? \`<img src="\${item.gif_url}" class="w-10 h-10 rounded-lg object-cover bg-white border border-[color:var(--line)] shrink-0" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
-              <div class="min-w-0">
-                <h4 class="text-xs md:text-sm font-bold truncate \${isAllDone ? 'line-through text-zinc-500' : 'text-white'}">
-                  \${item.name_fa} \${item.name_en ? \`<span class="text-[10px] text-zinc-400 font-mono font-normal hidden sm:inline">(\${item.name_en})</span>\` : ''}
-                </h4>
-                <p class="text-[11px] text-zinc-400 mt-0.5">
-                  <span>هدف: <strong class="\${isAllDone ? 'text-zinc-500' : 'text-zinc-300'}">\${toPersianDigits(item.target_sets)} ست × \${toPersianDigits(item.target_reps)} تکرار</strong></span>
-                  \${item.rest_seconds ? \`<span class="mx-1 text-zinc-600">•</span><span>استراحت: \${toPersianDigits(item.rest_seconds)}ث</span>\` : ''}
-                </p>
-              </div>
-            </div>
+        <div id="ongoing-item-\${item.id}" class="ex-row \${isAllDone ? 'is-done' : ''} \${justDone ? 'just-done' : ''}">
+          <button type="button" class="ex-row-main" onclick="openExerciseSheet('\${item.id}')" aria-haspopup="dialog">
+            \${item.gif_url
+              ? \`<img src="\${item.gif_url}" class="ex-row-thumb" alt="" loading="lazy" decoding="async">\`
+              : \`<span class="ex-row-thumb icon-box icon-box-emerald"><i data-lucide="dumbbell" class="w-4 h-4"></i></span>\`}
+            <span class="min-w-0">
+              <span class="ex-row-name">\${item.name_fa}</span>
+              <span class="ex-row-meta">
+                \${toPersianDigits(item.target_sets)} × \${toPersianDigits(item.target_reps)}
+                <span data-weight-label-for="\${item.id}">\${formatOngoingWeight(weight)}</span>
+              </span>
+            </span>
+          </button>
 
-            <!-- Status Badge -->
-            <div class="shrink-0">
-              \${isAllDone 
-                ? \`<span class="badge badge-done"><i data-lucide="check" class="stroke-[3]"></i><span>تکمیل شد (\${toPersianDigits(completedSetsCount)}/\${toPersianDigits(totalSets)})</span></span>\`
-                : (completedSetsCount > 0 
-                    ? \`<span class="badge badge-gold"><span>\${toPersianDigits(completedSetsCount)} از \${toPersianDigits(totalSets)} ست</span></span>\`
-                    : \`<span class="badge badge-zinc"><span>۰/\${toPersianDigits(totalSets)} ست</span></span>\`
-                  )
-              }
-            </div>
+          <div class="rep-pill" role="group" aria-label="تعداد تکرار">
+            <button type="button" onclick="adjustOngoingReps('\${item.id}', -1)" class="rep-pill-btn" aria-label="کاهش تکرار">−</button>
+            <span class="rep-pill-value"><span class="roll" data-reps-for="\${item.id}">\${toPersianDigits(reps)}</span></span>
+            <button type="button" onclick="adjustOngoingReps('\${item.id}', 1)" class="rep-pill-btn" aria-label="افزایش تکرار">+</button>
           </div>
 
-          <!-- Modular All-in-One-Line Sets & Reps Bar (Weight Log, Rep Count & Checkboxes) -->
-          <div class="flex flex-wrap items-center justify-between gap-2.5 pt-3 divider-top">
-            
-            <!-- Weight & Reps Digital Stepper Counters (No Text Inputs) -->
-            <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-              
-              <!-- Weight Counter -->
-              <div class="stepper">
-                <span class="stepper-label">وزن</span>
-                <button type="button" onclick="adjustOngoingWeight('\${item.id}', -2.5)" class="stepper-btn" aria-label="کاهش وزن">−</button>
-                <span id="w-val-\${item.id}" class="stepper-value">\${toPersianDigits(defaultWeight)}</span>
-                <button type="button" onclick="adjustOngoingWeight('\${item.id}', 2.5)" class="stepper-btn" aria-label="افزایش وزن">+</button>
-                <span class="stepper-unit">kg</span>
-              </div>
-
-              <!-- Reps Counter -->
-              <div class="stepper">
-                <span class="stepper-label">تکرار</span>
-                <button type="button" onclick="adjustOngoingReps('\${item.id}', -1)" class="stepper-btn" aria-label="کاهش تکرار">−</button>
-                <span id="r-val-\${item.id}" class="stepper-value">\${toPersianDigits(defaultReps)}</span>
-                <button type="button" onclick="adjustOngoingReps('\${item.id}', 1)" class="stepper-btn" aria-label="افزایش تکرار">+</button>
-              </div>
-
-            </div>
-
-            <!-- Set Checkboxes & Add Set in Same Line -->
-            <div class="flex items-center gap-1.5 flex-wrap">
-              \${setsCheckboxesHtml}
-              <button 
-                type="button" 
-                onclick="addExtraSet('\${item.id}')" 
-                title="افزودن یک ست دیگر به این حرکت" 
-                class="set-chip set-chip-add"
-              >
-                <i data-lucide="plus"></i>
-                <span>ست</span>
-              </button>
-              \${isBarbellExercise(item.id) ? \`
-              <button
-                type="button"
-                id="bar-tools-btn-\${item.id}"
-                onclick="toggleBarbellTools('\${item.id}')"
-                aria-expanded="\${barbellToolsOpen[item.id] ? 'true' : 'false'}"
-                aria-controls="bar-tools-\${item.id}"
-                title="محاسبه وزنه‌ها و ست‌های گرم کردن"
-                class="set-chip"
-              >
-                <i data-lucide="calculator"></i>
-                <span>وزنه‌ها</span>
-              </button>\` : ''}
-            </div>
-
-          </div>
-
-          <div id="bar-tools-\${item.id}" class="\${barbellToolsOpen[item.id] ? '' : 'hidden'} pt-3 divider-top"></div>
-
+          <button type="button" class="set-ring" onclick="logNextSet('\${item.id}')" aria-label="\${ringLabel}" title="\${ringLabel}">
+            <svg viewBox="0 0 40 40" aria-hidden="true">
+              <circle class="set-ring-track" cx="20" cy="20" r="17" pathLength="100"></circle>
+              <circle class="set-ring-fill \${completedSetsCount === 0 ? 'is-empty' : ''}" cx="20" cy="20" r="17" pathLength="100" style="stroke-dashoffset: \${offset}" \${ringFrom}></circle>
+            </svg>
+            <span class="set-ring-label">
+              \${isAllDone
+                ? '<i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>'
+                : \`\${toPersianDigits(completedSetsCount)}/\${toPersianDigits(totalSets)}\`}
+            </span>
+          </button>
         </div>
       \`;
     }
 
-    // Render Ongoing Workout
-    function renderActiveWorkoutTodoList() {
-      if (!activeSession) return;
-
-      document.getElementById('active-session-title').innerText = activeSession.title || 'تمرین در حال انجام';
-      document.getElementById('active-session-volume').innerText = toPersianDigits(activeSession.total_volume_kg || 0);
-
-      const listContainer = document.getElementById('active-exercises-list');
-      const loggedSets = activeSession.set_logs || [];
-
-      // Collect all exercises from planned routine and logged sets
-      const exMap = new Map();
-
-      // 1. Add all planned exercises from routine
-      if (activeSession.planned_exercises && activeSession.planned_exercises.length > 0) {
-        activeSession.planned_exercises.forEach(pe => {
-          exMap.set(pe.exercise_id, {
-            id: pe.exercise_id,
-            name_fa: pe.name_fa || pe.exercise_name_fa || 'حرکت تمرینی',
-            name_en: pe.name_en || pe.exercise_name_en || '',
-            gif_url: pe.gif_url || pe.exercise_gif_url || '',
-            category_fa: pe.category_fa || pe.exercise_category_fa || '',
-            target_sets: Number(pe.target_sets || pe.sets) || 4,
-            target_reps: Number(pe.target_reps || pe.reps) || 10,
-            rest_seconds: Number(pe.rest_seconds) || 60,
-            logs: []
-          });
-        });
+    // Ring tap: log the first open set with the row's current reps & weight
+    async function logNextSet(exerciseId) {
+      if (!activeSession || loggingSetFor[exerciseId]) return;
+      const item = buildOngoingItems().find(i => i.id === exerciseId);
+      if (!item) return;
+      const { totalSets, isAllDone } = getOngoingItemSets(item);
+      if (isAllDone) {
+        openExerciseSheet(exerciseId);
+        return;
       }
 
-      // 2. Add/merge logged sets
-      loggedSets.forEach(log => {
+      let setNum = 1;
+      while (setNum <= totalSets && item.logs.some(l => l.set_number === setNum)) setNum++;
+
+      loggingSetFor[exerciseId] = true;
+      document.querySelector(\`#ongoing-item-\${exerciseId} .set-ring\`)?.classList.add('is-busy');
+      try {
+        await toggleSetCheckbox(exerciseId, setNum, null);
+      } finally {
+        loggingSetFor[exerciseId] = false;
+        document.querySelector(\`#ongoing-item-\${exerciseId} .set-ring\`)?.classList.remove('is-busy');
+      }
+    }
+
+    // --- Exercise detail popup: GIF, guide and the full set controls ---
+    let exerciseSheetId = null;
+
+    function openExerciseSheet(exerciseId) {
+      const item = buildOngoingItems().find(i => i.id === exerciseId);
+      if (!item) return;
+      const ex = (exercisesCache || []).find(e => e.id === exerciseId);
+      const gif = item.gif_url || ex?.gif_url || '';
+      const guide = ex?.instructions_fa || ex?.instructions_en || '';
+
+      document.getElementById('ex-sheet-media').innerHTML = gif
+        ? \`<img src="\${gif}" alt="\${item.name_fa}" decoding="async" onerror="this.parentElement.classList.add('hidden')">\`
+        : (ex ? renderExerciseMuscleMap(ex) : '');
+      document.getElementById('ex-sheet-media').classList.toggle('hidden', !gif && !ex);
+      document.getElementById('ex-sheet-title').innerText = item.name_fa;
+      document.getElementById('ex-sheet-subtitle').innerText = item.name_en || ex?.name_en || '';
+
+      document.getElementById('ex-sheet-info').innerHTML = ex ? \`
+        <div class="text-[12px] text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
+          <p><span class="text-emerald-400 font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles || '—'}</span></p>
+          \${ex.secondary_muscles ? \`<p><span class="text-zinc-400 font-medium">عضلات کمکی:</span> <span class="text-zinc-300">\${ex.secondary_muscles}</span></p>\` : ''}
+        </div>
+        \${guide ? \`
+        <div class="space-y-1.5">
+          <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
+            <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>راهنمای اجرای حرکت</span>
+          </h4>
+          <p class="text-[12px] text-zinc-300 whitespace-pre-line leading-relaxed" \${ex.instructions_fa ? '' : 'dir="ltr"'}>\${guide}</p>
+        </div>\` : ''}
+      \` : '';
+
+      const isOpen = exerciseSheetId !== null;
+      exerciseSheetId = exerciseId;
+      renderExerciseSheetControls();
+      const modal = document.getElementById('ex-sheet-modal');
+      modal.classList.remove('hidden');
+      modal.querySelector('.modal-panel').scrollTop = 0;
+      if (!isOpen) lockBodyScroll();
+      lucide.createIcons();
+    }
+
+    // Logging the final open set from the popup finishes the movement: let the check land, then close
+    async function logSetFromSheet(exerciseId, setNum) {
+      if (loggingSetFor[exerciseId]) return;
+      loggingSetFor[exerciseId] = true;
+      try {
+        await toggleSetCheckbox(exerciseId, setNum, null);
+      } finally {
+        loggingSetFor[exerciseId] = false;
+      }
+      const item = buildOngoingItems().find(i => i.id === exerciseId);
+      if (item && getOngoingItemSets(item).isAllDone && exerciseSheetId === exerciseId) {
+        setTimeout(() => { if (exerciseSheetId === exerciseId) closeExerciseSheet(); }, 350);
+      }
+    }
+
+    function closeExerciseSheet() {
+      if (exerciseSheetId === null) return;
+      exerciseSheetId = null;
+      document.getElementById('ex-sheet-modal').classList.add('hidden');
+      document.getElementById('ex-sheet-media').innerHTML = '';
+      unlockBodyScroll();
+    }
+
+    function renderExerciseSheetControls() {
+      if (exerciseSheetId === null) return;
+      const item = buildOngoingItems().find(i => i.id === exerciseSheetId);
+      if (!item) {
+        closeExerciseSheet();
+        return;
+      }
+      const { totalSets } = getOngoingItemSets(item);
+      seedOngoingInputs(item);
+
+      let chips = '';
+      for (let sNum = 1; sNum <= totalSets; sNum++) {
+        const log = item.logs.find(l => l.set_number === sNum) || item.logs[sNum - 1];
+        chips += log
+          ? \`<button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, '\${log.id}')" title="ست \${toPersianDigits(sNum)} انجام شد (کلیک برای حذف)" class="set-chip is-done">
+              <i data-lucide="check" class="stroke-[3]"></i>
+              <span>ست \${toPersianDigits(sNum)}</span>
+              \${log.weight_kg > 0 ? \`<span class="text-[11px] opacity-75 font-mono font-normal">\${toPersianDigits(log.weight_kg)}×\${toPersianDigits(log.reps)}</span>\` : ''}
+              \${log.is_pr ? '<span class="badge badge-gold">PR</span>' : ''}
+            </button>\`
+          : \`<button type="button" onclick="logSetFromSheet('\${item.id}', \${sNum})" title="ثبت انجام ست \${toPersianDigits(sNum)}" class="set-chip">
+              <i data-lucide="circle"></i>
+              <span>ست \${toPersianDigits(sNum)}</span>
+            </button>\`;
+      }
+
+      document.getElementById('ex-sheet-controls').innerHTML = \`
+        <div class="space-y-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="stepper">
+              <span class="stepper-label">وزن</span>
+              <button type="button" onclick="adjustOngoingWeight('\${item.id}', -2.5)" class="stepper-btn" aria-label="کاهش وزن">−</button>
+              <span class="stepper-value"><span class="roll" data-weight-for="\${item.id}">\${toPersianDigits(currentExerciseWeights[item.id])}</span></span>
+              <button type="button" onclick="adjustOngoingWeight('\${item.id}', 2.5)" class="stepper-btn" aria-label="افزایش وزن">+</button>
+              <span class="stepper-unit">kg</span>
+            </div>
+            <div class="stepper">
+              <span class="stepper-label">تکرار</span>
+              <button type="button" onclick="adjustOngoingReps('\${item.id}', -1)" class="stepper-btn" aria-label="کاهش تکرار">−</button>
+              <span class="stepper-value"><span class="roll" data-reps-for="\${item.id}">\${toPersianDigits(currentExerciseReps[item.id])}</span></span>
+              <button type="button" onclick="adjustOngoingReps('\${item.id}', 1)" class="stepper-btn" aria-label="افزایش تکرار">+</button>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            \${chips}
+            <button type="button" onclick="addExtraSet('\${item.id}')" title="افزودن یک ست دیگر به این حرکت" class="set-chip set-chip-add">
+              <i data-lucide="plus"></i>
+              <span>ست</span>
+            </button>
+            \${isBarbellExercise(item.id) ? \`
+            <button type="button" id="bar-tools-btn-\${item.id}" onclick="toggleBarbellTools('\${item.id}')"
+              aria-expanded="\${barbellToolsOpen[item.id] ? 'true' : 'false'}" aria-controls="bar-tools-\${item.id}"
+              title="محاسبه وزنه‌ها و ست‌های گرم کردن" class="set-chip">
+              <i data-lucide="calculator"></i>
+              <span>وزنه‌ها</span>
+            </button>\` : ''}
+          </div>
+          <div id="bar-tools-\${item.id}" class="\${barbellToolsOpen[item.id] ? '' : 'hidden'} pt-3 divider-top"></div>
+        </div>
+      \`;
+      refreshBarbellTools(item.id);
+      lucide.createIcons();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || exerciseSheetId === null) return;
+      // A confirm dialog opened from the sheet closes first
+      if (!document.getElementById('custom-dialog-modal')?.classList.contains('hidden')) return;
+      closeExerciseSheet();
+    });
+
+    // Planned routine exercises merged with whatever has been logged this session
+    function buildOngoingItems() {
+      if (!activeSession) return [];
+      const exMap = new Map();
+
+      (activeSession.planned_exercises || []).forEach(pe => {
+        exMap.set(pe.exercise_id, {
+          id: pe.exercise_id,
+          name_fa: pe.name_fa || pe.exercise_name_fa || 'حرکت تمرینی',
+          name_en: pe.name_en || pe.exercise_name_en || '',
+          gif_url: pe.gif_url || pe.exercise_gif_url || '',
+          category_fa: pe.category_fa || pe.exercise_category_fa || '',
+          target_sets: Number(pe.target_sets || pe.sets) || 4,
+          target_reps: Number(pe.target_reps || pe.reps) || 10,
+          rest_seconds: Number(pe.rest_seconds) || 60,
+          logs: []
+        });
+      });
+
+      (activeSession.set_logs || []).forEach(log => {
         if (!exMap.has(log.exercise_id)) {
           exMap.set(log.exercise_id, {
             id: log.exercise_id,
@@ -1790,7 +1901,18 @@ export function renderAppHtml(): string {
         exMap.get(log.exercise_id).logs.push(log);
       });
 
-      const exercisesArray = Array.from(exMap.values());
+      return Array.from(exMap.values());
+    }
+
+    // Render Ongoing Workout
+    function renderActiveWorkoutTodoList() {
+      if (!activeSession) return;
+
+      document.getElementById('active-session-title').innerText = activeSession.title || 'تمرین در حال انجام';
+      document.getElementById('active-session-volume').innerText = toPersianDigits(activeSession.total_volume_kg || 0);
+
+      const listContainer = document.getElementById('active-exercises-list');
+      const exercisesArray = buildOngoingItems();
 
       if (exercisesArray.length === 0) {
         listContainer.innerHTML = \`
@@ -1802,6 +1924,7 @@ export function renderAppHtml(): string {
             </button>
           </div>
         \`;
+        closeExerciseSheet();
         lucide.createIcons();
         return;
       }
@@ -1809,25 +1932,34 @@ export function renderAppHtml(): string {
       let totalPlannedSets = 0;
       let totalCompletedSets = 0;
       const doneExerciseIds = new Set();
+      const ringOffsets = {};
 
       const renderedItems = exercisesArray.map((item, exIdx) => {
-        const extra = extraSetsCount[item.id] || 0;
-        const totalSets = Math.max(item.target_sets + extra, item.logs.length);
-        const completedSetsCount = item.logs.length;
-
+        const { totalSets, completedSetsCount, isAllDone } = getOngoingItemSets(item);
         totalPlannedSets += totalSets;
         totalCompletedSets += completedSetsCount;
+        ringOffsets[item.id] = setRingOffset(completedSetsCount, totalSets);
 
-        const isAllDone = completedSetsCount >= totalSets && totalSets > 0;
         if (isAllDone) doneExerciseIds.add(item.id);
         const justDone = isAllDone && lastDoneExerciseIds !== null && !lastDoneExerciseIds.has(item.id);
 
         return renderOngoingExerciseItem(item, exIdx, justDone);
       }).join('');
       lastDoneExerciseIds = doneExerciseIds;
+      lastRingOffsets = ringOffsets;
 
-      listContainer.innerHTML = \`<div class="flex w-full flex-col gap-3">\${renderedItems}</div>\`;
+      listContainer.innerHTML = \`<div class="ex-list">\${renderedItems}</div>\`;
+
+      // Rings render at their new fill; play the fill from where it was
+      listContainer.querySelectorAll('.set-ring-fill[data-ring-from]').forEach(c => {
+        c.animate(
+          [{ strokeDashoffset: c.dataset.ringFrom }, { strokeDashoffset: c.style.strokeDashoffset }],
+          { duration: 300, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }
+        );
+      });
+
       Object.keys(barbellToolsOpen).forEach(refreshBarbellTools);
+      renderExerciseSheetControls();
 
       // Update Overall Progress Bar
       const percent = totalPlannedSets > 0 ? Math.round((totalCompletedSets / totalPlannedSets) * 100) : 0;
