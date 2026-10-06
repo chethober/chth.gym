@@ -22,3 +22,10 @@ yarn-error.log*
 # System Files
 .DS_Store
 Thumbs.db
+
+# npm is the package manager (package-lock.json); ignore stray lockfiles
+yarn.lock
+pnpm-lock.yaml
+
+# Claude Code local worktrees
+.claude/worktrees/
