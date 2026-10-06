@@ -126,6 +126,26 @@ export function renderToastAndDialogs(): string {
       </div>
     </div>
 
+    <!-- Ongoing Exercise Detail Modal (before the dialog + rest timer so both stack above it) -->
+    <div id="ex-sheet-modal" class="modal-backdrop hidden" onclick="if (event.target === this) closeExerciseSheet()">
+      <div role="dialog" aria-modal="true" aria-labelledby="ex-sheet-title" class="modal-panel max-w-md max-h-[90vh] overflow-y-auto">
+        <div id="ex-sheet-media" class="ex-sheet-media"></div>
+        <div class="p-5 space-y-4">
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <h3 id="ex-sheet-title" class="text-base font-black text-white"></h3>
+              <p id="ex-sheet-subtitle" class="text-[11px] text-zinc-400 font-mono mt-0.5 text-right" dir="ltr"></p>
+            </div>
+            <button onclick="closeExerciseSheet()" class="btn-icon btn-ghost shrink-0" aria-label="بستن">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+          <div id="ex-sheet-controls"></div>
+          <div id="ex-sheet-info" class="space-y-3"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Modular Dialogue Box Modal -->
     <div id="custom-dialog-modal" class="modal-backdrop hidden">
       <div id="custom-dialog-box" role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="modal-panel max-w-md p-6 space-y-5">
