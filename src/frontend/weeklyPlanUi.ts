@@ -81,7 +81,8 @@ export function renderWeeklyPlanStyles(): string {
           border-color var(--dur-fast) ease,
           background-color var(--dur-fast) ease;
       }
-      .wp-chip .wp-chip-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+      /* dir=auto lets a Latin title truncate at its own end; text stays right-aligned with the RTL UI */
+      .wp-chip .wp-chip-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; text-align: right; }
       .wp-chip .wp-chip-meta { color: var(--text-3); font-size: 0.6875rem; font-weight: 500; white-space: nowrap; }
       .wp-chip .wp-grip { color: var(--text-3); flex-shrink: 0; }
       .wp-chip:active, .wp-chip.is-pressing { transform: scale(0.97); }
@@ -119,7 +120,7 @@ export function renderWeeklyPlanStyles(): string {
       }
 
       /* Day cards */
-      .wp-days { display: grid; gap: 0.5rem; grid-template-columns: 1fr; }
+      .wp-days { display: grid; gap: 0.5rem; grid-template-columns: minmax(0, 1fr); }
       @media (min-width: 640px) { .wp-days { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; } }
       @media (min-width: 1024px) { .wp-days { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.5rem; } }
 
@@ -171,7 +172,7 @@ export function renderWeeklyPlanStyles(): string {
 
       .wp-slots { flex: 1; display: flex; flex-wrap: wrap; align-content: center; gap: 0.375rem; min-width: 0; }
       @media (min-width: 1024px) { .wp-slots { flex-direction: column; flex-wrap: nowrap; align-content: stretch; justify-content: flex-start; } }
-      .wp-slots .wp-chip { min-width: 0; }
+      .wp-slots .wp-chip { min-width: 0; flex-shrink: 1; }
 
       .wp-rest {
         flex: 1;
@@ -391,14 +392,14 @@ export function renderWeeklyPlanClientScript(): string {
       if (!opts.slotted) {
         return '<button type="button" draggable="false" class="wp-chip' + (wpState.selectedId === String(r.id) ? ' is-selected' : '') + '" data-wp-routine="' + wpEsc(r.id) + '" data-wp-from="tray" aria-pressed="' + (wpState.selectedId === String(r.id)) + '">' +
           '<i data-lucide="grip-vertical" class="wp-grip w-4 h-4"></i>' +
-          '<span class="wp-chip-title">' + wpEsc(r.title) + '</span>' + meta +
+          '<span class="wp-chip-title" dir="auto">' + wpEsc(r.title) + '</span>' + meta +
         '</button>';
       }
       const play = opts.isToday
         ? '<button type="button" class="wp-chip-btn is-play" data-wp-play="' + wpEsc(r.id) + '" title="شروع تمرین" aria-label="شروع ' + wpEsc(r.title) + '"><i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i></button>'
         : '';
       return '<div class="wp-chip is-slotted' + (opts.done ? ' is-done' : '') + '" data-wp-routine="' + wpEsc(r.id) + '" data-wp-from="day" data-wp-src-day="' + opts.day + '">' +
-        '<span class="wp-chip-title flex-1">' + wpEsc(r.title) + '</span>' +
+        '<span class="wp-chip-title flex-1" dir="auto">' + wpEsc(r.title) + '</span>' +
         play +
         '<button type="button" class="wp-chip-btn" data-wp-remove="' + wpEsc(r.id) + '" title="حذف از این روز" aria-label="حذف ' + wpEsc(r.title) + ' از ' + WP_DAY_NAMES[opts.day] + '"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>' +
       '</div>';
@@ -494,10 +495,10 @@ export function renderWeeklyPlanClientScript(): string {
         return;
       }
       const r = wpRoutine(ids[0]);
-      const more = ids.length > 1 ? ' <span class="text-zinc-400 font-normal text-xs">+' + toPersianDigits(ids.length - 1) + '</span>' : '';
+      const more = ids.length > 1 ? '<span class="text-zinc-400 font-normal text-xs shrink-0 whitespace-nowrap">+' + toPersianDigits(ids.length - 1) + '</span>' : '';
       el.innerHTML = '<div class="flex items-center gap-3 min-w-0">' +
           '<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-5 h-5"></i></div>' +
-          '<div class="min-w-0"><p class="text-[11px] text-zinc-400">امروز، ' + WP_DAY_NAMES[todayIdx] + '</p><p class="text-sm font-bold text-white truncate">' + wpEsc(r.title) + more + '</p></div>' +
+          '<div class="min-w-0"><p class="text-[11px] text-zinc-400">امروز، ' + WP_DAY_NAMES[todayIdx] + '</p><p class="text-sm font-bold text-white flex min-w-0 gap-1"><span class="truncate min-w-0 text-right" dir="auto">' + wpEsc(r.title) + '</span>' + more + '</p></div>' +
         '</div>' +
         '<button type="button" onclick="startRoutineWorkout(\\'' + wpEsc(r.id) + '\\')" class="btn btn-primary btn-sm shrink-0"><i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i><span>شروع تمرین</span></button>';
     }

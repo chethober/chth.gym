@@ -25,6 +25,9 @@ function mount(saved = '{}', publicPage = true, blocked = false) {
 for(const accent of ACCENTS){
   const page = mount(JSON.stringify({accent:accent.id,text:'lg',radius:'lg',motion:'reduce'}));
   assert.equal(page.attrs['data-accent'],accent.id);
+  assert.equal(page.attrs['data-motion'],'reduce');
+  assert.equal(page.attrs['data-text'],'lg');
+  assert.equal(page.attrs['data-radius'],'md'); // Invalid saved value falls back to the shared default.
   assert.ok(decodeURIComponent(page.icon.href).includes(`fill="${accent.dark.accent}"`));
   assert.equal(page.icon.type,'image/svg+xml');
   assert.ok(page.removedExtraIcon());
@@ -42,10 +45,13 @@ for(const accent of ACCENTS){
 }
 for(const saved of ['invalid JSON','null','{"accent":"unknown"}'])assert.equal(mount(saved).attrs['data-accent'],'ember');
 assert.equal(mount('{}',true,true).attrs['data-accent'],'ember');
+assert.equal(mount('{}').attrs['data-motion'],'full');
 const page = mount('{"accent":"violet"}');
-page.store('{"accent":"azure"}');
+page.store('{"accent":"azure","radius":"sharp","motion":"reduce"}');
 page.listeners.storage({key:'jesm_prefs'});
 assert.equal(page.attrs['data-accent'],'azure');
+assert.equal(page.attrs['data-radius'],'sharp');
+assert.equal(page.attrs['data-motion'],'reduce');
 assert.ok(decodeURIComponent(page.icon.href).includes('fill="#4C9AFF"'));
 const html=renderAppHtml();
 const landing=html.slice(html.indexOf('<div id="landing-page">'),html.indexOf('<div id="dashboard-shell"'));

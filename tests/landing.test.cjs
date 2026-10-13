@@ -6,7 +6,7 @@ require.extensions['.ts'] = (mod, filename) => mod._compile(ts.transpileModule(f
 const html = require('../src/frontend/html.ts').renderAppHtml();
 assert.match(html, /id="dashboard-shell" hidden/);
 assert.match(html, /id="landing-page"/);
-assert.equal((html.match(/class="landing-button landing-primary" href="\/api\/auth\/google"/g) || []).length, 2);
+assert.equal((html.match(/class="landing-button landing-primary[^"]*" href="\/api\/auth\/google"/g) || []).length, 2);
 const auth = html.slice(html.indexOf('    async function checkAuth()'), html.indexOf('    function renderUserUI(user)'));
 const init = html.slice(html.indexOf("    document.addEventListener('DOMContentLoaded'"), html.indexOf('    async function checkUrlParams()'));
 async function check(data, search = '', fail = false) {

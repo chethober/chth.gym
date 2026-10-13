@@ -6,6 +6,7 @@
 
 import { renderThemeStyles, ACCENTS, DEFAULT_PREFS } from './theme';
 import { renderAppearanceHead } from './appearanceUi';
+import { TEXT_LIMITS } from '../lib/limits';
 import { renderLandingPage, renderLandingStyles } from './landingUi';
 import { 
   renderTopNavbar, 
@@ -481,11 +482,11 @@ export function renderAppHtml(): string {
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <div>
             <label class="label-styled">نام برنامه تمرینی *</label>
-            <input type="text" id="inline-routine-title" placeholder="مثلاً: بالا تنه قدرتی" class="input-styled">
+            <input type="text" id="inline-routine-title" maxlength="${TEXT_LIMITS.title}" placeholder="مثلاً: بالا تنه قدرتی" class="input-styled">
           </div>
           <div>
             <label class="label-styled">توضیحات یا هدف برنامه (اختیاری)</label>
-            <input type="text" id="inline-routine-desc" placeholder="مثلاً: برنامه ۴ روزه برای افزایش حجم سینه و بازو" class="input-styled">
+            <input type="text" id="inline-routine-desc" maxlength="${TEXT_LIMITS.description}" placeholder="مثلاً: برنامه ۴ روزه برای افزایش حجم سینه و بازو" class="input-styled">
           </div>
         </div>
 
@@ -611,9 +612,9 @@ export function renderAppHtml(): string {
     <section id="tab-profile" class="tab-content hidden max-w-4xl mx-auto space-y-5">
       
       <!-- Profile Header & Quick Stats (Same Line) -->
-      <div class="card-glass p-3.5 sm:p-5 flex items-center justify-between gap-2.5 sm:gap-4 overflow-x-auto">
-        <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-0 shrink">
-          <img id="prof-header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="avatar-frame w-10 h-10 sm:w-14 sm:h-14 shrink-0" alt="Avatar">
+      <div class="card-glass p-3.5 sm:p-5 flex flex-wrap items-center justify-between gap-2.5 sm:gap-4">
+        <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-[10rem] flex-1">
+          <img id="prof-header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="avatar-frame w-10 h-10 sm:w-14 sm:h-14 shrink-0" alt="">
           <div class="min-w-0">
             <h2 id="prof-header-name" class="text-xs sm:text-base font-black text-white truncate">پروفایل کاربری</h2>
             <p id="prof-header-email" class="text-[10px] sm:text-xs text-accent font-mono truncate hidden sm:block"></p>
@@ -990,6 +991,21 @@ export function renderAppHtml(): string {
       return num.toString().replace(/\\d/g, x => persianNumbers[parseInt(x)]);
     }
 
+    // User and library text goes into innerHTML templates, so it is escaped once, here.
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    }
+    // Text people type can start in either script; <bdi> lets it pick its own direction
+    // without flipping the card's RTL alignment.
+    function userText(value) {
+      return '<bdi>' + escapeHtml(value) + '</bdi>';
+    }
+    // Weights and volumes: grouped, at most one decimal, never float noise (91٬218٫5)
+    function formatKg(value) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n.toLocaleString('fa-IR', { maximumFractionDigits: 1 }) : '۰';
+    }
+
     // --- Theme Engine (Dark / Light / System Mode) ---
     function initTheme() {
       const stored = localStorage.getItem('jesm_theme') || 'dark';
@@ -1309,6 +1325,12 @@ export function renderAppHtml(): string {
       }
     }
 
+    // Google avatar URLs expire; a dead one becomes the neutral person glyph, not a broken image
+    function avatarFallback(img) {
+      img.onerror = null;
+      img.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" fill="#24282D"/><circle cx="20" cy="16" r="7" fill="#6E6F75"/><path d="M6 38c2-8 8-12 14-12s12 4 14 12z" fill="#6E6F75"/></svg>');
+    }
+
     function renderUserUI(user) {
       const desktopTopAuth = document.getElementById('desktop-top-auth');
       const mobileTopAuth = document.getElementById('mobile-top-auth');
@@ -1319,8 +1341,8 @@ export function renderAppHtml(): string {
       if (desktopTopAuth) {
         desktopTopAuth.innerHTML = \`
           <button onclick="switchTab('profile')" id="nav-d-profile" title="پروفایل و اهداف" class="account-chip\${activeCls}">
-            <img src="\${avatar}" class="w-7 h-7 rounded-full object-cover shrink-0" alt="">
-            <span class="max-w-[110px] truncate">\${user.name || 'حساب کاربری'}</span>
+            <img src="\${escapeHtml(avatar)}" class="w-7 h-7 rounded-full object-cover shrink-0" alt="" onerror="avatarFallback(this)">
+            <span class="max-w-[110px] truncate">\${escapeHtml(user.name || 'حساب کاربری')}</span>
           </button>
           <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
@@ -1331,7 +1353,7 @@ export function renderAppHtml(): string {
       if (mobileTopAuth) {
         mobileTopAuth.innerHTML = \`
           <button onclick="switchTab('profile')" id="nav-m-profile" title="پروفایل و اهداف" aria-label="پروفایل و اهداف" class="account-chip p-0.5\${activeCls}">
-            <img src="\${avatar}" class="w-8 h-8 rounded-full object-cover" alt="">
+            <img src="\${escapeHtml(avatar)}" class="w-8 h-8 rounded-full object-cover" alt="" onerror="avatarFallback(this)">
           </button>
           <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
@@ -1342,7 +1364,7 @@ export function renderAppHtml(): string {
       const headerAvatar = document.getElementById('prof-header-avatar');
       const headerName = document.getElementById('prof-header-name');
       const headerEmail = document.getElementById('prof-header-email');
-      if (headerAvatar) headerAvatar.src = avatar;
+      if (headerAvatar) { headerAvatar.onerror = () => avatarFallback(headerAvatar); headerAvatar.src = avatar; }
       if (headerName) headerName.innerText = user.name || 'حساب کاربری';
       if (headerEmail) headerEmail.innerText = user.email || '';
 
@@ -1837,7 +1859,7 @@ export function renderAppHtml(): string {
               ? \`<img src="\${item.gif_url}" class="ex-row-thumb" alt="" loading="lazy" decoding="async">\`
               : \`<span class="ex-row-thumb icon-box icon-box-emerald"><i data-lucide="dumbbell" class="w-4 h-4"></i></span>\`}
             <span class="min-w-0">
-              <span class="ex-row-name">\${item.name_fa}</span>
+              <span class="ex-row-name">\${escapeHtml(item.name_fa)}</span>
               <span class="ex-row-meta">
                 \${toPersianDigits(item.target_sets)} × \${toPersianDigits(item.target_reps)}
                 \${previousExerciseLogs[item.id] ? \`<span class="block">جلسه قبل: \${toPersianDigits(previousExerciseLogs[item.id].weight_kg)} کیلو × \${toPersianDigits(previousExerciseLogs[item.id].reps)}</span>\` : ''}
@@ -1902,7 +1924,7 @@ export function renderAppHtml(): string {
       const guide = ex?.instructions_fa || ex?.instructions_en || '';
 
       document.getElementById('ex-sheet-media').innerHTML = gif
-        ? \`<img src="\${gif}" alt="\${item.name_fa}" decoding="async" onerror="this.parentElement.classList.add('hidden')">\`
+        ? \`<img src="\${gif}" alt="\${escapeHtml(item.name_fa)}" decoding="async" onerror="this.parentElement.classList.add('hidden')">\`
         : (ex ? renderExerciseMuscleMap(ex) : '');
       document.getElementById('ex-sheet-media').classList.toggle('hidden', !gif && !ex);
       document.getElementById('ex-sheet-title').innerText = item.name_fa;
@@ -2528,8 +2550,8 @@ export function renderAppHtml(): string {
             \${item.gif_url ? \`<img src="\${item.gif_url}" class="thumb w-10 h-10" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div class="min-w-0 truncate">
               <h5 class="font-bold text-white text-xs truncate">
-                <span>\${item.name_fa}</span>
-                \${item.name_en ? \`<span class="text-[10px] text-zinc-400 font-mono font-normal mr-1">(\${item.name_en})</span>\` : ''}
+                <span>\${escapeHtml(item.name_fa)}</span>
+                \${item.name_en ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal mr-1">(\${escapeHtml(item.name_en)})</span>\` : ''}
               </h5>
             </div>
           </div>
@@ -2692,13 +2714,13 @@ export function renderAppHtml(): string {
       grid.innerHTML = routines.map(r => \`
         <div class="card-glass-interactive p-4 space-y-3 flex flex-col justify-between">
           <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <h3 class="font-bold text-sm text-white">\${r.title}</h3>
-              <span class="badge badge-emerald">
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="font-bold text-sm text-white min-w-0 text-wrap-safe">\${userText(r.title)}</h3>
+              <span class="badge badge-emerald shrink-0">
                 \${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت
               </span>
             </div>
-            <p class="text-xs text-zinc-400">\${r.description || ''}</p>
+            \${r.description ? \`<p class="text-xs text-zinc-400 text-wrap-safe">\${userText(r.description)}</p>\` : ''}
 
             <div class="space-y-1 pt-1">
               \${(r.exercises || []).map((ex, i) => {
@@ -2706,9 +2728,9 @@ export function renderAppHtml(): string {
                 const sets = Number(ex.target_sets || ex.sets) || 4;
                 const reps = Number(ex.target_reps || ex.reps) || 10;
                 return \`
-                <div class="card-glass-subtle px-2.5 py-1.5 flex items-center justify-between text-xs">
-                  <span class="text-zinc-200 font-medium">\${toPersianDigits(i + 1)}. \${nameFa}</span>
-                  <span class="text-zinc-400 font-mono text-[11px]">\${toPersianDigits(sets)}×\${toPersianDigits(reps)}</span>
+                <div class="card-glass-subtle px-2.5 py-1.5 flex items-center justify-between gap-2 text-xs">
+                  <span class="text-zinc-200 font-medium min-w-0">\${toPersianDigits(i + 1)}. \${escapeHtml(nameFa)}</span>
+                  <span class="text-zinc-400 font-mono text-[11px] shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)}</span>
                 </div>
               \`;}).join('')}
             </div>
@@ -2717,7 +2739,7 @@ export function renderAppHtml(): string {
           <!-- Routine Bottom Action Controls -->
           <div class="pt-3 divider-top flex items-center justify-between gap-2">
             <div class="flex items-center gap-1.5">
-              <button onclick="shareRoutine('\${r.id}', '\${r.title}')" title="اشتراک‌گذاری این برنامه" class="btn btn-secondary btn-icon-sm">
+              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری این برنامه" class="btn btn-secondary btn-icon-sm">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
               </button>
               <button onclick="deleteRoutine('\${r.id}')" title="حذف برنامه" class="btn-icon-sm btn-icon-danger">
@@ -2811,7 +2833,7 @@ export function renderAppHtml(): string {
               src="\${ex.gif_url}" 
               loading="lazy" 
               decoding="async"
-              alt="\${ex.name_fa}" 
+              alt="\${escapeHtml(ex.name_fa)}" 
               class="w-full h-full object-contain"
               onerror="this.src='https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg'"
             >\` : renderExerciseMuscleMap(ex)}
@@ -2830,8 +2852,8 @@ export function renderAppHtml(): string {
               <!-- Names Side-by-Side -->
               <div>
                 <h4 class="font-bold text-sm text-white flex items-baseline gap-1.5 flex-wrap">
-                  <span>\${ex.name_fa}</span>
-                  <span class="text-[11px] text-zinc-400 font-mono font-normal">(\${ex.name_en})</span>
+                  <span>\${escapeHtml(ex.name_fa)}</span>
+                  \${ex.name_en ? \`<span dir="ltr" class="text-[11px] text-zinc-400 font-normal">(\${escapeHtml(ex.name_en)})</span>\` : ''}
                 </h4>
               </div>
 
@@ -2937,8 +2959,8 @@ export function renderAppHtml(): string {
           <div class="flex items-center gap-2.5">
             \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="thumb w-9 h-9" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div>
-              <h5 class="font-bold text-xs text-white">\${ex.name_fa}</h5>
-              <p class="text-[10px] text-zinc-400 font-mono">\${ex.name_en}</p>
+              <h5 class="font-bold text-xs text-white">\${escapeHtml(ex.name_fa)}</h5>
+              <p dir="ltr" class="text-[10px] text-zinc-400 text-right">\${escapeHtml(ex.name_en)}</p>
             </div>
           </div>
           <button onclick="addSelectedExToWorkout('\${ex.id}')" class="btn btn-primary btn-sm">
@@ -3334,18 +3356,18 @@ export function renderAppHtml(): string {
         const dateStr = new Date(w.start_time).toLocaleDateString('fa-IR');
         const durationMin = Math.round(w.duration_seconds / 60);
         return \`
-          <div class="card-glass-subtle p-3 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <div class="icon-box icon-box-emerald w-9 h-9">
+          <div class="card-glass-subtle p-3 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="icon-box icon-box-emerald w-9 h-9 shrink-0">
                 <i data-lucide="check" class="w-4 h-4"></i>
               </div>
-              <div>
-                <h4 class="font-bold text-xs md:text-sm text-white">\${w.title}</h4>
+              <div class="min-w-0">
+                <h4 class="font-bold text-xs md:text-sm text-white text-wrap-safe">\${userText(w.title)}</h4>
                 <p class="text-[10px] text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
               </div>
             </div>
-            <div class="text-left">
-              <span class="text-xs font-mono font-bold text-accent">\${toPersianDigits(w.total_volume_kg)} kg</span>
+            <div class="text-left shrink-0">
+              <span class="text-xs font-mono font-bold text-accent whitespace-nowrap">\${formatKg(w.total_volume_kg)} kg</span>
               <p class="text-[10px] text-zinc-400">\${toPersianDigits(w.set_logs ? w.set_logs.length : 0)} ست</p>
             </div>
           </div>
@@ -3376,13 +3398,13 @@ export function renderAppHtml(): string {
         }
 
         list.innerHTML = routines.slice(0, 3).map(r => \`
-          <div class="card-glass-subtle p-3 flex items-center justify-between">
-            <div>
-              <h4 class="font-bold text-xs text-white">\${r.title}</h4>
+          <div class="card-glass-subtle p-3 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <h4 class="font-bold text-xs text-white text-wrap-safe">\${userText(r.title)}</h4>
               <p class="text-[10px] text-zinc-400">\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
             </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="shareRoutine('\${r.id}', '\${r.title}')" title="اشتراک‌گذاری" class="btn btn-secondary btn-icon-sm">
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری" class="btn btn-secondary btn-icon-sm">
                 <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
               </button>
               <button onclick="startRoutineWorkout('\${r.id}')" class="btn btn-primary btn-sm">
@@ -3817,18 +3839,18 @@ export function renderAppHtml(): string {
           prsGrid.innerHTML = '<p class="text-xs text-zinc-500 col-span-full py-4 text-center">هنوز رکوردی ثبت نشده است.</p>';
         } else {
           prsGrid.innerHTML = prs.map(pr => \`
-            <div class="card-glass-interactive p-4 flex items-center justify-between">
-              <div class="space-y-1">
-                <span class="badge badge-emerald">\${pr.category_fa}</span>
-                <h4 class="font-bold text-xs md:text-sm text-white flex items-baseline gap-1.5 flex-wrap">
-                  <span>\${pr.exercise_name_fa}</span>
-                  <span class="text-[10px] text-zinc-400 font-mono font-normal">(\${pr.exercise_name_en})</span>
+            <div class="card-glass-interactive p-4 flex items-center justify-between gap-3">
+              <div class="space-y-1 min-w-0">
+                <span class="badge badge-emerald">\${escapeHtml(pr.category_fa)}</span>
+                <h4 class="font-bold text-xs md:text-sm text-white flex items-baseline gap-x-1.5 flex-wrap">
+                  <span>\${escapeHtml(pr.exercise_name_fa)}</span>
+                  \${pr.exercise_name_en ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal">(\${escapeHtml(pr.exercise_name_en)})</span>\` : ''}
                 </h4>
               </div>
-              <div class="text-left">
-                <span class="text-base md:text-lg font-black font-mono text-accent">\${toPersianDigits(pr.max_weight_kg)} kg</span>
+              <div class="text-left shrink-0">
+                <span class="text-base md:text-lg font-black font-mono text-accent whitespace-nowrap">\${formatKg(pr.max_weight_kg)} kg</span>
                 <p class="text-[10px] text-zinc-400">\${toPersianDigits(pr.reps_at_max)} تکرار</p>
-                \${pr.est_1rm ? \`<p class="text-[10px] text-zinc-400" title="یک تکرار بیشینه تخمینی (فرمول اپلی)">۱RM تخمینی: <span class="font-mono text-zinc-200">\${toPersianDigits(Math.round(pr.est_1rm * 2) / 2)}</span></p>\` : ''}
+                \${pr.est_1rm ? \`<p class="text-[10px] text-zinc-400 whitespace-nowrap" title="یک تکرار بیشینه تخمینی (فرمول اپلی)">۱RM تخمینی: <span class="font-mono text-zinc-200">\${toPersianDigits(Math.round(pr.est_1rm * 2) / 2)}</span></p>\` : ''}
               </div>
             </div>
           \`).join('');
@@ -3851,21 +3873,21 @@ export function renderAppHtml(): string {
 
             return \`
               <div class="card-glass-subtle p-4 space-y-2.5">
-                <div class="flex items-center justify-between border-b pb-2 border-[color:var(--line)]">
-                  <div>
-                    <h4 class="font-bold text-xs md:text-sm text-white">\${w.title}</h4>
+                <div class="flex items-center justify-between gap-3 border-b pb-2 border-[color:var(--line)]">
+                  <div class="min-w-0">
+                    <h4 class="font-bold text-xs md:text-sm text-white text-wrap-safe">\${userText(w.title)}</h4>
                     <p class="text-[10px] text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
                   </div>
-                  <div class="text-left">
-                    <span class="text-xs md:text-sm font-bold font-mono text-accent">\${toPersianDigits(w.total_volume_kg)} kg</span>
+                  <div class="text-left shrink-0">
+                    <span class="text-xs md:text-sm font-bold font-mono text-accent whitespace-nowrap">\${formatKg(w.total_volume_kg)} kg</span>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pt-1">
                   \${(w.set_logs || []).map(s => \`
-                    <div class="card-glass-subtle p-2 text-[11px] flex items-center justify-between">
-                      <span class="text-zinc-300 truncate max-w-[85px]">\${s.exercise_name_fa}</span>
-                      <span class="font-mono font-bold text-accent">\${toPersianDigits(s.weight_kg)}kg × \${toPersianDigits(s.reps)}</span>
+                    <div class="card-glass-subtle p-2 text-[11px] flex items-center justify-between gap-1.5">
+                      <span class="text-zinc-300 truncate min-w-0" title="\${escapeHtml(s.exercise_name_fa)}">\${escapeHtml(s.exercise_name_fa)}</span>
+                      <span class="font-mono font-bold text-accent whitespace-nowrap shrink-0">\${formatKg(s.weight_kg)}kg × \${toPersianDigits(s.reps)}</span>
                     </div>
                   \`).join('')}
                 </div>
@@ -4088,8 +4110,8 @@ export function renderAppHtml(): string {
                 \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="thumb w-9 h-9" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
                 <div>
                   <h6 class="font-bold text-xs text-white flex items-baseline gap-1.5 flex-wrap">
-                    <span>\${toPersianDigits(idx + 1)}. \${nameFa}</span>
-                    \${nameEn ? \`<span class="text-[10px] text-zinc-400 font-mono font-normal">(\${nameEn})</span>\` : ''}
+                    <span>\${toPersianDigits(idx + 1)}. \${escapeHtml(nameFa)}</span>
+                    \${nameEn ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal">(\${escapeHtml(nameEn)})</span>\` : ''}
                   </h6>
                 </div>
               </div>
