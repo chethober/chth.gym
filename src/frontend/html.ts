@@ -5,6 +5,8 @@
 // ============================================================================
 
 import { renderThemeStyles, ACCENTS, DEFAULT_PREFS } from './theme';
+import { renderAppearanceHead } from './appearanceUi';
+import { renderLandingPage, renderLandingStyles } from './landingUi';
 import { 
   renderTopNavbar, 
   renderMobileTopHeader, 
@@ -27,6 +29,7 @@ import {
   renderCheckinModal,
   renderCheckinClientScript
 } from './checkinUi';
+import { renderActivationSection, renderActivationScript } from './activationUi';
 import { BODY_PATHS } from './bodyPaths';
 
 export function renderAppHtml(): string {
@@ -34,7 +37,7 @@ export function renderAppHtml(): string {
 <html lang="fa" dir="rtl" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>جسم و اندیشه | سامانه هوشمند تمرین و بدنسازی</title>
   <meta name="description" content="سامانه مدیریت پیشرفته تمرین، برنامه‌ریزی هوشمند، ثبت رکوردهای شخصی، پروفایل اهداف و بانک جامع حرکات بدنسازی">
 
@@ -77,6 +80,8 @@ export function renderAppHtml(): string {
   
   <!-- Unified Theme Configuration & Styled Components CSS -->
   ${renderThemeStyles()}
+  ${renderAppearanceHead()}
+  ${renderLandingStyles()}
   ${renderWeeklyPlanStyles()}
   ${renderCheckinStyles()}
 
@@ -89,15 +94,17 @@ export function renderAppHtml(): string {
 </head>
 <body class="min-h-screen flex flex-col antialiased">
 
+  ${renderLandingPage()}
+  ${renderToastAndDialogs()}
+  ${renderCheckinModal()}
+  <div id="dashboard-shell" hidden>
   <!-- Top Desktop Navigation Bar -->
   ${renderTopNavbar()}
 
   <!-- Top Mobile Header -->
   ${renderMobileTopHeader()}
 
-  <!-- Modular Modals, Dialogs, Toasts, Timers -->
-  ${renderToastAndDialogs()}
-  ${renderCheckinModal()}
+
 
   <!-- ================= MAIN CONTENT CONTAINER ================= -->
   <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 md:pt-24 pb-28 md:pb-16 space-y-6">
@@ -107,6 +114,7 @@ export function renderAppHtml(): string {
     <!-- ======================================================= -->
     <section id="tab-dashboard" class="tab-content space-y-6">
       
+      ${renderActivationSection()}
       <!-- Hero: this week's bar, loaded one plate pair per finished session -->
       <div class="hero-panel p-5 md:p-8 grid md:grid-cols-[1.1fr_1fr] gap-6 md:gap-10 items-center">
         <div class="space-y-4">
@@ -694,6 +702,7 @@ export function renderAppHtml(): string {
               <i data-lucide="check"></i>
             </button>`).join('')}
           </div>
+          <p class="pref-hint w-full">رنگ دکمه‌ها و نشان مرورگر در همه صفحه‌ها هماهنگ می‌شود.</p>
         </div>
 
         <div class="pref-row">
@@ -817,6 +826,7 @@ export function renderAppHtml(): string {
 
   <!-- Mobile Bottom Navigation Bar -->
   ${renderMobileBottomNav()}
+  </div>
 
   <!-- ================= JAVASCRIPT APPLICATION CORE ================= -->
   <script>
@@ -1164,9 +1174,19 @@ export function renderAppHtml(): string {
       initTheme();
       lucide.createIcons();
       await checkAuth();
+      document.getElementById('landing-page').hidden = !!currentUser;
+      document.getElementById('dashboard-shell').hidden = !currentUser;
+      if (!currentUser) {
+        const authError = new URLSearchParams(window.location.search).get('auth_error');
+        if (authError) {
+          showConfirmDialog({ title: 'خطای ورود', message: authError, isAlertOnly: true, color: 'rose', icon: 'alert-circle', confirmText: 'متوجه شدم' });
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        return;
+      }
       await loadExercises();
       
-      const savedTab = localStorage.getItem('active_tab') || 'dashboard';
+      const savedTab = new URLSearchParams(window.location.search).get('auth') === 'success' ? 'dashboard' : localStorage.getItem('active_tab') || 'dashboard';
       switchTab(savedTab);
       
       await checkUrlParams();
@@ -1276,8 +1296,9 @@ export function renderAppHtml(): string {
         const res = await fetch('/api/auth/me');
         if (res.ok) {
           const data = await res.json();
-          currentUser = data.user;
-          renderUserUI(currentUser);
+          currentUser = data.authenticated && data.user ? data.user : null;
+          if (currentUser) renderUserUI(currentUser);
+          else renderAuthPrompt();
         } else {
           currentUser = null;
           renderAuthPrompt();
@@ -1398,6 +1419,7 @@ export function renderAppHtml(): string {
         const statPrsCount = document.getElementById('stat-prs-count');
         if (statPrsCount) statPrsCount.innerText = '۰ حرکت';
 
+        updateReturnWorkout(history);
         renderRecentWorkouts(history);
         renderHeroBarbell(
           countSessionsInLastDays(history.map(h => h.start_time || h.end_time || h.date), 7),
@@ -1421,6 +1443,7 @@ export function renderAppHtml(): string {
         document.getElementById('stat-total-volume').innerText = toPersianDigits(tonnage) + ' تن';
         document.getElementById('stat-prs-count').innerText = toPersianDigits(data.latestPRs ? data.latestPRs.length : 0) + ' حرکت';
 
+        updateReturnWorkout(data.recentWorkouts || []);
         renderRecentWorkouts(data.recentWorkouts || []);
         await loadDashboardCalendarAndProgress();
 
@@ -1437,13 +1460,22 @@ export function renderAppHtml(): string {
 
     // Exercises fully done at the last render; null until the session's first render
     let lastDoneExerciseIds = null;
+    let inputSessionId = null;
 
     function showActiveWorkoutInDashboard(hasActive, { enter = false } = {}) {
       const activeContainer = document.getElementById('dashboard-active-workout-container');
       const deskBadge = document.getElementById('active-badge-d');
       const mobBadge = document.getElementById('active-badge-m');
 
+      document.getElementById('return-workout')?.classList.toggle('hidden', hasActive || !returnWorkout);
       if (hasActive && activeSession) {
+        if (inputSessionId !== activeSession.id) {
+          currentExerciseWeights = {};
+          currentExerciseReps = {};
+          inputSessionId = activeSession.id;
+        }
+        document.getElementById('first-workout')?.classList.add('hidden');
+        document.getElementById('workout-recap')?.classList.add('hidden');
         activeContainer?.classList.remove('hidden');
         if (enter && activeContainer) {
           activeContainer.classList.remove('is-entering');
@@ -1775,12 +1807,12 @@ export function renderAppHtml(): string {
     }
 
     function seedOngoingInputs(item) {
-      const latestLog = item.logs.length > 0 ? item.logs[item.logs.length - 1] : null;
+      const latestLog = item.logs.length > 0 ? item.logs[item.logs.length - 1] : previousExerciseLogs[item.id];
       if (currentExerciseWeights[item.id] === undefined) {
         currentExerciseWeights[item.id] = latestLog && latestLog.weight_kg > 0 ? latestLog.weight_kg : 0;
       }
       if (currentExerciseReps[item.id] === undefined) {
-        currentExerciseReps[item.id] = item.target_reps || 10;
+        currentExerciseReps[item.id] = latestLog ? latestLog.reps : (item.target_reps || 10);
       }
     }
 
@@ -1808,6 +1840,7 @@ export function renderAppHtml(): string {
               <span class="ex-row-name">\${item.name_fa}</span>
               <span class="ex-row-meta">
                 \${toPersianDigits(item.target_sets)} × \${toPersianDigits(item.target_reps)}
+                \${previousExerciseLogs[item.id] ? \`<span class="block">جلسه قبل: \${toPersianDigits(previousExerciseLogs[item.id].weight_kg)} کیلو × \${toPersianDigits(previousExerciseLogs[item.id].reps)}</span>\` : ''}
                 <span data-weight-label-for="\${item.id}">\${formatOngoingWeight(weight)}</span>
               </span>
             </span>
@@ -2264,6 +2297,7 @@ export function renderAppHtml(): string {
         if (!confirmed) return;
       }
 
+      const finishedSnapshot = JSON.parse(JSON.stringify(activeSession));
       if (currentUser && activeSession.user_id !== 'guest') {
         try {
           const res = await fetch(\`/api/workouts/\${activeSession.id}/finish\`, {
@@ -2274,6 +2308,7 @@ export function renderAppHtml(): string {
           const data = await res.json();
           if (data.success) {
             confetti({ colors: PLATE_COLORS, particleCount: 150, spread: 80, origin: { y: 0.6 } });
+            showWorkoutRecap(finishedSnapshot);
             showNotification('خسته نباشید! جلسه تمرین با موفقیت ذخیره شد.', 'success');
             activeSession = null;
             showActiveWorkoutInDashboard(false);
@@ -2308,6 +2343,7 @@ export function renderAppHtml(): string {
         currentExerciseReps = {};
         showActiveWorkoutInDashboard(false);
         showNotification('خسته نباشید! جلسه تمرین با موفقیت ذخیره شد.', 'success');
+        showWorkoutRecap(finishedSnapshot);
         await loadDashboardData();
       }
     }
@@ -4087,6 +4123,12 @@ export function renderAppHtml(): string {
           \`;
         }
 
+        const startButton = document.createElement('button');
+        startButton.type = 'button';
+        startButton.className = 'btn btn-primary btn-md w-full mt-2';
+        startButton.textContent = 'ذخیره و شروع تمرین';
+        startButton.onclick = saveAndStartSharedRoutine;
+        btnContainer.appendChild(startButton);
         document.getElementById('shared-routine-modal').classList.remove('hidden');
         lockBodyScroll();
         lucide.createIcons();
@@ -4139,6 +4181,7 @@ export function renderAppHtml(): string {
       }
     }
 
+    ${renderActivationScript()}
     ${renderPresetsClientScript()}
 
     ${renderWeeklyPlanClientScript()}

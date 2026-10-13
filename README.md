@@ -12,6 +12,10 @@ A comprehensive cloud-based workout tracker, smart routine planner, and fitness 
 - **Routine Builder** — Create and customize workout splits (Push/Pull/Legs, Upper/Lower) with target sets, reps, and rest periods
 - **Active Workout Tracker** — Live stopwatch, rest interval countdown with audio alerts, PR and estimated-1RM detection, plate calculator and warm-up ramp for barbell lifts
 - **Analytics Dashboard** — Training volume charts, consistency streak tracker, PR hall of fame with estimated 1RM, and a muscle recovery body map
+- **First Workout Setup** — Preview a starter routine, save experience level and weekly session goals, and start as a guest or signed-in user
+- **Repeat & Share** — Repeat the last workout, see previous weights and reps, and share a workout result image
+- **Public Program Pages** — Rendered Persian program guides at `/programs`, with canonical URLs, social metadata, sitemap, and links into the app
+- **Trainer Program Links** — Save and start a shared routine directly from its preview
 - **Google OAuth** — Secure authentication via Google OpenID Connect
 - **RTL & Persian Support** — Full RTL layout with Persian numerals and Solar Hijri calendar
 
@@ -62,6 +66,15 @@ npm install
 # Start the dev server
 npm run dev
 ```
+
+### Validation
+
+```bash
+npm run build
+npm test
+```
+
+The checks cover setup preview and persistence, repeat-workout reconstruction, active-session protection, generated script syntax, and public program routes. Image sharing and Google sign-in still need browser/device verification before release.
 
 ### Database Setup
 

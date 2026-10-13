@@ -25,7 +25,7 @@ export const THEME = {
 
 // User-selectable accents. Each is tuned per mode: `accent` fills buttons,
 // `text` is the readable-on-surface variant, `on` is text placed on `accent`.
-// Green and red are left out on purpose: they mean "done" and "danger".
+// Red and success green retain semantic roles; lime is a separate brand accent.
 type AccentTone = { accent: string; hover: string; text: string; on: string };
 export const ACCENTS: { id: string; name: string; dark: AccentTone; light: AccentTone }[] = [
   {
@@ -52,6 +52,11 @@ export const ACCENTS: { id: string; name: string; dark: AccentTone; light: Accen
     id: 'cyan', name: 'فیروزه‌ای',
     dark: { accent: '#2EC4E6', hover: '#4DCFEC', text: '#5BD3EE', on: '#031C24' },
     light: { accent: '#0891B2', hover: '#0AA0C4', text: '#0E7490', on: '#031C24' },
+  },
+  {
+    id: 'lime', name: 'لیمویی',
+    dark: { accent: '#A6FF00', hover: '#BDFF42', text: '#BDFF42', on: '#101010' },
+    light: { accent: '#A6FF00', hover: '#BDFF42', text: '#416500', on: '#101010' },
   },
   {
     id: 'mono', name: 'خنثی',
@@ -299,18 +304,18 @@ export function renderThemeStyles(): string {
         font-variant-numeric: tabular-nums;
       }
 
-      h1, h2, .font-display, .stat-value {
+      #dashboard-shell h1, #dashboard-shell h2, .font-display, .stat-value {
         font-family: var(--font-sans);
         font-weight: 800 !important;
         letter-spacing: -0.01em;
         line-height: 1.3;
       }
-      main section > div > h2,
-      main section > h2 {
+      #dashboard-shell main section > div > h2,
+      #dashboard-shell main section > h2 {
         font-size: 1.125rem !important;
       }
       /* Quiet hierarchy: titles are labels, content carries the weight */
-      main h3, main h4 { font-weight: 600 !important; }
+      #dashboard-shell main h3, #dashboard-shell main h4 { font-weight: 600 !important; }
       main h3.text-sm, main h3.text-base, main h3.text-xs { font-size: 0.875rem !important; }
       main h4.text-xs { font-size: 0.8125rem !important; }
       main h3 > i[data-lucide], main h4 > i[data-lucide] { width: 0.875rem; height: 0.875rem; }
@@ -334,7 +339,7 @@ export function renderThemeStyles(): string {
       }
 
       /* Section headings inside cards: icon + title, one look everywhere */
-      main h3, main h4 { letter-spacing: -0.005em; }
+      #dashboard-shell main h3, #dashboard-shell main h4 { letter-spacing: -0.005em; }
       main h3 > i[data-lucide], main h4 > i[data-lucide] { color: var(--accent-text); }
 
       /* ==========================================================================
@@ -457,14 +462,14 @@ export function renderThemeStyles(): string {
       }
       html .btn-secondary {
         background: var(--surface-2);
-        color: var(--text) !important;
-        border-color: var(--line-strong);
+        color: var(--accent-text) !important;
+        border-color: var(--accent-line);
         box-shadow: var(--shadow-control);
       }
       html.light .btn-secondary { background: var(--surface); }
       html .btn-ghost {
         background: transparent;
-        color: var(--text-2);
+        color: var(--accent-text);
         border-color: transparent;
       }
       html .btn-danger {
@@ -506,7 +511,7 @@ export function renderThemeStyles(): string {
       html .btn-icon-sm { width: var(--h-sm); height: var(--h-sm); border-radius: var(--r-sm); }
       html .btn-icon:active, html .btn-icon-sm:active { transform: scale(0.94); }
       html .btn-icon:not(.btn-secondary):not(.btn-danger):not(.btn-primary),
-      html .btn-icon-sm:not(.btn-secondary):not(.btn-danger):not(.btn-primary) { color: var(--text-2); }
+      html .btn-icon-sm:not(.btn-secondary):not(.btn-danger):not(.btn-primary) { color: var(--accent-text); }
       html .btn-icon.btn-danger, html .btn-icon-sm.btn-danger { color: var(--danger); }
       html .btn-icon-danger { color: var(--text-3) !important; }
       @media (hover: hover) and (pointer: fine) {
@@ -552,12 +557,12 @@ export function renderThemeStyles(): string {
       }
       html .segmented-item:active { transform: scale(0.97); }
       html .segmented-item.is-active {
-        background: var(--surface-3);
-        color: var(--text);
+        background: var(--accent-soft);
+        color: var(--accent-text);
         font-weight: 600;
         box-shadow: var(--shadow-control);
       }
-      html.light .segmented-item.is-active { background: var(--surface); }
+      html.light .segmented-item.is-active { background: var(--accent-soft); }
       @media (hover: hover) and (pointer: fine) {
         html .segmented-item:not(.is-active):hover { color: var(--text); }
       }
@@ -578,9 +583,9 @@ export function renderThemeStyles(): string {
       }
       html .chip:active { transform: scale(0.96); }
       html .chip.is-selected {
-        background: var(--text);
-        border-color: var(--text);
-        color: var(--bg);
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--on-accent);
         font-weight: 600;
       }
       @media (hover: hover) and (pointer: fine) {
@@ -868,7 +873,7 @@ export function renderThemeStyles(): string {
         font-weight: 700;
         line-height: 1;
         border-radius: var(--r-xs);
-        color: var(--text-2);
+        color: var(--accent-text);
         background: var(--surface-3);
         transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }

@@ -820,7 +820,7 @@ export function renderPresetsClientScript(): string {
       const preset = preloadedPresetsCache.find(function(p) { return p.id === presetId; });
       if (!preset) return;
 
-      const shareUrl = window.location.origin + '/?preset=' + encodeURIComponent(preset.id);
+      const shareUrl = window.location.origin + '/programs/' + encodeURIComponent(preset.id);
 
       if (navigator.clipboard && window.isSecureContext) {
         try {

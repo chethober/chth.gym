@@ -16,6 +16,8 @@ import { workoutsRouter } from './routes/workouts';
 import { analyticsRouter } from './routes/analytics';
 import { profileRouter } from './routes/profile';
 import { renderAppHtml } from './frontend/html';
+import { renderPublicPrograms, renderProgramNotFound, escapeHtml } from './frontend/publicPrograms';
+import { PRELOADED_WORKOUTS, getPresetById } from './data/preloadedWorkouts';
 
 const app = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
 
@@ -52,6 +54,20 @@ app.get('/api/health', (c) => {
     time: new Date().toISOString()
   });
 });
+
+// Public, rendered program pages for sharing and search discovery.
+app.get('/programs', c => c.html(renderPublicPrograms(new URL(c.req.url).origin)));
+app.get('/programs/:id', c => {
+  const preset = getPresetById(c.req.param('id'));
+  if (!preset) return c.html(renderProgramNotFound(new URL(c.req.url).origin), 404);
+  return c.html(renderPublicPrograms(new URL(c.req.url).origin, preset));
+});
+app.get('/sitemap.xml', c => {
+  const origin = escapeHtml(new URL(c.req.url).origin);
+  c.header('Content-Type', 'application/xml; charset=utf-8');
+  return c.body('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + ['', '/programs', ...PRELOADED_WORKOUTS.map(p => '/programs/' + p.id)].map(path => '<url><loc>' + origin + path + '</loc></url>').join('') + '</urlset>');
+});
+app.get('/robots.txt', c => c.text('User-agent: *\nDisallow: /api/\nSitemap: ' + new URL(c.req.url).origin + '/sitemap.xml\n'));
 
 // Serve Single Page Application Frontend
 app.get('/', (c) => {
