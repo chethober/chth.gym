@@ -65,6 +65,48 @@ export const ACCENTS: { id: string; name: string; dark: AccentTone; light: Accen
   },
 ];
 
+// Shared sizing and motion rhythm for public and authenticated surfaces.
+export const FOUNDATION_TOKENS = `        --font-sans: 'Vazirmatn', system-ui, sans-serif;
+
+        --r-xs: 6px;      /* badges, tiny inner controls */
+        --r-sm: 8px;      /* chips, small inner controls */
+        --r-md: 10px;     /* buttons, inputs, inset wells */
+        --r-lg: 14px;     /* cards */
+        --r-xl: 20px;     /* hero, modals */
+        --r-full: 9999px;
+
+        --h-sm: 2rem;     /* 32px */
+        --h-md: 2.5rem;   /* 40px */
+        --h-lg: 3rem;     /* 48px */
+
+        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+        --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+        --dur-press: 160ms;
+        --dur-fast: 150ms;
+        --dur-base: 200ms;`;
+
+export const DARK_SURFACE_TOKENS = `        --bg: #0E0F11;
+        --bg-sunken: #0A0B0D;
+        --surface: #16181B;
+        --surface-2: #1D2024;
+        --surface-3: #24282D;
+        --line: rgba(255, 255, 255, 0.07);
+        --line-strong: rgba(255, 255, 255, 0.13);
+        --text: #F2F2F0;
+        --text-2: #A1A1A6;
+        --text-3: #6E6F75;`;
+
+// Text size and corner preferences. Shared so public pages honor the same settings.
+export const PREF_OPTIONS = { text: ['sm', 'md', 'lg', 'xl'], radius: ['sharp', 'md', 'round'], motion: ['full', 'reduce'] };
+export const PREF_SCALE_RULES = `/* Text size preference: everything is rem-based, so the root scales the page */
+      html[data-text="sm"] { font-size: 93.75%; }
+      html[data-text="lg"] { font-size: 106.25%; }
+      html[data-text="xl"] { font-size: 112.5%; }
+
+      /* Corner preference */
+      html[data-radius="sharp"] { --r-xs: 3px; --r-sm: 4px; --r-md: 6px; --r-lg: 8px; --r-xl: 10px; }
+      html[data-radius="round"] { --r-xs: 8px; --r-sm: 11px; --r-md: 14px; --r-lg: 20px; --r-xl: 26px; }`;
+
 export const DEFAULT_PREFS = { accent: 'ember', text: 'md', radius: 'md', motion: 'full' };
 
 function renderAccentTokens(): string {
@@ -134,39 +176,13 @@ export function renderThemeStyles(): string {
          1. Tokens
          ========================================================================== */
       :root {
-        --font-sans: 'Vazirmatn', system-ui, sans-serif;
-
-        --r-xs: 6px;      /* badges, tiny inner controls */
-        --r-sm: 8px;      /* chips, small inner controls */
-        --r-md: 10px;     /* buttons, inputs, inset wells */
-        --r-lg: 14px;     /* cards */
-        --r-xl: 20px;     /* hero, modals */
-        --r-full: 9999px;
-
-        --h-sm: 2rem;     /* 32px */
-        --h-md: 2.5rem;   /* 40px */
-        --h-lg: 3rem;     /* 48px */
-
-        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-        --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-        --dur-press: 160ms;
-        --dur-fast: 150ms;
-        --dur-base: 200ms;
+        ${FOUNDATION_TOKENS}
       }
 
       /* Dark: graphite */
       :root, html.dark {
         color-scheme: dark;
-        --bg: #0E0F11;
-        --bg-sunken: #0A0B0D;
-        --surface: #16181B;
-        --surface-2: #1D2024;
-        --surface-3: #24282D;
-        --line: rgba(255, 255, 255, 0.07);
-        --line-strong: rgba(255, 255, 255, 0.13);
-        --text: #F2F2F0;
-        --text-2: #A1A1A6;
-        --text-3: #6E6F75;
+        ${DARK_SURFACE_TOKENS}
 
         --accent: #FF6A2B;
         --accent-hover: #FF7D45;
@@ -252,14 +268,7 @@ export function renderThemeStyles(): string {
         --viz-1-hover: var(--accent-hover);
       }
 
-      /* Text size preference: everything is rem-based, so the root scales the app */
-      html[data-text="sm"] { font-size: 93.75%; }
-      html[data-text="lg"] { font-size: 106.25%; }
-      html[data-text="xl"] { font-size: 112.5%; }
-
-      /* Corner preference */
-      html[data-radius="sharp"] { --r-xs: 3px; --r-sm: 4px; --r-md: 6px; --r-lg: 8px; --r-xl: 10px; }
-      html[data-radius="round"] { --r-xs: 8px; --r-sm: 11px; --r-md: 14px; --r-lg: 20px; --r-xl: 26px; }
+      ${PREF_SCALE_RULES}
 
       /* Back-compat aliases for any remaining inline references */
       :root, html.dark, html.light {
@@ -403,6 +412,8 @@ export function renderThemeStyles(): string {
         border-bottom: 1px solid var(--line);
       }
       .divider-top { border-top: 1px solid var(--line); }
+      /* Text people type: may be one unbroken token (#hashtag, URL), so break it if it has to */
+      .text-wrap-safe { overflow-wrap: anywhere; }
 
       /* Empty states */
       .empty-state {
@@ -715,6 +726,8 @@ export function renderThemeStyles(): string {
         color: var(--text-2);
       }
       html .badge i[data-lucide] { width: 0.75rem; height: 0.75rem; }
+      /* A badge carrying data (BMI + category) may wrap instead of overflowing on narrow phones */
+      html .badge.badge-wrap { height: auto; min-height: 1.375rem; padding-block: 0.25rem; white-space: normal; line-height: 1.4; }
       html .badge-emerald { background: var(--accent-soft); color: var(--accent-text); }
       html .badge-cyan, html .badge-blue { background: var(--steel-soft); color: var(--steel); }
       html .badge-gold, html .badge-amber { background: var(--gold-soft); color: var(--gold); }
@@ -1060,6 +1073,17 @@ export function renderThemeStyles(): string {
         color: var(--text-3);
         font-variant-numeric: tabular-nums;
       }
+      /* Narrow lists (phones, large text): the name gets the full width and the
+         controls drop to a second line, lined up under the name */
+      html .ex-list { container: exlist / inline-size; }
+      @container exlist (max-width: 26rem) {
+        html .ex-row { flex-wrap: wrap; row-gap: 0.5rem; }
+        html .ex-row-main { flex-basis: 100%; }
+        html .ex-row .rep-pill { margin-inline-start: 3.25rem; }
+        html .ex-row .set-ring { margin-inline-start: auto; }
+      }
+      /* "Last session" sits on its own line inside the clipped meta; it ellipsizes too */
+      html .ex-row-meta > .block { overflow: hidden; text-overflow: ellipsis; }
       html .ex-row.is-done .ex-row-name {
         color: var(--text-3);
         text-decoration: line-through;
@@ -1186,6 +1210,8 @@ export function renderThemeStyles(): string {
       }
       html .day-tile.is-done { background: var(--accent-soft); border-color: var(--accent-line); }
       html .day-tile.is-today { border-color: var(--text-3); border-style: dashed; }
+      /* Seven tiles share a phone's width; the "today" badge must fit a ~38px tile */
+      html .day-tile .badge { max-width: 100%; padding: 0 0.25rem; font-size: 0.625rem; }
       html .day-tile.is-empty { opacity: 0.55; }
       html .day-tile-sm { height: auto; gap: 0.25rem; padding: 0.5rem 0.25rem; border-radius: var(--r-sm); }
 

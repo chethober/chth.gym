@@ -3,6 +3,7 @@
 // ============================================================================
 
 import { Hono } from 'hono';
+import { TEXT_LIMITS, clampText } from '../lib/limits';
 import { Env, User } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth, optionalAuth } from '../auth/session';
@@ -163,6 +164,12 @@ routinesRouter.post('/', optionalAuth, async (c) => {
   if (!body.title || !body.title.trim()) {
     return c.json({ error: 'عنوان برنامه تمرینی الزامی است' }, 400);
   }
+  if (Array.from(body.title.trim()).length > TEXT_LIMITS.title) {
+    return c.json({ error: `عنوان برنامه حداکثر ${TEXT_LIMITS.title} نویسه است` }, 400);
+  }
+  if (body.description && Array.from(body.description.trim()).length > TEXT_LIMITS.description) {
+    return c.json({ error: `توضیحات حداکثر ${TEXT_LIMITS.description} نویسه است` }, 400);
+  }
 
   if (!body.exercises || !Array.isArray(body.exercises) || body.exercises.length === 0) {
     return c.json({ error: 'حداقل یک حرکت باید به برنامه اضافه شود' }, 400);
@@ -172,7 +179,7 @@ routinesRouter.post('/', optionalAuth, async (c) => {
   const newRoutine = await db.createRoutine(
     userId,
     body.title.trim(),
-    body.description || '',
+    clampText(body.description, TEXT_LIMITS.description) || '',
     body.exercises
   );
 

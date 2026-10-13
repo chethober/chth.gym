@@ -3,6 +3,7 @@
 // ============================================================================
 
 import { Hono } from 'hono';
+import { TEXT_LIMITS, clampText } from '../lib/limits';
 import { Env, User } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth } from '../auth/session';
@@ -34,7 +35,7 @@ workoutsRouter.post('/start', async (c) => {
   const db = new Database(c.env.DB);
 
   let targetRoutineId = body.routine_id;
-  let targetTitle = body.title;
+  let targetTitle = clampText(body.title, TEXT_LIMITS.title) || undefined;
 
   // If starting from a preloaded preset, auto-clone into user's routines if needed
   if (body.preset_id) {
@@ -135,7 +136,7 @@ workoutsRouter.post('/:id/finish', async (c) => {
   const body = await c.req.json<{ notes?: string }>().catch(() => ({ notes: undefined }));
 
   const db = new Database(c.env.DB);
-  const completedSession = await db.finishWorkoutSession(sessionId, user.id, body.notes);
+  const completedSession = await db.finishWorkoutSession(sessionId, user.id, clampText(body.notes, TEXT_LIMITS.notes));
 
   if (!completedSession) {
     return c.json({ error: 'جلسه تمرین یافت نشد' }, 404);

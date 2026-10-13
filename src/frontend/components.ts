@@ -246,7 +246,7 @@ export function renderToastAndDialogs(): string {
         </div>
 
         <!-- QR Code Canvas / Image Container -->
-        <div class="bg-white p-3 rounded-[14px] mx-auto w-fit border border-[color:var(--line)]">
+        <div class="bg-white p-3 rounded-[var(--r-lg)] mx-auto w-fit border border-[color:var(--line)]">
           <img id="share-qr-img" class="w-48 h-48 block mx-auto rounded-lg" src="" alt="QR Code">
         </div>
 

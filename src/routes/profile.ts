@@ -3,6 +3,7 @@
 // ============================================================================
 
 import { Hono } from 'hono';
+import { TEXT_LIMITS, clampText } from '../lib/limits';
 import { Env, User, UserProfile } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth } from '../auth/session';
@@ -61,7 +62,7 @@ profileRouter.post('/daily-log', async (c) => {
     user.id,
     body.weight_kg,
     body.water_liters,
-    body.notes,
+    clampText(body.notes, TEXT_LIMITS.notes),
     body.log_date
   );
 

@@ -15,7 +15,7 @@ export function renderSmartSuggestionsSection(): string {
           <div class="min-w-0">
             <div class="flex items-center gap-2 flex-wrap">
               <h3 class="text-sm font-bold text-white">پیشنهاد برای شما</h3>
-              <span id="dash-suggest-badge-bmi" class="badge badge-emerald">شاخص BMI: --</span>
+              <span id="dash-suggest-badge-bmi" class="badge badge-emerald badge-wrap">شاخص BMI: --</span>
               <span id="dash-suggest-badge-goal" class="badge badge-cyan">هدف: --</span>
             </div>
           </div>
@@ -207,7 +207,7 @@ export function renderProfileSuggestionsBanner(): string {
         <div>
           <h4 class="text-xs font-bold text-white flex items-center gap-2">
             <span>برنامه‌های تمرینی توصیه شده برای شما</span>
-            <span id="prof-suggest-bmi-tag" class="badge badge-emerald">--</span>
+            <span id="prof-suggest-bmi-tag" class="badge badge-emerald hidden"></span>
           </h4>
           <p id="prof-suggest-banner-desc" class="text-[11px] text-zinc-300 mt-0.5">
             الگوهای تمرینی اختصاصی بر اساس مشخصات بدنی و هدف ثبت شده شما آماده شده‌اند.
@@ -286,6 +286,7 @@ export function renderPresetsClientScript(): string {
         const profTag = document.getElementById('prof-suggest-bmi-tag');
         if (profTag && data.user_metrics) {
           profTag.innerText = 'شاخص ' + toPersianDigits(data.user_metrics.bmi) + ' • ' + data.user_metrics.category_fa;
+          profTag.classList.remove('hidden');
         }
         const profDesc = document.getElementById('prof-suggest-banner-desc');
         if (profDesc && data.user_metrics) {
@@ -538,12 +539,12 @@ export function renderPresetsClientScript(): string {
 
         return '<div class="card-glass-subtle p-2.5 space-y-1">' +
           '<div class="flex items-center justify-between gap-2">' +
-            '<div class="flex items-center gap-2 min-w-0">' +
+            '<div class="flex items-center gap-2 min-w-0 flex-1">' +
               '<img src="' + ex.gif_url + '" loading="lazy" class="thumb w-8 h-8" alt="" onerror="this.src=\\'/icons/icon-192x192.png\\'">' +
               '<div class="min-w-0">' +
                 '<div class="flex items-center gap-1.5 min-w-0">' +
                   '<span class="text-zinc-500 font-mono text-[10px] shrink-0">' + toPersianDigits(i + 1) + '.</span>' +
-                  '<span class="text-zinc-800 dark:text-zinc-200 font-bold text-xs truncate min-w-0">' + ex.name_fa + '</span>' +
+                  '<span class="text-zinc-800 dark:text-zinc-200 font-bold text-xs line-clamp-2 min-w-0" title="' + ex.name_fa + '">' + ex.name_fa + '</span>' +
                 '</div>' +
                 '<span class="badge badge-zinc">' + ex.equipment_fa + '</span>' +
               '</div>' +
@@ -606,7 +607,7 @@ export function renderPresetsClientScript(): string {
           '</div>' +
         '</div>' +
         '<div class="pt-3 divider-top flex flex-wrap items-center justify-between gap-2">' +
-          '<div class="flex items-center gap-1.5">' +
+          '<div class="flex flex-wrap items-center gap-1.5">' +
             '<button type="button" onclick="importPresetToMyRoutines(\\'' + preset.id + '\\')" title="افزودن به برنامه‌های من" class="btn btn-secondary btn-sm">' +
               '<i data-lucide="bookmark-plus" class="w-3.5 h-3.5 text-accent"></i>' +
               '<span>ذخیره در برنامه‌ها</span>' +
