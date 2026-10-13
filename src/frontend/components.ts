@@ -95,12 +95,12 @@ export function renderMobileBottomNav(): string {
       <button onclick="switchTab('movements')" id="nav-m-movements" class="nav-mobile-btn">
         <span class="nav-m-pill"><i data-lucide="dumbbell" class="w-5 h-5"></i></span>
         <span>حرکات</span>
-        <span id="nav-m-draft-badge" class="hidden absolute top-1.5 right-[calc(50%-1.9rem)] w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-[color:var(--color-surface)]"></span>
+        <span id="nav-m-draft-badge" class="hidden absolute top-1.5 right-[calc(50%-1.9rem)] w-2.5 h-2.5 rounded-full bg-accent ring-2 ring-[color:var(--color-surface)]"></span>
       </button>
       <button onclick="switchTab('dashboard')" id="nav-m-dashboard" class="nav-mobile-btn is-active">
         <span class="nav-m-pill"><i data-lucide="layout-dashboard" class="w-5 h-5"></i></span>
         <span>داشبورد</span>
-        <span id="active-badge-m" class="hidden absolute top-1.5 right-[calc(50%-1.9rem)] w-2.5 h-2.5 rounded-full bg-rose-500 ring-2 ring-[color:var(--color-surface)]"></span>
+        <span id="active-badge-m" class="hidden absolute top-1.5 right-[calc(50%-1.9rem)] w-2.5 h-2.5 rounded-full bg-danger ring-2 ring-[color:var(--color-surface)]"></span>
       </button>
       <button onclick="switchTab('plan')" id="nav-m-plan" class="nav-mobile-btn">
         <span class="nav-m-pill"><i data-lucide="calendar-days" class="w-5 h-5"></i></span>
@@ -187,7 +187,7 @@ export function renderToastAndDialogs(): string {
         </div>
         <div>
           <div class="flex items-center gap-1.5">
-            <i data-lucide="timer" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <i data-lucide="timer" class="w-3.5 h-3.5 text-accent"></i>
             <p class="text-xs font-bold text-white">زمان استراحت ست</p>
           </div>
           <div class="flex items-center gap-1.5 mt-2">
@@ -290,7 +290,7 @@ export function renderToastAndDialogs(): string {
 
           <div>
             <h5 class="text-xs font-bold text-zinc-300 mb-2 flex items-center gap-1.5">
-              <i data-lucide="dumbbell" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <i data-lucide="dumbbell" class="w-3.5 h-3.5 text-accent"></i>
               <span>حرکات موجود در این برنامه:</span>
             </h5>
             <div id="shared-routine-exercises" class="space-y-2 max-h-60 overflow-y-auto pr-1">
