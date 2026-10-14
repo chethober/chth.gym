@@ -28,7 +28,10 @@ app.use('*', cors({
   credentials: true
 }));
 app.use('*', secureHeaders({
+  // Framable by this site and the chth.wtf portfolio only (its desktop shows projects in a window)
+  xFrameOptions: false,
   contentSecurityPolicy: {
+    frameAncestors: ["'self'", 'https://chth.wtf', 'https://www.chth.wtf'],
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.tailwindcss.com", "https://unpkg.com", "https://cdn.jsdelivr.net"],
     styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
