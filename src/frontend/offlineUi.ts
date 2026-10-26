@@ -88,8 +88,9 @@ export function renderOfflineScript(): string {
       } catch (e) {}
     }
 
+    // Registered right away: the load event can wait on slow exercise GIFs for a long time
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => {}); });
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
     }
   `;
 }
