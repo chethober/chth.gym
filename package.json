@@ -9,7 +9,7 @@
     "deploy": "wrangler deploy",
     "d1:migrate:local": "wrangler d1 migrations apply jesm-db --local",
     "d1:migrate:remote": "wrangler d1 migrations apply jesm-db --remote",
-    "test": "node tests/activation.test.cjs && node tests/public-programs.test.cjs && node tests/landing.test.cjs && node tests/appearance.test.cjs",
+    "test": "node tests/activation.test.cjs && node tests/public-programs.test.cjs && node tests/landing.test.cjs && node tests/appearance.test.cjs && node tests/progression.test.cjs",
     "seed:worst-case": "node scripts/seed-worst-case.mjs"
   },
   "dependencies": {

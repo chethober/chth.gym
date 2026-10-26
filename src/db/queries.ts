@@ -735,6 +735,39 @@ export class Database {
     };
   }
 
+  // For each exercise, the sets from the most recent completed session that included it.
+  async getLastSessionSets(
+    userId: string,
+    exerciseIds: string[]
+  ): Promise<Record<string, { set_number: number; reps: number; weight_kg: number }[]>> {
+    const ids = [...new Set(exerciseIds.filter(Boolean))];
+    if (ids.length === 0) return {};
+
+    const { results } = await this.db
+      .prepare(`
+        SELECT wsl.exercise_id, wsl.set_number, wsl.reps, wsl.weight_kg
+        FROM workout_set_logs wsl
+        JOIN workout_sessions ws ON ws.id = wsl.session_id
+        WHERE wsl.user_id = ? AND ws.status = 'completed'
+          AND wsl.exercise_id IN (${ids.map(() => '?').join(',')})
+          AND ws.start_time = (
+            SELECT MAX(ws2.start_time)
+            FROM workout_sessions ws2
+            JOIN workout_set_logs l2 ON l2.session_id = ws2.id
+            WHERE ws2.user_id = wsl.user_id AND ws2.status = 'completed' AND l2.exercise_id = wsl.exercise_id
+          )
+        ORDER BY wsl.exercise_id, wsl.set_number
+      `)
+      .bind(userId, ...ids)
+      .all<{ exercise_id: string; set_number: number; reps: number; weight_kg: number }>();
+
+    const byExercise: Record<string, { set_number: number; reps: number; weight_kg: number }[]> = {};
+    for (const row of results || []) {
+      (byExercise[row.exercise_id] ||= []).push({ set_number: row.set_number, reps: row.reps, weight_kg: row.weight_kg });
+    }
+    return byExercise;
+  }
+
   async getWorkoutHistory(userId: string, limit: number = 20): Promise<WorkoutSession[]> {
     const { results: sessions } = await this.db
       .prepare(`

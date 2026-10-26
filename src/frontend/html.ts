@@ -31,6 +31,7 @@ import {
   renderCheckinClientScript
 } from './checkinUi';
 import { renderActivationSection, renderActivationScript } from './activationUi';
+import { renderProgressionScript } from './progressionUi';
 import { BODY_PATHS } from './bodyPaths';
 
 export function renderAppHtml(): string {
@@ -1500,6 +1501,7 @@ export function renderAppHtml(): string {
         if (inputSessionId !== activeSession.id) {
           currentExerciseWeights = {};
           currentExerciseReps = {};
+          autoSeededInputs.clear();
           inputSessionId = activeSession.id;
         }
         document.getElementById('first-workout')?.classList.add('hidden');
@@ -1710,6 +1712,7 @@ export function renderAppHtml(): string {
       const currentVal = parseFloat(currentExerciseWeights[exerciseId] !== undefined ? currentExerciseWeights[exerciseId] : 0) || 0;
       const newVal = Math.max(0, Math.round((currentVal + delta) * 10) / 10);
       if (newVal === currentVal) return;
+      autoSeededInputs.delete(exerciseId);
       currentExerciseWeights[exerciseId] = newVal;
       document.querySelectorAll(\`[data-weight-for="\${exerciseId}"]\`).forEach(el => rollValue(el, toPersianDigits(newVal), delta));
       document.querySelectorAll(\`[data-weight-label-for="\${exerciseId}"]\`).forEach(el => { el.innerText = formatOngoingWeight(newVal); });
@@ -1720,6 +1723,7 @@ export function renderAppHtml(): string {
       const currentVal = parseInt(currentExerciseReps[exerciseId] !== undefined ? currentExerciseReps[exerciseId] : 10) || 10;
       const newVal = Math.max(1, Math.min(100, currentVal + delta));
       if (newVal === currentVal) return;
+      autoSeededInputs.delete(exerciseId);
       currentExerciseReps[exerciseId] = newVal;
       document.querySelectorAll(\`[data-reps-for="\${exerciseId}"]\`).forEach(el => rollValue(el, toPersianDigits(newVal), delta));
     }
@@ -1835,12 +1839,14 @@ export function renderAppHtml(): string {
     }
 
     function seedOngoingInputs(item) {
+      const suggestion = progressionSuggestion(item);
       const latestLog = item.logs.length > 0 ? item.logs[item.logs.length - 1] : previousExerciseLogs[item.id];
       if (currentExerciseWeights[item.id] === undefined) {
-        currentExerciseWeights[item.id] = latestLog && latestLog.weight_kg > 0 ? latestLog.weight_kg : 0;
+        currentExerciseWeights[item.id] = suggestion ? suggestion.weight_kg : (latestLog && latestLog.weight_kg > 0 ? latestLog.weight_kg : 0);
+        if (item.logs.length === 0) autoSeededInputs.add(item.id);
       }
       if (currentExerciseReps[item.id] === undefined) {
-        currentExerciseReps[item.id] = latestLog ? latestLog.reps : (item.target_reps || 10);
+        currentExerciseReps[item.id] = suggestion ? suggestion.reps : (latestLog ? latestLog.reps : (item.target_reps || 10));
       }
     }
 
@@ -1868,6 +1874,7 @@ export function renderAppHtml(): string {
               <span class="ex-row-name">\${escapeHtml(item.name_fa)}</span>
               <span class="ex-row-meta">
                 \${toPersianDigits(item.target_sets)} × \${toPersianDigits(item.target_reps)}
+                \${progressionSuggestion(item) ? \`<span class="block text-accent">\${formatSuggestion(progressionSuggestion(item))}</span>\` : ''}
                 \${previousExerciseLogs[item.id] ? \`<span class="block">جلسه قبل: \${toPersianDigits(previousExerciseLogs[item.id].weight_kg)} کیلو × \${toPersianDigits(previousExerciseLogs[item.id].reps)}</span>\` : ''}
                 <span data-weight-label-for="\${item.id}">\${formatOngoingWeight(weight)}</span>
               </span>
@@ -2103,6 +2110,7 @@ export function renderAppHtml(): string {
 
       const listContainer = document.getElementById('active-exercises-list');
       const exercisesArray = buildOngoingItems();
+      loadProgressionFor(exercisesArray);
 
       if (exercisesArray.length === 0) {
         listContainer.innerHTML = \`
@@ -2369,6 +2377,9 @@ export function renderAppHtml(): string {
         warmupDone = {};
         currentExerciseWeights = {};
         currentExerciseReps = {};
+        autoSeededInputs.clear();
+        lastSessionSets = {};
+        progressionRequested.clear();
         showActiveWorkoutInDashboard(false);
         showNotification('خسته نباشید! جلسه تمرین با موفقیت ذخیره شد.', 'success');
         showWorkoutRecap(finishedSnapshot);
@@ -4415,6 +4426,7 @@ export function renderAppHtml(): string {
     }
 
     ${renderActivationScript()}
+    ${renderProgressionScript()}
     ${renderPresetsClientScript()}
 
     ${renderWeeklyPlanClientScript()}
