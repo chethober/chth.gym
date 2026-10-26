@@ -3635,15 +3635,29 @@ export function renderAppHtml(): string {
     async function loadDashboardRoutines() {
       try {
         let routines = [];
+        let plan = {};
+        try { plan = JSON.parse(localStorage.getItem(WP_CACHE_KEY) || '{}') || {}; } catch (e) {}
         if (currentUser) {
-          const res = await fetch('/api/routines');
+          const [res, planRes] = await Promise.all([
+            fetch('/api/routines'),
+            fetch('/api/profile/weekly-plan').catch(() => null)
+          ]);
           if (res.ok) {
             const data = await res.json();
             routines = data.routines || [];
           }
+          if (planRes && planRes.ok) {
+            const planData = await planRes.json().catch(() => ({}));
+            if (planData.plan) plan = planData.plan;
+          }
         } else {
           routines = JSON.parse(localStorage.getItem('guest_routines') || '[]');
         }
+
+        // Routines scheduled for today in the weekly plan come first
+        const todayIds = (plan[String(wpWeekdayIndex(new Date()))] || []).map(String);
+        const isToday = r => todayIds.includes(String(r.id));
+        routines = [...routines.filter(isToday), ...routines.filter(r => !isToday(r))];
 
         const list = document.getElementById('dash-routines-list');
         if (!list) return;
@@ -3657,7 +3671,7 @@ export function renderAppHtml(): string {
           <div class="card-glass-subtle p-3 flex items-center justify-between gap-3">
             <div class="min-w-0">
               <h4 class="font-bold text-xs text-white text-wrap-safe">\${userText(r.title)}</h4>
-              <p class="text-[10px] text-zinc-400">\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
+              <p class="text-[10px] text-zinc-400">\${isToday(r) ? '<span class="badge badge-emerald ml-1">امروز</span>' : ''}\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
               <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری" class="btn btn-secondary btn-icon-sm">
