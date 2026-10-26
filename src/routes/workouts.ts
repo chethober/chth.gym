@@ -96,7 +96,7 @@ async function handleLogSet(c: any) {
   }
 
   const db = new Database(c.env.DB);
-  const { log, isPr, isE1rmPr } = await db.logWorkoutSet(
+  const result = await db.logWorkoutSet(
     user.id,
     sessionId,
     body.exercise_id,
@@ -105,6 +105,10 @@ async function handleLogSet(c: any) {
     Number(body.weight_kg) || 0,
     body.rpe ? Number(body.rpe) : undefined
   );
+  if (!result) {
+    return c.json({ error: 'جلسه تمرین یافت نشد' }, 404);
+  }
+  const { log, isPr, isE1rmPr } = result;
 
   return c.json({
     success: true,

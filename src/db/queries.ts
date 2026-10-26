@@ -578,9 +578,22 @@ export class Database {
     reps: number,
     weightKg: number,
     rpe?: number
-  ): Promise<{ log: WorkoutSetLogDetail; isPr: boolean; isE1rmPr: boolean }> {
+  ): Promise<{ log: WorkoutSetLogDetail; isPr: boolean; isE1rmPr: boolean } | null> {
+    const ownsSession = await this.db
+      .prepare('SELECT id FROM workout_sessions WHERE id = ? AND user_id = ?')
+      .bind(sessionId, userId)
+      .first();
+    if (!ownsSession) return null;
+
     const logId = `set_${crypto.randomUUID()}`;
     const now = new Date().toISOString();
+
+    // One row per set: a resent request (e.g. an offline retry) replaces the set instead of
+    // duplicating it. Removed before the PR check so a retry is judged like the original.
+    await this.db
+      .prepare('DELETE FROM workout_set_logs WHERE session_id = ? AND user_id = ? AND exercise_id = ? AND set_number = ?')
+      .bind(sessionId, userId, exerciseId, setNumber)
+      .run();
 
     // Check if this is a PR (Personal Record for this exercise and user)
     const currentMax = await this.db
