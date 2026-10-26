@@ -14,6 +14,16 @@ const workoutsRouter = new Hono<{ Bindings: Env; Variables: { user: User } }>();
 // Require authentication for all workout endpoints
 workoutsRouter.use('*', requireAuth);
 
+// GET /api/workouts/last-sets?ids=a,b -> Sets from the last session of each exercise (for progression)
+workoutsRouter.get('/last-sets', async (c) => {
+  const user = c.get('user');
+  const ids = (c.req.query('ids') || '').split(',').map(id => id.trim()).filter(Boolean).slice(0, 50);
+  const db = new Database(c.env.DB);
+  const sets = await db.getLastSessionSets(user.id, ids);
+
+  return c.json({ sets });
+});
+
 // GET /api/workouts/active -> Get current active workout session
 workoutsRouter.get('/active', async (c) => {
   const user = c.get('user');
@@ -86,7 +96,7 @@ async function handleLogSet(c: any) {
   }
 
   const db = new Database(c.env.DB);
-  const { log, isPr, isE1rmPr } = await db.logWorkoutSet(
+  const result = await db.logWorkoutSet(
     user.id,
     sessionId,
     body.exercise_id,
@@ -95,6 +105,10 @@ async function handleLogSet(c: any) {
     Number(body.weight_kg) || 0,
     body.rpe ? Number(body.rpe) : undefined
   );
+  if (!result) {
+    return c.json({ error: 'جلسه تمرین یافت نشد' }, 404);
+  }
+  const { log, isPr, isE1rmPr } = result;
 
   return c.json({
     success: true,

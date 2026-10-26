@@ -8,6 +8,7 @@ import {
   DailyLog,
   Exercise,
   Routine,
+  RoutineExerciseInput,
   RoutineExerciseDetail,
   WorkoutSession,
   WorkoutSetLogDetail,
@@ -370,7 +371,8 @@ export class Database {
       exercise_id: ex.exercise_id,
       target_sets: ex.target_sets,
       target_reps: ex.target_reps,
-      rest_seconds: ex.rest_seconds
+      rest_seconds: ex.rest_seconds,
+      superset_next: ex.superset_next
     }));
 
     return await this.createRoutine(
@@ -385,7 +387,7 @@ export class Database {
     userId: string,
     title: string,
     description: string,
-    exercises: { exercise_id: string; target_sets: number; target_reps: number; rest_seconds: number }[]
+    exercises: RoutineExerciseInput[]
   ): Promise<Routine> {
     const routineId = `rtn_${crypto.randomUUID()}`;
     const now = new Date().toISOString();
@@ -416,12 +418,59 @@ export class Database {
 
       const itemKey = `re_${crypto.randomUUID()}`;
       await this.db
-        .prepare('INSERT INTO routine_exercises (id, routine_id, exercise_id, order_index, target_sets, target_reps, rest_seconds) VALUES (?, ?, ?, ?, ?, ?, ?)')
-        .bind(itemKey, routineId, exId, orderIndex++, item.target_sets || 3, item.target_reps || 10, item.rest_seconds || 60)
+        .prepare('INSERT INTO routine_exercises (id, routine_id, exercise_id, order_index, target_sets, target_reps, rest_seconds, superset_next) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+        .bind(itemKey, routineId, exId, orderIndex++, item.target_sets || 3, item.target_reps || 10, item.rest_seconds || 60, item.superset_next ? 1 : 0)
         .run();
     }
 
     return (await this.getRoutineById(routineId, userId)) || (await this.getPublicRoutineById(routineId))!;
+  }
+
+  // Replaces title, description and the full exercise list in one batch, so a failed
+  // write never leaves a routine half-edited. Returns null if the user doesn't own it.
+  async updateRoutine(
+    routineId: string,
+    userId: string,
+    title: string,
+    description: string,
+    exercises: RoutineExerciseInput[]
+  ): Promise<Routine | null> {
+    const owned = await this.db
+      .prepare('SELECT id FROM routines WHERE id = ? AND user_id = ?')
+      .bind(routineId, userId)
+      .first();
+    if (!owned) return null;
+
+    const ids = [...new Set(exercises.map(e => e.exercise_id).filter(Boolean))];
+    const known = new Set<string>();
+    if (ids.length > 0) {
+      const { results } = await this.db
+        .prepare(`SELECT id FROM exercises WHERE id IN (${ids.map(() => '?').join(',')})`)
+        .bind(...ids)
+        .all<{ id: string }>();
+      (results || []).forEach(r => known.add(r.id));
+    }
+
+    const now = new Date().toISOString();
+    const statements = [
+      this.db
+        .prepare('UPDATE routines SET title = ?, description = ?, updated_at = ? WHERE id = ? AND user_id = ?')
+        .bind(title, description || null, now, routineId, userId),
+      this.db.prepare('DELETE FROM routine_exercises WHERE routine_id = ?').bind(routineId)
+    ];
+
+    let orderIndex = 0;
+    for (const item of exercises) {
+      if (!known.has(item.exercise_id)) continue;
+      statements.push(
+        this.db
+          .prepare('INSERT INTO routine_exercises (id, routine_id, exercise_id, order_index, target_sets, target_reps, rest_seconds, superset_next) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+          .bind(`re_${crypto.randomUUID()}`, routineId, item.exercise_id, orderIndex++, item.target_sets || 3, item.target_reps || 10, item.rest_seconds || 60, item.superset_next ? 1 : 0)
+      );
+    }
+
+    await this.db.batch(statements);
+    return this.getRoutineById(routineId, userId);
   }
 
   async deleteRoutine(routineId: string, userId: string): Promise<boolean> {
@@ -529,9 +578,22 @@ export class Database {
     reps: number,
     weightKg: number,
     rpe?: number
-  ): Promise<{ log: WorkoutSetLogDetail; isPr: boolean; isE1rmPr: boolean }> {
+  ): Promise<{ log: WorkoutSetLogDetail; isPr: boolean; isE1rmPr: boolean } | null> {
+    const ownsSession = await this.db
+      .prepare('SELECT id FROM workout_sessions WHERE id = ? AND user_id = ?')
+      .bind(sessionId, userId)
+      .first();
+    if (!ownsSession) return null;
+
     const logId = `set_${crypto.randomUUID()}`;
     const now = new Date().toISOString();
+
+    // One row per set: a resent request (e.g. an offline retry) replaces the set instead of
+    // duplicating it. Removed before the PR check so a retry is judged like the original.
+    await this.db
+      .prepare('DELETE FROM workout_set_logs WHERE session_id = ? AND user_id = ? AND exercise_id = ? AND set_number = ?')
+      .bind(sessionId, userId, exerciseId, setNumber)
+      .run();
 
     // Check if this is a PR (Personal Record for this exercise and user)
     const currentMax = await this.db
@@ -686,6 +748,39 @@ export class Database {
       ...session,
       set_logs: logs || []
     };
+  }
+
+  // For each exercise, the sets from the most recent completed session that included it.
+  async getLastSessionSets(
+    userId: string,
+    exerciseIds: string[]
+  ): Promise<Record<string, { set_number: number; reps: number; weight_kg: number }[]>> {
+    const ids = [...new Set(exerciseIds.filter(Boolean))];
+    if (ids.length === 0) return {};
+
+    const { results } = await this.db
+      .prepare(`
+        SELECT wsl.exercise_id, wsl.set_number, wsl.reps, wsl.weight_kg
+        FROM workout_set_logs wsl
+        JOIN workout_sessions ws ON ws.id = wsl.session_id
+        WHERE wsl.user_id = ? AND ws.status = 'completed'
+          AND wsl.exercise_id IN (${ids.map(() => '?').join(',')})
+          AND ws.start_time = (
+            SELECT MAX(ws2.start_time)
+            FROM workout_sessions ws2
+            JOIN workout_set_logs l2 ON l2.session_id = ws2.id
+            WHERE ws2.user_id = wsl.user_id AND ws2.status = 'completed' AND l2.exercise_id = wsl.exercise_id
+          )
+        ORDER BY wsl.exercise_id, wsl.set_number
+      `)
+      .bind(userId, ...ids)
+      .all<{ exercise_id: string; set_number: number; reps: number; weight_kg: number }>();
+
+    const byExercise: Record<string, { set_number: number; reps: number; weight_kg: number }[]> = {};
+    for (const row of results || []) {
+      (byExercise[row.exercise_id] ||= []).push({ set_number: row.set_number, reps: row.reps, weight_kg: row.weight_kg });
+    }
+    return byExercise;
   }
 
   async getWorkoutHistory(userId: string, limit: number = 20): Promise<WorkoutSession[]> {

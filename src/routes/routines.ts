@@ -4,12 +4,36 @@
 
 import { Hono } from 'hono';
 import { TEXT_LIMITS, clampText } from '../lib/limits';
-import { Env, User } from '../types';
+import { Env, RoutineExerciseInput, User } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth, optionalAuth } from '../auth/session';
 import { getWorkoutSuggestions, getPresetById } from '../data/preloadedWorkouts';
 
 const routinesRouter = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
+
+type RoutineBody = {
+  title: string;
+  description?: string;
+  exercises: RoutineExerciseInput[];
+};
+
+// Shared by create and update; returns an error message, or null when the body is valid.
+function validateRoutineBody(body: RoutineBody): string | null {
+  if (!body.title || !body.title.trim()) {
+    return 'عنوان برنامه تمرینی الزامی است';
+  }
+  if (Array.from(body.title.trim()).length > TEXT_LIMITS.title) {
+    return `عنوان برنامه حداکثر ${TEXT_LIMITS.title} نویسه است`;
+  }
+  if (body.description && Array.from(body.description.trim()).length > TEXT_LIMITS.description) {
+    return `توضیحات حداکثر ${TEXT_LIMITS.description} نویسه است`;
+  }
+
+  if (!body.exercises || !Array.isArray(body.exercises) || body.exercises.length === 0) {
+    return 'حداقل یک حرکت باید به برنامه اضافه شود';
+  }
+  return null;
+}
 
 // GET /api/routines/suggestions -> Get workout routine recommendations based on BMI & goal
 routinesRouter.get('/suggestions', optionalAuth, async (c) => {
@@ -155,24 +179,10 @@ routinesRouter.get('/:id', optionalAuth, async (c) => {
 routinesRouter.post('/', optionalAuth, async (c) => {
   const user = c.get('user');
   const userId = user ? user.id : `guest_${crypto.randomUUID().slice(0, 8)}`;
-  const body = await c.req.json<{
-    title: string;
-    description?: string;
-    exercises: { exercise_id: string; target_sets: number; target_reps: number; rest_seconds: number }[];
-  }>();
-
-  if (!body.title || !body.title.trim()) {
-    return c.json({ error: 'عنوان برنامه تمرینی الزامی است' }, 400);
-  }
-  if (Array.from(body.title.trim()).length > TEXT_LIMITS.title) {
-    return c.json({ error: `عنوان برنامه حداکثر ${TEXT_LIMITS.title} نویسه است` }, 400);
-  }
-  if (body.description && Array.from(body.description.trim()).length > TEXT_LIMITS.description) {
-    return c.json({ error: `توضیحات حداکثر ${TEXT_LIMITS.description} نویسه است` }, 400);
-  }
-
-  if (!body.exercises || !Array.isArray(body.exercises) || body.exercises.length === 0) {
-    return c.json({ error: 'حداقل یک حرکت باید به برنامه اضافه شود' }, 400);
+  const body = await c.req.json<RoutineBody>();
+  const invalid = validateRoutineBody(body);
+  if (invalid) {
+    return c.json({ error: invalid }, 400);
   }
 
   const db = new Database(c.env.DB);
@@ -190,28 +200,47 @@ routinesRouter.post('/', optionalAuth, async (c) => {
   }, 201);
 });
 
-// DELETE /api/routines/:id -> Delete a routine
-routinesRouter.delete('/:id', optionalAuth, async (c) => {
-  const user = c.get('user');
+// PUT /api/routines/:id -> Edit a saved routine (owner only; guests edit their local copy)
+routinesRouter.put('/:id', requireAuth, async (c) => {
+  const user = c.get('user')!;
+  const routineId = c.req.param('id');
+  if (!routineId) {
+    return c.json({ error: 'شناسه برنامه نامعتبر است' }, 400);
+  }
+
+  const body = await c.req.json<RoutineBody>();
+  const invalid = validateRoutineBody(body);
+  if (invalid) {
+    return c.json({ error: invalid }, 400);
+  }
+
+  const db = new Database(c.env.DB);
+  const updated = await db.updateRoutine(
+    routineId,
+    user.id,
+    body.title.trim(),
+    clampText(body.description, TEXT_LIMITS.description) || '',
+    body.exercises
+  );
+  if (!updated) {
+    return c.json({ error: 'برنامه تمرینی یافت نشد' }, 404);
+  }
+
+  return c.json({ success: true, message: 'تغییرات برنامه ذخیره شد', routine: updated });
+});
+
+// DELETE /api/routines/:id -> Delete a routine (owner only; guests delete their local copy)
+routinesRouter.delete('/:id', requireAuth, async (c) => {
+  const user = c.get('user')!;
   const routineId = c.req.param('id');
   if (!routineId) {
     return c.json({ error: 'شناسه برنامه نامعتبر است' }, 400);
   }
 
   const db = new Database(c.env.DB);
-  // If user is authenticated, delete for user; if guest, delete if routine exists
-  const existing = await db.getPublicRoutineById(routineId);
-  if (!existing) {
-    return c.json({ error: 'برنامه تمرینی یافت نشد' }, 404);
-  }
-
-  if (user && existing.user_id !== user.id && !existing.user_id.startsWith('guest')) {
-    return c.json({ error: 'دسترسی حذف این برنامه را ندارید' }, 403);
-  }
-
-  const deleted = await db.deleteRoutine(routineId, existing.user_id);
+  const deleted = await db.deleteRoutine(routineId, user.id);
   if (!deleted) {
-    return c.json({ error: 'خطا در حذف برنامه' }, 500);
+    return c.json({ error: 'برنامه تمرینی یافت نشد' }, 404);
   }
 
   return c.json({ success: true, message: 'برنامه تمرینی حذف شد' });

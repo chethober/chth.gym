@@ -31,6 +31,8 @@ import {
   renderCheckinClientScript
 } from './checkinUi';
 import { renderActivationSection, renderActivationScript } from './activationUi';
+import { renderProgressionScript } from './progressionUi';
+import { renderOfflineScript } from './offlineUi';
 import { BODY_PATHS } from './bodyPaths';
 
 export function renderAppHtml(): string {
@@ -465,7 +467,7 @@ export function renderAppHtml(): string {
               <i data-lucide="clipboard-list" class="w-5 h-5"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-white">طراحی برنامه</h3>
+              <h3 id="builder-heading" class="text-sm font-bold text-white">طراحی برنامه</h3>
             </div>
           </div>
           
@@ -499,10 +501,14 @@ export function renderAppHtml(): string {
 
         <!-- Builder Actions -->
         <div id="inline-builder-actions" class="hidden pt-2 divider-top flex items-center justify-between">
-          <span></span>
+          <button id="builder-cancel-edit" onclick="cancelRoutineEdit()" class="btn btn-ghost btn-md hidden">
+            <i data-lucide="x" class="w-4 h-4"></i>
+            <span>انصراف از ویرایش</span>
+          </button>
+          <span id="builder-actions-spacer"></span>
           <button onclick="saveInlineProgram()" class="btn btn-primary btn-md">
             <i data-lucide="check" class="w-4 h-4"></i>
-            <span>ذخیره برنامه</span>
+            <span id="builder-save-label">ذخیره برنامه</span>
           </button>
         </div>
       </div>
@@ -848,6 +854,7 @@ export function renderAppHtml(): string {
     let currentMuscleFilter = 'all';
     let currentEquipmentFilter = 'all';
     let draftProgramExercises = []; // Inline program draft items
+    let editingRoutineId = null; // Set while the builder holds a saved routine being edited
     let volumeChartInstance = null;
     let currentSelectedExerciseId = null;
     let currentSharedRoutine = null;
@@ -1214,6 +1221,7 @@ export function renderAppHtml(): string {
       if (urlParams.get('auth') === 'success') {
         window.history.replaceState({}, document.title, window.location.pathname);
         showNotification('با موفقیت وارد حساب کاربری شدید', 'success');
+        await migrateGuestRoutines();
 
         const pendingImport = sessionStorage.getItem('pending_import_routine');
         if (pendingImport) {
@@ -1415,6 +1423,8 @@ export function renderAppHtml(): string {
       if (!confirmed) return;
 
       await fetch('/api/auth/logout', { method: 'POST' });
+      writePendingSets([]);
+      await clearOfflineApiCache();
       currentUser = null;
       window.location.reload();
     }
@@ -1491,9 +1501,11 @@ export function renderAppHtml(): string {
 
       document.getElementById('return-workout')?.classList.toggle('hidden', hasActive || !returnWorkout);
       if (hasActive && activeSession) {
+        if (pendingSetsFor(activeSession.id).length && navigator.onLine !== false) flushPendingSets();
         if (inputSessionId !== activeSession.id) {
           currentExerciseWeights = {};
           currentExerciseReps = {};
+          autoSeededInputs.clear();
           inputSessionId = activeSession.id;
         }
         document.getElementById('first-workout')?.classList.add('hidden');
@@ -1630,7 +1642,8 @@ export function renderAppHtml(): string {
             category_fa: ex.category_fa || ex.exercise_category_fa || '',
             target_sets: Number(ex.target_sets || ex.sets) || 4,
             target_reps: Number(ex.target_reps || ex.reps) || 10,
-            rest_seconds: Number(ex.rest_seconds) || 60
+            rest_seconds: Number(ex.rest_seconds) || 60,
+            superset_next: Number(ex.superset_next) ? 1 : 0
           }));
 
           activeSession = {
@@ -1704,6 +1717,7 @@ export function renderAppHtml(): string {
       const currentVal = parseFloat(currentExerciseWeights[exerciseId] !== undefined ? currentExerciseWeights[exerciseId] : 0) || 0;
       const newVal = Math.max(0, Math.round((currentVal + delta) * 10) / 10);
       if (newVal === currentVal) return;
+      autoSeededInputs.delete(exerciseId);
       currentExerciseWeights[exerciseId] = newVal;
       document.querySelectorAll(\`[data-weight-for="\${exerciseId}"]\`).forEach(el => rollValue(el, toPersianDigits(newVal), delta));
       document.querySelectorAll(\`[data-weight-label-for="\${exerciseId}"]\`).forEach(el => { el.innerText = formatOngoingWeight(newVal); });
@@ -1714,6 +1728,7 @@ export function renderAppHtml(): string {
       const currentVal = parseInt(currentExerciseReps[exerciseId] !== undefined ? currentExerciseReps[exerciseId] : 10) || 10;
       const newVal = Math.max(1, Math.min(100, currentVal + delta));
       if (newVal === currentVal) return;
+      autoSeededInputs.delete(exerciseId);
       currentExerciseReps[exerciseId] = newVal;
       document.querySelectorAll(\`[data-reps-for="\${exerciseId}"]\`).forEach(el => rollValue(el, toPersianDigits(newVal), delta));
     }
@@ -1829,12 +1844,14 @@ export function renderAppHtml(): string {
     }
 
     function seedOngoingInputs(item) {
+      const suggestion = progressionSuggestion(item);
       const latestLog = item.logs.length > 0 ? item.logs[item.logs.length - 1] : previousExerciseLogs[item.id];
       if (currentExerciseWeights[item.id] === undefined) {
-        currentExerciseWeights[item.id] = latestLog && latestLog.weight_kg > 0 ? latestLog.weight_kg : 0;
+        currentExerciseWeights[item.id] = suggestion ? suggestion.weight_kg : (latestLog && latestLog.weight_kg > 0 ? latestLog.weight_kg : 0);
+        if (item.logs.length === 0) autoSeededInputs.add(item.id);
       }
       if (currentExerciseReps[item.id] === undefined) {
-        currentExerciseReps[item.id] = latestLog ? latestLog.reps : (item.target_reps || 10);
+        currentExerciseReps[item.id] = suggestion ? suggestion.reps : (latestLog ? latestLog.reps : (item.target_reps || 10));
       }
     }
 
@@ -1862,6 +1879,8 @@ export function renderAppHtml(): string {
               <span class="ex-row-name">\${escapeHtml(item.name_fa)}</span>
               <span class="ex-row-meta">
                 \${toPersianDigits(item.target_sets)} × \${toPersianDigits(item.target_reps)}
+                \${item.superset_next ? '<span class="block text-accent">سوپرست با حرکت بعد</span>' : ''}
+                \${progressionSuggestion(item) ? \`<span class="block text-accent">\${formatSuggestion(progressionSuggestion(item))}</span>\` : ''}
                 \${previousExerciseLogs[item.id] ? \`<span class="block">جلسه قبل: \${toPersianDigits(previousExerciseLogs[item.id].weight_kg)} کیلو × \${toPersianDigits(previousExerciseLogs[item.id].reps)}</span>\` : ''}
                 <span data-weight-label-for="\${item.id}">\${formatOngoingWeight(weight)}</span>
               </span>
@@ -2064,11 +2083,16 @@ export function renderAppHtml(): string {
           target_sets: Number(pe.target_sets || pe.sets) || 4,
           target_reps: Number(pe.target_reps || pe.reps) || 10,
           rest_seconds: Number(pe.rest_seconds) || 60,
+          superset_next: !!Number(pe.superset_next),
           logs: []
         });
       });
 
-      (activeSession.set_logs || []).forEach(log => {
+      // Sets queued offline show as logged until they reach the server
+      const logged = activeSession.set_logs || [];
+      const pending = pendingSetsFor(activeSession.id)
+        .filter(p => !logged.some(l => l.exercise_id === p.exercise_id && l.set_number === p.set_number));
+      [...logged, ...pending].forEach(log => {
         if (!exMap.has(log.exercise_id)) {
           exMap.set(log.exercise_id, {
             id: log.exercise_id,
@@ -2097,6 +2121,7 @@ export function renderAppHtml(): string {
 
       const listContainer = document.getElementById('active-exercises-list');
       const exercisesArray = buildOngoingItems();
+      loadProgressionFor(exercisesArray);
 
       if (exercisesArray.length === 0) {
         listContainer.innerHTML = \`
@@ -2154,6 +2179,15 @@ export function renderAppHtml(): string {
       lucide.createIcons();
     }
 
+    // Inside a superset, go straight to the next move; rest comes after the last one
+    function restAfterSet(planned) {
+      if (planned && Number(planned.superset_next)) {
+        showNotification('سوپرست: بدون استراحت سراغ حرکت بعدی برو', 'info');
+        return;
+      }
+      startRestTimer(planned?.rest_seconds || 60);
+    }
+
     function addExtraSet(exerciseId) {
       extraSetsCount[exerciseId] = (extraSetsCount[exerciseId] || 0) + 1;
       renderActiveWorkoutTodoList();
@@ -2180,17 +2214,23 @@ export function renderAppHtml(): string {
 
       if (currentUser && activeSession.user_id !== 'guest') {
         try {
-          const res = await fetch(\`/api/workouts/\${activeSession.id}/sets\`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              exercise_id: exerciseId,
-              set_number: setNumber,
-              reps: reps,
-              weight_kg: weight,
-              rpe: 8
-            })
-          });
+          let res;
+          try {
+            res = await fetch(\`/api/workouts/\${activeSession.id}/sets\`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                exercise_id: exerciseId,
+                set_number: setNumber,
+                reps: reps,
+                weight_kg: weight,
+                rpe: 8
+              })
+            });
+          } catch (networkError) {
+            queueOfflineSet(exerciseId, setNumber, reps, weight);
+            return;
+          }
 
           const data = await res.json();
           if (data.success) {
@@ -2215,7 +2255,7 @@ export function renderAppHtml(): string {
 
             const planned = (activeSession.planned_exercises || []).find(pe => pe.exercise_id === exerciseId);
             renderActiveWorkoutTodoList();
-            startRestTimer(planned?.rest_seconds || 60);
+            restAfterSet(planned);
           } else {
             showNotification(data.error || 'خطا در ثبت ست', 'error');
           }
@@ -2254,8 +2294,28 @@ export function renderAppHtml(): string {
         localStorage.setItem('jesm_guest_active_session', JSON.stringify(activeSession));
 
         renderActiveWorkoutTodoList();
-        startRestTimer(planned?.rest_seconds || 60);
+        restAfterSet(planned);
       }
+    }
+
+    function queueOfflineSet(exerciseId, setNumber, reps, weight) {
+      const planned = (activeSession.planned_exercises || []).find(pe => pe.exercise_id === exerciseId);
+      const exFromCatalog = (exercisesCache || []).find(e => e.id === exerciseId);
+      queuePendingSet({
+        session_id: activeSession.id,
+        exercise_id: exerciseId,
+        exercise_name_fa: planned?.name_fa || exFromCatalog?.name_fa || 'حرکت تمرینی',
+        exercise_name_en: planned?.name_en || exFromCatalog?.name_en || '',
+        exercise_gif_url: planned?.gif_url || exFromCatalog?.gif_url || '',
+        exercise_category_fa: planned?.category_fa || exFromCatalog?.category_fa || '',
+        set_number: setNumber,
+        reps: reps,
+        weight_kg: weight,
+        rpe: 8
+      });
+      showNotification('اتصال برقرار نیست؛ ست ذخیره شد و پس از اتصال همگام می‌شود', 'warning');
+      renderActiveWorkoutTodoList();
+      restAfterSet(planned);
     }
 
     async function deleteLoggedSet(setId) {
@@ -2269,6 +2329,13 @@ export function renderAppHtml(): string {
         icon: 'trash-2'
       });
       if (!confirmed) return;
+
+      if (String(setId).startsWith('pending-')) {
+        removePendingSet(setId);
+        showNotification('ست مورد نظر حذف شد', 'info');
+        renderActiveWorkoutTodoList();
+        return;
+      }
 
       if (currentUser && activeSession.user_id !== 'guest') {
         try {
@@ -2297,6 +2364,14 @@ export function renderAppHtml(): string {
 
     async function finishActiveWorkout() {
       if (!activeSession) return;
+
+      if (pendingSetsFor(activeSession.id).length) {
+        const waiting = await flushPendingSets();
+        if (waiting) {
+          showNotification('ست‌های آفلاین هنوز همگام نشده‌اند؛ پس از اتصال دوباره «پایان تمرین» را بزنید', 'warning');
+          return;
+        }
+      }
 
       const totalSets = (activeSession.set_logs || []).length;
       if (totalSets === 0) {
@@ -2363,6 +2438,9 @@ export function renderAppHtml(): string {
         warmupDone = {};
         currentExerciseWeights = {};
         currentExerciseReps = {};
+        autoSeededInputs.clear();
+        lastSessionSets = {};
+        progressionRequested.clear();
         showActiveWorkoutInDashboard(false);
         showNotification('خسته نباشید! جلسه تمرین با موفقیت ذخیره شد.', 'success');
         showWorkoutRecap(finishedSnapshot);
@@ -2385,6 +2463,7 @@ export function renderAppHtml(): string {
       if (currentUser && activeSession.user_id !== 'guest') {
         try {
           const sessionId = activeSession.id;
+          clearPendingSetsFor(sessionId);
           await fetch(\`/api/workouts/\${sessionId}/discard\`, { method: 'POST' });
         } catch (e) {}
       } else {
@@ -2502,7 +2581,8 @@ export function renderAppHtml(): string {
         gif_url: ex.gif_url,
         target_sets: 4,
         target_reps: 10,
-        rest_seconds: 60
+        rest_seconds: 60,
+        superset_next: false
       });
 
       renderInlineDraftExercises();
@@ -2542,10 +2622,21 @@ export function renderAppHtml(): string {
         return;
       }
 
+      // The last exercise has nothing to link to
+      draftProgramExercises[count - 1].superset_next = false;
+
       container.innerHTML = draftProgramExercises.map((item, idx) => \`
         <div class="card-glass-subtle p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           
           <div class="flex items-center gap-2.5 min-w-0">
+            <div class="flex flex-col shrink-0">
+              <button type="button" onclick="moveDraftMovement(\${idx}, -1)" \${idx === 0 ? 'disabled' : ''} class="btn-icon-sm btn-ghost h-5 disabled:opacity-30" aria-label="انتقال به بالا">
+                <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+              </button>
+              <button type="button" onclick="moveDraftMovement(\${idx}, 1)" \${idx === count - 1 ? 'disabled' : ''} class="btn-icon-sm btn-ghost h-5 disabled:opacity-30" aria-label="انتقال به پایین">
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
             <span class="badge badge-emerald w-6 justify-center shrink-0">\${toPersianDigits(idx + 1)}</span>
             \${item.gif_url ? \`<img src="\${item.gif_url}" class="thumb w-10 h-10" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div class="min-w-0 truncate">
@@ -2557,7 +2648,7 @@ export function renderAppHtml(): string {
           </div>
 
           <!-- Sets & Reps Digital Counters + Delete Button (Guaranteed Same Line) -->
-          <div class="flex items-center flex-nowrap gap-2 shrink-0 self-end sm:self-auto">
+          <div class="flex items-center flex-wrap justify-end gap-2 shrink-0 self-end sm:self-auto">
             
             <!-- Sets Counter -->
             <div class="stepper">
@@ -2575,13 +2666,29 @@ export function renderAppHtml(): string {
               <button type="button" onclick="adjustDraftReps(\${idx}, 1)" class="stepper-btn" aria-label="افزایش تکرار">+</button>
             </div>
 
-            <!-- Delete Button (ALWAYS on same line) -->
+            <!-- Rest Counter (seconds, 15s steps) -->
+            <div class="stepper">
+              <span class="stepper-label">استراحت</span>
+              <button type="button" onclick="adjustDraftRest(\${idx}, -15)" class="stepper-btn" aria-label="کاهش استراحت">−</button>
+              <span class="stepper-value">\${toPersianDigits(item.rest_seconds || 60)}</span>
+              <span class="stepper-unit">ث</span>
+              <button type="button" onclick="adjustDraftRest(\${idx}, 15)" class="stepper-btn" aria-label="افزایش استراحت">+</button>
+            </div>
+
+            <!-- Delete Button -->
             <button type="button" onclick="removeDraftMovement(\${idx})" title="حذف از برنامه" class="btn-icon-sm btn-icon-danger">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
           </div>
 
         </div>
+        \${idx < count - 1 ? \`
+        <div class="flex justify-center -my-1">
+          <button type="button" onclick="toggleDraftSuperset(\${idx})" aria-pressed="\${item.superset_next ? 'true' : 'false'}" class="badge \${item.superset_next ? 'badge-emerald' : 'badge-zinc'} cursor-pointer">
+            <i data-lucide="link-2" class="w-3 h-3"></i>
+            <span>\${item.superset_next ? 'سوپرست با حرکت بعد' : 'اتصال سوپرست'}</span>
+          </button>
+        </div>\` : ''}
       \`).join('');
 
       lucide.createIcons();
@@ -2601,17 +2708,191 @@ export function renderAppHtml(): string {
       }
     }
 
+    function adjustDraftRest(idx, delta) {
+      if (draftProgramExercises[idx]) {
+        draftProgramExercises[idx].rest_seconds = Math.max(15, Math.min(600, (Number(draftProgramExercises[idx].rest_seconds) || 60) + delta));
+        renderInlineDraftExercises();
+      }
+    }
+
+    function toggleDraftSuperset(idx) {
+      if (draftProgramExercises[idx] && idx < draftProgramExercises.length - 1) {
+        draftProgramExercises[idx].superset_next = !draftProgramExercises[idx].superset_next;
+        renderInlineDraftExercises();
+      }
+    }
+
+    function moveDraftMovement(idx, delta) {
+      const target = idx + delta;
+      if (target < 0 || target >= draftProgramExercises.length) return;
+      [draftProgramExercises[idx], draftProgramExercises[target]] = [draftProgramExercises[target], draftProgramExercises[idx]];
+      renderInlineDraftExercises();
+    }
+
     function removeDraftMovement(idx) {
       draftProgramExercises.splice(idx, 1);
       renderInlineDraftExercises();
     }
 
-    function clearDraftProgram() {
+    function resetDraftProgram() {
       draftProgramExercises = [];
       document.getElementById('inline-routine-title').value = '';
       document.getElementById('inline-routine-desc').value = '';
+      setBuilderEditMode(null);
       renderInlineDraftExercises();
+    }
+
+    function clearDraftProgram() {
+      resetDraftProgram();
       showNotification('پیش‌نویس برنامه پاکسازی شد', 'info');
+    }
+
+    function setBuilderEditMode(routineId) {
+      editingRoutineId = routineId;
+      const heading = document.getElementById('builder-heading');
+      const saveLabel = document.getElementById('builder-save-label');
+      if (heading) heading.innerText = routineId ? 'ویرایش برنامه' : 'طراحی برنامه';
+      if (saveLabel) saveLabel.innerText = routineId ? 'ذخیره تغییرات' : 'ذخیره برنامه';
+      document.getElementById('builder-cancel-edit')?.classList.toggle('hidden', !routineId);
+      document.getElementById('builder-actions-spacer')?.classList.toggle('hidden', !!routineId);
+    }
+
+    async function getSavedRoutines() {
+      if (currentUser) {
+        const res = await fetch('/api/routines');
+        const data = await res.json();
+        return data.routines || [];
+      }
+      return JSON.parse(localStorage.getItem('guest_routines') || '[]');
+    }
+
+    async function editRoutine(routineId) {
+      let routine = null;
+      try {
+        routine = (await getSavedRoutines()).find(r => r.id === routineId);
+      } catch (e) {}
+      if (!routine) {
+        showNotification('برنامه تمرینی یافت نشد', 'error');
+        return;
+      }
+
+      if (draftProgramExercises.length > 0 && editingRoutineId !== routineId) {
+        const confirmed = await showConfirmDialog({
+          title: 'جایگزینی پیش‌نویس',
+          message: 'پیش‌نویس فعلی با این برنامه جایگزین می‌شود. ادامه می‌دهید؟',
+          confirmText: 'ویرایش برنامه',
+          color: 'amber',
+          icon: 'pencil'
+        });
+        if (!confirmed) return;
+      }
+
+      draftProgramExercises = (routine.exercises || []).map(ex => ({
+        exercise_id: ex.exercise_id || ex.id,
+        name_fa: ex.name_fa || ex.exercise_name_fa || ex.name_en || 'حرکت تمرینی',
+        name_en: ex.name_en || ex.exercise_name_en || '',
+        gif_url: ex.gif_url,
+        target_sets: Number(ex.target_sets || ex.sets) || 4,
+        target_reps: Number(ex.target_reps || ex.reps) || 10,
+        rest_seconds: Number(ex.rest_seconds) || 60,
+        superset_next: !!Number(ex.superset_next)
+      }));
+      document.getElementById('inline-routine-title').value = routine.title || '';
+      document.getElementById('inline-routine-desc').value = routine.description || '';
+      setBuilderEditMode(routineId);
+      renderInlineDraftExercises();
+
+      if (!document.getElementById('tab-movements')?.classList.contains('hidden')) {
+        document.getElementById('inline-program-builder-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        switchTab('movements');
+      }
+      showNotification('برای افزودن حرکت، از بانک حرکات پایین صفحه انتخاب کنید', 'info');
+    }
+
+    function routinePayload(routine, title) {
+      return {
+        title,
+        description: routine.description || '',
+        exercises: (routine.exercises || []).map(ex => ({
+          exercise_id: ex.exercise_id || ex.id,
+          target_sets: Number(ex.target_sets || ex.sets) || 4,
+          target_reps: Number(ex.target_reps || ex.reps) || 10,
+          rest_seconds: Number(ex.rest_seconds) || 60,
+          superset_next: !!Number(ex.superset_next)
+        }))
+      };
+    }
+
+    async function duplicateRoutine(routineId) {
+      let routine = null;
+      try {
+        routine = (await getSavedRoutines()).find(r => r.id === routineId);
+      } catch (e) {}
+      if (!routine) {
+        showNotification('برنامه تمرینی یافت نشد', 'error');
+        return;
+      }
+
+      const suffix = ' (کپی)';
+      const title = Array.from(routine.title || '').slice(0, ${TEXT_LIMITS.title} - suffix.length).join('') + suffix;
+      try {
+        const res = await fetch('/api/routines', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(routinePayload(routine, title))
+        });
+        const data = await res.json();
+        if (!data.success || !data.routine) {
+          showNotification(data.error || 'خطا در ساخت کپی', 'error');
+          return;
+        }
+        if (!currentUser) {
+          const local = JSON.parse(localStorage.getItem('guest_routines') || '[]');
+          // Keep the source's exercise details: the guest server copy can't be re-read later.
+          local.unshift({ ...data.routine, exercises: data.routine.exercises?.length ? data.routine.exercises : routine.exercises });
+          localStorage.setItem('guest_routines', JSON.stringify(local));
+        }
+        showNotification(\`کپی «\${title}» ساخته شد\`, 'success');
+        loadRoutines();
+        loadDashboardRoutines();
+      } catch (e) {
+        showNotification('خطا در ساخت کپی', 'error');
+      }
+    }
+
+    // After signing in, move routines built as a guest into the account (oldest first to keep order).
+    async function migrateGuestRoutines() {
+      let local = [];
+      try { local = JSON.parse(localStorage.getItem('guest_routines') || '[]'); } catch (e) {}
+      if (!Array.isArray(local) || local.length === 0) return;
+
+      const remaining = [];
+      let moved = 0;
+      for (const routine of [...local].reverse()) {
+        try {
+          const res = await fetch('/api/routines', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(routinePayload(routine, routine.title))
+          });
+          if (res.ok) { moved++; continue; }
+        } catch (e) {}
+        remaining.unshift(routine);
+      }
+
+      if (remaining.length) localStorage.setItem('guest_routines', JSON.stringify(remaining));
+      else localStorage.removeItem('guest_routines');
+      if (moved) {
+        showNotification(\`\${toPersianDigits(moved)} برنامه از حالت مهمان به حساب شما منتقل شد\`, 'success');
+        loadRoutines();
+        loadDashboardRoutines();
+      }
+    }
+
+    function cancelRoutineEdit() {
+      resetDraftProgram();
+      showNotification('ویرایش لغو شد', 'info');
     }
 
     async function saveInlineProgram() {
@@ -2632,9 +2913,11 @@ export function renderAppHtml(): string {
         return;
       }
 
+      // Guests always POST: their edit becomes a fresh server copy so share links show the new version.
+      const isUpdate = !!(editingRoutineId && currentUser);
       try {
-        const res = await fetch('/api/routines', {
-          method: 'POST',
+        const res = await fetch(isUpdate ? '/api/routines/' + encodeURIComponent(editingRoutineId) : '/api/routines', {
+          method: isUpdate ? 'PUT' : 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             title,
@@ -2643,7 +2926,8 @@ export function renderAppHtml(): string {
               exercise_id: item.exercise_id,
               target_sets: item.target_sets,
               target_reps: item.target_reps,
-              rest_seconds: item.rest_seconds || 60
+              rest_seconds: item.rest_seconds || 60,
+              superset_next: !!item.superset_next
             }))
           })
         });
@@ -2663,14 +2947,19 @@ export function renderAppHtml(): string {
                     gif_url: d.gif_url,
                     target_sets: Number(d.target_sets) || 4,
                     target_reps: Number(d.target_reps) || 10,
-                    rest_seconds: Number(d.rest_seconds) || 60
+                    rest_seconds: Number(d.rest_seconds) || 60,
+                    superset_next: d.superset_next ? 1 : 0
                   }))
             };
-            localRoutines.unshift(fullRoutine);
+            const editedIdx = editingRoutineId ? localRoutines.findIndex(r => r.id === editingRoutineId) : -1;
+            if (editedIdx >= 0) localRoutines[editedIdx] = fullRoutine;
+            else localRoutines.unshift(fullRoutine);
             localStorage.setItem('guest_routines', JSON.stringify(localRoutines));
           }
-          showNotification(\`برنامه «\${title}» با موفقیت ساخته شد و آماده اشتراک است!\`, 'success');
-          clearDraftProgram();
+          showNotification(editingRoutineId
+            ? \`تغییرات برنامه «\${title}» ذخیره شد\`
+            : \`برنامه «\${title}» با موفقیت ساخته شد و آماده اشتراک است!\`, 'success');
+          resetDraftProgram();
           loadRoutines();
           loadDashboardRoutines();
         } else {
@@ -2729,8 +3018,8 @@ export function renderAppHtml(): string {
                 const reps = Number(ex.target_reps || ex.reps) || 10;
                 return \`
                 <div class="card-glass-subtle px-2.5 py-1.5 flex items-center justify-between gap-2 text-xs">
-                  <span class="text-zinc-200 font-medium min-w-0">\${toPersianDigits(i + 1)}. \${escapeHtml(nameFa)}</span>
-                  <span class="text-zinc-400 font-mono text-[11px] shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)}</span>
+                  <span class="text-zinc-200 font-medium min-w-0">\${toPersianDigits(i + 1)}. \${escapeHtml(nameFa)}\${Number(ex.superset_next) ? ' <i data-lucide="link-2" class="w-3 h-3 inline text-accent" aria-label="سوپرست با حرکت بعد"></i>' : ''}</span>
+                  <span class="text-zinc-400 font-mono text-[11px] shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)} · \${toPersianDigits(Number(ex.rest_seconds) || 60)}ث</span>
                 </div>
               \`;}).join('')}
             </div>
@@ -2741,6 +3030,12 @@ export function renderAppHtml(): string {
             <div class="flex items-center gap-1.5">
               <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری این برنامه" class="btn btn-secondary btn-icon-sm">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
+              </button>
+              <button onclick="editRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ویرایش برنامه" class="btn btn-secondary btn-icon-sm">
+                <i data-lucide="pencil" class="w-4 h-4"></i>
+              </button>
+              <button onclick="duplicateRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ساخت کپی از برنامه" class="btn btn-secondary btn-icon-sm">
+                <i data-lucide="copy" class="w-4 h-4"></i>
               </button>
               <button onclick="deleteRoutine('\${r.id}')" title="حذف برنامه" class="btn-icon-sm btn-icon-danger">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
@@ -2769,13 +3064,24 @@ export function renderAppHtml(): string {
       if (!confirmed) return;
 
       if (currentUser) {
-        await fetch('/api/routines/' + routineId, { method: 'DELETE' });
+        try {
+          const res = await fetch('/api/routines/' + encodeURIComponent(routineId), { method: 'DELETE' });
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            showNotification(data.error || 'خطا در حذف برنامه', 'error');
+            return;
+          }
+        } catch (e) {
+          showNotification('خطا در حذف برنامه', 'error');
+          return;
+        }
       } else {
         let guestRoutines = JSON.parse(localStorage.getItem('guest_routines') || '[]');
         guestRoutines = guestRoutines.filter(r => r.id !== routineId);
         localStorage.setItem('guest_routines', JSON.stringify(guestRoutines));
       }
 
+      if (editingRoutineId === routineId) resetDraftProgram();
       showNotification('برنامه حذف شد', 'info');
       loadRoutines();
       loadDashboardRoutines();
@@ -3379,15 +3685,29 @@ export function renderAppHtml(): string {
     async function loadDashboardRoutines() {
       try {
         let routines = [];
+        let plan = {};
+        try { plan = JSON.parse(localStorage.getItem(WP_CACHE_KEY) || '{}') || {}; } catch (e) {}
         if (currentUser) {
-          const res = await fetch('/api/routines');
+          const [res, planRes] = await Promise.all([
+            fetch('/api/routines'),
+            fetch('/api/profile/weekly-plan').catch(() => null)
+          ]);
           if (res.ok) {
             const data = await res.json();
             routines = data.routines || [];
           }
+          if (planRes && planRes.ok) {
+            const planData = await planRes.json().catch(() => ({}));
+            if (planData.plan) plan = planData.plan;
+          }
         } else {
           routines = JSON.parse(localStorage.getItem('guest_routines') || '[]');
         }
+
+        // Routines scheduled for today in the weekly plan come first
+        const todayIds = (plan[String(wpWeekdayIndex(new Date()))] || []).map(String);
+        const isToday = r => todayIds.includes(String(r.id));
+        routines = [...routines.filter(isToday), ...routines.filter(r => !isToday(r))];
 
         const list = document.getElementById('dash-routines-list');
         if (!list) return;
@@ -3401,7 +3721,7 @@ export function renderAppHtml(): string {
           <div class="card-glass-subtle p-3 flex items-center justify-between gap-3">
             <div class="min-w-0">
               <h4 class="font-bold text-xs text-white text-wrap-safe">\${userText(r.title)}</h4>
-              <p class="text-[10px] text-zinc-400">\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
+              <p class="text-[10px] text-zinc-400">\${isToday(r) ? '<span class="badge badge-emerald ml-1">امروز</span>' : ''}\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
               <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری" class="btn btn-secondary btn-icon-sm">
@@ -4204,6 +4524,8 @@ export function renderAppHtml(): string {
     }
 
     ${renderActivationScript()}
+    ${renderProgressionScript()}
+    ${renderOfflineScript()}
     ${renderPresetsClientScript()}
 
     ${renderWeeklyPlanClientScript()}
