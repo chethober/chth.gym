@@ -340,11 +340,11 @@ export function renderThemeStyles(): string {
       }
       ::selection { background: var(--accent); color: var(--on-accent); }
 
-      html.theme-transition,
-      html.theme-transition *,
-      html.theme-transition *::before,
-      html.theme-transition *::after {
-        transition: background-color 200ms ease, border-color 200ms ease, color 150ms ease !important;
+      /* Theme and accent swaps crossfade the whole page as one composited layer
+         (crossfade() in html.ts), so canvas, SVG and shadows change with the rest */
+      ::view-transition-old(root), ::view-transition-new(root) {
+        animation-duration: var(--dur-base);
+        animation-timing-function: ease;
       }
 
       /* Section headings inside cards: icon + title, one look everywhere */
@@ -688,10 +688,6 @@ export function renderThemeStyles(): string {
         box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--swatch);
       }
       html .swatch.is-selected i[data-lucide], html .swatch.is-selected svg { opacity: 1; transform: none; }
-      /* The page-wide color crossfade must not flatten the swatch's own check-in motion */
-      html.theme-transition .swatch, html.theme-transition .swatch * {
-        transition: box-shadow var(--dur-fast) ease, opacity var(--dur-fast) ease, transform var(--dur-base) var(--ease-out) !important;
-      }
       .swatch-row { display: flex; flex-wrap: wrap; gap: 0.75rem; padding: 0.25rem; }
 
       /* Settings rows: label on one side, control on the other */

@@ -1026,9 +1026,17 @@ export function renderAppHtml(): string {
       });
     }
 
+    // Color swaps fade the old page into the new one as a single snapshot. Unlike a
+    // transition on every element, it leaves their own motion alone (a toast that
+    // enters at the same moment) and covers what CSS colors don't (the chart canvas).
+    // Browsers without View Transitions swap instantly.
+    function crossfade(update) {
+      if (document.startViewTransition) document.startViewTransition(update);
+      else update();
+    }
+
     function applyTheme(mode, save = true) {
       const root = document.documentElement;
-      root.classList.add('theme-transition');
 
       let isDark = true;
       if (mode === 'light') {
@@ -1039,38 +1047,30 @@ export function renderAppHtml(): string {
         isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       }
 
-      if (isDark) {
-        root.classList.add('dark');
-        root.classList.remove('light');
-      } else {
-        root.classList.add('light');
-        root.classList.remove('dark');
-      }
-
       if (save) {
         localStorage.setItem('jesm_theme', mode);
       }
 
-      updateThemeUI(mode, isDark);
-      updateChartTheme(isDark);
-
-      setTimeout(() => {
-        root.classList.remove('theme-transition');
+      const swap = () => {
+        root.classList.toggle('dark', isDark);
+        root.classList.toggle('light', !isDark);
+        updateThemeUI(mode, isDark);
+        updateChartTheme(isDark);
         lucide.createIcons();
-      }, 250);
+      };
+      // Page load and picking "system" while it already matches change nothing to fade
+      if (root.classList.contains('dark') === isDark) swap();
+      else crossfade(swap);
     }
 
     function toggleTheme() {
       const isCurrentlyDark = document.documentElement.classList.contains('dark');
       const nextMode = isCurrentlyDark ? 'light' : 'dark';
       applyTheme(nextMode, true);
-      showNotification(nextMode === 'light' ? 'پوسته روشن فعال شد' : 'پوسته تاریک فعال شد', 'success');
     }
 
     function setTheme(mode) {
       applyTheme(mode, true);
-      const names = { dark: 'تاریک', light: 'روشن', system: 'هماهنگ با سیستم' };
-      showNotification('پوسته ' + (names[mode] || mode) + ' انتخاب شد', 'success');
     }
 
     function updateThemeUI(mode, isDark) {
@@ -1121,12 +1121,13 @@ export function renderAppHtml(): string {
       try { localStorage.setItem('jesm_prefs', JSON.stringify(prefs)); } catch (e) {}
 
       // Color swaps crossfade; size and shape changes snap, since they reflow the page
-      const root = document.documentElement;
-      if (key === 'accent') root.classList.add('theme-transition');
-      applyPrefs(prefs);
       if (key === 'accent') {
-        updateChartTheme(root.classList.contains('dark'));
-        setTimeout(() => root.classList.remove('theme-transition'), 250);
+        crossfade(() => {
+          applyPrefs(prefs);
+          updateChartTheme(document.documentElement.classList.contains('dark'));
+        });
+      } else {
+        applyPrefs(prefs);
       }
     }
 
