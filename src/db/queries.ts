@@ -424,6 +424,53 @@ export class Database {
     return (await this.getRoutineById(routineId, userId)) || (await this.getPublicRoutineById(routineId))!;
   }
 
+  // Replaces title, description and the full exercise list in one batch, so a failed
+  // write never leaves a routine half-edited. Returns null if the user doesn't own it.
+  async updateRoutine(
+    routineId: string,
+    userId: string,
+    title: string,
+    description: string,
+    exercises: { exercise_id: string; target_sets: number; target_reps: number; rest_seconds: number }[]
+  ): Promise<Routine | null> {
+    const owned = await this.db
+      .prepare('SELECT id FROM routines WHERE id = ? AND user_id = ?')
+      .bind(routineId, userId)
+      .first();
+    if (!owned) return null;
+
+    const ids = [...new Set(exercises.map(e => e.exercise_id).filter(Boolean))];
+    const known = new Set<string>();
+    if (ids.length > 0) {
+      const { results } = await this.db
+        .prepare(`SELECT id FROM exercises WHERE id IN (${ids.map(() => '?').join(',')})`)
+        .bind(...ids)
+        .all<{ id: string }>();
+      (results || []).forEach(r => known.add(r.id));
+    }
+
+    const now = new Date().toISOString();
+    const statements = [
+      this.db
+        .prepare('UPDATE routines SET title = ?, description = ?, updated_at = ? WHERE id = ? AND user_id = ?')
+        .bind(title, description || null, now, routineId, userId),
+      this.db.prepare('DELETE FROM routine_exercises WHERE routine_id = ?').bind(routineId)
+    ];
+
+    let orderIndex = 0;
+    for (const item of exercises) {
+      if (!known.has(item.exercise_id)) continue;
+      statements.push(
+        this.db
+          .prepare('INSERT INTO routine_exercises (id, routine_id, exercise_id, order_index, target_sets, target_reps, rest_seconds) VALUES (?, ?, ?, ?, ?, ?, ?)')
+          .bind(`re_${crypto.randomUUID()}`, routineId, item.exercise_id, orderIndex++, item.target_sets || 3, item.target_reps || 10, item.rest_seconds || 60)
+      );
+    }
+
+    await this.db.batch(statements);
+    return this.getRoutineById(routineId, userId);
+  }
+
   async deleteRoutine(routineId: string, userId: string): Promise<boolean> {
     const res = await this.db
       .prepare('DELETE FROM routines WHERE id = ? AND user_id = ?')

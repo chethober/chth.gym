@@ -465,7 +465,7 @@ export function renderAppHtml(): string {
               <i data-lucide="clipboard-list" class="w-5 h-5"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-white">طراحی برنامه</h3>
+              <h3 id="builder-heading" class="text-sm font-bold text-white">طراحی برنامه</h3>
             </div>
           </div>
           
@@ -499,10 +499,14 @@ export function renderAppHtml(): string {
 
         <!-- Builder Actions -->
         <div id="inline-builder-actions" class="hidden pt-2 divider-top flex items-center justify-between">
-          <span></span>
+          <button id="builder-cancel-edit" onclick="cancelRoutineEdit()" class="btn btn-ghost btn-md hidden">
+            <i data-lucide="x" class="w-4 h-4"></i>
+            <span>انصراف از ویرایش</span>
+          </button>
+          <span id="builder-actions-spacer"></span>
           <button onclick="saveInlineProgram()" class="btn btn-primary btn-md">
             <i data-lucide="check" class="w-4 h-4"></i>
-            <span>ذخیره برنامه</span>
+            <span id="builder-save-label">ذخیره برنامه</span>
           </button>
         </div>
       </div>
@@ -848,6 +852,7 @@ export function renderAppHtml(): string {
     let currentMuscleFilter = 'all';
     let currentEquipmentFilter = 'all';
     let draftProgramExercises = []; // Inline program draft items
+    let editingRoutineId = null; // Set while the builder holds a saved routine being edited
     let volumeChartInstance = null;
     let currentSelectedExerciseId = null;
     let currentSharedRoutine = null;
@@ -1214,6 +1219,7 @@ export function renderAppHtml(): string {
       if (urlParams.get('auth') === 'success') {
         window.history.replaceState({}, document.title, window.location.pathname);
         showNotification('با موفقیت وارد حساب کاربری شدید', 'success');
+        await migrateGuestRoutines();
 
         const pendingImport = sessionStorage.getItem('pending_import_routine');
         if (pendingImport) {
@@ -2546,6 +2552,14 @@ export function renderAppHtml(): string {
         <div class="card-glass-subtle p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           
           <div class="flex items-center gap-2.5 min-w-0">
+            <div class="flex flex-col shrink-0">
+              <button type="button" onclick="moveDraftMovement(\${idx}, -1)" \${idx === 0 ? 'disabled' : ''} class="btn-icon-sm btn-ghost h-5 disabled:opacity-30" aria-label="انتقال به بالا">
+                <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+              </button>
+              <button type="button" onclick="moveDraftMovement(\${idx}, 1)" \${idx === count - 1 ? 'disabled' : ''} class="btn-icon-sm btn-ghost h-5 disabled:opacity-30" aria-label="انتقال به پایین">
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
             <span class="badge badge-emerald w-6 justify-center shrink-0">\${toPersianDigits(idx + 1)}</span>
             \${item.gif_url ? \`<img src="\${item.gif_url}" class="thumb w-10 h-10" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div class="min-w-0 truncate">
@@ -2557,7 +2571,7 @@ export function renderAppHtml(): string {
           </div>
 
           <!-- Sets & Reps Digital Counters + Delete Button (Guaranteed Same Line) -->
-          <div class="flex items-center flex-nowrap gap-2 shrink-0 self-end sm:self-auto">
+          <div class="flex items-center flex-wrap justify-end gap-2 shrink-0 self-end sm:self-auto">
             
             <!-- Sets Counter -->
             <div class="stepper">
@@ -2575,7 +2589,16 @@ export function renderAppHtml(): string {
               <button type="button" onclick="adjustDraftReps(\${idx}, 1)" class="stepper-btn" aria-label="افزایش تکرار">+</button>
             </div>
 
-            <!-- Delete Button (ALWAYS on same line) -->
+            <!-- Rest Counter (seconds, 15s steps) -->
+            <div class="stepper">
+              <span class="stepper-label">استراحت</span>
+              <button type="button" onclick="adjustDraftRest(\${idx}, -15)" class="stepper-btn" aria-label="کاهش استراحت">−</button>
+              <span class="stepper-value">\${toPersianDigits(item.rest_seconds || 60)}</span>
+              <span class="stepper-unit">ث</span>
+              <button type="button" onclick="adjustDraftRest(\${idx}, 15)" class="stepper-btn" aria-label="افزایش استراحت">+</button>
+            </div>
+
+            <!-- Delete Button -->
             <button type="button" onclick="removeDraftMovement(\${idx})" title="حذف از برنامه" class="btn-icon-sm btn-icon-danger">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
@@ -2601,17 +2624,182 @@ export function renderAppHtml(): string {
       }
     }
 
+    function adjustDraftRest(idx, delta) {
+      if (draftProgramExercises[idx]) {
+        draftProgramExercises[idx].rest_seconds = Math.max(15, Math.min(600, (Number(draftProgramExercises[idx].rest_seconds) || 60) + delta));
+        renderInlineDraftExercises();
+      }
+    }
+
+    function moveDraftMovement(idx, delta) {
+      const target = idx + delta;
+      if (target < 0 || target >= draftProgramExercises.length) return;
+      [draftProgramExercises[idx], draftProgramExercises[target]] = [draftProgramExercises[target], draftProgramExercises[idx]];
+      renderInlineDraftExercises();
+    }
+
     function removeDraftMovement(idx) {
       draftProgramExercises.splice(idx, 1);
       renderInlineDraftExercises();
     }
 
-    function clearDraftProgram() {
+    function resetDraftProgram() {
       draftProgramExercises = [];
       document.getElementById('inline-routine-title').value = '';
       document.getElementById('inline-routine-desc').value = '';
+      setBuilderEditMode(null);
       renderInlineDraftExercises();
+    }
+
+    function clearDraftProgram() {
+      resetDraftProgram();
       showNotification('پیش‌نویس برنامه پاکسازی شد', 'info');
+    }
+
+    function setBuilderEditMode(routineId) {
+      editingRoutineId = routineId;
+      const heading = document.getElementById('builder-heading');
+      const saveLabel = document.getElementById('builder-save-label');
+      if (heading) heading.innerText = routineId ? 'ویرایش برنامه' : 'طراحی برنامه';
+      if (saveLabel) saveLabel.innerText = routineId ? 'ذخیره تغییرات' : 'ذخیره برنامه';
+      document.getElementById('builder-cancel-edit')?.classList.toggle('hidden', !routineId);
+      document.getElementById('builder-actions-spacer')?.classList.toggle('hidden', !!routineId);
+    }
+
+    async function getSavedRoutines() {
+      if (currentUser) {
+        const res = await fetch('/api/routines');
+        const data = await res.json();
+        return data.routines || [];
+      }
+      return JSON.parse(localStorage.getItem('guest_routines') || '[]');
+    }
+
+    async function editRoutine(routineId) {
+      let routine = null;
+      try {
+        routine = (await getSavedRoutines()).find(r => r.id === routineId);
+      } catch (e) {}
+      if (!routine) {
+        showNotification('برنامه تمرینی یافت نشد', 'error');
+        return;
+      }
+
+      if (draftProgramExercises.length > 0 && editingRoutineId !== routineId) {
+        const confirmed = await showConfirmDialog({
+          title: 'جایگزینی پیش‌نویس',
+          message: 'پیش‌نویس فعلی با این برنامه جایگزین می‌شود. ادامه می‌دهید؟',
+          confirmText: 'ویرایش برنامه',
+          color: 'amber',
+          icon: 'pencil'
+        });
+        if (!confirmed) return;
+      }
+
+      draftProgramExercises = (routine.exercises || []).map(ex => ({
+        exercise_id: ex.exercise_id || ex.id,
+        name_fa: ex.name_fa || ex.exercise_name_fa || ex.name_en || 'حرکت تمرینی',
+        name_en: ex.name_en || ex.exercise_name_en || '',
+        gif_url: ex.gif_url,
+        target_sets: Number(ex.target_sets || ex.sets) || 4,
+        target_reps: Number(ex.target_reps || ex.reps) || 10,
+        rest_seconds: Number(ex.rest_seconds) || 60
+      }));
+      document.getElementById('inline-routine-title').value = routine.title || '';
+      document.getElementById('inline-routine-desc').value = routine.description || '';
+      setBuilderEditMode(routineId);
+      renderInlineDraftExercises();
+
+      if (!document.getElementById('tab-movements')?.classList.contains('hidden')) {
+        document.getElementById('inline-program-builder-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        switchTab('movements');
+      }
+      showNotification('برای افزودن حرکت، از بانک حرکات پایین صفحه انتخاب کنید', 'info');
+    }
+
+    function routinePayload(routine, title) {
+      return {
+        title,
+        description: routine.description || '',
+        exercises: (routine.exercises || []).map(ex => ({
+          exercise_id: ex.exercise_id || ex.id,
+          target_sets: Number(ex.target_sets || ex.sets) || 4,
+          target_reps: Number(ex.target_reps || ex.reps) || 10,
+          rest_seconds: Number(ex.rest_seconds) || 60
+        }))
+      };
+    }
+
+    async function duplicateRoutine(routineId) {
+      let routine = null;
+      try {
+        routine = (await getSavedRoutines()).find(r => r.id === routineId);
+      } catch (e) {}
+      if (!routine) {
+        showNotification('برنامه تمرینی یافت نشد', 'error');
+        return;
+      }
+
+      const suffix = ' (کپی)';
+      const title = Array.from(routine.title || '').slice(0, ${TEXT_LIMITS.title} - suffix.length).join('') + suffix;
+      try {
+        const res = await fetch('/api/routines', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(routinePayload(routine, title))
+        });
+        const data = await res.json();
+        if (!data.success || !data.routine) {
+          showNotification(data.error || 'خطا در ساخت کپی', 'error');
+          return;
+        }
+        if (!currentUser) {
+          const local = JSON.parse(localStorage.getItem('guest_routines') || '[]');
+          // Keep the source's exercise details: the guest server copy can't be re-read later.
+          local.unshift({ ...data.routine, exercises: data.routine.exercises?.length ? data.routine.exercises : routine.exercises });
+          localStorage.setItem('guest_routines', JSON.stringify(local));
+        }
+        showNotification(\`کپی «\${title}» ساخته شد\`, 'success');
+        loadRoutines();
+        loadDashboardRoutines();
+      } catch (e) {
+        showNotification('خطا در ساخت کپی', 'error');
+      }
+    }
+
+    // After signing in, move routines built as a guest into the account (oldest first to keep order).
+    async function migrateGuestRoutines() {
+      let local = [];
+      try { local = JSON.parse(localStorage.getItem('guest_routines') || '[]'); } catch (e) {}
+      if (!Array.isArray(local) || local.length === 0) return;
+
+      const remaining = [];
+      let moved = 0;
+      for (const routine of [...local].reverse()) {
+        try {
+          const res = await fetch('/api/routines', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(routinePayload(routine, routine.title))
+          });
+          if (res.ok) { moved++; continue; }
+        } catch (e) {}
+        remaining.unshift(routine);
+      }
+
+      if (remaining.length) localStorage.setItem('guest_routines', JSON.stringify(remaining));
+      else localStorage.removeItem('guest_routines');
+      if (moved) {
+        showNotification(\`\${toPersianDigits(moved)} برنامه از حالت مهمان به حساب شما منتقل شد\`, 'success');
+        loadRoutines();
+        loadDashboardRoutines();
+      }
+    }
+
+    function cancelRoutineEdit() {
+      resetDraftProgram();
+      showNotification('ویرایش لغو شد', 'info');
     }
 
     async function saveInlineProgram() {
@@ -2632,9 +2820,11 @@ export function renderAppHtml(): string {
         return;
       }
 
+      // Guests always POST: their edit becomes a fresh server copy so share links show the new version.
+      const isUpdate = !!(editingRoutineId && currentUser);
       try {
-        const res = await fetch('/api/routines', {
-          method: 'POST',
+        const res = await fetch(isUpdate ? '/api/routines/' + encodeURIComponent(editingRoutineId) : '/api/routines', {
+          method: isUpdate ? 'PUT' : 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             title,
@@ -2666,11 +2856,15 @@ export function renderAppHtml(): string {
                     rest_seconds: Number(d.rest_seconds) || 60
                   }))
             };
-            localRoutines.unshift(fullRoutine);
+            const editedIdx = editingRoutineId ? localRoutines.findIndex(r => r.id === editingRoutineId) : -1;
+            if (editedIdx >= 0) localRoutines[editedIdx] = fullRoutine;
+            else localRoutines.unshift(fullRoutine);
             localStorage.setItem('guest_routines', JSON.stringify(localRoutines));
           }
-          showNotification(\`برنامه «\${title}» با موفقیت ساخته شد و آماده اشتراک است!\`, 'success');
-          clearDraftProgram();
+          showNotification(editingRoutineId
+            ? \`تغییرات برنامه «\${title}» ذخیره شد\`
+            : \`برنامه «\${title}» با موفقیت ساخته شد و آماده اشتراک است!\`, 'success');
+          resetDraftProgram();
           loadRoutines();
           loadDashboardRoutines();
         } else {
@@ -2730,7 +2924,7 @@ export function renderAppHtml(): string {
                 return \`
                 <div class="card-glass-subtle px-2.5 py-1.5 flex items-center justify-between gap-2 text-xs">
                   <span class="text-zinc-200 font-medium min-w-0">\${toPersianDigits(i + 1)}. \${escapeHtml(nameFa)}</span>
-                  <span class="text-zinc-400 font-mono text-[11px] shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)}</span>
+                  <span class="text-zinc-400 font-mono text-[11px] shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)} · \${toPersianDigits(Number(ex.rest_seconds) || 60)}ث</span>
                 </div>
               \`;}).join('')}
             </div>
@@ -2741,6 +2935,12 @@ export function renderAppHtml(): string {
             <div class="flex items-center gap-1.5">
               <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری این برنامه" class="btn btn-secondary btn-icon-sm">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
+              </button>
+              <button onclick="editRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ویرایش برنامه" class="btn btn-secondary btn-icon-sm">
+                <i data-lucide="pencil" class="w-4 h-4"></i>
+              </button>
+              <button onclick="duplicateRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ساخت کپی از برنامه" class="btn btn-secondary btn-icon-sm">
+                <i data-lucide="copy" class="w-4 h-4"></i>
               </button>
               <button onclick="deleteRoutine('\${r.id}')" title="حذف برنامه" class="btn-icon-sm btn-icon-danger">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
@@ -2769,13 +2969,24 @@ export function renderAppHtml(): string {
       if (!confirmed) return;
 
       if (currentUser) {
-        await fetch('/api/routines/' + routineId, { method: 'DELETE' });
+        try {
+          const res = await fetch('/api/routines/' + encodeURIComponent(routineId), { method: 'DELETE' });
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            showNotification(data.error || 'خطا در حذف برنامه', 'error');
+            return;
+          }
+        } catch (e) {
+          showNotification('خطا در حذف برنامه', 'error');
+          return;
+        }
       } else {
         let guestRoutines = JSON.parse(localStorage.getItem('guest_routines') || '[]');
         guestRoutines = guestRoutines.filter(r => r.id !== routineId);
         localStorage.setItem('guest_routines', JSON.stringify(guestRoutines));
       }
 
+      if (editingRoutineId === routineId) resetDraftProgram();
       showNotification('برنامه حذف شد', 'info');
       loadRoutines();
       loadDashboardRoutines();
