@@ -1638,7 +1638,8 @@ export function renderAppHtml(): string {
             category_fa: ex.category_fa || ex.exercise_category_fa || '',
             target_sets: Number(ex.target_sets || ex.sets) || 4,
             target_reps: Number(ex.target_reps || ex.reps) || 10,
-            rest_seconds: Number(ex.rest_seconds) || 60
+            rest_seconds: Number(ex.rest_seconds) || 60,
+            superset_next: Number(ex.superset_next) ? 1 : 0
           }));
 
           activeSession = {
@@ -1874,6 +1875,7 @@ export function renderAppHtml(): string {
               <span class="ex-row-name">\${escapeHtml(item.name_fa)}</span>
               <span class="ex-row-meta">
                 \${toPersianDigits(item.target_sets)} × \${toPersianDigits(item.target_reps)}
+                \${item.superset_next ? '<span class="block text-accent">سوپرست با حرکت بعد</span>' : ''}
                 \${progressionSuggestion(item) ? \`<span class="block text-accent">\${formatSuggestion(progressionSuggestion(item))}</span>\` : ''}
                 \${previousExerciseLogs[item.id] ? \`<span class="block">جلسه قبل: \${toPersianDigits(previousExerciseLogs[item.id].weight_kg)} کیلو × \${toPersianDigits(previousExerciseLogs[item.id].reps)}</span>\` : ''}
                 <span data-weight-label-for="\${item.id}">\${formatOngoingWeight(weight)}</span>
@@ -2077,6 +2079,7 @@ export function renderAppHtml(): string {
           target_sets: Number(pe.target_sets || pe.sets) || 4,
           target_reps: Number(pe.target_reps || pe.reps) || 10,
           rest_seconds: Number(pe.rest_seconds) || 60,
+          superset_next: !!Number(pe.superset_next),
           logs: []
         });
       });
@@ -2168,6 +2171,15 @@ export function renderAppHtml(): string {
       lucide.createIcons();
     }
 
+    // Inside a superset, go straight to the next move; rest comes after the last one
+    function restAfterSet(planned) {
+      if (planned && Number(planned.superset_next)) {
+        showNotification('سوپرست: بدون استراحت سراغ حرکت بعدی برو', 'info');
+        return;
+      }
+      startRestTimer(planned?.rest_seconds || 60);
+    }
+
     function addExtraSet(exerciseId) {
       extraSetsCount[exerciseId] = (extraSetsCount[exerciseId] || 0) + 1;
       renderActiveWorkoutTodoList();
@@ -2229,7 +2241,7 @@ export function renderAppHtml(): string {
 
             const planned = (activeSession.planned_exercises || []).find(pe => pe.exercise_id === exerciseId);
             renderActiveWorkoutTodoList();
-            startRestTimer(planned?.rest_seconds || 60);
+            restAfterSet(planned);
           } else {
             showNotification(data.error || 'خطا در ثبت ست', 'error');
           }
@@ -2268,7 +2280,7 @@ export function renderAppHtml(): string {
         localStorage.setItem('jesm_guest_active_session', JSON.stringify(activeSession));
 
         renderActiveWorkoutTodoList();
-        startRestTimer(planned?.rest_seconds || 60);
+        restAfterSet(planned);
       }
     }
 
@@ -2519,7 +2531,8 @@ export function renderAppHtml(): string {
         gif_url: ex.gif_url,
         target_sets: 4,
         target_reps: 10,
-        rest_seconds: 60
+        rest_seconds: 60,
+        superset_next: false
       });
 
       renderInlineDraftExercises();
@@ -2558,6 +2571,9 @@ export function renderAppHtml(): string {
         \`;
         return;
       }
+
+      // The last exercise has nothing to link to
+      draftProgramExercises[count - 1].superset_next = false;
 
       container.innerHTML = draftProgramExercises.map((item, idx) => \`
         <div class="card-glass-subtle p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
@@ -2616,6 +2632,13 @@ export function renderAppHtml(): string {
           </div>
 
         </div>
+        \${idx < count - 1 ? \`
+        <div class="flex justify-center -my-1">
+          <button type="button" onclick="toggleDraftSuperset(\${idx})" aria-pressed="\${item.superset_next ? 'true' : 'false'}" class="badge \${item.superset_next ? 'badge-emerald' : 'badge-zinc'} cursor-pointer">
+            <i data-lucide="link-2" class="w-3 h-3"></i>
+            <span>\${item.superset_next ? 'سوپرست با حرکت بعد' : 'اتصال سوپرست'}</span>
+          </button>
+        </div>\` : ''}
       \`).join('');
 
       lucide.createIcons();
@@ -2638,6 +2661,13 @@ export function renderAppHtml(): string {
     function adjustDraftRest(idx, delta) {
       if (draftProgramExercises[idx]) {
         draftProgramExercises[idx].rest_seconds = Math.max(15, Math.min(600, (Number(draftProgramExercises[idx].rest_seconds) || 60) + delta));
+        renderInlineDraftExercises();
+      }
+    }
+
+    function toggleDraftSuperset(idx) {
+      if (draftProgramExercises[idx] && idx < draftProgramExercises.length - 1) {
+        draftProgramExercises[idx].superset_next = !draftProgramExercises[idx].superset_next;
         renderInlineDraftExercises();
       }
     }
@@ -2714,7 +2744,8 @@ export function renderAppHtml(): string {
         gif_url: ex.gif_url,
         target_sets: Number(ex.target_sets || ex.sets) || 4,
         target_reps: Number(ex.target_reps || ex.reps) || 10,
-        rest_seconds: Number(ex.rest_seconds) || 60
+        rest_seconds: Number(ex.rest_seconds) || 60,
+        superset_next: !!Number(ex.superset_next)
       }));
       document.getElementById('inline-routine-title').value = routine.title || '';
       document.getElementById('inline-routine-desc').value = routine.description || '';
@@ -2737,7 +2768,8 @@ export function renderAppHtml(): string {
           exercise_id: ex.exercise_id || ex.id,
           target_sets: Number(ex.target_sets || ex.sets) || 4,
           target_reps: Number(ex.target_reps || ex.reps) || 10,
-          rest_seconds: Number(ex.rest_seconds) || 60
+          rest_seconds: Number(ex.rest_seconds) || 60,
+          superset_next: !!Number(ex.superset_next)
         }))
       };
     }
@@ -2844,7 +2876,8 @@ export function renderAppHtml(): string {
               exercise_id: item.exercise_id,
               target_sets: item.target_sets,
               target_reps: item.target_reps,
-              rest_seconds: item.rest_seconds || 60
+              rest_seconds: item.rest_seconds || 60,
+              superset_next: !!item.superset_next
             }))
           })
         });
@@ -2864,7 +2897,8 @@ export function renderAppHtml(): string {
                     gif_url: d.gif_url,
                     target_sets: Number(d.target_sets) || 4,
                     target_reps: Number(d.target_reps) || 10,
-                    rest_seconds: Number(d.rest_seconds) || 60
+                    rest_seconds: Number(d.rest_seconds) || 60,
+                    superset_next: d.superset_next ? 1 : 0
                   }))
             };
             const editedIdx = editingRoutineId ? localRoutines.findIndex(r => r.id === editingRoutineId) : -1;
@@ -2934,7 +2968,7 @@ export function renderAppHtml(): string {
                 const reps = Number(ex.target_reps || ex.reps) || 10;
                 return \`
                 <div class="card-glass-subtle px-2.5 py-1.5 flex items-center justify-between gap-2 text-xs">
-                  <span class="text-zinc-200 font-medium min-w-0">\${toPersianDigits(i + 1)}. \${escapeHtml(nameFa)}</span>
+                  <span class="text-zinc-200 font-medium min-w-0">\${toPersianDigits(i + 1)}. \${escapeHtml(nameFa)}\${Number(ex.superset_next) ? ' <i data-lucide="link-2" class="w-3 h-3 inline text-accent" aria-label="سوپرست با حرکت بعد"></i>' : ''}</span>
                   <span class="text-zinc-400 font-mono text-[11px] shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)} · \${toPersianDigits(Number(ex.rest_seconds) || 60)}ث</span>
                 </div>
               \`;}).join('')}

@@ -4,7 +4,7 @@
 
 import { Hono } from 'hono';
 import { TEXT_LIMITS, clampText } from '../lib/limits';
-import { Env, User } from '../types';
+import { Env, RoutineExerciseInput, User } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth, optionalAuth } from '../auth/session';
 import { getWorkoutSuggestions, getPresetById } from '../data/preloadedWorkouts';
@@ -14,7 +14,7 @@ const routinesRouter = new Hono<{ Bindings: Env; Variables: { user?: User } }>()
 type RoutineBody = {
   title: string;
   description?: string;
-  exercises: { exercise_id: string; target_sets: number; target_reps: number; rest_seconds: number }[];
+  exercises: RoutineExerciseInput[];
 };
 
 // Shared by create and update; returns an error message, or null when the body is valid.

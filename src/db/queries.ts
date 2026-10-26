@@ -8,6 +8,7 @@ import {
   DailyLog,
   Exercise,
   Routine,
+  RoutineExerciseInput,
   RoutineExerciseDetail,
   WorkoutSession,
   WorkoutSetLogDetail,
@@ -370,7 +371,8 @@ export class Database {
       exercise_id: ex.exercise_id,
       target_sets: ex.target_sets,
       target_reps: ex.target_reps,
-      rest_seconds: ex.rest_seconds
+      rest_seconds: ex.rest_seconds,
+      superset_next: ex.superset_next
     }));
 
     return await this.createRoutine(
@@ -385,7 +387,7 @@ export class Database {
     userId: string,
     title: string,
     description: string,
-    exercises: { exercise_id: string; target_sets: number; target_reps: number; rest_seconds: number }[]
+    exercises: RoutineExerciseInput[]
   ): Promise<Routine> {
     const routineId = `rtn_${crypto.randomUUID()}`;
     const now = new Date().toISOString();
@@ -416,8 +418,8 @@ export class Database {
 
       const itemKey = `re_${crypto.randomUUID()}`;
       await this.db
-        .prepare('INSERT INTO routine_exercises (id, routine_id, exercise_id, order_index, target_sets, target_reps, rest_seconds) VALUES (?, ?, ?, ?, ?, ?, ?)')
-        .bind(itemKey, routineId, exId, orderIndex++, item.target_sets || 3, item.target_reps || 10, item.rest_seconds || 60)
+        .prepare('INSERT INTO routine_exercises (id, routine_id, exercise_id, order_index, target_sets, target_reps, rest_seconds, superset_next) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+        .bind(itemKey, routineId, exId, orderIndex++, item.target_sets || 3, item.target_reps || 10, item.rest_seconds || 60, item.superset_next ? 1 : 0)
         .run();
     }
 
@@ -431,7 +433,7 @@ export class Database {
     userId: string,
     title: string,
     description: string,
-    exercises: { exercise_id: string; target_sets: number; target_reps: number; rest_seconds: number }[]
+    exercises: RoutineExerciseInput[]
   ): Promise<Routine | null> {
     const owned = await this.db
       .prepare('SELECT id FROM routines WHERE id = ? AND user_id = ?')
@@ -462,8 +464,8 @@ export class Database {
       if (!known.has(item.exercise_id)) continue;
       statements.push(
         this.db
-          .prepare('INSERT INTO routine_exercises (id, routine_id, exercise_id, order_index, target_sets, target_reps, rest_seconds) VALUES (?, ?, ?, ?, ?, ?, ?)')
-          .bind(`re_${crypto.randomUUID()}`, routineId, item.exercise_id, orderIndex++, item.target_sets || 3, item.target_reps || 10, item.rest_seconds || 60)
+          .prepare('INSERT INTO routine_exercises (id, routine_id, exercise_id, order_index, target_sets, target_reps, rest_seconds, superset_next) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+          .bind(`re_${crypto.randomUUID()}`, routineId, item.exercise_id, orderIndex++, item.target_sets || 3, item.target_reps || 10, item.rest_seconds || 60, item.superset_next ? 1 : 0)
       );
     }
 

@@ -94,6 +94,16 @@ export interface RoutineExercise {
   target_sets: number;
   target_reps: number;
   rest_seconds: number;
+  superset_next?: number;            // 1 = done back to back with the next exercise
+}
+
+// One exercise as sent when creating or editing a routine
+export interface RoutineExerciseInput {
+  exercise_id: string;
+  target_sets: number;
+  target_reps: number;
+  rest_seconds: number;
+  superset_next?: boolean | number;
 }
 
 export interface RoutineExerciseDetail extends RoutineExercise {
