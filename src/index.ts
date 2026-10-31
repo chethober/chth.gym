@@ -18,8 +18,20 @@ import { profileRouter } from './routes/profile';
 import { renderAppHtml } from './frontend/html';
 import { renderPublicPrograms, renderProgramNotFound, escapeHtml } from './frontend/publicPrograms';
 import { PRELOADED_WORKOUTS, getPresetById } from './data/preloadedWorkouts';
+import { finishPage, resolveLocale } from './i18n';
+import { statsResponse, track, trackRef } from './hub';
 
 const app = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
+
+/** Sends a rendered page in the visitor's language (see src/i18n), remembering ?lang= choices. */
+function page(c: any, html: string, status: 200 | 404 = 200) {
+  const { locale, setCookie } = resolveLocale(c.req.raw);
+  if (setCookie) c.header('Set-Cookie', setCookie);
+  c.header('Content-Language', locale);
+  c.header('Vary', 'Cookie, Accept-Language');
+  trackRef(c, locale);
+  return c.html(finishPage(html, locale), status);
+}
 
 // Global Middlewares
 app.use('*', logger());
@@ -59,11 +71,11 @@ app.get('/api/health', (c) => {
 });
 
 // Public, rendered program pages for sharing and search discovery.
-app.get('/programs', c => c.html(renderPublicPrograms(new URL(c.req.url).origin)));
+app.get('/programs', c => page(c, renderPublicPrograms(new URL(c.req.url).origin)));
 app.get('/programs/:id', c => {
   const preset = getPresetById(c.req.param('id'));
-  if (!preset) return c.html(renderProgramNotFound(new URL(c.req.url).origin), 404);
-  return c.html(renderPublicPrograms(new URL(c.req.url).origin, preset));
+  if (!preset) return page(c, renderProgramNotFound(new URL(c.req.url).origin), 404);
+  return page(c, renderPublicPrograms(new URL(c.req.url).origin, preset));
 });
 app.get('/sitemap.xml', c => {
   const origin = escapeHtml(new URL(c.req.url).origin);
@@ -73,13 +85,15 @@ app.get('/sitemap.xml', c => {
 app.get('/robots.txt', c => c.text('User-agent: *\nDisallow: /api/\nSitemap: ' + new URL(c.req.url).origin + '/sitemap.xml\n'));
 
 // Serve Single Page Application Frontend
-app.get('/', (c) => {
-  return c.html(renderAppHtml());
-});
+app.get('/', (c) => page(c, renderAppHtml()));
+
+// Stats for the CHTH hub (signed requests only; see src/hub.ts).
+app.get('/internal/stats', (c) => statsResponse(c));
 
 // Global Error Handler
 app.onError((err, c) => {
   console.error('Unhandled Server Error:', err);
+  track(c, 'error', { where: c.req.routePath || c.req.path, message: String(err?.message ?? err).slice(0, 300) });
   return c.json({
     error: 'خطای سرور رخ داد. لطفا مجددا تلاش کنید.',
     message: err.message
@@ -91,7 +105,7 @@ app.notFound((c) => {
   if (c.req.path.startsWith('/api/')) {
     return c.json({ error: 'مسیر API مورد نظر یافت نشد' }, 404);
   }
-  return c.html(renderAppHtml());
+  return page(c, renderAppHtml());
 });
 
 export default app;

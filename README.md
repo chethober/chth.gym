@@ -17,7 +17,8 @@ A comprehensive cloud-based workout tracker, smart routine planner, and fitness 
 - **Public Program Pages** — Rendered Persian program guides at `/programs`, with canonical URLs, social metadata, sitemap, and links into the app
 - **Trainer Program Links** — Save and start a shared routine directly from its preview
 - **Google OAuth** — Secure authentication via Google OpenID Connect
-- **RTL & Persian Support** — Full RTL layout with Persian numerals and Solar Hijri calendar
+- **Five languages** — Persian (RTL, Persian numerals, Solar Hijri calendar), English, Arabic, Russian and Spanish, picked from `?lang=`, the shared `chth_lang` cookie or the browser; see [Languages](#languages)
+- **Part of CHTH** — the shared CHTH brand kit and footer, linking the other CHTH sites and Telegram bots
 
 ---
 
@@ -125,6 +126,24 @@ npm run deploy
 
 ---
 
+## Languages
+
+The app is written in Persian, and `src/i18n/catalog.json` maps every Persian UI string to
+English, Arabic, Russian and Spanish. Pages are translated on the server before they're sent;
+a small browser script translates what the app renders later (lists, toasts, dialogs), switches
+`fa-IR` number and date formatting to the chosen language, and shows exercise names in English
+where the library has them. `npm test` fails when a Persian string has no translation; add it to
+the catalog. Visitors pick a language with `?lang=` (kept in the `chth_lang` cookie, shared by
+every CHTH site); otherwise the browser's languages decide, with Persian as the fallback.
+
+## CHTH kit and hub
+
+`src/chth-kit/` is generated from the shared CHTH kit (brand tokens, logo, languages, product
+links, footer): don't edit it here. The optional CHTH hub integration (`src/hub.ts`) reports
+sign-ups, finished workouts, tagged visits and server errors, and answers signed
+`GET /internal/stats` calls. Set `HUB_URL` (var) and `HUB_SECRET` (`wrangler secret put
+HUB_SECRET`) to switch it on; without them nothing is sent and `/internal/stats` refuses every call.
+
 ## Configuration
 
 ### Environment Variables
@@ -134,6 +153,7 @@ npm run deploy
 | `GOOGLE_CLIENT_ID` | Google OAuth client ID |
 | `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
 | `REDIRECT_URI` | OAuth callback URL |
+| `HUB_URL`, `HUB_SECRET` | CHTH hub reporting and stats (optional) |
 
 ### Cloudflare Wrangler Configuration
 

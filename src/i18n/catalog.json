@@ -1,0 +1,4922 @@
+{
+"اولین تمرینت را آماده کن": [
+"Get your first workout ready",
+"جهّز تمرينك الأول",
+"Подготовь первую тренировку",
+"Prepara tu primer entrenamiento"
+],
+"سطح و تعداد جلساتت را انتخاب کن؛ برنامه را ببین و بدون ساخت حساب شروع کن.": [
+"Pick your level and sessions per week, preview the plan, and start without an account.",
+"اختر مستواك وعدد الجلسات، شاهد البرنامج وابدأ دون إنشاء حساب.",
+"Выбери уровень и число тренировок в неделю, посмотри программу и начни без регистрации.",
+"Elige tu nivel y sesiones por semana, mira el plan y empieza sin crear una cuenta."
+],
+"تجربه تمرین": [
+"Training experience",
+"خبرة التمرين",
+"Опыт тренировок",
+"Experiencia"
+],
+"تازه شروع کرده‌ام": [
+"I'm just starting",
+"بدأت للتو",
+"Я только начинаю",
+"Estoy empezando"
+],
+"به‌طور منظم تمرین می‌کنم": [
+"I train regularly",
+"أتمرّن بانتظام",
+"Тренируюсь регулярно",
+"Entreno con regularidad"
+],
+"باتجربه هستم": [
+"I'm experienced",
+"لديّ خبرة",
+"У меня есть опыт",
+"Tengo experiencia"
+],
+"جلسات در هفته": [
+"Sessions per week",
+"الجلسات في الأسبوع",
+"Тренировок в неделю",
+"Sesiones por semana"
+],
+"۲ جلسه": [
+"2 sessions",
+"2 جلسات",
+"2 тренировки",
+"2 sesiones"
+],
+"مشاهده برنامه پیشنهادی": [
+"See the suggested plan",
+"عرض البرنامج المقترح",
+"Посмотреть программу",
+"Ver el plan sugerido"
+],
+"خودم برنامه دارم": [
+"I have my own plan",
+"لديّ برنامجي الخاص",
+"У меня своя программа",
+"Tengo mi propio plan"
+],
+"راهنمای برنامه‌ها": [
+"Program guide",
+"دليل البرامج",
+"Гид по программам",
+"Guía de programas"
+],
+"تمرین بعدی، آماده است": [
+"Your next workout is ready",
+"تمرينك التالي جاهز",
+"Следующая тренировка готова",
+"Tu próximo entrenamiento está listo"
+],
+"تکرار آخرین تمرین": [
+"Repeat last workout",
+"كرّر آخر تمرين",
+"Повторить последнюю",
+"Repetir el último"
+],
+"تنظیم روزهای تمرین": [
+"Set training days",
+"حدّد أيام التمرين",
+"Выбрать дни тренировок",
+"Elegir días de entreno"
+],
+"تمرینت ثبت شد!": [
+"Workout saved!",
+"تم حفظ تمرينك!",
+"Тренировка сохранена!",
+"¡Entreno guardado!"
+],
+"برای جلسه بعد، روز تمرینت را در برنامه هفتگی انتخاب کن.": [
+"For your next session, pick a training day in the weekly plan.",
+"للجلسة القادمة، اختر يوم تمرينك في الخطة الأسبوعية.",
+"Для следующей тренировки выбери день в недельном плане.",
+"Para la próxima sesión, elige un día en el plan semanal."
+],
+"اشتراک نتیجه تمرین": [
+"Share workout result",
+"شارك نتيجة التمرين",
+"Поделиться результатом",
+"Compartir resultado"
+],
+"برنامه‌ریزی جلسه بعد": [
+"Plan next session",
+"خطّط للجلسة القادمة",
+"Запланировать следующую",
+"Planear la próxima sesión"
+],
+"حدود": [
+"about",
+"حوالي",
+"около",
+"unos"
+],
+"دقیقه": [
+"min",
+"دقيقة",
+"мин",
+"min"
+],
+"شروع این برنامه": [
+"Start this program",
+"ابدأ هذا البرنامج",
+"Начать программу",
+"Empezar este programa"
+],
+"ابتدا تمرین فعال را تمام کنید": [
+"Finish the active workout first",
+"أنهِ التمرين الجاري أولًا",
+"Сначала заверши текущую тренировку",
+"Termina primero el entreno activo"
+],
+"آماده‌سازی برنامه انجام نشد؛ دوباره تلاش کنید": [
+"Couldn't prepare the program; please try again",
+"تعذّر تجهيز البرنامج؛ حاول مجددًا",
+"Не удалось подготовить программу, попробуй ещё раз",
+"No se pudo preparar el programa; inténtalo de nuevo"
+],
+"تمرین فعلی را ادامه دهید": [
+"Continue the current workout",
+"تابع التمرين الحالي",
+"Продолжить текущую тренировку",
+"Continuar el entreno actual"
+],
+"حرکت": [
+"exercise",
+"تمرين",
+"упражнение",
+"ejercicio"
+],
+"این جلسه حرکتی برای تکرار ندارد": [
+"This session has no exercises to repeat",
+"لا تحتوي هذه الجلسة على تمارين لتكرارها",
+"В этой тренировке нечего повторить",
+"Esta sesión no tiene ejercicios para repetir"
+],
+"تکرار تمرین انجام نشد؛ دوباره تلاش کنید": [
+"Couldn't repeat the workout; please try again",
+"تعذّر تكرار التمرين؛ حاول مجددًا",
+"Не удалось повторить тренировку, попробуй ещё раз",
+"No se pudo repetir el entreno; inténtalo de nuevo"
+],
+"ست": [
+"sets",
+"مجموعات",
+"подходов",
+"series"
+],
+"کیلوگرم حجم تمرین": [
+"kg training volume",
+"كغ حجم التمرين",
+"кг объёма",
+"kg de volumen"
+],
+"تمرین امروز من": [
+"My workout today",
+"تمريني اليوم",
+"Моя тренировка сегодня",
+"Mi entreno de hoy"
+],
+"جسم و اندیشه": [
+"CHTH Gym",
+"CHTH Gym",
+"CHTH Gym",
+"CHTH Gym"
+],
+"تصویر نتیجه تمرین آماده شد": [
+"Workout result image is ready",
+"صورة نتيجة التمرين جاهزة",
+"Картинка с результатом готова",
+"La imagen del resultado está lista"
+],
+"اشتراک‌گذاری انجام نشد": [
+"Sharing failed",
+"تعذّرت المشاركة",
+"Не удалось поделиться",
+"No se pudo compartir"
+],
+"ذخیره برنامه انجام نشد؛ دوباره تلاش کنید": [
+"Couldn't save the program; please try again",
+"تعذّر حفظ البرنامج؛ حاول مجددًا",
+"Не удалось сохранить программу, попробуй ещё раз",
+"No se pudo guardar el programa; inténtalo de nuevo"
+],
+"ناوبری اصلی": [
+"Main navigation",
+"التنقل الرئيسي",
+"Основная навигация",
+"Navegación principal"
+],
+"همه برنامه‌ها": [
+"All programs",
+"كل البرامج",
+"Все программы",
+"Todos los programas"
+],
+"ورود به حساب": [
+"Sign in",
+"تسجيل الدخول",
+"Войти",
+"Iniciar sesión"
+],
+"جسم و اندیشه · همراه مسیر تمرین تو": [
+"CHTH Gym · with you on every workout",
+"CHTH Gym · رفيقك في كل تمرين",
+"CHTH Gym · с тобой на каждой тренировке",
+"CHTH Gym · contigo en cada entreno"
+],
+"صفحه اصلی": [
+"Home",
+"الرئيسية",
+"Главная",
+"Inicio"
+],
+"برنامه‌های تمرینی": [
+"Workout programs",
+"برامج التمرين",
+"Программы тренировок",
+"Programas de entrenamiento"
+],
+"مرحله ۱ از ۲": [
+"Step 1 of 2",
+"الخطوة 1 من 2",
+"Шаг 1 из 2",
+"Paso 1 de 2"
+],
+"بستن": [
+"Close",
+"إغلاق",
+"Закрыть",
+"Cerrar"
+],
+"وزن امروز": [
+"Today's weight",
+"وزن اليوم",
+"Вес сегодня",
+"Peso de hoy"
+],
+"قبل از شروع تمرین، وزن امروزت را ثبت کن.": [
+"Log today's weight before you start.",
+"سجّل وزنك اليوم قبل بدء التمرين.",
+"Запиши сегодняшний вес перед тренировкой.",
+"Registra tu peso de hoy antes de empezar."
+],
+"کاهش وزن": [
+"Weight down",
+"إنقاص الوزن",
+"Уменьшить вес",
+"Bajar peso"
+],
+"وزن امروز به کیلوگرم": [
+"Today's weight in kg",
+"وزن اليوم بالكيلوغرام",
+"Вес сегодня в кг",
+"Peso de hoy en kg"
+],
+"افزایش وزن": [
+"Weight up",
+"زيادة الوزن",
+"Увеличить вес",
+"Subir peso"
+],
+"رد کردن": [
+"Skip",
+"تخطٍّ",
+"Пропустить",
+"Omitir"
+],
+"ثبت و ادامه": [
+"Save and continue",
+"احفظ وتابع",
+"Сохранить и продолжить",
+"Guardar y continuar"
+],
+"آماده‌ای؟": [
+"Ready?",
+"جاهز؟",
+"Готов?",
+"¿Listo?"
+],
+"بازگشت": [
+"Back",
+"رجوع",
+"Назад",
+"Atrás"
+],
+"شروع تمرین": [
+"Start workout",
+"ابدأ التمرين",
+"Начать тренировку",
+"Empezar entreno"
+],
+"آخرین ثبت": [
+"Last entry",
+"آخر تسجيل",
+"Последняя запись",
+"Último registro"
+],
+"جلسه‌ی امروز": [
+"Today's session",
+"جلسة اليوم",
+"Сегодняшняя тренировка",
+"Sesión de hoy"
+],
+"مرحله": [
+"Step",
+"الخطوة",
+"Шаг",
+"Paso"
+],
+"از ۲": [
+"of 2",
+"من 2",
+"из 2",
+"de 2"
+],
+"ثبت شد": [
+"Saved",
+"تم الحفظ",
+"Сохранено",
+"Guardado"
+],
+"لطفاً وزن معتبری وارد کنید": [
+"Please enter a valid weight",
+"يرجى إدخال وزن صحيح",
+"Введи корректный вес",
+"Introduce un peso válido"
+],
+"خطا در ثبت وزن": [
+"Couldn't save the weight",
+"خطأ في حفظ الوزن",
+"Не удалось сохранить вес",
+"Error al guardar el peso"
+],
+"داشبورد": [
+"Dashboard",
+"لوحة التحكم",
+"Панель",
+"Panel"
+],
+"بخش‌های اصلی": [
+"Main sections",
+"الأقسام الرئيسية",
+"Основные разделы",
+"Secciones principales"
+],
+"پیشنهادها": [
+"Suggestions",
+"اقتراحات",
+"Рекомендации",
+"Sugerencias"
+],
+"حرکات": [
+"Exercises",
+"التمارين",
+"Упражнения",
+"Ejercicios"
+],
+"در حال تمرین": [
+"Training now",
+"قيد التمرين",
+"Идёт тренировка",
+"Entrenando"
+],
+"برنامه": [
+"Program",
+"البرنامج",
+"Программа",
+"Programa"
+],
+"تاریخچه": [
+"History",
+"السجل",
+"История",
+"Historial"
+],
+"تغییر حالت روز و شب": [
+"Toggle light and dark mode",
+"تبديل الوضع الفاتح والداكن",
+"Светлая или тёмная тема",
+"Cambiar modo claro u oscuro"
+],
+"عملیات با موفقیت انجام شد": [
+"Done",
+"تمت العملية بنجاح",
+"Готово",
+"Hecho"
+],
+"پیام سیستم": [
+"Message",
+"رسالة النظام",
+"Сообщение",
+"Mensaje"
+],
+"انصراف": [
+"Cancel",
+"إلغاء",
+"Отмена",
+"Cancelar"
+],
+"تایید": [
+"Confirm",
+"تأكيد",
+"Подтвердить",
+"Confirmar"
+],
+"زمان استراحت ست": [
+"Rest between sets",
+"وقت الراحة بين المجموعات",
+"Отдых между подходами",
+"Descanso entre series"
+],
+"۱۵ ث": [
+"15 s",
+"15 ث",
+"15 с",
+"15 s"
+],
+"پایان": [
+"Finish",
+"إنهاء",
+"Готово",
+"Terminar"
+],
+"افزودن حرکت": [
+"Add exercise",
+"أضف تمرينًا",
+"Добавить упражнение",
+"Añadir ejercicio"
+],
+"مثلاً: پرس سینه، نشر جانب، پلانک...": [
+"e.g. bench press, lateral raise, plank...",
+"مثلًا: ضغط الصدر، رفرفة جانبية، بلانك...",
+"например: жим лёжа, махи в стороны, планка...",
+"p. ej.: press de banca, elevación lateral, plancha..."
+],
+"اشتراک‌گذاری برنامه": [
+"Share program",
+"مشاركة البرنامج",
+"Поделиться программой",
+"Compartir programa"
+],
+"کپی لینک": [
+"Copy link",
+"نسخ الرابط",
+"Копировать ссылку",
+"Copiar enlace"
+],
+"برنامه اشتراکی": [
+"Shared program",
+"برنامج مُشارَك",
+"Общая программа",
+"Programa compartido"
+],
+"عنوان برنامه": [
+"Program name",
+"اسم البرنامج",
+"Название программы",
+"Nombre del programa"
+],
+"حرکات موجود در این برنامه": [
+"Exercises in this program",
+"التمارين في هذا البرنامج",
+"Упражнения в программе",
+"Ejercicios de este programa"
+],
+"انصراف و بستن": [
+"Cancel and close",
+"إلغاء وإغلاق",
+"Отменить и закрыть",
+"Cancelar y cerrar"
+],
+"جسم و اندیشه | سامانه هوشمند تمرین و بدنسازی": [
+"CHTH Gym | Smart workout tracker",
+"CHTH Gym | متتبع تمارين ذكي",
+"CHTH Gym | Умный дневник тренировок",
+"CHTH Gym | Registro inteligente de entrenos"
+],
+"سامانه مدیریت پیشرفته تمرین، برنامه‌ریزی هوشمند، ثبت رکوردهای شخصی، پروفایل اهداف و بانک جامع حرکات بدنسازی": [
+"Workout tracker with smart planning, personal records, goal profiles and a full exercise library",
+"متتبع تمارين مع تخطيط ذكي وأرقام شخصية وملف أهداف ومكتبة تمارين شاملة",
+"Дневник тренировок с умным планированием, личными рекордами, целями и полной библиотекой упражнений",
+"Registro de entrenos con planificación inteligente, récords personales, objetivos y una biblioteca completa de ejercicios"
+],
+"آماده‌ی تمرین امروز؟": [
+"Ready for today's workout?",
+"جاهز لتمرين اليوم؟",
+"Готов к тренировке?",
+"¿Listo para el entreno de hoy?"
+],
+"استریک: ۰ روز": [
+"Streak: 0 days",
+"سلسلة: 0 يوم",
+"Серия: 0 дн.",
+"Racha: 0 días"
+],
+"هدف: تنظیم نشده": [
+"Goal: not set",
+"الهدف: غير محدد",
+"Цель: не задана",
+"Objetivo: sin definir"
+],
+"شروع تمرین آزاد": [
+"Start a free workout",
+"ابدأ تمرينًا حرًا",
+"Свободная тренировка",
+"Entreno libre"
+],
+"انتخاب از برنامه‌ها": [
+"Choose a program",
+"اختر من البرامج",
+"Выбрать программу",
+"Elegir un programa"
+],
+"از": [
+"of",
+"من",
+"из",
+"de"
+],
+"جلسه هدف این هفته": [
+"sessions goal this week",
+"جلسات هدف هذا الأسبوع",
+"тренировок — цель недели",
+"sesiones objetivo esta semana"
+],
+"تمرین زنده": [
+"Live workout",
+"تمرين مباشر",
+"Тренировка сейчас",
+"Entreno en vivo"
+],
+"زمان": [
+"Time",
+"الوقت",
+"Время",
+"Tiempo"
+],
+"حجم کل": [
+"Total volume",
+"الحجم الكلي",
+"Общий объём",
+"Volumen total"
+],
+"کیلوگرم": [
+"kg",
+"كغ",
+"кг",
+"kg"
+],
+"پایان و ثبت تمرین": [
+"Finish and save",
+"إنهاء وحفظ التمرين",
+"Завершить и сохранить",
+"Terminar y guardar"
+],
+"لغو تمرین": [
+"Cancel workout",
+"إلغاء التمرين",
+"Отменить тренировку",
+"Cancelar entreno"
+],
+"پیشرفت تمرین: ۰ از ۰ ست انجام شد": [
+"Progress: 0 of 0 sets done",
+"التقدّم: 0 من 0 مجموعات منجزة",
+"Прогресс: 0 из 0 подходов",
+"Progreso: 0 de 0 series hechas"
+],
+"استریک تمرین": [
+"Training streak",
+"سلسلة التمرين",
+"Серия тренировок",
+"Racha de entreno"
+],
+"۰ روز": [
+"0 days",
+"0 يوم",
+"0 дн.",
+"0 días"
+],
+"جلسات تکمیل شده": [
+"Sessions completed",
+"الجلسات المكتملة",
+"Завершённых тренировок",
+"Sesiones completadas"
+],
+"۰ جلسه": [
+"0 sessions",
+"0 جلسات",
+"0 тренировок",
+"0 sesiones"
+],
+"حجم کل جابجایی": [
+"Total weight moved",
+"إجمالي الوزن المرفوع",
+"Всего поднято",
+"Peso total movido"
+],
+"۰ تن": [
+"0 t",
+"0 طن",
+"0 т",
+"0 t"
+],
+"رکوردهای شخصی (PR)": [
+"Personal records (PR)",
+"الأرقام الشخصية (PR)",
+"Личные рекорды (PR)",
+"Récords personales (PR)"
+],
+"۰ حرکت": [
+"0 exercises",
+"0 تمارين",
+"0 упражнений",
+"0 ejercicios"
+],
+"برنامه‌های من": [
+"My programs",
+"برامجي",
+"Мои программы",
+"Mis programas"
+],
+"طراحی برنامه": [
+"Build a program",
+"تصميم برنامج",
+"Создать программу",
+"Crear programa"
+],
+"طراحی برنامه جدید": [
+"Build a new program",
+"تصميم برنامج جديد",
+"Новая программа",
+"Crear un programa nuevo"
+],
+"پیشرفت": [
+"Progress",
+"التقدّم",
+"Прогресс",
+"Progreso"
+],
+"بازه زمانی": [
+"Time range",
+"الفترة الزمنية",
+"Период",
+"Periodo"
+],
+"هفتگی": [
+"Weekly",
+"أسبوعي",
+"Неделя",
+"Semanal"
+],
+"ماهانه": [
+"Monthly",
+"شهري",
+"Месяц",
+"Mensual"
+],
+"۳ ماهه": [
+"3 months",
+"3 أشهر",
+"3 месяца",
+"3 meses"
+],
+"پیشرفت هدف هفتگی": [
+"Weekly goal progress",
+"تقدّم الهدف الأسبوعي",
+"Прогресс недельной цели",
+"Progreso del objetivo semanal"
+],
+"۰ از ۴ جلسه تمرین انجام شده": [
+"0 of 4 sessions done",
+"0 من 4 جلسات منجزة",
+"0 из 4 тренировок выполнено",
+"0 de 4 sesiones hechas"
+],
+"حجم: ۰ کیلوگرم": [
+"Volume: 0 kg",
+"الحجم: 0 كغ",
+"Объём: 0 кг",
+"Volumen: 0 kg"
+],
+"نمودار حجم تمرینی ۷ روز اخیر": [
+"Training volume, last 7 days",
+"حجم التمرين خلال آخر 7 أيام",
+"Объём за последние 7 дней",
+"Volumen de los últimos 7 días"
+],
+"جلسات اخیر": [
+"Recent sessions",
+"الجلسات الأخيرة",
+"Последние тренировки",
+"Sesiones recientes"
+],
+"همه": [
+"All",
+"الكل",
+"Все",
+"Todo"
+],
+"آمار تمرین": [
+"Training stats",
+"إحصاءات التمرين",
+"Статистика",
+"Estadísticas"
+],
+"۳۰ روز": [
+"30 days",
+"30 يومًا",
+"30 дней",
+"30 días"
+],
+"۱ سال": [
+"1 year",
+"سنة",
+"1 год",
+"1 año"
+],
+"حجم تمرین": [
+"Training volume",
+"حجم التمرين",
+"Объём тренировок",
+"Volumen de entreno"
+],
+"کیلوگرم در هر هفته": [
+"kg per week",
+"كغ في الأسبوع",
+"кг в неделю",
+"kg por semana"
+],
+"نمایش جدول": [
+"Show table",
+"عرض الجدول",
+"Показать таблицу",
+"Ver tabla"
+],
+"ست‌ها بر اساس عضله": [
+"Sets by muscle",
+"المجموعات حسب العضلة",
+"Подходы по мышцам",
+"Series por músculo"
+],
+"تعداد ست ثبت‌شده": [
+"Sets logged",
+"عدد المجموعات المسجّلة",
+"Записано подходов",
+"Series registradas"
+],
+"وضعیت ریکاوری عضلات": [
+"Muscle recovery",
+"حالة تعافي العضلات",
+"Восстановление мышц",
+"Recuperación muscular"
+],
+"بر اساس آخرین جلسه هر عضله در ۲۸ روز اخیر": [
+"Based on each muscle's last session in the past 28 days",
+"بناءً على آخر جلسة لكل عضلة خلال آخر 28 يومًا",
+"По последней тренировке каждой мышцы за 28 дней",
+"Según la última sesión de cada músculo en los últimos 28 días"
+],
+"خسته": [
+"Fatigued",
+"مُتعَب",
+"Устали",
+"Fatigado"
+],
+"در حال ریکاوری": [
+"Recovering",
+"يتعافى",
+"Восстанавливаются",
+"Recuperando"
+],
+"آماده": [
+"Ready",
+"جاهز",
+"Готовы",
+"Listo"
+],
+"بی‌تمرین (+۱۴ روز)": [
+"Untrained (14+ days)",
+"بلا تمرين (+14 يومًا)",
+"Без нагрузки (14+ дней)",
+"Sin entrenar (+14 días)"
+],
+"بدون سابقه": [
+"No history",
+"بلا سجل",
+"Нет истории",
+"Sin historial"
+],
+"رکوردهای شخصی": [
+"Personal records",
+"الأرقام الشخصية",
+"Личные рекорды",
+"Récords personales"
+],
+"جلسات ثبت‌شده": [
+"Logged sessions",
+"الجلسات المسجّلة",
+"Записанные тренировки",
+"Sesiones registradas"
+],
+"برای مشاهده تاریخچه وارد شوید": [
+"Sign in to see your history",
+"سجّل الدخول لعرض السجل",
+"Войди, чтобы увидеть историю",
+"Inicia sesión para ver tu historial"
+],
+"با ورود به حساب گوگل، سوابق و رکوردهای شما ذخیره می‌شوند.": [
+"Sign in with Google to keep your history and records.",
+"سجّل الدخول بحساب Google لحفظ سجلك وأرقامك.",
+"Войди через Google, чтобы сохранять историю и рекорды.",
+"Inicia sesión con Google para guardar tu historial y récords."
+],
+"ورود با حساب گوگل": [
+"Sign in with Google",
+"الدخول بحساب Google",
+"Войти через Google",
+"Iniciar sesión con Google"
+],
+"۰ حرکت انتخاب شده": [
+"0 exercises selected",
+"0 تمارين محددة",
+"Выбрано 0 упражнений",
+"0 ejercicios elegidos"
+],
+"پاکسازی": [
+"Clear",
+"مسح",
+"Очистить",
+"Borrar"
+],
+"نام برنامه تمرینی *": [
+"Program name *",
+"اسم البرنامج *",
+"Название программы *",
+"Nombre del programa *"
+],
+"مثلاً: بالا تنه قدرتی": [
+"e.g. Upper body strength",
+"مثلًا: قوة الجزء العلوي",
+"например: Сила верха тела",
+"p. ej.: Fuerza tren superior"
+],
+"توضیحات یا هدف برنامه (اختیاری)": [
+"Description or goal (optional)",
+"الوصف أو الهدف (اختياري)",
+"Описание или цель (необязательно)",
+"Descripción u objetivo (opcional)"
+],
+"مثلاً: برنامه ۴ روزه برای افزایش حجم سینه و بازو": [
+"e.g. 4-day plan to build chest and arms",
+"مثلًا: برنامج 4 أيام لتضخيم الصدر والذراعين",
+"например: 4 дня на грудь и руки",
+"p. ej.: plan de 4 días para pecho y brazos"
+],
+"هنوز حرکتی اضافه نشده": [
+"No exercises added yet",
+"لم تُضف أي تمارين بعد",
+"Упражнений пока нет",
+"Aún no hay ejercicios"
+],
+"انصراف از ویرایش": [
+"Discard changes",
+"إلغاء التعديل",
+"Отменить правку",
+"Descartar cambios"
+],
+"ذخیره برنامه": [
+"Save program",
+"حفظ البرنامج",
+"Сохранить программу",
+"Guardar programa"
+],
+"برنامه‌های تمرینی من": [
+"My workout programs",
+"برامج تمريني",
+"Мои программы",
+"Mis programas"
+],
+"بانک حرکات": [
+"Exercise library",
+"مكتبة التمارين",
+"Библиотека упражнений",
+"Biblioteca de ejercicios"
+],
+"مثلاً: پرس سینه، اسکوات، زیربغل...": [
+"e.g. bench press, squat, lat pulldown...",
+"مثلًا: ضغط الصدر، سكوات، سحب علوي...",
+"например: жим лёжа, присед, тяга блока...",
+"p. ej.: press de banca, sentadilla, jalón..."
+],
+"عضله": [
+"Muscle",
+"العضلة",
+"Мышца",
+"Músculo"
+],
+"همه عضلات": [
+"All muscles",
+"كل العضلات",
+"Все мышцы",
+"Todos los músculos"
+],
+"سینه": [
+"Chest",
+"الصدر",
+"Грудь",
+"Pecho"
+],
+"پشت و زیربغل": [
+"Back and lats",
+"الظهر والأجنحة",
+"Спина и широчайшие",
+"Espalda y dorsales"
+],
+"پا و ساق": [
+"Legs and calves",
+"الأرجل والسمانة",
+"Ноги и икры",
+"Piernas y gemelos"
+],
+"سرشانه و کول": [
+"Shoulders and traps",
+"الأكتاف والترابيس",
+"Плечи и трапеции",
+"Hombros y trapecios"
+],
+"بازو و ساعد": [
+"Arms and forearms",
+"الذراعان والساعدان",
+"Руки и предплечья",
+"Brazos y antebrazos"
+],
+"شکم و میان‌تنه": [
+"Abs and core",
+"البطن والجذع",
+"Пресс и кор",
+"Abdomen y core"
+],
+"تجهیزات": [
+"Equipment",
+"المعدّات",
+"Инвентарь",
+"Equipo"
+],
+"همه ابزارها": [
+"All equipment",
+"كل المعدّات",
+"Любой инвентарь",
+"Todo el equipo"
+],
+"هالتر": [
+"Barbell",
+"بار",
+"Штанга",
+"Barra"
+],
+"دمبل": [
+"Dumbbell",
+"دمبل",
+"Гантели",
+"Mancuernas"
+],
+"سیم‌کش": [
+"Cable",
+"كابل",
+"Блок",
+"Polea"
+],
+"وزن بدن": [
+"Bodyweight",
+"وزن الجسم",
+"Свой вес",
+"Peso corporal"
+],
+"دستگاه بدنسازی": [
+"Machine",
+"جهاز",
+"Тренажёр",
+"Máquina"
+],
+"سایر": [
+"Other",
+"أخرى",
+"Другое",
+"Otro"
+],
+"پیشنهادها و برنامه‌های آماده": [
+"Suggestions and ready-made programs",
+"اقتراحات وبرامج جاهزة",
+"Рекомендации и готовые программы",
+"Sugerencias y programas listos"
+],
+"پروفایل کاربری": [
+"Profile",
+"الملف الشخصي",
+"Профиль",
+"Perfil"
+],
+"وزن فعلی": [
+"Current weight",
+"الوزن الحالي",
+"Текущий вес",
+"Peso actual"
+],
+"وزن هدف": [
+"Goal weight",
+"الوزن المستهدف",
+"Целевой вес",
+"Peso objetivo"
+],
+"شاخص BMI": [
+"BMI",
+"مؤشر كتلة الجسم",
+"ИМТ",
+"IMC"
+],
+"حالت آفلاین (مهمان)": [
+"Offline (guest)",
+"وضع عدم الاتصال (ضيف)",
+"Офлайн (гость)",
+"Sin conexión (invitado)"
+],
+"برای همگام‌سازی وارد شوید.": [
+"Sign in to sync.",
+"سجّل الدخول للمزامنة.",
+"Войди для синхронизации.",
+"Inicia sesión para sincronizar."
+],
+"ورود با گوگل": [
+"Sign in with Google",
+"الدخول عبر Google",
+"Войти через Google",
+"Entrar con Google"
+],
+"ظاهر": [
+"Appearance",
+"المظهر",
+"Оформление",
+"Apariencia"
+],
+"پیش‌فرض": [
+"Default",
+"افتراضي",
+"По умолчанию",
+"Predeterminado"
+],
+"پوسته": [
+"Theme",
+"السمة",
+"Тема",
+"Tema"
+],
+"تاریک": [
+"Dark",
+"داكن",
+"Тёмная",
+"Oscuro"
+],
+"روشن": [
+"Light",
+"فاتح",
+"Светлая",
+"Claro"
+],
+"سیستم": [
+"System",
+"النظام",
+"Системная",
+"Sistema"
+],
+"رنگ اصلی": [
+"Accent color",
+"اللون الرئيسي",
+"Основной цвет",
+"Color principal"
+],
+"رنگ دکمه‌ها و نشان مرورگر در همه صفحه‌ها هماهنگ می‌شود.": [
+"Buttons and the browser bar match it on every page.",
+"يتطابق لون الأزرار وشريط المتصفح في كل الصفحات.",
+"Кнопки и панель браузера окрашиваются на всех страницах.",
+"Los botones y la barra del navegador lo usan en todas las páginas."
+],
+"اندازه متن": [
+"Text size",
+"حجم النص",
+"Размер текста",
+"Tamaño del texto"
+],
+"کوچک": [
+"Small",
+"صغير",
+"Мелкий",
+"Pequeño"
+],
+"معمولی": [
+"Normal",
+"عادي",
+"Обычный",
+"Normal"
+],
+"بزرگ": [
+"Large",
+"كبير",
+"Крупный",
+"Grande"
+],
+"خیلی بزرگ": [
+"Extra large",
+"كبير جدًا",
+"Очень крупный",
+"Muy grande"
+],
+"گوشه‌ها": [
+"Corners",
+"الزوايا",
+"Углы",
+"Esquinas"
+],
+"تیز": [
+"Sharp",
+"حادة",
+"Острые",
+"Rectas"
+],
+"گرد": [
+"Round",
+"دائرية",
+"Скруглённые",
+"Redondeadas"
+],
+"کاهش حرکت": [
+"Reduce motion",
+"تقليل الحركة",
+"Меньше анимации",
+"Reducir movimiento"
+],
+"انیمیشن‌های جابه‌جایی حذف می‌شوند": [
+"Turns off movement animations",
+"تُزال حركات الانتقال",
+"Отключает анимации перемещения",
+"Quita las animaciones de movimiento"
+],
+"مشخصات و اهداف": [
+"Details and goals",
+"البيانات والأهداف",
+"Данные и цели",
+"Datos y objetivos"
+],
+"قد (سانتی‌متر)": [
+"Height (cm)",
+"الطول (سم)",
+"Рост (см)",
+"Altura (cm)"
+],
+"مثلاً: ۱۷۸": [
+"e.g. 178",
+"مثلًا: 178",
+"например: 178",
+"p. ej.: 178"
+],
+"وزن فعلی (کیلوگرم)": [
+"Current weight (kg)",
+"الوزن الحالي (كغ)",
+"Текущий вес (кг)",
+"Peso actual (kg)"
+],
+"وزن هدف (کیلوگرم)": [
+"Goal weight (kg)",
+"الوزن المستهدف (كغ)",
+"Целевой вес (кг)",
+"Peso objetivo (kg)"
+],
+"هدف اصلی فیتنس": [
+"Main fitness goal",
+"هدف اللياقة الرئيسي",
+"Главная цель",
+"Objetivo principal"
+],
+"هایپرتروفی و عضله‌سازی": [
+"Hypertrophy and muscle building",
+"تضخيم وبناء العضلات",
+"Гипертрофия и набор мышц",
+"Hipertrofia y masa muscular"
+],
+"چربی‌سوزی و کاهش وزن": [
+"Fat loss and weight loss",
+"حرق الدهون وإنقاص الوزن",
+"Жиросжигание и снижение веса",
+"Quemar grasa y bajar peso"
+],
+"افزایش رکورد و قدرت": [
+"Strength and PRs",
+"زيادة القوة والأرقام",
+"Сила и рекорды",
+"Fuerza y récords"
+],
+"استقامت و چابکی": [
+"Endurance and agility",
+"التحمّل والرشاقة",
+"Выносливость и ловкость",
+"Resistencia y agilidad"
+],
+"سلامتی و تناسب اندام": [
+"Health and fitness",
+"الصحة واللياقة",
+"Здоровье и форма",
+"Salud y forma física"
+],
+"تعداد جلسات تمرین در هفته": [
+"Training sessions per week",
+"عدد جلسات التمرين أسبوعيًا",
+"Тренировок в неделю",
+"Sesiones por semana"
+],
+"۲ جلسه در هفته": [
+"2 sessions per week",
+"2 جلسات أسبوعيًا",
+"2 тренировки в неделю",
+"2 sesiones por semana"
+],
+"سطح تجربه": [
+"Experience level",
+"مستوى الخبرة",
+"Уровень опыта",
+"Nivel de experiencia"
+],
+"مبتدی (زیر ۱ سال)": [
+"Beginner (under 1 year)",
+"مبتدئ (أقل من سنة)",
+"Новичок (до 1 года)",
+"Principiante (menos de 1 año)"
+],
+"متوسط (۱ تا ۳ سال)": [
+"Intermediate (1–3 years)",
+"متوسط (1 إلى 3 سنوات)",
+"Средний (1–3 года)",
+"Intermedio (1–3 años)"
+],
+"پیشرفته (بیش از ۳ سال)": [
+"Advanced (3+ years)",
+"متقدّم (أكثر من 3 سنوات)",
+"Продвинутый (3+ года)",
+"Avanzado (más de 3 años)"
+],
+"سن (سال)": [
+"Age (years)",
+"العمر (سنوات)",
+"Возраст (лет)",
+"Edad (años)"
+],
+"مثلاً: ۲۵": [
+"e.g. 25",
+"مثلًا: 25",
+"например: 25",
+"p. ej.: 25"
+],
+"جنسیت": [
+"Sex",
+"الجنس",
+"Пол",
+"Sexo"
+],
+"مرد": [
+"Male",
+"ذكر",
+"Мужской",
+"Hombre"
+],
+"زن": [
+"Female",
+"أنثى",
+"Женский",
+"Mujer"
+],
+"ذخیره تغییرات": [
+"Save changes",
+"حفظ التغييرات",
+"Сохранить",
+"Guardar cambios"
+],
+"چربی‌سوزی و کات": [
+"Fat loss and cut",
+"حرق الدهون والتنشيف",
+"Жиросжигание и сушка",
+"Quemar grasa y definir"
+],
+"سلامتی عمومی": [
+"General health",
+"الصحة العامة",
+"Общее здоровье",
+"Salud general"
+],
+"سیستم (": [
+"System (",
+"النظام (",
+"Системная (",
+"Sistema ("
+],
+"ظاهر به حالت پیش‌فرض برگشت": [
+"Appearance reset to default",
+"أُعيد المظهر إلى الافتراضي",
+"Оформление сброшено",
+"Apariencia restablecida"
+],
+"خطای ورود": [
+"Sign-in error",
+"خطأ في تسجيل الدخول",
+"Ошибка входа",
+"Error al iniciar sesión"
+],
+"متوجه شدم": [
+"Got it",
+"فهمت",
+"Понятно",
+"Entendido"
+],
+"با موفقیت وارد حساب کاربری شدید": [
+"You're signed in",
+"تم تسجيل دخولك بنجاح",
+"Ты вошёл в аккаунт",
+"Has iniciado sesión"
+],
+"پروفایل و اهداف": [
+"Profile and goals",
+"الملف والأهداف",
+"Профиль и цели",
+"Perfil y objetivos"
+],
+"حساب کاربری": [
+"Account",
+"الحساب",
+"Аккаунт",
+"Cuenta"
+],
+"خروج از حساب": [
+"Sign out",
+"تسجيل الخروج",
+"Выйти",
+"Cerrar sesión"
+],
+"پروفایل": [
+"Profile",
+"الملف الشخصي",
+"Профиль",
+"Perfil"
+],
+"حساب کاربری مهمان": [
+"Guest account",
+"حساب ضيف",
+"Гостевой аккаунт",
+"Cuenta de invitado"
+],
+"حالت محلی (آفلاین)": [
+"Local mode (offline)",
+"الوضع المحلي (دون اتصال)",
+"Локальный режим (офлайн)",
+"Modo local (sin conexión)"
+],
+"آیا مایلید از حساب کاربری خود خارج شوید؟": [
+"Sign out of your account?",
+"هل تريد تسجيل الخروج من حسابك؟",
+"Выйти из аккаунта?",
+"¿Cerrar sesión?"
+],
+"روز": [
+"days",
+"يوم",
+"дн.",
+"días"
+],
+"استریک": [
+"Streak",
+"السلسلة",
+"Серия",
+"Racha"
+],
+"جلسه": [
+"sessions",
+"جلسات",
+"тренировок",
+"sesiones"
+],
+"تن": [
+"t",
+"طن",
+"т",
+"t"
+],
+"تمرین آزاد": [
+"Free workout",
+"تمرين حر",
+"Свободная тренировка",
+"Entreno libre"
+],
+"تمرین آزاد شروع شد! حرکات را اضافه کنید": [
+"Free workout started! Add your exercises",
+"بدأ التمرين الحر! أضف التمارين",
+"Свободная тренировка началась! Добавь упражнения",
+"¡Entreno libre iniciado! Añade ejercicios"
+],
+"خطا در شروع تمرین": [
+"Couldn't start the workout",
+"خطأ في بدء التمرين",
+"Не удалось начать тренировку",
+"Error al empezar el entreno"
+],
+"برنامه با موفقیت فعال شد! حرکات در دسترس هستند.": [
+"Program started! Your exercises are ready.",
+"تم تفعيل البرنامج! التمارين جاهزة.",
+"Программа запущена! Упражнения готовы.",
+"¡Programa activado! Tus ejercicios están listos."
+],
+"خطا در اجرای برنامه": [
+"Couldn't start the program",
+"خطأ في تشغيل البرنامج",
+"Не удалось запустить программу",
+"Error al iniciar el programa"
+],
+"حرکت تمرینی": [
+"Exercise",
+"تمرين",
+"Упражнение",
+"Ejercicio"
+],
+"تمرین بر اساس برنامه": [
+"Workout from a program",
+"تمرين وفق البرنامج",
+"Тренировка по программе",
+"Entreno según programa"
+],
+"برنامه تمرینی فعال شد! حرکات آماده ثبت هستند.": [
+"Program started! Exercises are ready to log.",
+"تم تفعيل البرنامج! التمارين جاهزة للتسجيل.",
+"Программа запущена! Можно записывать подходы.",
+"¡Programa activado! Listo para registrar."
+],
+"خطا در اجرای برنامه تمرینی": [
+"Couldn't start the workout program",
+"خطأ في تشغيل برنامج التمرين",
+"Не удалось запустить программу",
+"Error al iniciar el programa de entreno"
+],
+"کیلو": [
+"kg",
+"كغ",
+"кг",
+"kg"
+],
+"فقط میله خالی (": [
+"Empty bar only (",
+"البار فارغًا فقط (",
+"Только гриф (",
+"Solo barra vacía ("
+],
+"کیلوگرم)": [
+"kg)",
+"كغ)",
+"кг)",
+"kg)"
+],
+"وزنه‌های هر طرف": [
+"Plates per side",
+"الأوزان لكل جانب",
+"Блины на сторону",
+"Discos por lado"
+],
+"هر طرف": [
+"per side",
+"لكل جانب",
+"на сторону",
+"por lado"
+],
+"کیلوگرم با این وزنه‌ها قابل بستن نیست": [
+"kg can't be loaded with these plates",
+"كغ لا يمكن تحميلها بهذه الأوزان",
+"кг не собрать этими блинами",
+"kg no se pueden cargar con estos discos"
+],
+"برای گرم کردن، وزن ست اصلی را بیشتر از میله خالی تنظیم کنید.": [
+"For warm-ups, set the working weight above the empty bar.",
+"للإحماء، اجعل وزن المجموعة الأساسية أكبر من البار الفارغ.",
+"Для разминки задай рабочий вес больше веса грифа.",
+"Para calentar, pon un peso de trabajo mayor que la barra vacía."
+],
+"کیلوگرم ×": [
+"kg ×",
+"كغ ×",
+"кг ×",
+"kg ×"
+],
+"بستن وزنه برای": [
+"Plates for",
+"تحميل الأوزان لـ",
+"Блины для",
+"Discos para"
+],
+"ست‌های گرم کردن": [
+"Warm-up sets",
+"مجموعات الإحماء",
+"Разминочные подходы",
+"Series de calentamiento"
+],
+"ثبت نمی‌شوند)": [
+"not logged)",
+"لا تُسجَّل)",
+"не записываются)",
+"no se registran)"
+],
+"همه ست‌ها انجام شد؛ برای جزئیات بزنید": [
+"All sets done; tap for details",
+"اكتملت كل المجموعات؛ اضغط للتفاصيل",
+"Все подходы выполнены, нажми для деталей",
+"Series completas; toca para ver detalles"
+],
+"ثبت ست": [
+"Log set",
+"تسجيل مجموعة",
+"Записать подход",
+"Registrar serie"
+],
+"سوپرست با حرکت بعد": [
+"Superset with next exercise",
+"سوبرست مع التمرين التالي",
+"Суперсет со следующим",
+"Superserie con el siguiente"
+],
+"جلسه قبل": [
+"Last session",
+"الجلسة السابقة",
+"Прошлая тренировка",
+"Sesión anterior"
+],
+"کیلو ×": [
+"kg ×",
+"كغ ×",
+"кг ×",
+"kg ×"
+],
+"تعداد تکرار": [
+"Reps",
+"عدد التكرارات",
+"Повторения",
+"Repeticiones"
+],
+"کاهش تکرار": [
+"Fewer reps",
+"تقليل التكرار",
+"Меньше повторений",
+"Menos repeticiones"
+],
+"افزایش تکرار": [
+"More reps",
+"زيادة التكرار",
+"Больше повторений",
+"Más repeticiones"
+],
+"عضله اصلی": [
+"Primary muscle",
+"العضلة الأساسية",
+"Основная мышца",
+"Músculo principal"
+],
+"عضلات کمکی": [
+"Secondary muscles",
+"العضلات المساعدة",
+"Вспомогательные мышцы",
+"Músculos secundarios"
+],
+"راهنمای اجرای حرکت": [
+"How to do it",
+"طريقة أداء التمرين",
+"Техника выполнения",
+"Cómo hacerlo"
+],
+"انجام شد (کلیک برای حذف)": [
+"Done (tap to undo)",
+"تم (اضغط للتراجع)",
+"Готово (нажми, чтобы отменить)",
+"Hecho (toca para deshacer)"
+],
+"ثبت انجام ست": [
+"Mark set done",
+"تسجيل إتمام المجموعة",
+"Отметить подход",
+"Marcar serie hecha"
+],
+"وزن": [
+"Weight",
+"الوزن",
+"Вес",
+"Peso"
+],
+"تکرار": [
+"Reps",
+"تكرار",
+"Повт.",
+"Reps"
+],
+"افزودن یک ست دیگر به این حرکت": [
+"Add another set to this exercise",
+"أضف مجموعة أخرى لهذا التمرين",
+"Добавить подход",
+"Añadir otra serie"
+],
+"محاسبه وزنه‌ها و ست‌های گرم کردن": [
+"Plate and warm-up calculator",
+"حساب الأوزان ومجموعات الإحماء",
+"Калькулятор блинов и разминки",
+"Calculadora de discos y calentamiento"
+],
+"وزنه‌ها": [
+"Plates",
+"الأوزان",
+"Блины",
+"Discos"
+],
+"تمرین در حال انجام": [
+"Workout in progress",
+"تمرين جارٍ",
+"Тренировка идёт",
+"Entreno en curso"
+],
+"هنوز حرکتی در این جلسه اضافه نشده است. با دکمه «افزودن حرکت» حرکات دلخواه را اضافه کنید.": [
+"No exercises in this session yet. Use \"Add exercise\" to add some.",
+"لم تُضف تمارين لهذه الجلسة بعد. استخدم زر «أضف تمرينًا».",
+"В тренировке пока нет упражнений. Нажми «Добавить упражнение».",
+"Aún no hay ejercicios. Usa «Añadir ejercicio» para añadirlos."
+],
+"افزودن حرکت به تمرین": [
+"Add exercise to workout",
+"أضف تمرينًا إلى الجلسة",
+"Добавить упражнение в тренировку",
+"Añadir ejercicio al entreno"
+],
+"پیشرفت تمرین": [
+"Workout progress",
+"تقدّم التمرين",
+"Прогресс тренировки",
+"Progreso del entreno"
+],
+"ست انجام شد": [
+"Set done",
+"تمت المجموعة",
+"Подход выполнен",
+"Serie hecha"
+],
+"سوپرست: بدون استراحت سراغ حرکت بعدی برو": [
+"Superset: go straight to the next exercise",
+"سوبرست: انتقل للتمرين التالي دون راحة",
+"Суперсет: сразу к следующему упражнению",
+"Superserie: pasa al siguiente sin descanso"
+],
+"رکورد شخصی جدید ثبت شد (PR)!": [
+"New personal record (PR)!",
+"رقم شخصي جديد (PR)!",
+"Новый личный рекорд (PR)!",
+"¡Nuevo récord personal (PR)!"
+],
+"رکورد تخمینی جدید (۱RM) ثبت شد!": [
+"New estimated 1RM!",
+"رقم تقديري جديد (1RM)!",
+"Новый расчётный 1ПМ!",
+"¡Nuevo 1RM estimado!"
+],
+"خطا در ثبت ست": [
+"Couldn't log the set",
+"خطأ في تسجيل المجموعة",
+"Не удалось записать подход",
+"Error al registrar la serie"
+],
+"خطا در ارتباط با سرور": [
+"Couldn't reach the server",
+"خطأ في الاتصال بالخادم",
+"Нет связи с сервером",
+"Error de conexión con el servidor"
+],
+"اتصال برقرار نیست؛ ست ذخیره شد و پس از اتصال همگام می‌شود": [
+"You're offline; the set is saved and will sync when you're back online",
+"لا يوجد اتصال؛ حُفظت المجموعة وستُزامَن عند الاتصال",
+"Нет сети: подход сохранён и синхронизируется позже",
+"Sin conexión; la serie se guardó y se sincronizará luego"
+],
+"حذف ست تمرین": [
+"Delete set",
+"حذف المجموعة",
+"Удалить подход",
+"Eliminar serie"
+],
+"آیا مایلید این ست ثبت‌شده را حذف کنید؟": [
+"Delete this logged set?",
+"هل تريد حذف هذه المجموعة؟",
+"Удалить этот подход?",
+"¿Eliminar esta serie?"
+],
+"حذف ست": [
+"Delete set",
+"حذف المجموعة",
+"Удалить подход",
+"Eliminar serie"
+],
+"ست مورد نظر حذف شد": [
+"Set deleted",
+"تم حذف المجموعة",
+"Подход удалён",
+"Serie eliminada"
+],
+"خطا در حذف ست": [
+"Couldn't delete the set",
+"خطأ في حذف المجموعة",
+"Не удалось удалить подход",
+"Error al eliminar la serie"
+],
+"ست‌های آفلاین هنوز همگام نشده‌اند؛ پس از اتصال دوباره «پایان تمرین» را بزنید": [
+"Offline sets haven't synced yet; tap \"Finish workout\" again once you're online",
+"لم تُزامَن مجموعات وضع عدم الاتصال بعد؛ اضغط «إنهاء التمرين» مجددًا بعد الاتصال",
+"Офлайн-подходы ещё не синхронизированы; нажми «Завершить» снова, когда появится сеть",
+"Las series sin conexión aún no se sincronizaron; pulsa «Terminar entreno» de nuevo al conectarte"
+],
+"پایان تمرین بدون ثبت ست": [
+"Finish without any sets",
+"إنهاء التمرين دون مجموعات",
+"Завершить без подходов",
+"Terminar sin series"
+],
+"هنوز هیچ ستی برای این تمرین ثبت نکرده‌اید. آیا مایل به پایان تمرین هستید؟": [
+"You haven't logged any sets yet. Finish the workout anyway?",
+"لم تسجّل أي مجموعة بعد. هل تريد إنهاء التمرين؟",
+"Ты ещё не записал ни одного подхода. Всё равно завершить?",
+"Aún no registraste series. ¿Terminar de todos modos?"
+],
+"پایان تمرین": [
+"Finish workout",
+"إنهاء التمرين",
+"Завершить тренировку",
+"Terminar entreno"
+],
+"پایان و ذخیره نهایی تمرین": [
+"Finish and save workout",
+"إنهاء التمرين وحفظه",
+"Завершить и сохранить",
+"Terminar y guardar"
+],
+"آفرین قهرمان! شما": [
+"Great work, champ! You did",
+"أحسنت يا بطل! أنجزت",
+"Отлично, чемпион! Ты сделал",
+"¡Bien hecho, campeón! Hiciste"
+],
+"ست با حجم کل": [
+"sets with a total volume of",
+"مجموعات بحجم إجمالي",
+"подходов с общим объёмом",
+"series con un volumen total de"
+],
+"کیلوگرم را به پایان رساندید. آیا تمرین ثبت نهایی شود؟": [
+"kg. Save the workout?",
+"كغ. هل تحفظ التمرين؟",
+"кг. Сохранить тренировку?",
+"kg. ¿Guardar el entreno?"
+],
+"ثبت و پایان تمرین": [
+"Save and finish",
+"احفظ وأنهِ التمرين",
+"Сохранить и завершить",
+"Guardar y terminar"
+],
+"خسته نباشید! جلسه تمرین با موفقیت ذخیره شد.": [
+"Well done! Workout saved.",
+"أحسنت! تم حفظ التمرين.",
+"Отличная работа! Тренировка сохранена.",
+"¡Buen trabajo! Entreno guardado."
+],
+"خطا در ثبت نهایی تمرین": [
+"Couldn't save the workout",
+"خطأ في حفظ التمرين",
+"Не удалось сохранить тренировку",
+"Error al guardar el entreno"
+],
+"لغو و حذف جلسه تمرین": [
+"Cancel and delete workout",
+"إلغاء وحذف التمرين",
+"Отменить и удалить тренировку",
+"Cancelar y borrar el entreno"
+],
+"آیا مطمئن هستید که می‌خواهید جلسه تمرین فعلی را لغو و تمام ست‌های ثبت شده در آن را پاک کنید؟ این عملیات غیرقابل بازگشت است.": [
+"Cancel this workout and delete all its logged sets? This can't be undone.",
+"هل تريد إلغاء هذا التمرين وحذف كل مجموعاته المسجّلة؟ لا يمكن التراجع عن ذلك.",
+"Отменить тренировку и удалить все её подходы? Это нельзя отменить.",
+"¿Cancelar este entreno y borrar todas sus series? No se puede deshacer."
+],
+"بله، لغو تمرین": [
+"Yes, cancel it",
+"نعم، ألغِ التمرين",
+"Да, отменить",
+"Sí, cancelar"
+],
+"جلسه تمرین با موفقیت لغو شد": [
+"Workout cancelled",
+"تم إلغاء التمرين",
+"Тренировка отменена",
+"Entreno cancelado"
+],
+"حرکت «": [
+"Exercise \"",
+"التمرين «",
+"Упражнение «",
+"El ejercicio «"
+],
+"قبلاً به برنامه اضافه شده است": [
+"is already in the program",
+"مضاف مسبقًا إلى البرنامج",
+"уже в программе",
+"ya está en el programa"
+],
+"به برنامه تمرینی در بالای صفحه اضافه شد": [
+"was added to the program above",
+"أُضيف إلى البرنامج في أعلى الصفحة",
+"добавлено в программу выше",
+"se añadió al programa de arriba"
+],
+"حرکت انتخاب شده": [
+"exercises selected",
+"تمارين محددة",
+"упражнений выбрано",
+"ejercicios elegidos"
+],
+"انتقال به بالا": [
+"Move up",
+"نقل للأعلى",
+"Выше",
+"Subir"
+],
+"انتقال به پایین": [
+"Move down",
+"نقل للأسفل",
+"Ниже",
+"Bajar"
+],
+"کاهش ست": [
+"Fewer sets",
+"تقليل المجموعات",
+"Меньше подходов",
+"Menos series"
+],
+"افزایش ست": [
+"More sets",
+"زيادة المجموعات",
+"Больше подходов",
+"Más series"
+],
+"استراحت": [
+"Rest",
+"الراحة",
+"Отдых",
+"Descanso"
+],
+"کاهش استراحت": [
+"Less rest",
+"تقليل الراحة",
+"Меньше отдыха",
+"Menos descanso"
+],
+"افزایش استراحت": [
+"More rest",
+"زيادة الراحة",
+"Больше отдыха",
+"Más descanso"
+],
+"حذف از برنامه": [
+"Remove from program",
+"إزالة من البرنامج",
+"Убрать из программы",
+"Quitar del programa"
+],
+"اتصال سوپرست": [
+"Link as superset",
+"ربط كسوبرست",
+"Связать в суперсет",
+"Unir en superserie"
+],
+"پیش‌نویس برنامه پاکسازی شد": [
+"Program draft cleared",
+"تم مسح مسودة البرنامج",
+"Черновик очищен",
+"Borrador vaciado"
+],
+"ویرایش برنامه": [
+"Edit program",
+"تعديل البرنامج",
+"Изменить программу",
+"Editar programa"
+],
+"برنامه تمرینی یافت نشد": [
+"Program not found",
+"البرنامج غير موجود",
+"Программа не найдена",
+"Programa no encontrado"
+],
+"جایگزینی پیش‌نویس": [
+"Replace draft",
+"استبدال المسودة",
+"Заменить черновик",
+"Reemplazar borrador"
+],
+"پیش‌نویس فعلی با این برنامه جایگزین می‌شود. ادامه می‌دهید؟": [
+"This program will replace your current draft. Continue?",
+"ستُستبدل المسودة الحالية بهذا البرنامج. متابعة؟",
+"Текущий черновик заменится этой программой. Продолжить?",
+"Este programa reemplazará tu borrador. ¿Continuar?"
+],
+"برای افزودن حرکت، از بانک حرکات پایین صفحه انتخاب کنید": [
+"To add exercises, pick them from the library below",
+"لإضافة تمارين، اخترها من المكتبة أسفل الصفحة",
+"Чтобы добавить упражнения, выбери их в библиотеке ниже",
+"Para añadir ejercicios, elígelos en la biblioteca de abajo"
+],
+"کپی)": [
+"copy)",
+"نسخة)",
+"копия)",
+"copia)"
+],
+"خطا در ساخت کپی": [
+"Couldn't make a copy",
+"خطأ في إنشاء نسخة",
+"Не удалось скопировать",
+"Error al copiar"
+],
+"کپی «": [
+"Copy of «",
+"نسخة من «",
+"Копия «",
+"Copia de «"
+],
+"ساخته شد": [
+"created",
+"تم الإنشاء",
+"создана",
+"creada"
+],
+"برنامه از حالت مهمان به حساب شما منتقل شد": [
+"Program moved from guest mode to your account",
+"نُقل البرنامج من وضع الضيف إلى حسابك",
+"Программа перенесена в твой аккаунт",
+"El programa pasó de invitado a tu cuenta"
+],
+"ویرایش لغو شد": [
+"Edit cancelled",
+"أُلغي التعديل",
+"Правка отменена",
+"Edición cancelada"
+],
+"لطفاً نام برنامه تمرینی را وارد کنید": [
+"Please name the program",
+"يرجى إدخال اسم البرنامج",
+"Введи название программы",
+"Ponle nombre al programa"
+],
+"حداقل یک حرکت به برنامه اضافه کنید": [
+"Add at least one exercise",
+"أضف تمرينًا واحدًا على الأقل",
+"Добавь хотя бы одно упражнение",
+"Añade al menos un ejercicio"
+],
+"تغییرات برنامه «": [
+"Changes to «",
+"تغييرات البرنامج «",
+"Изменения программы «",
+"Cambios de «"
+],
+"ذخیره شد": [
+"saved",
+"تم الحفظ",
+"сохранены",
+"guardados"
+],
+"برنامه «": [
+"Program «",
+"البرنامج «",
+"Программа «",
+"El programa «"
+],
+"با موفقیت ساخته شد و آماده اشتراک است!": [
+"is ready to share!",
+"أُنشئ وجاهز للمشاركة!",
+"создана и готова к отправке!",
+"¡está listo para compartir!"
+],
+"خطا در ذخیره برنامه": [
+"Couldn't save the program",
+"خطأ في حفظ البرنامج",
+"Не удалось сохранить программу",
+"Error al guardar el programa"
+],
+"هنوز برنامه‌ای نساخته‌اید": [
+"You haven't built a program yet",
+"لم تُنشئ أي برنامج بعد",
+"У тебя пока нет программ",
+"Aún no has creado programas"
+],
+"اشتراک‌گذاری این برنامه": [
+"Share this program",
+"شارك هذا البرنامج",
+"Поделиться программой",
+"Compartir este programa"
+],
+"ساخت کپی از برنامه": [
+"Duplicate program",
+"إنشاء نسخة من البرنامج",
+"Дублировать программу",
+"Duplicar programa"
+],
+"حذف برنامه": [
+"Delete program",
+"حذف البرنامج",
+"Удалить программу",
+"Eliminar programa"
+],
+"اجرای برنامه": [
+"Start program",
+"تشغيل البرنامج",
+"Начать программу",
+"Empezar programa"
+],
+"حذف برنامه تمرینی": [
+"Delete workout program",
+"حذف برنامج التمرين",
+"Удалить программу",
+"Eliminar programa"
+],
+"آیا مایلید این برنامه تمرینی را حذف کنید؟": [
+"Delete this program?",
+"هل تريد حذف هذا البرنامج؟",
+"Удалить эту программу?",
+"¿Eliminar este programa?"
+],
+"خطا در حذف برنامه": [
+"Couldn't delete the program",
+"خطأ في حذف البرنامج",
+"Не удалось удалить программу",
+"Error al eliminar el programa"
+],
+"برنامه حذف شد": [
+"Program deleted",
+"تم حذف البرنامج",
+"Программа удалена",
+"Programa eliminado"
+],
+"حرکتی با این مشخصات یافت نشد.": [
+"No exercises match.",
+"لا توجد تمارين مطابقة.",
+"Ничего не найдено.",
+"No hay ejercicios que coincidan."
+],
+"افزودن به برنامه": [
+"Add to program",
+"أضف إلى البرنامج",
+"В программу",
+"Añadir al programa"
+],
+"نمایش حرکات بیشتر (": [
+"Show more (",
+"عرض المزيد (",
+"Показать ещё (",
+"Ver más ("
+],
+"حرکت دیگر)": [
+"more)",
+"تمارين أخرى)",
+"упражнений)",
+"más)"
+],
+"افزودن": [
+"Add",
+"إضافة",
+"Добавить",
+"Añadir"
+],
+"حرکت با موفقیت به جلسه تمرین افزوده شد": [
+"Exercise added to the workout",
+"أُضيف التمرين إلى الجلسة",
+"Упражнение добавлено",
+"Ejercicio añadido al entreno"
+],
+"۷ روز اخیر (هفته جاری)": [
+"Last 7 days (this week)",
+"آخر 7 أيام (هذا الأسبوع)",
+"Последние 7 дней (эта неделя)",
+"Últimos 7 días (esta semana)"
+],
+"جلسه تمرین هدف انجام شد": [
+"goal sessions done",
+"جلسات الهدف منجزة",
+"тренировок из цели выполнено",
+"sesiones objetivo hechas"
+],
+"حجم": [
+"Volume",
+"الحجم",
+"Объём",
+"Volumen"
+],
+"نمودار بار تمرینی ۷ روز اخیر": [
+"Training load, last 7 days",
+"حمل التمرين خلال آخر 7 أيام",
+"Нагрузка за 7 дней",
+"Carga de los últimos 7 días"
+],
+"۱ش": [
+"Sun",
+"أحد",
+"Вс",
+"Dom"
+],
+"۲ش": [
+"Mon",
+"إثنين",
+"Пн",
+"Lun"
+],
+"۳ش": [
+"Tue",
+"ثلاثاء",
+"Вт",
+"Mar"
+],
+"۴ش": [
+"Wed",
+"أربعاء",
+"Ср",
+"Mié"
+],
+"۵ش": [
+"Thu",
+"خميس",
+"Чт",
+"Jue"
+],
+"جمعه": [
+"Fri",
+"جمعة",
+"Пт",
+"Vie"
+],
+"شنبه": [
+"Sat",
+"سبت",
+"Сб",
+"Sáb"
+],
+"امروز": [
+"Today",
+"اليوم",
+"Сегодня",
+"Hoy"
+],
+"۳۰ روز گذشته": [
+"Last 30 days",
+"آخر 30 يومًا",
+"Последние 30 дней",
+"Últimos 30 días"
+],
+"تداوم تمرین در ۳۰ روز گذشته": [
+"Consistency, last 30 days",
+"الاستمرارية خلال آخر 30 يومًا",
+"Регулярность за 30 дней",
+"Constancia en 30 días"
+],
+"جلسه تمرین در ۳۰ روز اخیر (هدف ماهانه": [
+"sessions in the last 30 days (monthly goal",
+"جلسات في آخر 30 يومًا (الهدف الشهري",
+"тренировок за 30 дней (цель на месяц",
+"sesiones en 30 días (objetivo mensual"
+],
+"جلسه)": [
+"sessions)",
+"جلسات)",
+"тренировок)",
+"sesiones)"
+],
+"حجم ماهانه": [
+"Monthly volume",
+"الحجم الشهري",
+"Объём за месяц",
+"Volumen mensual"
+],
+"نمودار بار تمرینی ۳۰ روز گذشته": [
+"Training load, last 30 days",
+"حمل التمرين خلال آخر 30 يومًا",
+"Нагрузка за 30 дней",
+"Carga de los últimos 30 días"
+],
+"امروز: هنوز ثبت نشده": [
+"Today: nothing logged yet",
+"اليوم: لا تسجيل بعد",
+"Сегодня: пока ничего",
+"Hoy: aún nada registrado"
+],
+"۳ ماه گذشته (فصلی)": [
+"Last 3 months",
+"آخر 3 أشهر",
+"Последние 3 месяца",
+"Últimos 3 meses"
+],
+"ماتریس پایداری و پشتکار ۳ ماهه (۹۰ روز)": [
+"3-month consistency (90 days)",
+"مصفوفة الاستمرارية لـ 3 أشهر (90 يومًا)",
+"Регулярность за 3 месяца (90 дней)",
+"Constancia de 3 meses (90 días)"
+],
+"روز فعال تمرینی از ۹۰ روز گذشته (هدف فصل": [
+"active days in the last 90 days (quarter goal",
+"يوم تمرين نشط في آخر 90 يومًا (هدف الفصل",
+"активных дней из 90 (цель на квартал",
+"días activos en los últimos 90 (objetivo trimestral"
+],
+"حجم کل فصل": [
+"Quarter volume",
+"حجم الفصل الكلي",
+"Объём за квартал",
+"Volumen trimestral"
+],
+"نمودار بار تمرینی ۳ ماه اخیر": [
+"Training load, last 3 months",
+"حمل التمرين خلال آخر 3 أشهر",
+"Нагрузка за 3 месяца",
+"Carga de los últimos 3 meses"
+],
+"کمتر": [
+"Less",
+"أقل",
+"Меньше",
+"Menos"
+],
+"بیشتر": [
+"More",
+"أكثر",
+"Больше",
+"Más"
+],
+"جلسه این هفته": [
+"sessions this week",
+"جلسات هذا الأسبوع",
+"тренировок на этой неделе",
+"sesiones esta semana"
+],
+"حجم تمرین (کیلوگرم)": [
+"Training volume (kg)",
+"حجم التمرين (كغ)",
+"Объём (кг)",
+"Volumen (kg)"
+],
+"هنوز تمرینی ثبت نشده است.": [
+"No workouts logged yet.",
+"لم يُسجَّل أي تمرين بعد.",
+"Тренировок пока нет.",
+"Aún no hay entrenos."
+],
+"برنامه‌ای تعریف نشده است.": [
+"No programs yet.",
+"لا توجد برامج بعد.",
+"Программ пока нет.",
+"Aún no hay programas."
+],
+"اشتراک‌گذاری": [
+"Share",
+"مشاركة",
+"Поделиться",
+"Compartir"
+],
+"اجرا": [
+"Start",
+"ابدأ",
+"Начать",
+"Empezar"
+],
+"جلسات": [
+"Sessions",
+"الجلسات",
+"Тренировки",
+"Sesiones"
+],
+"میانگین مدت": [
+"Avg. duration",
+"متوسط المدة",
+"Средняя длительность",
+"Duración media"
+],
+"ست‌ها": [
+"Sets",
+"المجموعات",
+"Подходы",
+"Series"
+],
+"نسبت به": [
+"vs",
+"مقارنة بـ",
+"по сравнению с",
+"frente a"
+],
+"روز قبل": [
+"days before",
+"الأيام السابقة",
+"предыдущими днями",
+"días anteriores"
+],
+"روز اخیر": [
+"recent days",
+"الأيام الأخيرة",
+"последних дней",
+"días recientes"
+],
+"هفته": [
+"week",
+"أسبوع",
+"неделя",
+"semana"
+],
+"۴ هفته": [
+"4 weeks",
+"4 أسابيع",
+"4 недели",
+"4 semanas"
+],
+"کیلوگرم در هر": [
+"kg per",
+"كغ لكل",
+"кг за",
+"kg por"
+],
+"شروع": [
+"Start",
+"البداية",
+"Начало",
+"Inicio"
+],
+"حجم (kg)": [
+"Volume (kg)",
+"الحجم (kg)",
+"Объём (кг)",
+"Volumen (kg)"
+],
+"در این بازه تمرینی ثبت نشده": [
+"No workouts in this range",
+"لا تمارين في هذه الفترة",
+"Нет тренировок за период",
+"Sin entrenos en este periodo"
+],
+"در این بازه ستی ثبت نشده": [
+"No sets in this range",
+"لا مجموعات في هذه الفترة",
+"Нет подходов за период",
+"Sin series en este periodo"
+],
+"از کل": [
+"of total",
+"من الإجمالي",
+"от общего",
+"del total"
+],
+"سهم": [
+"Share",
+"الحصة",
+"Доля",
+"Parte"
+],
+"شکم": [
+"Abs",
+"البطن",
+"Пресс",
+"Abdomen"
+],
+"نزدیک‌کننده ران": [
+"Adductors",
+"العضلات المقرِّبة",
+"Приводящие",
+"Aductores"
+],
+"جلو بازو": [
+"Biceps",
+"العضلة ذات الرأسين",
+"Бицепс",
+"Bíceps"
+],
+"ساق پا": [
+"Calves",
+"السمانة",
+"Икры",
+"Gemelos"
+],
+"سرشانه": [
+"Shoulders",
+"الأكتاف",
+"Плечи",
+"Hombros"
+],
+"ساعد": [
+"Forearms",
+"الساعد",
+"Предплечья",
+"Antebrazos"
+],
+"سرینی": [
+"Glutes",
+"الأرداف",
+"Ягодицы",
+"Glúteos"
+],
+"پشت ران": [
+"Hamstrings",
+"أوتار الركبة",
+"Бицепс бедра",
+"Isquios"
+],
+"خم‌کننده ران": [
+"Hip flexors",
+"مثنيات الورك",
+"Сгибатели бедра",
+"Flexores de cadera"
+],
+"فیله کمر": [
+"Lower back",
+"أسفل الظهر",
+"Поясница",
+"Lumbares"
+],
+"پهلو": [
+"Obliques",
+"العضلات المائلة",
+"Косые",
+"Oblicuos"
+],
+"جلو ران": [
+"Quads",
+"الفخذ الأمامي",
+"Квадрицепс",
+"Cuádriceps"
+],
+"دندانه‌ای": [
+"Serratus",
+"المنشارية",
+"Зубчатые",
+"Serrato"
+],
+"ساق جلویی": [
+"Tibialis",
+"الظنبوبية",
+"Передняя большеберцовая",
+"Tibial anterior"
+],
+"کول (ذوزنقه)": [
+"Traps",
+"الترابيس",
+"Трапеции",
+"Trapecios"
+],
+"پشت بازو": [
+"Triceps",
+"العضلة ثلاثية الرؤوس",
+"Трицепс",
+"Tríceps"
+],
+"زیربغل و پشت": [
+"Lats and back",
+"الأجنحة والظهر",
+"Широчайшие и спина",
+"Dorsales y espalda"
+],
+"بی‌تمرین": [
+"Untrained",
+"بلا تمرين",
+"Без нагрузки",
+"Sin entrenar"
+],
+"نمای جلو": [
+"Front",
+"من الأمام",
+"Спереди",
+"Frente"
+],
+"نمای پشت": [
+"Back",
+"من الخلف",
+"Сзади",
+"Espalda"
+],
+"عضلات درگیر": [
+"Muscles worked",
+"العضلات المستهدفة",
+"Задействованные мышцы",
+"Músculos trabajados"
+],
+"ریکاوری": [
+"Recovery",
+"التعافي",
+"Восстановление",
+"Recuperación"
+],
+"ست در ۷ روز": [
+"sets in 7 days",
+"مجموعات في 7 أيام",
+"подходов за 7 дней",
+"series en 7 días"
+],
+"وضعیت": [
+"Status",
+"الحالة",
+"Статус",
+"Estado"
+],
+"هنوز رکوردی ثبت نشده است.": [
+"No records yet.",
+"لا أرقام بعد.",
+"Рекордов пока нет.",
+"Aún no hay récords."
+],
+"یک تکرار بیشینه تخمینی (فرمول اپلی)": [
+"Estimated one-rep max (Epley)",
+"أقصى تكرار واحد تقديري (معادلة إيبلي)",
+"Расчётный 1ПМ (формула Эпли)",
+"1RM estimado (fórmula de Epley)"
+],
+"۱RM تخمینی": [
+"Est. 1RM",
+"1RM تقديري",
+"Расч. 1ПМ",
+"1RM est."
+],
+"تاریخچه تمرینی وجود ندارد.": [
+"No workout history.",
+"لا يوجد سجل تمارين.",
+"Истории тренировок нет.",
+"No hay historial de entrenos."
+],
+"عضله‌سازی": [
+"Muscle building",
+"بناء العضلات",
+"Набор мышц",
+"Ganar músculo"
+],
+"هدف": [
+"Goal",
+"الهدف",
+"Цель",
+"Objetivo"
+],
+"مشخصات و اهداف ذخیره شدند": [
+"Details and goals saved",
+"حُفظت البيانات والأهداف",
+"Данные и цели сохранены",
+"Datos y objetivos guardados"
+],
+"اطلاعات و اهداف با موفقیت بروزرسانی شدند": [
+"Details and goals updated",
+"تم تحديث البيانات والأهداف",
+"Данные и цели обновлены",
+"Datos y objetivos actualizados"
+],
+"خطا در ذخیره اطلاعات پروفایل": [
+"Couldn't save your profile",
+"خطأ في حفظ الملف الشخصي",
+"Не удалось сохранить профиль",
+"Error al guardar el perfil"
+],
+"لینک برنامه در کلیپ‌بورد کپی شد!": [
+"Program link copied!",
+"نُسخ رابط البرنامج!",
+"Ссылка на программу скопирована!",
+"¡Enlace del programa copiado!"
+],
+"تمرینی": [
+"workout",
+"تمرين",
+"тренировки",
+"de entreno"
+],
+"لینک برنامه مجدداً در کلیپ‌بورد کپی شد!": [
+"Program link copied again!",
+"نُسخ رابط البرنامج مجددًا!",
+"Ссылка скопирована снова!",
+"¡Enlace copiado de nuevo!"
+],
+"لینک کپی شد!": [
+"Link copied!",
+"تم نسخ الرابط!",
+"Ссылка скопирована!",
+"¡Enlace copiado!"
+],
+"برنامه تمرینی مورد نظر یافت نشد": [
+"That program wasn't found",
+"البرنامج المطلوب غير موجود",
+"Программа не найдена",
+"No se encontró el programa"
+],
+"حرکتی در این برنامه ثبت نشده است.": [
+"This program has no exercises.",
+"لا تمارين في هذا البرنامج.",
+"В программе нет упражнений.",
+"Este programa no tiene ejercicios."
+],
+"افزودن این برنامه به برنامه‌های من": [
+"Add this program to My programs",
+"أضف هذا البرنامج إلى برامجي",
+"Добавить в мои программы",
+"Añadir a mis programas"
+],
+"ذخیره در برنامه‌های من": [
+"Save to My programs",
+"احفظ في برامجي",
+"Сохранить в мои программы",
+"Guardar en mis programas"
+],
+"ورود با گوگل برای همگام‌سازی ابری": [
+"Sign in with Google to sync",
+"الدخول بـ Google للمزامنة السحابية",
+"Войти через Google для синхронизации",
+"Entrar con Google para sincronizar"
+],
+"ذخیره و شروع تمرین": [
+"Save and start",
+"احفظ وابدأ التمرين",
+"Сохранить и начать",
+"Guardar y empezar"
+],
+"برنامه با موفقیت در دستگاه شما ذخیره شد!": [
+"Program saved on this device!",
+"حُفظ البرنامج على جهازك!",
+"Программа сохранена на устройстве!",
+"¡Programa guardado en este dispositivo!"
+],
+"برنامه با موفقیت اضافه شد!": [
+"Program added!",
+"تمت إضافة البرنامج!",
+"Программа добавлена!",
+"¡Programa añadido!"
+],
+"خطا در افزودن برنامه": [
+"Couldn't add the program",
+"خطأ في إضافة البرنامج",
+"Не удалось добавить программу",
+"Error al añadir el programa"
+],
+"خطا در افزودن برنامه به پروفایل": [
+"Couldn't add the program to your profile",
+"خطأ في إضافة البرنامج إلى ملفك",
+"Не удалось добавить программу в профиль",
+"Error al añadir el programa a tu perfil"
+],
+"فضایی برای قوی‌تر شدن": [
+"A place to get stronger",
+"مكان لتصبح أقوى",
+"Место, где становятся сильнее",
+"Un lugar para hacerte más fuerte"
+],
+"تمرین با هدف. پیشرفت با آگاهی.": [
+"Train with purpose. Progress you can see.",
+"تمرّن بهدف. تقدّم بوعي.",
+"Тренируйся с целью. Расти осознанно.",
+"Entrena con propósito. Progresa con datos."
+],
+"با گوگل شروع کن": [
+"Start with Google",
+"ابدأ مع Google",
+"Начать с Google",
+"Empieza con Google"
+],
+"برنامه‌ات، تمرین‌هایت، مسیر پیشرفتت. یک‌جا.": [
+"Your plan, your workouts, your progress. In one place.",
+"برنامجك وتمارينك وتقدّمك. في مكان واحد.",
+"Программа, тренировки и прогресс. В одном месте.",
+"Tu plan, tus entrenos y tu progreso. En un solo lugar."
+],
+"مسیرت را پیدا کن": [
+"Find your path",
+"جد طريقك",
+"Найди свой путь",
+"Encuentra tu camino"
+],
+"هر تمرین، یک قدم به جلو": [
+"Every workout, a step forward",
+"كل تمرين خطوة إلى الأمام",
+"Каждая тренировка — шаг вперёд",
+"Cada entreno, un paso adelante"
+],
+"فقط تمرین نکن.": [
+"Don't just train.",
+"لا تتمرّن فقط.",
+"Не просто тренируйся.",
+"No solo entrenes."
+],
+"پیشرفتت را ببین.": [
+"See your progress.",
+"شاهد تقدّمك.",
+"Смотри на прогресс.",
+"Mira tu progreso."
+],
+"امکانات جسم و اندیشه": [
+"What CHTH Gym does",
+"ميزات CHTH Gym",
+"Возможности CHTH Gym",
+"Qué hace CHTH Gym"
+],
+"مسیر خودت را بساز.": [
+"Build your own path.",
+"اصنع طريقك.",
+"Строй свой путь.",
+"Crea tu propio camino."
+],
+"از برنامه‌های آماده شروع کن یا روتین خودت را بچین. تمرین‌ها را با هدف و زمانت هماهنگ کن.": [
+"Start from a ready-made program or build your own routine. Fit your training to your goal and your schedule.",
+"ابدأ ببرنامج جاهز أو صمّم روتينك. نسّق تمارينك مع هدفك ووقتك.",
+"Начни с готовой программы или собери свою. Подстрой тренировки под цель и время.",
+"Empieza con un programa listo o arma tu rutina. Ajusta el entreno a tu objetivo y tu tiempo."
+],
+"هر ست را ثبت کن.": [
+"Log every set.",
+"سجّل كل مجموعة.",
+"Записывай каждый подход.",
+"Registra cada serie."
+],
+"وزنه، تکرار و جلسه‌های تمرینت را ثبت کن. برای تمرین بعدی، بدان دقیقاً از کجا ادامه بدهی.": [
+"Log weights, reps and sessions. Next time, know exactly where to pick up.",
+"سجّل الأوزان والتكرارات والجلسات. وفي المرة القادمة اعرف من أين تكمل بالضبط.",
+"Записывай веса, повторы и тренировки. В следующий раз знай, откуда продолжить.",
+"Registra pesos, repeticiones y sesiones. La próxima vez sabrás dónde seguir."
+],
+"روندت را بشناس.": [
+"Know your trend.",
+"اعرف مسارك.",
+"Знай свою динамику.",
+"Conoce tu evolución."
+],
+"تاریخچه تمرین و رکوردهای شخصی‌ات را ببین. قدم‌های کوچک امروز، پیشرفت فردای تو هستند.": [
+"See your history and personal records. Today's small steps are tomorrow's progress.",
+"شاهد سجلك وأرقامك الشخصية. خطوات اليوم الصغيرة هي تقدّم الغد.",
+"Смотри историю и личные рекорды. Маленькие шаги сегодня — прогресс завтра.",
+"Mira tu historial y récords. Los pasos pequeños de hoy son el progreso de mañana."
+],
+"قبل از شروع، امتحان کن": [
+"Try it before you start",
+"جرّبه قبل البدء",
+"Попробуй до начала",
+"Pruébalo antes de empezar"
+],
+"هدفت را انتخاب کن.": [
+"Pick your goal.",
+"اختر هدفك.",
+"Выбери цель.",
+"Elige tu objetivo."
+],
+"مسیرت را تصور کن.": [
+"Picture your path.",
+"تخيّل طريقك.",
+"Представь свой путь.",
+"Imagina tu camino."
+],
+"یک نگاه به شکل برنامه‌ات. هدف‌های مختلف را لمس کن و ببین یک جلسه تمرین چطور می‌تواند باشد.": [
+"A glimpse of your plan. Tap different goals and see what a session could look like.",
+"نظرة على شكل برنامجك. جرّب أهدافًا مختلفة وشاهد كيف قد تبدو الجلسة.",
+"Взгляд на программу. Нажимай разные цели и смотри, какой может быть тренировка.",
+"Un vistazo a tu plan. Toca distintos objetivos y mira cómo podría ser una sesión."
+],
+"انتخاب هدف برای پیش‌نمایش تمرین": [
+"Pick a goal to preview a workout",
+"اختر هدفًا لمعاينة التمرين",
+"Выбери цель для предпросмотра",
+"Elige un objetivo para ver un ejemplo"
+],
+"قدرت بیشتر": [
+"More strength",
+"قوة أكبر",
+"Больше силы",
+"Más fuerza"
+],
+"آمادگی عمومی": [
+"General fitness",
+"لياقة عامة",
+"Общая форма",
+"Forma general"
+],
+"این فقط یک نمونه است؛ برنامه اصلی را متناسب با خودت می‌سازی.": [
+"This is just a sample; you'll build your real plan around you.",
+"هذا مجرد مثال؛ ستبني برنامجك الحقيقي حسبك.",
+"Это лишь пример: настоящую программу ты соберёшь под себя.",
+"Es solo un ejemplo; tu plan real lo armas a tu medida."
+],
+"پیش‌نمایش یک جلسه": [
+"Session preview",
+"معاينة جلسة",
+"Пример тренировки",
+"Vista previa de sesión"
+],
+"پایه‌های قدرت": [
+"Strength basics",
+"أساسيات القوة",
+"Основы силы",
+"Bases de fuerza"
+],
+"۴۵ دقیقه": [
+"45 min",
+"45 دقيقة",
+"45 мин",
+"45 min"
+],
+"اسکوات": [
+"Squat",
+"سكوات",
+"Присед",
+"Sentadilla"
+],
+"۳ ست × ۵ تکرار": [
+"3 sets × 5 reps",
+"3 مجموعات × 5 تكرارات",
+"3 подхода × 5 повт.",
+"3 series × 5 reps"
+],
+"پرس سینه": [
+"Bench press",
+"ضغط الصدر",
+"Жим лёжа",
+"Press de banca"
+],
+"زیربغل هالتر": [
+"Barbell row",
+"تجديف بالبار",
+"Тяга штанги в наклоне",
+"Remo con barra"
+],
+"نمونه تمرین · بدون نیاز به حساب": [
+"Sample workout · no account needed",
+"تمرين نموذجي · دون حساب",
+"Пример · без регистрации",
+"Entreno de ejemplo · sin cuenta"
+],
+"دیدن برنامه‌ها ↖": [
+"See programs →",
+"عرض البرامج ↖",
+"Смотреть программы →",
+"Ver programas →"
+],
+"قدم بعدی از همین‌جا شروع می‌شود": [
+"Your next step starts here",
+"خطوتك التالية تبدأ هنا",
+"Следующий шаг начинается здесь",
+"Tu siguiente paso empieza aquí"
+],
+"برای خودت وقت بگذار.": [
+"Make time for yourself.",
+"خصّص وقتًا لنفسك.",
+"Найди время для себя.",
+"Date tiempo para ti."
+],
+"شروع با حساب گوگل": [
+"Start with Google",
+"ابدأ بحساب Google",
+"Начать с Google",
+"Empezar con Google"
+],
+"ساختن عضله، قدم به قدم": [
+"Building muscle, step by step",
+"بناء العضلات خطوة بخطوة",
+"Мышцы шаг за шагом",
+"Músculo paso a paso"
+],
+"پرس دمبل": [
+"Dumbbell press",
+"ضغط دمبل",
+"Жим гантелей",
+"Press con mancuernas"
+],
+"لت سیم‌کش": [
+"Lat pulldown",
+"سحب علوي بالكابل",
+"Тяга верхнего блока",
+"Jalón al pecho"
+],
+"نشر جانب": [
+"Lateral raise",
+"رفرفة جانبية",
+"Махи в стороны",
+"Elevación lateral"
+],
+"حرکت برای حال بهتر": [
+"Move to feel better",
+"تحرّك لتشعر بتحسّن",
+"Движение для хорошего самочувствия",
+"Moverse para sentirse mejor"
+],
+"اسکوات با وزن بدن": [
+"Bodyweight squat",
+"سكوات بوزن الجسم",
+"Присед без веса",
+"Sentadilla sin peso"
+],
+"شنا روی نیمکت": [
+"Bench push-up",
+"ضغط على المقعد",
+"Отжимания от скамьи",
+"Flexiones en banco"
+],
+"پیاده‌روی تند": [
+"Brisk walk",
+"مشي سريع",
+"Быстрая ходьба",
+"Caminata rápida"
+],
+"ست آفلاین همگام شد": [
+"offline sets synced",
+"مجموعات غير متصلة تمت مزامنتها",
+"офлайн-подходов синхронизировано",
+"series sin conexión sincronizadas"
+],
+"پیشنهاد برای شما": [
+"Suggested for you",
+"مقترح لك",
+"Для тебя",
+"Sugerido para ti"
+],
+"شبیه‌ساز و تغییر سریع شاخص": [
+"Quick body-stats simulator",
+"محاكي سريع للمؤشرات",
+"Быстрый симулятор показателей",
+"Simulador rápido de índices"
+],
+"بانک کامل برنامه‌ها": [
+"Full program library",
+"مكتبة البرامج الكاملة",
+"Все программы",
+"Biblioteca completa de programas"
+],
+"شبیه‌ساز آنی فیزیولوژی و هدف تمرینی": [
+"Instant body and goal simulator",
+"محاكي فوري للجسم والهدف",
+"Мгновенный симулятор тела и цели",
+"Simulador instantáneo de cuerpo y objetivo"
+],
+"قد": [
+"Height",
+"الطول",
+"Рост",
+"Altura"
+],
+"هدف ورزشی": [
+"Training goal",
+"هدف التمرين",
+"Цель тренировок",
+"Objetivo de entreno"
+],
+"سلامت عمومی و قامت": [
+"General health and posture",
+"الصحة العامة والقوام",
+"Здоровье и осанка",
+"Salud general y postura"
+],
+"بازنشانی به پروفایل من": [
+"Reset to my profile",
+"إعادة إلى ملفي",
+"Сбросить к моему профилю",
+"Volver a mi perfil"
+],
+"تحلیل و مشاهده آنی پیشنهادات": [
+"Analyze and see suggestions",
+"تحليل وعرض الاقتراحات",
+"Подобрать программы",
+"Analizar y ver sugerencias"
+],
+"در حال تحلیل شاخص بدنی و بارگذاری برنامه‌های متناسب با فیزیولوژی شما...": [
+"Analyzing your body stats and loading matching programs...",
+"جارٍ تحليل مؤشرات جسمك وتحميل البرامج المناسبة...",
+"Анализируем показатели и подбираем программы...",
+"Analizando tus datos y cargando programas a tu medida..."
+],
+"در حال دریافت پیشنهادات اختصاصی...": [
+"Loading your suggestions...",
+"جارٍ تحميل اقتراحاتك...",
+"Загружаем рекомендации...",
+"Cargando tus sugerencias..."
+],
+"برنامه‌های آماده": [
+"Ready-made programs",
+"برامج جاهزة",
+"Готовые программы",
+"Programas listos"
+],
+"جستجو در نام برنامه، حرکات، عضلات یا تگ‌ها (مثلاً: اسکوات، دمبل، حامی مفاصل، فول‌بادی)...": [
+"Search programs, exercises, muscles or tags (e.g. squat, dumbbell, joint-friendly, full body)...",
+"ابحث في البرامج أو التمارين أو العضلات أو الوسوم (مثل: سكوات، دمبل، لطيف على المفاصل، جسم كامل)...",
+"Поиск по программам, упражнениям, мышцам и тегам (например: присед, гантели, щадящая, фулбади)...",
+"Busca programas, ejercicios, músculos o etiquetas (p. ej.: sentadilla, mancuerna, cuida articulaciones, cuerpo completo)..."
+],
+"همه شاخص‌ها": [
+"All BMI ranges",
+"كل المؤشرات",
+"Любой ИМТ",
+"Todos los IMC"
+],
+"کم‌وزن (BMI &lt; 18.5)": [
+"Underweight (BMI &lt; 18.5)",
+"نقص الوزن (BMI &lt; 18.5)",
+"Недовес (ИМТ &lt; 18.5)",
+"Bajo peso (IMC &lt; 18.5)"
+],
+"وزن متناسب (18.5 - 24.9)": [
+"Healthy weight (18.5–24.9)",
+"وزن طبيعي (18.5 - 24.9)",
+"Норма (18.5–24.9)",
+"Peso saludable (18.5–24.9)"
+],
+"اضافه وزن (25.0 - 29.9)": [
+"Overweight (25.0–29.9)",
+"زيادة الوزن (25.0 - 29.9)",
+"Избыточный вес (25.0–29.9)",
+"Sobrepeso (25.0–29.9)"
+],
+"وزن بالا / حامی مفاصل (≥ 30)": [
+"Higher weight / joint-friendly (≥ 30)",
+"وزن مرتفع / لطيف على المفاصل (≥ 30)",
+"Высокий вес / щадящие (≥ 30)",
+"Peso alto / cuida articulaciones (≥ 30)"
+],
+"همه اهداف": [
+"All goals",
+"كل الأهداف",
+"Все цели",
+"Todos los objetivos"
+],
+"هایپرتروفی و حجم": [
+"Hypertrophy and size",
+"تضخيم وحجم",
+"Гипертрофия и масса",
+"Hipertrofia y volumen"
+],
+"استقامت عضلانی": [
+"Muscular endurance",
+"التحمّل العضلي",
+"Мышечная выносливость",
+"Resistencia muscular"
+],
+"همه تجهیزات": [
+"All equipment",
+"كل المعدّات",
+"Любой инвентарь",
+"Todo el equipo"
+],
+"تمرکز بر دمبل": [
+"Dumbbell focus",
+"تركيز على الدمبل",
+"Упор на гантели",
+"Enfoque en mancuernas"
+],
+"تمرکز بر هالتر": [
+"Barbell focus",
+"تركيز على البار",
+"Упор на штангу",
+"Enfoque en barra"
+],
+"دستگاه و سیم‌کش": [
+"Machines and cables",
+"أجهزة وكابلات",
+"Тренажёры и блоки",
+"Máquinas y poleas"
+],
+"وزن بدن (بدون تجهیزات)": [
+"Bodyweight (no equipment)",
+"وزن الجسم (بلا معدّات)",
+"Свой вес (без инвентаря)",
+"Peso corporal (sin equipo)"
+],
+"برنامه‌های تمرینی توصیه شده برای شما": [
+"Programs recommended for you",
+"برامج موصى بها لك",
+"Рекомендованные программы",
+"Programas recomendados para ti"
+],
+"الگوهای تمرینی اختصاصی بر اساس مشخصات بدنی و هدف ثبت شده شما آماده شده‌اند.": [
+"Picked for your body stats and goal.",
+"برامج مختارة حسب بيانات جسمك وهدفك.",
+"Подобраны под твои показатели и цель.",
+"Elegidos según tus datos y tu objetivo."
+],
+"مشاهده و شروع برنامه": [
+"View and start",
+"عرض وبدء البرنامج",
+"Открыть и начать",
+"Ver y empezar"
+],
+"نکته علمی فیزیولوژی": [
+"The science",
+"المعلومة العلمية",
+"Научное обоснование",
+"La ciencia"
+],
+"شاخص": [
+"Index",
+"المؤشر",
+"Индекс",
+"Índice"
+],
+"برنامه‌ای برای نمایش یافت نشد.": [
+"No programs to show.",
+"لا توجد برامج للعرض.",
+"Нет программ для показа.",
+"No hay programas que mostrar."
+],
+"وزن متناسب": [
+"Healthy weight",
+"وزن طبيعي",
+"Нормальный вес",
+"Peso saludable"
+],
+"کم‌وزن": [
+"Underweight",
+"نقص الوزن",
+"Недовес",
+"Bajo peso"
+],
+"اضافه وزن": [
+"Overweight",
+"زيادة الوزن",
+"Избыточный вес",
+"Sobrepeso"
+],
+"وزن بالا (حامی مفاصل)": [
+"Higher weight (joint-friendly)",
+"وزن مرتفع (لطيف على المفاصل)",
+"Высокий вес (щадящие)",
+"Peso alto (cuida articulaciones)"
+],
+"پیشنهادها بر اساس شاخص": [
+"Suggestions for BMI",
+"الاقتراحات حسب المؤشر",
+"Рекомендации для ИМТ",
+"Sugerencias para IMC"
+],
+"بروزرسانی شدند": [
+"updated",
+"تم التحديث",
+"обновлены",
+"actualizadas"
+],
+"برنامه‌ای منطبق با جستجو یا فیلترهای انتخابی یافت نشد.": [
+"No programs match your search or filters.",
+"لا برامج تطابق البحث أو الفلاتر.",
+"Нет программ по запросу или фильтрам.",
+"Ningún programa coincide con la búsqueda o filtros."
+],
+"پاکسازی همه فیلترها": [
+"Clear all filters",
+"مسح كل الفلاتر",
+"Сбросить фильтры",
+"Quitar filtros"
+],
+"حرکت دیگر (مشاهده لیست کامل)": [
+"more exercises (see full list)",
+"تمارين أخرى (عرض القائمة كاملة)",
+"упражнений (весь список)",
+"ejercicios más (ver lista completa)"
+],
+"بستن لیست کامل": [
+"Hide full list",
+"إغلاق القائمة الكاملة",
+"Свернуть список",
+"Ocultar lista completa"
+],
+"حامی مفاصل": [
+"Joint-friendly",
+"لطيف على المفاصل",
+"Щадящие",
+"Cuida articulaciones"
+],
+"مجموع": [
+"Total",
+"المجموع",
+"Всего",
+"Total"
+],
+"منطق علمی": [
+"Rationale",
+"المنطق العلمي",
+"Обоснование",
+"Fundamento"
+],
+"حرکات برنامه (": [
+"Exercises (",
+"تمارين البرنامج (",
+"Упражнения (",
+"Ejercicios ("
+],
+"حرکت)": [
+"exercises)",
+"تمارين)",
+"упр.)",
+"ejercicios)"
+],
+"ست × تکرار (استراحت)": [
+"sets × reps (rest)",
+"مجموعات × تكرار (راحة)",
+"подходы × повторы (отдых)",
+"series × reps (descanso)"
+],
+"افزودن به برنامه‌های من": [
+"Add to My programs",
+"أضف إلى برامجي",
+"В мои программы",
+"Añadir a mis programas"
+],
+"ذخیره در برنامه‌ها": [
+"Save to programs",
+"احفظ في البرامج",
+"Сохранить",
+"Guardar en programas"
+],
+"ویرایش و شخصی‌سازی در طراح": [
+"Edit and customize in the builder",
+"عدّل وخصّص في المصمّم",
+"Изменить в конструкторе",
+"Editar y personalizar en el editor"
+],
+"شخصی‌سازی": [
+"Customize",
+"تخصيص",
+"Настроить",
+"Personalizar"
+],
+"اشتراک‌گذاری و کد QR": [
+"Share and QR code",
+"المشاركة ورمز QR",
+"Поделиться и QR-код",
+"Compartir y código QR"
+],
+"اجرای تمرین": [
+"Start workout",
+"ابدأ التمرين",
+"Начать тренировку",
+"Empezar entreno"
+],
+"تمرین فعال در حال اجرا": [
+"A workout is in progress",
+"يوجد تمرين جارٍ",
+"Тренировка уже идёт",
+"Hay un entreno en curso"
+],
+"شما در حال حاضر یک جلسه تمرین فعال دارید («": [
+"You already have an active workout (\"",
+"لديك جلسة تمرين نشطة حاليًا («",
+"У тебя уже идёт тренировка («",
+"Ya tienes un entreno activo («"
+],
+"تمرین جاری": [
+"current workout",
+"التمرين الحالي",
+"текущая тренировка",
+"entreno actual"
+],
+"آیا مایلید جلسه قبلی را کنار گذاشته و برنامه «": [
+"Leave it and start «",
+"هل تريد ترك الجلسة السابقة وبدء البرنامج «",
+"Оставить её и начать «",
+"¿Dejarlo y empezar «"
+],
+"را آغاز نمایید؟": [
+"?",
+"؟",
+"?",
+"?"
+],
+"شروع برنامه جدید": [
+"Start new program",
+"ابدأ البرنامج الجديد",
+"Начать новую программу",
+"Empezar el nuevo programa"
+],
+"ادامه تمرین فعلی": [
+"Continue current workout",
+"تابع التمرين الحالي",
+"Продолжить текущую",
+"Seguir con el actual"
+],
+"آغاز شد! حرکات آماده ثبت هستند.": [
+"started! Exercises are ready to log.",
+"بدأ! التمارين جاهزة للتسجيل.",
+"началась! Можно записывать подходы.",
+"¡empezó! Listo para registrar."
+],
+"فعال شد! حرکات آماده ثبت هستند.": [
+"is active! Exercises are ready to log.",
+"تفعّل! التمارين جاهزة للتسجيل.",
+"запущена! Можно записывать подходы.",
+"¡activado! Listo para registrar."
+],
+"خطا در شروع تمرین مهمان": [
+"Couldn't start the guest workout",
+"خطأ في بدء تمرين الضيف",
+"Не удалось начать гостевую тренировку",
+"Error al empezar el entreno de invitado"
+],
+"برنامه یافت نشد": [
+"Program not found",
+"البرنامج غير موجود",
+"Программа не найдена",
+"Programa no encontrado"
+],
+"ذخیره شد!": [
+"Saved!",
+"تم الحفظ!",
+"Сохранено!",
+"¡Guardado!"
+],
+"قبلاً در برنامه‌های شما ذخیره شده است.": [
+"is already in your programs.",
+"محفوظ مسبقًا في برامجك.",
+"уже в твоих программах.",
+"ya está en tus programas."
+],
+"با موفقیت به برنامه‌های شما اضافه شد!": [
+"was added to your programs!",
+"أُضيف إلى برامجك!",
+"добавлена в твои программы!",
+"¡se añadió a tus programas!"
+],
+"حرکات برنامه «": [
+"Exercises of «",
+"تمارين البرنامج «",
+"Упражнения программы «",
+"Los ejercicios de «"
+],
+"در پیش‌نویس طراح بارگذاری شدند!": [
+"were loaded into the builder!",
+"حُمّلت في مسودة المصمّم!",
+"загружены в конструктор!",
+"¡se cargaron en el editor!"
+],
+"لینک برنامه «": [
+"Link to «",
+"رابط البرنامج «",
+"Ссылка на «",
+"El enlace de «"
+],
+"در کلیپ‌بورد کپی شد!": [
+"copied!",
+"نُسخ!",
+"скопирована!",
+"¡copiado!"
+],
+"الگوی علمی": [
+"Evidence-based",
+"نموذج علمي",
+"Научный подход",
+"Basado en evidencia"
+],
+"پیشنهاد امروز": [
+"Today's pick",
+"اقتراح اليوم",
+"Выбор дня",
+"Sugerencia de hoy"
+],
+"برنامه‌های آماده تمرین": [
+"Ready-made workout programs",
+"برامج تمرين جاهزة",
+"Готовые программы тренировок",
+"Programas de entreno listos"
+],
+"برنامه‌های تمرین فارسی با راهنمای حرکات، تعداد ست و تکرار؛ برنامه را انتخاب کنید و بدون ساخت حساب تمرین را ثبت کنید.": [
+"Workout programs with exercise guides, sets and reps. Pick one and start logging without an account.",
+"برامج تمرين مع دليل التمارين وعدد المجموعات والتكرارات؛ اختر برنامجًا وسجّل دون حساب.",
+"Программы с техникой, подходами и повторами. Выбери и записывай без регистрации.",
+"Programas con guía de ejercicios, series y repeticiones. Elige uno y registra sin cuenta."
+],
+"یک مسیر روشن برای جلسه بعدی": [
+"A clear path to your next session",
+"طريق واضح لجلستك التالية",
+"Понятный путь к следующей тренировке",
+"Un camino claro hacia tu próxima sesión"
+],
+"مسیر خودت را پیدا کن": [
+"Find your own path",
+"جد طريقك الخاص",
+"Найди свой путь",
+"Encuentra tu propio camino"
+],
+"باز کردن برنامه و شروع تمرین": [
+"Open the program and start",
+"افتح البرنامج وابدأ التمرين",
+"Открыть программу и начать",
+"Abrir el programa y empezar"
+],
+"مسیر صفحه": [
+"Breadcrumb",
+"مسار الصفحة",
+"Навигационная цепочка",
+"Ruta de navegación"
+],
+"برنامه‌ها": [
+"Programs",
+"البرامج",
+"Программы",
+"Programas"
+],
+"جزئیات برنامه": [
+"Program details",
+"تفاصيل البرنامج",
+"Детали программы",
+"Detalles del programa"
+],
+"حرکات این برنامه": [
+"Exercises in this program",
+"تمارين هذا البرنامج",
+"Упражнения программы",
+"Ejercicios de este programa"
+],
+"راهنمای حرکت، ست و استراحت": [
+"Exercise guide, sets and rest",
+"دليل التمرين والمجموعات والراحة",
+"Техника, подходы и отдых",
+"Guía, series y descanso"
+],
+"ست ×": [
+"sets ×",
+"مجموعات ×",
+"подх. ×",
+"series ×"
+],
+"ثانیه استراحت": [
+"s rest",
+"ثانية راحة",
+"с отдыха",
+"s de descanso"
+],
+"راهنمای": [
+"Guide:",
+"دليل",
+"Гид:",
+"Guía:"
+],
+"آماده‌ای شروع کنی؟": [
+"Ready to start?",
+"جاهز للبدء؟",
+"Готов начать?",
+"¿Listo para empezar?"
+],
+"برنامه را باز کن و اولین ست را ثبت کن.": [
+"Open the program and log your first set.",
+"افتح البرنامج وسجّل أول مجموعة.",
+"Открой программу и запиши первый подход.",
+"Abre el programa y registra tu primera serie."
+],
+"فهرست برنامه‌های تمرینی": [
+"List of workout programs",
+"قائمة برامج التمرين",
+"Список программ",
+"Lista de programas"
+],
+"دیدن برنامه": [
+"View program",
+"عرض البرنامج",
+"Смотреть программу",
+"Ver programa"
+],
+"این برنامه در دسترس نیست. از میان برنامه‌های آماده مسیر دیگری انتخاب کنید.": [
+"This program isn't available. Pick another ready-made program.",
+"هذا البرنامج غير متاح. اختر برنامجًا جاهزًا آخر.",
+"Программа недоступна. Выбери другую готовую.",
+"Este programa no está disponible. Elige otro programa listo."
+],
+"این برنامه پیدا نشد.": [
+"Program not found.",
+"لم يُعثر على هذا البرنامج.",
+"Программа не найдена.",
+"No se encontró este programa."
+],
+"ممکن است آدرس تغییر کرده باشد. برنامه‌های آماده را ببین و مسیر مناسب خودت را انتخاب کن.": [
+"The link may have changed. Browse the ready-made programs and pick one that fits you.",
+"ربما تغيّر الرابط. تصفّح البرامج الجاهزة واختر ما يناسبك.",
+"Возможно, ссылка изменилась. Посмотри готовые программы и выбери свою.",
+"Quizá cambió el enlace. Mira los programas listos y elige el tuyo."
+],
+"کاوش برنامه‌های تمرینی": [
+"Explore workout programs",
+"استكشف برامج التمرين",
+"Смотреть программы",
+"Explorar programas"
+],
+"اخگر": [
+"Ember",
+"جمر",
+"Уголь",
+"Brasa"
+],
+"آبی": [
+"Blue",
+"أزرق",
+"Синий",
+"Azul"
+],
+"بنفش": [
+"Purple",
+"بنفسجي",
+"Фиолетовый",
+"Morado"
+],
+"صورتی": [
+"Pink",
+"وردي",
+"Розовый",
+"Rosa"
+],
+"فیروزه‌ای": [
+"Turquoise",
+"فيروزي",
+"Бирюзовый",
+"Turquesa"
+],
+"لیمویی": [
+"Lime",
+"ليموني",
+"Лаймовый",
+"Lima"
+],
+"خنثی": [
+"Neutral",
+"محايد",
+"Нейтральный",
+"Neutro"
+],
+"برنامه هفتگی": [
+"Weekly plan",
+"الخطة الأسبوعية",
+"План на неделю",
+"Plan semanal"
+],
+"هفته قبل": [
+"Last week",
+"الأسبوع الماضي",
+"Прошлая неделя",
+"Semana pasada"
+],
+"این هفته": [
+"This week",
+"هذا الأسبوع",
+"Эта неделя",
+"Esta semana"
+],
+"هفته بعد": [
+"Next week",
+"الأسبوع القادم",
+"Следующая неделя",
+"Próxima semana"
+],
+"برنامه‌های ذخیره‌شده": [
+"Saved programs",
+"البرامج المحفوظة",
+"Сохранённые программы",
+"Programas guardados"
+],
+"بکشید و روی یک روز رها کنید": [
+"Drag onto a day",
+"اسحب وأفلت على يوم",
+"Перетащи на день",
+"Arrastra a un día"
+],
+"برای حذف از برنامه اینجا رها کنید": [
+"Drop here to remove",
+"أفلت هنا للإزالة",
+"Перетащи сюда, чтобы убрать",
+"Suelta aquí para quitar"
+],
+"یکشنبه": [
+"Sunday",
+"الأحد",
+"Воскресенье",
+"Domingo"
+],
+"دوشنبه": [
+"Monday",
+"الإثنين",
+"Понедельник",
+"Lunes"
+],
+"سه‌شنبه": [
+"Tuesday",
+"الثلاثاء",
+"Вторник",
+"Martes"
+],
+"چهارشنبه": [
+"Wednesday",
+"الأربعاء",
+"Среда",
+"Miércoles"
+],
+"پنجشنبه": [
+"Thursday",
+"الخميس",
+"Четверг",
+"Jueves"
+],
+"ذخیره برنامه هفتگی ناموفق بود": [
+"Couldn't save the weekly plan",
+"تعذّر حفظ الخطة الأسبوعية",
+"Не удалось сохранить план",
+"No se pudo guardar el plan semanal"
+],
+"حداکثر ۶ برنامه در یک روز": [
+"At most 6 programs per day",
+"6 برامج كحد أقصى في اليوم",
+"Не больше 6 программ в день",
+"Máximo 6 programas por día"
+],
+"حذف از این روز": [
+"Remove from this day",
+"إزالة من هذا اليوم",
+"Убрать с этого дня",
+"Quitar de este día"
+],
+"حذف": [
+"Delete",
+"حذف",
+"Удалить",
+"Eliminar"
+],
+"تا": [
+"to",
+"إلى",
+"—",
+"a"
+],
+"هنوز برنامه‌ای ذخیره نکرده‌اید.": [
+"You haven't saved any programs yet.",
+"لم تحفظ أي برنامج بعد.",
+"Сохранённых программ пока нет.",
+"Aún no has guardado programas."
+],
+"ساخت برنامه": [
+"Build a program",
+"إنشاء برنامج",
+"Создать программу",
+"Crear programa"
+],
+"انجام شد": [
+"Done",
+"تم",
+"Выполнено",
+"Hecho"
+],
+"انجام نشد": [
+"Not done",
+"لم يتم",
+"Не выполнено",
+"No hecho"
+],
+"روز تمرین": [
+"Training day",
+"يوم تمرين",
+"День тренировки",
+"Día de entreno"
+],
+"روز استراحت": [
+"Rest day",
+"يوم راحة",
+"День отдыха",
+"Día de descanso"
+],
+"حالا روی یک روز بزنید": [
+"Now tap a day",
+"الآن اضغط على يوم",
+"Теперь нажми на день",
+"Ahora toca un día"
+],
+"تنظیمات ورود با گوگل هنوز انجام نشده است": [
+"Google sign-in isn't set up yet",
+"لم يُعدّ تسجيل الدخول بـ Google بعد",
+"Вход через Google ещё не настроен",
+"El acceso con Google aún no está configurado"
+],
+"کد احراز هویت دریافت نشد": [
+"No authorization code received",
+"لم يُستلم رمز التحقق",
+"Код авторизации не получен",
+"No se recibió el código de autorización"
+],
+"خطا در دریافت توکن گوگل": [
+"Couldn't get a Google token",
+"خطأ في الحصول على رمز Google",
+"Не удалось получить токен Google",
+"Error al obtener el token de Google"
+],
+"اطلاعات حساب کاربری گوگل دریافت نشد": [
+"Couldn't load your Google account",
+"تعذّر جلب بيانات حساب Google",
+"Не удалось получить данные Google",
+"No se pudo cargar tu cuenta de Google"
+],
+"ورزشکار گرامی": [
+"Athlete",
+"أيها الرياضي",
+"Спортсмен",
+"Deportista"
+],
+"با موفقیت خارج شدید.": [
+"You're signed out.",
+"تم تسجيل خروجك.",
+"Ты вышел из аккаунта.",
+"Has cerrado sesión."
+],
+"بازو (جلو/پشت)": [
+"Arms (biceps/triceps)",
+"الذراع (أمامي/خلفي)",
+"Руки (бицепс/трицепс)",
+"Brazos (bíceps/tríceps)"
+],
+"دستگاه": [
+"Machine",
+"جهاز",
+"Тренажёр",
+"Máquina"
+],
+"حرکت یافت نشد": [
+"Exercise not found",
+"التمرين غير موجود",
+"Упражнение не найдено",
+"Ejercicio no encontrado"
+],
+"عنوان برنامه تمرینی الزامی است": [
+"A program name is required",
+"اسم البرنامج مطلوب",
+"Нужно название программы",
+"El nombre del programa es obligatorio"
+],
+"عنوان برنامه حداکثر": [
+"Program name can be at most",
+"اسم البرنامج بحد أقصى",
+"Название не длиннее",
+"El nombre admite como máximo"
+],
+"نویسه است": [
+"characters",
+"حرفًا",
+"символов",
+"caracteres"
+],
+"توضیحات حداکثر": [
+"Description can be at most",
+"الوصف بحد أقصى",
+"Описание не длиннее",
+"La descripción admite como máximo"
+],
+"حداقل یک حرکت باید به برنامه اضافه شود": [
+"Add at least one exercise to the program",
+"يجب إضافة تمرين واحد على الأقل",
+"Добавь в программу хотя бы одно упражнение",
+"Añade al menos un ejercicio al programa"
+],
+"شناسه برنامه پیشنهادی نامعتبر است": [
+"Invalid suggested program id",
+"معرّف البرنامج المقترح غير صالح",
+"Неверный id программы",
+"Id de programa sugerido no válido"
+],
+"برنامه پیشنهادی مورد نظر یافت نشد": [
+"Suggested program not found",
+"البرنامج المقترح غير موجود",
+"Программа не найдена",
+"Programa sugerido no encontrado"
+],
+"با موفقیت به برنامه‌های تمرینی شما اضافه شد!": [
+"was added to your programs!",
+"أُضيف إلى برامجك!",
+"добавлена в твои программы!",
+"¡se añadió a tus programas!"
+],
+"شناسه برنامه نامعتبر است": [
+"Invalid program id",
+"معرّف البرنامج غير صالح",
+"Неверный id программы",
+"Id de programa no válido"
+],
+"برنامه تمرینی مورد نظر یافت نشد یا ممکن است حذف شده باشد": [
+"Program not found; it may have been deleted",
+"البرنامج غير موجود أو ربما حُذف",
+"Программа не найдена или удалена",
+"Programa no encontrado; quizá se eliminó"
+],
+"برنامه تمرینی برای افزودن به پروفایل یافت نشد": [
+"Program to add wasn't found",
+"لم يُعثر على البرنامج لإضافته",
+"Программа для добавления не найдена",
+"No se encontró el programa para añadir"
+],
+"برنامه تمرینی با موفقیت ایجاد شد": [
+"Program created",
+"تم إنشاء البرنامج",
+"Программа создана",
+"Programa creado"
+],
+"تغییرات برنامه ذخیره شد": [
+"Program changes saved",
+"حُفظت تغييرات البرنامج",
+"Изменения сохранены",
+"Cambios guardados"
+],
+"برنامه تمرینی حذف شد": [
+"Program deleted",
+"تم حذف البرنامج",
+"Программа удалена",
+"Programa eliminado"
+],
+"شناسه حرکت الزامی است": [
+"Exercise id is required",
+"معرّف التمرين مطلوب",
+"Нужен id упражнения",
+"El id del ejercicio es obligatorio"
+],
+"جلسه تمرین یافت نشد": [
+"Workout not found",
+"الجلسة غير موجودة",
+"Тренировка не найдена",
+"Entreno no encontrado"
+],
+"تبریک! یک رکورد شخصی (PR) جدید ثبت شد!": [
+"Congrats! New personal record (PR)!",
+"تهانينا! رقم شخصي جديد (PR)!",
+"Поздравляем! Новый личный рекорд (PR)!",
+"¡Enhorabuena! ¡Nuevo récord personal (PR)!"
+],
+"ست با موفقیت ثبت شد": [
+"Set logged",
+"تم تسجيل المجموعة",
+"Подход записан",
+"Serie registrada"
+],
+"ست مورد نظر یافت نشد": [
+"Set not found",
+"المجموعة غير موجودة",
+"Подход не найден",
+"Serie no encontrada"
+],
+"ست حذف شد": [
+"Set deleted",
+"تم حذف المجموعة",
+"Подход удалён",
+"Serie eliminada"
+],
+"خسته نباشید! جلسه تمرین با موفقیت به پایان رسید و در تاریخچه ثبت شد.": [
+"Well done! Workout finished and saved to your history.",
+"أحسنت! انتهى التمرين وحُفظ في السجل.",
+"Отличная работа! Тренировка завершена и сохранена.",
+"¡Buen trabajo! Entreno terminado y guardado en tu historial."
+],
+"جلسه تمرین لغو و پاکسازی شد.": [
+"Workout cancelled and cleared.",
+"أُلغي التمرين ومُسح.",
+"Тренировка отменена и удалена.",
+"Entreno cancelado y borrado."
+],
+"اطلاعات و اهداف با موفقیت ذخیره شدند": [
+"Details and goals saved",
+"حُفظت البيانات والأهداف",
+"Данные и цели сохранены",
+"Datos y objetivos guardados"
+],
+"ثبت روزانه شما با موفقیت ذخیره شد!": [
+"Today's check-in saved!",
+"حُفظ تسجيلك اليومي!",
+"Отметка за день сохранена!",
+"¡Registro diario guardado!"
+],
+"خطای سرور رخ داد. لطفا مجددا تلاش کنید.": [
+"Server error. Please try again.",
+"حدث خطأ في الخادم. حاول مجددًا.",
+"Ошибка сервера. Попробуй ещё раз.",
+"Error del servidor. Inténtalo de nuevo."
+],
+"مسیر API مورد نظر یافت نشد": [
+"API route not found",
+"مسار API غير موجود",
+"Маршрут API не найден",
+"Ruta de API no encontrada"
+],
+"احراز هویت انجام نشده است. لطفاً وارد حساب خود شوید.": [
+"You're not signed in. Please sign in.",
+"لم تسجّل الدخول. يرجى تسجيل الدخول.",
+"Ты не вошёл. Пожалуйста, войди.",
+"No has iniciado sesión. Inicia sesión."
+],
+"کاربر یافت نشد": [
+"User not found",
+"المستخدم غير موجود",
+"Пользователь не найден",
+"Usuario no encontrado"
+],
+"کاربر مهمان": [
+"Guest",
+"ضيف",
+"Гость",
+"Invitado"
+],
+"کاربر": [
+"User",
+"المستخدم",
+"Пользователь",
+"Usuario"
+],
+"تمرین آزاد و اختصاصی": [
+"Free and custom workout",
+"تمرين حر ومخصّص",
+"Свободная тренировка",
+"Entreno libre y personalizado"
+],
+"برنامه حجم و ساخت عضلانی (ویژه کم‌وزن و اکتومورف)": [
+"Mass and muscle building (for underweight and ectomorphs)",
+"برنامج الكتلة وبناء العضلات (لنقص الوزن والنحفاء)",
+"Масса и мышцы (для худощавых и эктоморфов)",
+"Volumen y músculo (para bajo peso y ectomorfos)"
+],
+"طراحی ویژه افراد با شاخص توده بدنی پایین (کمتر از ۱۸.۵) با تاکید بر حرکات ترکیبی سنگین چندمفصلی جهت بیشترین تحریک هایپرتروفی و به حداقل رساندن سوخت کالری اضافی.": [
+"Built for a low BMI (under 18.5): heavy multi-joint compound lifts for the most hypertrophy stimulus while burning as few extra calories as possible.",
+"مصمّم لمؤشر كتلة منخفض (أقل من 18.5) مع تركيز على التمارين المركّبة الثقيلة متعدّدة المفاصل لأقصى تحفيز للتضخّم وأقل حرق إضافي للسعرات.",
+"Для низкого ИМТ (меньше 18.5): тяжёлые базовые многосуставные упражнения для максимальной гипертрофии при минимальном расходе лишних калорий.",
+"Para IMC bajo (menos de 18.5): ejercicios compuestos pesados y multiarticulares para el máximo estímulo de hipertrofia y el mínimo gasto calórico extra."
+],
+"کم‌وزن (BMI": [
+"Underweight (BMI",
+"نقص الوزن (BMI",
+"Недовес (ИМТ",
+"Bajo peso (IMC"
+],
+"مبتدی تا متوسط": [
+"Beginner to intermediate",
+"مبتدئ إلى متوسط",
+"Новичок — средний",
+"Principiante a intermedio"
+],
+"کمتر از ۱۸.۵": [
+"Under 18.5",
+"أقل من 18.5",
+"Меньше 18.5",
+"Menos de 18.5"
+],
+"در افراد کم‌وزن، جلسات تمرینی باید کوتاه، متمرکز و سرشار از تنش مکانیکی روی گروه‌های عضلانی بزرگ باشند. استراحت‌های ۷۵ تا ۹۰ ثانیه‌ای تضمین‌کننده ریکاوری آدنوزین تری‌فسفات (ATP) و توان برای بلند کردن وزنه‌های سنگین‌تر است.": [
+"For underweight lifters, sessions should be short and focused, with lots of mechanical tension on the big muscle groups. Rests of 75–90 seconds restore ATP and the power to lift heavier.",
+"لأصحاب الوزن المنخفض يجب أن تكون الجلسات قصيرة ومركّزة مع شدّ ميكانيكي كبير على العضلات الكبيرة. الراحة 75 إلى 90 ثانية تضمن تعافي ATP والقدرة على رفع أوزان أثقل.",
+"При недовесе тренировки должны быть короткими и сфокусированными, с высокой механической нагрузкой на крупные мышцы. Отдых 75–90 секунд восстанавливает АТФ и силу для больших весов.",
+"Con bajo peso, las sesiones deben ser cortas y centradas, con mucha tensión mecánica en los grandes grupos musculares. Descansos de 75–90 segundos reponen el ATP y la fuerza para levantar más."
+],
+"حجم عضلانی": [
+"Muscle mass",
+"الكتلة العضلية",
+"Мышечная масса",
+"Masa muscular"
+],
+"تمرکز ترکیبی": [
+"Compound focus",
+"تركيز مركّب",
+"Упор на базу",
+"Enfoque compuesto"
+],
+"ریکاوری بالا": [
+"Plenty of recovery",
+"تعافٍ عالٍ",
+"Много восстановления",
+"Mucha recuperación"
+],
+"مناسب افراد لاغر": [
+"For slim builds",
+"مناسب للنحفاء",
+"Для худощавых",
+"Para complexión delgada"
+],
+"اسکوات پا با هالتر از پشت": [
+"Barbell back squat",
+"سكوات خلفي بالبار",
+"Присед со штангой на спине",
+"Sentadilla trasera con barra"
+],
+"پا": [
+"Legs",
+"الأرجل",
+"Ноги",
+"Piernas"
+],
+"تمرکز بر عمق کامل دامنه و حفظ قوس طبیعی ستون فقرات": [
+"Full depth while keeping the spine's natural curve",
+"ركّز على المدى الكامل مع الحفاظ على انحناء العمود الفقري الطبيعي",
+"Полная амплитуда с естественным прогибом спины",
+"Profundidad completa manteniendo la curva natural de la columna"
+],
+"پرس سینه با هالتر": [
+"Barbell bench press",
+"ضغط الصدر بالبار",
+"Жим штанги лёжа",
+"Press de banca con barra"
+],
+"کتف‌ها به عقب قفل شده و کنترل کامل در فاز منفی": [
+"Shoulder blades pinned back, full control on the way down",
+"الكتفان مثبّتان للخلف مع تحكّم كامل في النزول",
+"Лопатки сведены, полный контроль в негативе",
+"Escápulas atrás y control total al bajar"
+],
+"زیربغل هالتر خم": [
+"Bent-over barbell row",
+"تجديف بالبار منحنيًا",
+"Тяга штанги в наклоне",
+"Remo con barra inclinado"
+],
+"بالاتنه با زاویه ۴۵ درجه و کشش میله به سمت ناف": [
+"Torso at 45°, pull the bar to your navel",
+"الجذع بزاوية 45° واسحب البار نحو السرة",
+"Корпус под 45°, тяни гриф к пупку",
+"Torso a 45° y lleva la barra al ombligo"
+],
+"پرس سرشانه هالتر نظامی ایستاده (OHP)": [
+"Standing overhead press (OHP)",
+"ضغط الكتف بالبار واقفًا (OHP)",
+"Армейский жим стоя (OHP)",
+"Press militar de pie (OHP)"
+],
+"انقباض باسن و شکم در طول کل دامنه حرکت": [
+"Keep glutes and abs braced the whole way",
+"شدّ الأرداف والبطن طوال الحركة",
+"Ягодицы и пресс напряжены всё движение",
+"Glúteos y abdomen firmes en todo el recorrido"
+],
+"جلو بازو با هالتر صاف ایستاده": [
+"Standing barbell curl",
+"ثني الذراع بالبار واقفًا",
+"Подъём штанги на бицепс стоя",
+"Curl de bíceps con barra de pie"
+],
+"بازو": [
+"Arms",
+"الذراع",
+"Руки",
+"Brazos"
+],
+"آرنج‌ها چسبیده به پهلو و بدون ضربه زدن با کمر": [
+"Elbows tucked, no swinging from the back",
+"المرفقان ملاصقان للجانبين دون تأرجح الظهر",
+"Локти прижаты, без раскачки корпусом",
+"Codos pegados, sin balancear la espalda"
+],
+"پلانک روی آرنج": [
+"Forearm plank",
+"بلانك على المرفقين",
+"Планка на локтях",
+"Plancha de antebrazos"
+],
+"حفظ خط مستقیم بدن و انقباض فعال عضلات مرکزی": [
+"Keep a straight line and an active core",
+"حافظ على خط مستقيم وشدّ الجذع",
+"Тело прямое, кор напряжён",
+"Línea recta y core activo"
+],
+"برنامه بالاتنه هایپرتروفی و حجم عضلانی": [
+"Upper-body hypertrophy program",
+"برنامج تضخيم الجزء العلوي",
+"Гипертрофия верха тела",
+"Hipertrofia del tren superior"
+],
+"برنامه علمی بالاتنه با توزیع یکنواخت حجم بین عضلات سینه، پشت، سرشانه و بازو ویژه افراد در محدوده وزن نرمال با هدف رشد بهینه تارهای عضلانی نوع دو.": [
+"An upper-body program that spreads volume evenly across chest, back, shoulders and arms, for a healthy weight range, aimed at growing type II muscle fibers.",
+"برنامج للجزء العلوي يوزّع الحجم بالتساوي على الصدر والظهر والأكتاف والذراعين لأصحاب الوزن الطبيعي بهدف تنمية الألياف من النوع الثاني.",
+"Программа на верх тела с равным объёмом на грудь, спину, плечи и руки для нормального веса, нацеленная на рост волокон II типа.",
+"Programa de tren superior que reparte el volumen entre pecho, espalda, hombros y brazos, para peso saludable, centrado en las fibras tipo II."
+],
+"متوسط تا پیشرفته": [
+"Intermediate to advanced",
+"متوسط إلى متقدّم",
+"Средний — продвинутый",
+"Intermedio a avanzado"
+],
+"۱۸.۵ تا ۲۴.۹": [
+"18.5 to 24.9",
+"18.5 إلى 24.9",
+"от 18.5 до 24.9",
+"18.5 a 24.9"
+],
+"در محدوده BMI متناسب، ظرفیت تطبیق عضلانی در بالاترین سطح است. دامنه تکرار ۸ الی ۱۲ با ۶۰ ثانیه استراحت، ترشح فاکتورهای رشد موضعی و پمپ خونی حداکثری (Sarcoplasmic Hypertrophy) را به ارمغان می‌آورد.": [
+"At a healthy BMI, muscles adapt best. 8–12 reps with 60 seconds of rest maximize local growth factors and the pump (sarcoplasmic hypertrophy).",
+"في نطاق BMI الطبيعي تكون قدرة التكيّف العضلي في أعلاها. 8 إلى 12 تكرارًا مع 60 ثانية راحة تعظّم عوامل النمو الموضعية والضخ (التضخّم الساركوبلازمي).",
+"При нормальном ИМТ мышцы адаптируются лучше всего. 8–12 повторов с отдыхом 60 секунд дают максимум локальных факторов роста и пампа (саркоплазматическая гипертрофия).",
+"Con un IMC saludable, el músculo se adapta mejor. 8–12 repeticiones con 60 segundos de descanso maximizan los factores de crecimiento y el bombeo (hipertrofia sarcoplasmática)."
+],
+"هایپرتروفی": [
+"Hypertrophy",
+"التضخّم",
+"Гипертрофия",
+"Hipertrofia"
+],
+"بالاتنه تفکیکی": [
+"Upper-body split",
+"تقسيم الجزء العلوي",
+"Сплит на верх",
+"Rutina de tren superior"
+],
+"پمپ عضلانی": [
+"Muscle pump",
+"الضخ العضلي",
+"Памп",
+"Bombeo muscular"
+],
+"تار نوع ۲": [
+"Type II fibers",
+"ألياف النوع الثاني",
+"Волокна II типа",
+"Fibras tipo II"
+],
+"پرس بالاسینه با دمبل": [
+"Incline dumbbell press",
+"ضغط صدر علوي بالدمبل",
+"Жим гантелей на наклонной",
+"Press inclinado con mancuernas"
+],
+"دامنه حرکتی کامل با انقباض متمرکز در بالای حرکت": [
+"Full range with a hard squeeze at the top",
+"مدى كامل مع انقباض مركّز في الأعلى",
+"Полная амплитуда, пиковое сокращение вверху",
+"Recorrido completo con contracción arriba"
+],
+"زیربغل سیم‌کش لت از جلو": [
+"Front lat pulldown",
+"سحب علوي أمامي بالكابل",
+"Тяга верхнего блока к груди",
+"Jalón al pecho"
+],
+"کشش کامل در بالا و انقباض عضلات پشتی بزرگ در پایین": [
+"Full stretch at the top, squeeze the lats at the bottom",
+"تمدّد كامل في الأعلى وشدّ الظهر العريض في الأسفل",
+"Полное растяжение вверху, сокращение широчайших внизу",
+"Estira arriba y aprieta los dorsales abajo"
+],
+"زیربغل قایقی با سیم‌کش": [
+"Seated cable row",
+"تجديف جالس بالكابل",
+"Горизонтальная тяга блока",
+"Remo sentado en polea"
+],
+"فشردن تیغه‌های شانه به هم در انتهای کشش": [
+"Squeeze shoulder blades together at the end",
+"اضغط لوحي الكتف معًا في نهاية السحب",
+"Сведи лопатки в конце тяги",
+"Junta las escápulas al final"
+],
+"نشر از جانب با دمبل": [
+"Dumbbell lateral raise",
+"رفرفة جانبية بالدمبل",
+"Махи гантелями в стороны",
+"Elevación lateral con mancuernas"
+],
+"بالا آوردن دمبل‌ها تا خط شانه بدون تکان دادن تنه": [
+"Raise to shoulder height without swinging",
+"ارفع الدمبل حتى خط الكتف دون تأرجح",
+"Поднимай до линии плеч без раскачки",
+"Sube hasta la altura de los hombros sin balanceo"
+],
+"پشت بازو سیم‌کش با طناب": [
+"Cable rope triceps pushdown",
+"تمديد الترايسبس بالحبل",
+"Разгибания на трицепс с канатом",
+"Extensión de tríceps con cuerda"
+],
+"باز کردن دو سر طناب در انتهای پایین حرکت برای انقباض اوج": [
+"Spread the rope ends at the bottom for a peak squeeze",
+"افتح طرفي الحبل في الأسفل لانقباض أقصى",
+"Разводи концы каната внизу для пикового сокращения",
+"Separa los extremos de la cuerda abajo para apretar al máximo"
+],
+"جلو بازو دمبل روی میز شیبدار": [
+"Incline dumbbell curl",
+"ثني الذراع بالدمبل على مقعد مائل",
+"Сгибания с гантелями на наклонной скамье",
+"Curl con mancuernas en banco inclinado"
+],
+"کشش عمیق سر بلند جلو بازو در پایین دامنه": [
+"Deep stretch of the biceps long head at the bottom",
+"تمدّد عميق للرأس الطويل في الأسفل",
+"Глубокое растяжение длинной головки внизу",
+"Estiramiento profundo de la cabeza larga abajo"
+],
+"برنامه تفکیکی پایین‌تنه و میان‌تنه قدرتی": [
+"Lower body and core strength split",
+"برنامج قوة للجزء السفلي والجذع",
+"Сплит на низ тела и кор",
+"Rutina de fuerza de tren inferior y core"
+],
+"ترکیب اسکوات سنگین، ددلیفت رومانیایی، پرس پا و تمرینات تقویتی عضلات مرکزی شکم جهت رشد متوازن عضلات ران، باسن و ساق پا.": [
+"Heavy squats, Romanian deadlifts, leg press and core work for balanced growth of thighs, glutes and calves.",
+"سكوات ثقيل ورفعة رومانية وضغط الأرجل وتمارين الجذع لنمو متوازن للفخذين والأرداف والسمانة.",
+"Тяжёлый присед, румынская тяга, жим ногами и кор для сбалансированного роста бёдер, ягодиц и икр.",
+"Sentadilla pesada, peso muerto rumano, prensa y core para un crecimiento equilibrado de muslos, glúteos y gemelos."
+],
+"تمرینات پایین‌تنه ترشح هورمون‌های آنابولیک طبیعی را افزایش داده و پایه استقامتی و بیومکانیک کل بدن را مستحکم می‌سازد.": [
+"Lower-body training raises natural anabolic hormones and builds a solid base of endurance and whole-body mechanics.",
+"تمارين الجزء السفلي ترفع الهرمونات البنائية الطبيعية وتقوّي قاعدة التحمّل وميكانيكا الجسم.",
+"Тренировки низа повышают естественные анаболические гормоны и укрепляют выносливость и биомеханику всего тела.",
+"El tren inferior eleva las hormonas anabólicas naturales y afianza la resistencia y la mecánica de todo el cuerpo."
+],
+"پایین‌تنه": [
+"Lower body",
+"الجزء السفلي",
+"Низ тела",
+"Tren inferior"
+],
+"چهارسر و همسترینگ": [
+"Quads and hamstrings",
+"الفخذ الأمامي والخلفي",
+"Квадрицепс и бицепс бедра",
+"Cuádriceps e isquios"
+],
+"عضلات مرکزی": [
+"Core",
+"عضلات الجذع",
+"Кор",
+"Core"
+],
+"تقویت باسن": [
+"Glute strength",
+"تقوية الأرداف",
+"Сильные ягодицы",
+"Glúteos fuertes"
+],
+"حرکت از مفصل لگن آغاز شده و زانوها به بیرون متمایل باشند": [
+"Start from the hips with knees pushed out",
+"ابدأ من الورك مع دفع الركبتين للخارج",
+"Начинай с таза, колени наружу",
+"Inicia desde la cadera con las rodillas hacia fuera"
+],
+"ددلیفت رومانیایی با دمبل": [
+"Dumbbell Romanian deadlift",
+"رفعة رومانية بالدمبل",
+"Румынская тяга с гантелями",
+"Peso muerto rumano con mancuernas"
+],
+"عقب دادن باسن با پشت صاف تا کشش مطلوب در همسترینگ": [
+"Push hips back with a flat back until the hamstrings stretch",
+"ادفع الورك للخلف بظهر مستقيم حتى تمدّد الأوتار",
+"Отводи таз назад с прямой спиной до растяжения бицепса бедра",
+"Lleva la cadera atrás con la espalda recta hasta estirar los isquios"
+],
+"پرس پا با دستگاه ۴۵ درجه": [
+"45° leg press",
+"ضغط الأرجل بزاوية 45°",
+"Жим ногами 45°",
+"Prensa de piernas a 45°"
+],
+"عدم قفل کردن مفاصل زانو در بالاترین نقطه": [
+"Don't lock your knees at the top",
+"لا تقفل الركبتين في الأعلى",
+"Не выпрямляй колени до замка вверху",
+"No bloquees las rodillas arriba"
+],
+"ساق پا ایستاده با دستگاه": [
+"Standing machine calf raise",
+"رفع السمانة واقفًا بالجهاز",
+"Подъём на носки стоя в тренажёре",
+"Elevación de gemelos de pie en máquina"
+],
+"مکث ۱ ثانیه‌ای در اوج انقباض روی پنجه پا": [
+"Pause 1 second at the top on your toes",
+"توقّف ثانية في أعلى الانقباض",
+"Пауза 1 секунду вверху на носках",
+"Pausa de 1 segundo arriba de puntillas"
+],
+"کرانچ شکم با طناب سیم‌کش (سجده‌ای)": [
+"Kneeling cable crunch",
+"كرنش بالكابل راكعًا",
+"Скручивания на блоке на коленях",
+"Crunch en polea de rodillas"
+],
+"جمع کردن ستون فقرات با قدرت عضلات ۶ تکه شکم": [
+"Curl the spine using your abs",
+"اثنِ العمود الفقري بقوة عضلات البطن",
+"Скругляй позвоночник силой пресса",
+"Flexiona la columna con los abdominales"
+],
+"برنامه قدرت محض و پاوربیلدینگ (افزایش رکورد بیگ ۳)": [
+"Pure strength and powerbuilding (big 3 PRs)",
+"برنامج القوة والباوربيلدينغ (أرقام الثلاثة الكبار)",
+"Чистая сила и пауэрбилдинг (рекорды в большой тройке)",
+"Fuerza pura y powerbuilding (récords en los 3 grandes)"
+],
+"پروتکل قدرتی تمرینات پایه اسکوات، پرس سینه، ددلیفت و سرشانه با وزنه‌های سنگین و تکرارهای ۴ الی ۶ جهت حداکثر تطبیق عصبی-عضلانی و افزایش رکوردهای شخصی (PR).": [
+"A strength protocol on squat, bench, deadlift and overhead press with heavy weights and 4–6 reps for maximum neuromuscular adaptation and new PRs.",
+"بروتوكول قوة على السكوات وضغط الصدر والرفعة الميتة وضغط الكتف بأوزان ثقيلة و4 إلى 6 تكرارات لأقصى تكيّف عصبي عضلي وأرقام جديدة.",
+"Силовой протокол: присед, жим лёжа, становая и жим стоя с большими весами на 4–6 повторов для максимальной нервно-мышечной адаптации и новых рекордов.",
+"Protocolo de fuerza en sentadilla, banca, peso muerto y press militar con pesos altos y 4–6 repeticiones para la máxima adaptación neuromuscular y nuevos récords."
+],
+"۱۸.۵ تا ۲۶.۰": [
+"18.5 to 26.0",
+"18.5 إلى 26.0",
+"от 18.5 до 26.0",
+"18.5 a 26.0"
+],
+"تمرینات قدرتی مبتنی بر تکرار پایین (۴ تا ۶ تکرار) و استراحت‌های طولانی (۹۰ تا ۱۲۰ ثانیه) راندمان فراخوانی واحدهای حرکتی عصبی را به اوج رسانده و چگالی استخوانی و مفصلی را تقویت می‌کنند.": [
+"Low reps (4–6) with long rests (90–120 seconds) maximize motor unit recruitment and strengthen bones and joints.",
+"التكرارات المنخفضة (4 إلى 6) مع راحة طويلة (90 إلى 120 ثانية) تعظّم تجنيد الوحدات الحركية وتقوّي العظام والمفاصل.",
+"Малые повторы (4–6) и долгий отдых (90–120 секунд) максимизируют вовлечение двигательных единиц и укрепляют кости и суставы.",
+"Pocas repeticiones (4–6) con descansos largos (90–120 segundos) maximizan el reclutamiento de unidades motoras y fortalecen huesos y articulaciones."
+],
+"افزایش رکورد": [
+"New records",
+"رفع الأرقام",
+"Рост рекордов",
+"Nuevos récords"
+],
+"پاورلیفتینگ": [
+"Powerlifting",
+"رفع القوة",
+"Пауэрлифтинг",
+"Powerlifting"
+],
+"تکرار پایین": [
+"Low reps",
+"تكرار منخفض",
+"Мало повторов",
+"Pocas reps"
+],
+"سیستم عصبی CNS": [
+"Nervous system (CNS)",
+"الجهاز العصبي CNS",
+"Нервная система (ЦНС)",
+"Sistema nervioso (SNC)"
+],
+"ددلیفت کلاسیک با هالتر": [
+"Conventional barbell deadlift",
+"الرفعة الميتة الكلاسيكية",
+"Классическая становая тяга",
+"Peso muerto convencional"
+],
+"شروع با فشار پاشنه‌ها و قفل محکم عضلات فیله و پشتی": [
+"Drive through the heels with lower back and lats locked tight",
+"ابدأ بدفع الكعبين مع شدّ أسفل الظهر والأجنحة",
+"Толкай пятками, поясница и широчайшие зажаты",
+"Empuja con los talones con lumbares y dorsales firmes"
+],
+"استفاده از لگ درایو (Leg Drive) و پرس انفجاری به بالا": [
+"Use leg drive and press up explosively",
+"استخدم دفع الأرجل واضغط بانفجار للأعلى",
+"Используй лег-драйв и жми взрывно",
+"Usa el empuje de piernas y presiona de forma explosiva"
+],
+"نفس عمیق شکمی (مانور والسالوا) و حفظ فشار مرکزی": [
+"Deep belly breath (Valsalva) and keep your core braced",
+"نَفَس بطني عميق (مناورة فالسالفا) مع شدّ الجذع",
+"Глубокий вдох животом (Вальсальва), кор напряжён",
+"Respiración abdominal profunda (Valsalva) y core firme"
+],
+"صاف شدن کامل دست‌ها در بالای سر با انقباض ذوزنقه": [
+"Lock out overhead with a trap shrug",
+"مدّ الذراعين كاملًا فوق الرأس مع شدّ الترابيس",
+"Полностью выпрями руки над головой, напрягая трапеции",
+"Bloquea arriba elevando los trapecios"
+],
+"بارفیکس دست باز": [
+"Wide-grip pull-up",
+"عقلة بقبضة واسعة",
+"Подтягивания широким хватом",
+"Dominadas con agarre ancho"
+],
+"بالا کشیدن سینه تا میله بدون تاب خوردن بدن": [
+"Pull your chest to the bar without swinging",
+"اسحب صدرك إلى العقلة دون تأرجح",
+"Тянись грудью к перекладине без раскачки",
+"Lleva el pecho a la barra sin balancearte"
+],
+"برنامه متابولیک فول‌بادی چربی‌سوزی و حفظ عضله": [
+"Full-body metabolic fat loss, keep the muscle",
+"برنامج أيضي للجسم كاملًا لحرق الدهون مع الحفاظ على العضل",
+"Метаболическая фулбади: жиросжигание с сохранением мышц",
+"Cuerpo completo metabólico: quemar grasa y mantener músculo"
+],
+"ترکیب حرکات پرمصرف ترکیبی با استراحت‌های کوتاه و تکرارهای ۱۲ الی ۱۵ جهت حداکثر سوزاندن چربی‌های مازاد و ارتقای سرعت متابولیسم در زمان استراحت (EPOC).": [
+"Demanding compound moves with short rests and 12–15 reps to burn the most extra fat and raise metabolism after training (EPOC).",
+"تمارين مركّبة عالية الاستهلاك مع راحة قصيرة و12 إلى 15 تكرارًا لأقصى حرق للدهون ورفع الأيض بعد التمرين (EPOC).",
+"Энергозатратные базовые упражнения с коротким отдыхом и 12–15 повторами для максимального жиросжигания и ускорения обмена веществ после тренировки (EPOC).",
+"Ejercicios compuestos exigentes con descansos cortos y 12–15 repeticiones para quemar más grasa y elevar el metabolismo después (EPOC)."
+],
+"همه سطوح": [
+"All levels",
+"كل المستويات",
+"Любой уровень",
+"Todos los niveles"
+],
+"۲۵.۰ تا ۲۹.۹": [
+"25.0 to 29.9",
+"25.0 إلى 29.9",
+"от 25.0 до 29.9",
+"25.0 a 29.9"
+],
+"در شاخص توده بدنی ۲۵ تا ۳۰، هدف اصلی تخلیه ذخایر گلیکوژنی و تحریک اکسیداسیون لیپیدها همزمان با حفظ توده عضلانی است. بازه‌های استراحت ۴۵ ثانیه‌ای ضربان قلب را در محدوده چربی‌سوزی فعال نگه می‌دارد.": [
+"At a BMI of 25–30, the main goal is to drain glycogen and drive fat oxidation while keeping muscle. 45-second rests keep your heart rate in the fat-burning zone.",
+"عند مؤشر كتلة 25 إلى 30 يكون الهدف استنزاف الغليكوجين وتحفيز أكسدة الدهون مع الحفاظ على العضل. راحة 45 ثانية تبقي النبض في نطاق حرق الدهون.",
+"При ИМТ 25–30 главная цель — истощить гликоген и запустить окисление жиров, сохранив мышцы. Отдых 45 секунд держит пульс в жиросжигающей зоне.",
+"Con un IMC de 25–30, el objetivo es vaciar el glucógeno y oxidar grasa manteniendo el músculo. Descansos de 45 segundos mantienen el pulso en zona de quema de grasa."
+],
+"چربی‌سوزی سریع": [
+"Fast fat loss",
+"حرق سريع للدهون",
+"Быстрое жиросжигание",
+"Quema de grasa rápida"
+],
+"کالری‌سوزی EPOC": [
+"EPOC calorie burn",
+"حرق السعرات EPOC",
+"Расход калорий EPOC",
+"Quema calórica EPOC"
+],
+"فول‌بادی پویا": [
+"Dynamic full body",
+"جسم كامل ديناميكي",
+"Динамичная фулбади",
+"Cuerpo completo dinámico"
+],
+"حفظ عضلات": [
+"Keep muscle",
+"الحفاظ على العضل",
+"Сохранение мышц",
+"Mantener músculo"
+],
+"گابلت اسکوات با دمبل": [
+"Dumbbell goblet squat",
+"سكوات الكأس بالدمبل",
+"Гоблет-присед с гантелей",
+"Sentadilla goblet con mancuerna"
+],
+"دمبل چسبیده به سینه و پایین آمدن با ریتم روان": [
+"Dumbbell held to the chest, lower smoothly",
+"الدمبل ملاصق للصدر والنزول بإيقاع سلس",
+"Гантель у груди, опускайся плавно",
+"Mancuerna pegada al pecho y baja con ritmo suave"
+],
+"شنا سوئدی استاندارد": [
+"Standard push-up",
+"ضغط عادي",
+"Классические отжимания",
+"Flexión estándar"
+],
+"سینه تا نزدیکی زمین و حفظ خط یکپارچه ستون فقرات": [
+"Chest close to the floor, keep your spine in one line",
+"الصدر قريب من الأرض مع خط مستقيم للعمود الفقري",
+"Грудь почти до пола, спина ровная",
+"Pecho cerca del suelo y columna alineada"
+],
+"زیربغل دمبل تک‌خم (اره‌ای)": [
+"One-arm dumbbell row",
+"تجديف بالدمبل بيد واحدة",
+"Тяга гантели одной рукой",
+"Remo a una mano con mancuerna"
+],
+"کشش کنترل‌شده و بالا کشیدن دمبل به سمت پهلو": [
+"Controlled pull, dumbbell toward your hip",
+"سحب متحكّم بالدمبل نحو الخصر",
+"Подконтрольно тяни гантель к поясу",
+"Tira controlado llevando la mancuerna a la cadera"
+],
+"لانج راه‌رفتنی با دمبل": [
+"Dumbbell walking lunge",
+"طعنات المشي بالدمبل",
+"Выпады с гантелями в ходьбе",
+"Zancadas caminando con mancuernas"
+],
+"گام‌های محکم و استوار جهت درگیری کامل چهارسر و باسن": [
+"Firm, stable steps to fully work quads and glutes",
+"خطوات ثابتة لإشراك الفخذ والأرداف كاملًا",
+"Уверенные шаги для полной работы квадрицепсов и ягодиц",
+"Pasos firmes para trabajar cuádriceps y glúteos"
+],
+"پرس سرشانه با دمبل نشسته": [
+"Seated dumbbell shoulder press",
+"ضغط الكتف بالدمبل جالسًا",
+"Жим гантелей сидя",
+"Press de hombros sentado con mancuernas"
+],
+"پرس با ریتم یکنواخت بدون قفل مفصلی در بالا": [
+"Steady tempo, don't lock out at the top",
+"اضغط بإيقاع ثابت دون قفل المفصل في الأعلى",
+"Ровный темп, без замка вверху",
+"Ritmo constante sin bloquear arriba"
+],
+"چرخش روسی (راشن توئیست)": [
+"Russian twist",
+"الالتواء الروسي",
+"Русские скручивания",
+"Giro ruso"
+],
+"چرخش کامل قفسه سینه به طرفین برای درگیری پهلوها": [
+"Rotate your whole chest side to side to work the obliques",
+"لفّ الصدر بالكامل للجانبين لإشراك المائلة",
+"Поворачивай грудную клетку в стороны, включая косые",
+"Gira todo el pecho de lado a lado para los oblicuos"
+],
+"برنامه فول‌بادی کم‌فشار و حامی مفاصل (ویژه وزن بالا و زانودرد)": [
+"Low-impact, joint-friendly full body (for higher weight and knee pain)",
+"برنامج جسم كامل منخفض الضغط ولطيف على المفاصل (للوزن المرتفع وألم الركبة)",
+"Щадящая фулбади (для высокого веса и болей в коленях)",
+"Cuerpo completo de bajo impacto (para peso alto y dolor de rodilla)"
+],
+"طراحی ویژه افراد با شاخص توده بدنی بالای ۳۰ بر پایه دستگاه‌ها و سیم‌کش‌ها جهت حذف کامل بار ضربه‌ای و فشار محوری بر دیسک‌های کمر و کشکک زانو، همراه با حداکثر کالری‌سوزی ایمن.": [
+"Built for a BMI above 30 around machines and cables, removing impact and axial load on the spinal discs and kneecaps, with safe, high calorie burn.",
+"مصمّم لمؤشر كتلة أعلى من 30 على الأجهزة والكابلات لإزالة الصدمات والضغط المحوري على أقراص الظهر والرضفة، مع حرق آمن وعالٍ للسعرات.",
+"Для ИМТ выше 30 на тренажёрах и блоках: без ударной и осевой нагрузки на диски и колени, с безопасным высоким расходом калорий.",
+"Para IMC mayor de 30 con máquinas y poleas, sin impacto ni carga axial en discos y rótulas, con alta quema calórica segura."
+],
+"وزن بالا / چاقی (BMI ≥ 30)": [
+"Higher weight / obesity (BMI ≥ 30)",
+"وزن مرتفع / سمنة (BMI ≥ 30)",
+"Высокий вес / ожирение (ИМТ ≥ 30)",
+"Peso alto / obesidad (IMC ≥ 30)"
+],
+"مبتدی تا پیشرفته": [
+"Beginner to advanced",
+"مبتدئ إلى متقدّم",
+"Новичок — продвинутый",
+"Principiante a avanzado"
+],
+"۳۰.۰ و بالاتر": [
+"30.0 and above",
+"30.0 فما فوق",
+"30.0 и выше",
+"30.0 o más"
+],
+"بر اساس راهنماهای کالج پزشکی ورزشی آمریکا (ACSM)، تمرین با دستگاه‌ها و سیم‌کش‌ها تکیه‌گاه ستون فقرات را تامین کرده و از سایش مفصل زانو جلوگیری می‌نماید. تکرارهای ۱۲ تا ۱۵ با وزنه کنترل‌شده، عروق‌سازی و چربی‌سوزی را بدون درد مفاصل به حداکثر می‌رساند.": [
+"Following ACSM guidelines, machines and cables support the spine and spare the knees. 12–15 controlled reps maximize capillary growth and fat burning without joint pain.",
+"وفق إرشادات ACSM، تدعم الأجهزة والكابلات العمود الفقري وتحمي الركبة. 12 إلى 15 تكرارًا بوزن متحكّم تعظّم نمو الشعيرات وحرق الدهون دون ألم.",
+"По рекомендациям ACSM тренажёры и блоки поддерживают позвоночник и берегут колени. 12–15 подконтрольных повторов максимизируют капилляризацию и жиросжигание без боли в суставах.",
+"Según las guías del ACSM, máquinas y poleas apoyan la columna y protegen las rodillas. 12–15 repeticiones controladas maximizan la capilarización y la quema de grasa sin dolor."
+],
+"کم‌فشار": [
+"Low impact",
+"ضغط منخفض",
+"Щадящая",
+"Bajo impacto"
+],
+"بدون آسیب زانو": [
+"Knee-safe",
+"آمن للركبة",
+"Без нагрузки на колени",
+"Sin dañar rodillas"
+],
+"ایمن": [
+"Safe",
+"آمن",
+"Безопасно",
+"Seguro"
+],
+"پرس سینه با دستگاه": [
+"Machine chest press",
+"ضغط الصدر بالجهاز",
+"Жим от груди в тренажёре",
+"Press de pecho en máquina"
+],
+"تنظیم صندلی تا دسته‌ها در خط میانه سینه باشند، ایمنی کامل سرشانه": [
+"Set the seat so the handles are at mid-chest, safe for shoulders",
+"اضبط المقعد لتكون المقابض بمحاذاة منتصف الصدر لحماية الكتف",
+"Сиденье так, чтобы ручки были на середине груди — безопасно для плеч",
+"Ajusta el asiento con las asas a media altura del pecho, seguro para hombros"
+],
+"پشت کاملاً صاف و تکیه بر پاها بدون فشار روی مهره‌های کمر": [
+"Back flat, brace with your legs, no load on the lower spine",
+"ظهر مستقيم والاعتماد على الأرجل دون ضغط على الفقرات",
+"Спина ровная, упор ногами, без нагрузки на поясницу",
+"Espalda recta, apoyo en las piernas, sin cargar las lumbares"
+],
+"کمر به پشتی کاملاً چسبیده باشد، زاویه زانو بیش از ۹۰ درجه نشود": [
+"Lower back flat on the pad, knees no deeper than 90°",
+"أسفل الظهر ملاصق للمسند والركبة لا تتجاوز 90°",
+"Поясница прижата к спинке, колени не глубже 90°",
+"Lumbares pegadas al respaldo, rodillas no más de 90°"
+],
+"زیربغل سیم‌کش لت دست جمع": [
+"Close-grip lat pulldown",
+"سحب علوي بقبضة ضيقة",
+"Тяга верхнего блока узким хватом",
+"Jalón con agarre cerrado"
+],
+"دسته V شکل ارگونومیک، کاهش فشار روی مفاصل مچ و شانه": [
+"Ergonomic V-handle, easier on wrists and shoulders",
+"مقبض V مريح يخفّف الضغط على الرسغ والكتف",
+"Эргономичная V-рукоять, меньше нагрузки на запястья и плечи",
+"Agarre en V ergonómico, menos carga en muñecas y hombros"
+],
+"تکیه‌گاه عمودی صندلی بار وزن را از روی کمر برمی‌دارد": [
+"The upright back pad takes the load off your lower back",
+"مسند المقعد العمودي يرفع الحمل عن الظهر",
+"Вертикальная спинка снимает нагрузку с поясницы",
+"El respaldo vertical quita la carga de la zona lumbar"
+],
+"کرانچ شکم کلاسیک روی زمین": [
+"Floor crunch",
+"كرنش كلاسيكي على الأرض",
+"Классические скручивания на полу",
+"Crunch clásico en el suelo"
+],
+"بلند کردن تیغه‌های شانه به آرامی بدون کشیدن گردن با دست": [
+"Lift your shoulder blades slowly without pulling on your neck",
+"ارفع لوحي الكتف ببطء دون شدّ الرقبة",
+"Медленно отрывай лопатки, не тяни шею руками",
+"Eleva las escápulas despacio sin tirar del cuello"
+],
+"برنامه استقامت عضلانی و توان قلبی-تنفسی": [
+"Muscular endurance and cardio fitness",
+"برنامج التحمّل العضلي واللياقة القلبية",
+"Мышечная выносливость и кардио",
+"Resistencia muscular y capacidad cardio"
+],
+"ترکیب تمرینات تناوبی با استراحت‌های کوتاه (۳۰ الی ۴۵ ثانیه) و تکرارهای بالا (۱۵ تا ۲۰) جهت تقویت سیستم مویرگی، استقامت عضلانی و ظرفیت هوازی.": [
+"Interval-style training with short rests (30–45 seconds) and high reps (15–20) for capillaries, muscular endurance and aerobic capacity.",
+"تمارين متقطعة مع راحة قصيرة (30 إلى 45 ثانية) وتكرارات عالية (15 إلى 20) لتقوية الشعيرات والتحمّل والقدرة الهوائية.",
+"Интервальная работа с коротким отдыхом (30–45 секунд) и высокими повторами (15–20) для капилляров, выносливости и аэробной ёмкости.",
+"Entreno por intervalos con descansos cortos (30–45 segundos) y muchas repeticiones (15–20) para capilares, resistencia y capacidad aeróbica."
+],
+"تمام شاخص‌ها": [
+"All BMI ranges",
+"كل المؤشرات",
+"Любой ИМТ",
+"Todos los IMC"
+],
+"متوسط": [
+"Intermediate",
+"متوسط",
+"Средний",
+"Intermedio"
+],
+"تکرارهای بالاتر از ۱۵ با مقاومت سبک تا متوسط باعث افزایش دانسیته میتوکندری در فیبرهای عضلانی نوع یک شده و استقامت در برابر خستگی را دوچندان می‌کند.": [
+"More than 15 reps with light to moderate loads increase mitochondrial density in type I fibers and greatly improve fatigue resistance.",
+"أكثر من 15 تكرارًا بمقاومة خفيفة إلى متوسطة تزيد كثافة الميتوكوندريا في ألياف النوع الأول وتضاعف مقاومة التعب.",
+"Больше 15 повторов с лёгким или средним весом повышают плотность митохондрий в волокнах I типа и сильно увеличивают стойкость к усталости.",
+"Más de 15 repeticiones con carga ligera a moderada aumentan la densidad mitocondrial en fibras tipo I y mejoran mucho la resistencia a la fatiga."
+],
+"استقامت بالا": [
+"High endurance",
+"تحمّل عالٍ",
+"Высокая выносливость",
+"Alta resistencia"
+],
+"هوازی-مقاومتی": [
+"Aerobic and resistance",
+"هوائي ومقاومة",
+"Аэробно-силовая",
+"Aeróbico y fuerza"
+],
+"تکرار بالا": [
+"High reps",
+"تكرار عالٍ",
+"Много повторов",
+"Muchas reps"
+],
+"چابکی": [
+"Agility",
+"الرشاقة",
+"Ловкость",
+"Agilidad"
+],
+"حفظ ضربان و ریتم مداوم حرکت": [
+"Keep your heart rate up and a steady rhythm",
+"حافظ على النبض وإيقاع ثابت",
+"Держи пульс и ровный ритм",
+"Mantén el pulso y un ritmo constante"
+],
+"کشش مداوم بدون رها کردن ناگهانی وزنه": [
+"Constant tension, never drop the weight suddenly",
+"شدّ مستمر دون ترك الوزن فجأة",
+"Постоянное напряжение, не бросай вес",
+"Tensión constante sin soltar el peso de golpe"
+],
+"اسکوات بلغاری با دمبل": [
+"Dumbbell Bulgarian split squat",
+"سكوات بلغاري بالدمبل",
+"Болгарские выпады с гантелями",
+"Sentadilla búlgara con mancuernas"
+],
+"تمرکز بر تعادل تک‌پایی و استقامت عضلات چهارسر و باسن": [
+"Focus on single-leg balance and quad and glute endurance",
+"ركّز على توازن الرجل الواحدة وتحمّل الفخذ والأرداف",
+"Баланс на одной ноге и выносливость квадрицепсов и ягодиц",
+"Equilibrio a una pierna y resistencia de cuádriceps y glúteos"
+],
+"فیس‌پول با طناب سیم‌کش": [
+"Cable rope face pull",
+"سحب للوجه بالحبل",
+"Тяга каната к лицу",
+"Face pull con cuerda"
+],
+"چرخش شانه به عقب برای سلامت مفصل و استقامت دلتوئید خلفی": [
+"Rotate shoulders back for joint health and rear-delt endurance",
+"لفّ الكتفين للخلف لصحة المفصل وتحمّل الدالية الخلفية",
+"Разворачивай плечи назад для здоровья суставов и задних дельт",
+"Rota los hombros atrás por la salud articular y el deltoides posterior"
+],
+"کرانچ دوچرخه (بایسیکل کرانچ)": [
+"Bicycle crunch",
+"كرنش الدراجة",
+"Велосипед",
+"Crunch bicicleta"
+],
+"نزدیک کردن آرنج به زانوی مخالف با سرعت یکنواخت": [
+"Bring elbow to the opposite knee at a steady pace",
+"قرّب المرفق من الركبة المقابلة بسرعة ثابتة",
+"Тяни локоть к противоположному колену в ровном темпе",
+"Lleva el codo a la rodilla contraria a ritmo constante"
+],
+"استقامت ایزومتریک کل زنجیره قدامی بدن": [
+"Isometric endurance for the whole front chain",
+"تحمّل ثابت لكامل السلسلة الأمامية",
+"Изометрическая выносливость всей передней цепи",
+"Resistencia isométrica de toda la cadena anterior"
+],
+"برنامه تناسب اندام، بهبود قامت و تعادل حرکتی": [
+"Fitness, posture and balance",
+"برنامج اللياقة وتحسين القوام والتوازن",
+"Форма, осанка и баланс",
+"Forma física, postura y equilibrio"
+],
+"برنامه جامع برای ارتقای سلامت عمومی، بهبود پاسچر ستون فقرات و پیشگیری از دردهای پشت و گردن متناسب با فعالیت‌های اداری و روزمره.": [
+"An all-round plan for general health, better spinal posture and fewer back and neck aches from desk work and daily life.",
+"برنامج شامل للصحة العامة وتحسين قوام العمود الفقري والوقاية من آلام الظهر والرقبة الناتجة عن العمل المكتبي واليومي.",
+"Комплексная программа для здоровья, осанки и профилактики болей в спине и шее от офисной работы и быта.",
+"Plan completo para la salud general, mejor postura y menos dolor de espalda y cuello por trabajo de oficina y vida diaria."
+],
+"مبتدی و عمومی": [
+"Beginner and general",
+"مبتدئ وعام",
+"Новичок и общий уровень",
+"Principiante y general"
+],
+"همه رده‌ها": [
+"All groups",
+"كل الفئات",
+"Все категории",
+"Todas las categorías"
+],
+"تمرکز بر تقویت عضلات خلفی (پشت، باسن، فیله کمر) جهت اصلاح اثرات منفی نشستن طولانی و تقویت ثبات بدنی با حرکات ایمن و متعادل.": [
+"Strengthens the back chain (back, glutes, lower back) to undo long sitting, and builds stability with safe, balanced moves.",
+"تركيز على تقوية السلسلة الخلفية (الظهر والأرداف وأسفل الظهر) لإصلاح آثار الجلوس الطويل وتعزيز الثبات بحركات آمنة.",
+"Укрепление задней цепи (спина, ягодицы, поясница) против долгого сидения и для стабильности безопасными упражнениями.",
+"Refuerza la cadena posterior (espalda, glúteos, lumbares) para contrarrestar estar sentado y gana estabilidad con ejercicios seguros."
+],
+"سلامت عمومی": [
+"General health",
+"الصحة العامة",
+"Общее здоровье",
+"Salud general"
+],
+"اصلاح قامت": [
+"Better posture",
+"تحسين القوام",
+"Осанка",
+"Mejor postura"
+],
+"کاهش درد کمر": [
+"Less back pain",
+"تخفيف ألم الظهر",
+"Меньше боли в спине",
+"Menos dolor de espalda"
+],
+"تعادل و ثبات": [
+"Balance and stability",
+"التوازن والثبات",
+"Баланс и стабильность",
+"Equilibrio y estabilidad"
+],
+"پرس سینه با دمبل": [
+"Dumbbell bench press",
+"ضغط الصدر بالدمبل",
+"Жим гантелей лёжа",
+"Press de banca con mancuernas"
+],
+"افزایش تعادل بین سمت راست و چپ بالاتنه": [
+"Evens out left and right upper body",
+"يوازن بين الجانبين الأيمن والأيسر",
+"Выравнивает левую и правую сторону",
+"Equilibra lado derecho e izquierdo"
+],
+"عقب کشیدن شانه‌ها برای رفع قوز پشتی": [
+"Pull your shoulders back to fix rounding",
+"اسحب الكتفين للخلف لعلاج التحدّب",
+"Отводи плечи назад против сутулости",
+"Lleva los hombros atrás para corregir la joroba"
+],
+"روان‌سازی مفصل لگن و تقویت چهارسر ران": [
+"Loosens the hips and strengthens the quads",
+"يحرّر مفصل الورك ويقوّي الفخذ الأمامي",
+"Разминает тазобедренный сустав и укрепляет квадрицепс",
+"Suelta la cadera y fortalece el cuádriceps"
+],
+"تقویت سلامت کمربند شانه‌ای": [
+"Keeps the shoulder girdle healthy",
+"يقوّي صحة حزام الكتف",
+"Здоровье плечевого пояса",
+"Cuida la cintura escapular"
+],
+"فیله کمر روی نیمکت ۴۵ درجه": [
+"45° back extension",
+"تمديد الظهر على مقعد 45°",
+"Гиперэкстензия 45°",
+"Extensión lumbar a 45°"
+],
+"تقویت عضلات ارکتور اسپاین جهت پشتیبانی از دیسک‌های کمری": [
+"Strengthens the spinal erectors to support the lower discs",
+"تقوية الناصبة الفقرية لدعم أقراص الظهر",
+"Укрепляет разгибатели спины для поддержки дисков",
+"Fortalece los erectores para proteger los discos lumbares"
+],
+"تثبیت استخوان لگن و میان‌تنه": [
+"Stabilizes the pelvis and core",
+"تثبيت الحوض والجذع",
+"Стабилизирует таз и кор",
+"Estabiliza pelvis y core"
+],
+"شاخص توده بدنی شما کمتر از ۱۸.۵ است. تمرکز بر حجم عضلانی تدریجی با حرکات پایه‌ای چندمفصلی، استراحت کافی و رژیم غذایی مثبت کالری توصیه می‌شود.": [
+"Your BMI is under 18.5. Build muscle gradually with basic multi-joint lifts, enough rest and a calorie surplus.",
+"مؤشر كتلتك أقل من 18.5. يُنصح ببناء العضل تدريجيًا بتمارين مركّبة أساسية وراحة كافية وفائض سعرات.",
+"Твой ИМТ меньше 18.5. Набирай мышцы постепенно базовыми упражнениями, с достаточным отдыхом и профицитом калорий.",
+"Tu IMC es menor de 18.5. Gana músculo poco a poco con ejercicios básicos, descanso suficiente y superávit calórico."
+],
+"وزن متناسب و نرمال": [
+"Healthy, normal weight",
+"وزن طبيعي ومتناسب",
+"Нормальный вес",
+"Peso normal y saludable"
+],
+"شاخص توده بدنی شما در بازه ایده‌آل ۱۸.۵ تا ۲۴.۹ قرار دارد. تمام انواع برنامه‌های هایپرتروفی، قدرتی و تفکیکی عضلات برای شما بسیار موثر خواهد بود.": [
+"Your BMI is in the ideal 18.5–24.9 range. Hypertrophy, strength and split programs will all work well for you.",
+"مؤشر كتلتك في النطاق المثالي 18.5 إلى 24.9. كل برامج التضخيم والقوة والتقسيم فعّالة لك.",
+"Твой ИМТ в идеальном диапазоне 18.5–24.9. Тебе подойдут программы на массу, силу и сплиты.",
+"Tu IMC está en el rango ideal de 18.5–24.9. Te servirán programas de hipertrofia, fuerza y divididos."
+],
+"اضافه وزن ملایم": [
+"Slightly overweight",
+"زيادة وزن طفيفة",
+"Небольшой лишний вес",
+"Ligero sobrepeso"
+],
+"شاخص توده بدنی شما بین ۲۵.۰ تا ۲۹.۹ است. ترکیب تمرینات فول‌بادی متابولیک، استراحت‌های کوتاه و حفظ توده عضلانی برای تسریع چربی‌سوزی عالی است.": [
+"Your BMI is 25.0–29.9. Metabolic full-body training, short rests and keeping muscle are great for faster fat loss.",
+"مؤشر كتلتك بين 25.0 و29.9. تمارين الجسم الكامل الأيضية مع راحة قصيرة والحفاظ على العضل ممتازة لتسريع حرق الدهون.",
+"Твой ИМТ 25.0–29.9. Метаболическая фулбади, короткий отдых и сохранение мышц — лучший путь к жиросжиганию.",
+"Tu IMC está entre 25.0 y 29.9. Cuerpo completo metabólico, descansos cortos y mantener músculo aceleran la quema de grasa."
+],
+"شاخص توده بدنی شما ۳۰ یا بالاتر است. اولویت اصلی محافظت از مفاصل زانو و ستون فقرات با بهره‌گیری از دستگاه‌ها و سیم‌کش‌ها و ایجاد کسری کالری پایدار است.": [
+"Your BMI is 30 or more. The priority is protecting knees and spine with machines and cables, plus a steady calorie deficit.",
+"مؤشر كتلتك 30 أو أكثر. الأولوية لحماية الركبتين والعمود الفقري بالأجهزة والكابلات مع عجز ثابت في السعرات.",
+"Твой ИМТ 30 и выше. Главное — беречь колени и позвоночник на тренажёрах и блоках и держать стабильный дефицит калорий.",
+"Tu IMC es 30 o más. La prioridad es proteger rodillas y columna con máquinas y poleas, y un déficit calórico constante."
+],
+"عضله‌سازی و هایپرتروفی": [
+"Muscle building and hypertrophy",
+"بناء العضل والتضخّم",
+"Набор мышц и гипертрофия",
+"Ganar músculo e hipertrofia"
+],
+"سلامت عمومی و تناسب اندام": [
+"General health and fitness",
+"الصحة العامة واللياقة",
+"Здоровье и форма",
+"Salud general y forma física"
+],
+"در حرکات پایین‌تنه از دستگاه پرس پا به جای اسکوات آزاد سنگین استفاده شده تا فشار بر کشکک زانو و لومبار ستون فقرات به صفر برسد.": [
+"Lower-body work uses the leg press instead of heavy free squats, taking pressure off the kneecaps and lower spine.",
+"تُستخدم آلة ضغط الأرجل بدل السكوات الحر الثقيل لإزالة الضغط عن الرضفة وأسفل العمود الفقري.",
+"Для ног используется жим ногами вместо тяжёлого приседа, чтобы снять нагрузку с коленей и поясницы.",
+"Para piernas se usa la prensa en vez de sentadilla pesada, para quitar presión de rótulas y lumbares."
+],
+"دامنه تکرار ۱۲ الی ۱۵، عروق‌زایی مویرگی را در بافت چربی تحریک کرده و سوزاندن چربی‌ها را تسهیل می‌کند.": [
+"12–15 reps stimulate capillary growth in fat tissue and make fat easier to burn.",
+"نطاق 12 إلى 15 تكرارًا يحفّز نمو الشعيرات في النسيج الدهني ويسهّل حرق الدهون.",
+"12–15 повторов стимулируют капилляризацию жировой ткани и облегчают жиросжигание.",
+"12–15 repeticiones estimulan los capilares en el tejido graso y facilitan la quema de grasa."
+],
+"استراحت ۴۵ ثانیه‌ای، سطح مصرف اکسیژن پس از تمرین (EPOC) را بالا نگه داشته و تا ۲۴ ساعت پس از تمرین سوخت‌وساز را فعال نگه می‌دارد.": [
+"45-second rests keep post-exercise oxygen use (EPOC) high, keeping your metabolism up for up to 24 hours.",
+"راحة 45 ثانية تبقي استهلاك الأكسجين بعد التمرين (EPOC) مرتفعًا وتنشّط الأيض حتى 24 ساعة.",
+"Отдых 45 секунд держит EPOC высоким, и обмен веществ остаётся ускоренным до 24 часов.",
+"Descansos de 45 segundos mantienen alto el EPOC y el metabolismo activo hasta 24 horas."
+],
+"تمرینات فول‌بادی بیشترین مقدار بافت عضلانی را همزمان درگیر کرده و کالری‌سوزی را دوچندان می‌کنند.": [
+"Full-body sessions work the most muscle at once and burn far more calories.",
+"تمارين الجسم الكامل تشغّل أكبر قدر من العضل معًا وتضاعف حرق السعرات.",
+"Фулбади задействует больше всего мышц сразу и сильно повышает расход калорий.",
+"El cuerpo completo trabaja más músculo a la vez y quema muchas más calorías."
+],
+"استراحت‌های ۹۰ ثانیه‌ای اجازه ریکاوری کامل کراتین فسفات را داده تا در هر ست بتوانید بیشترین وزنه ممکن را جابجا کنید.": [
+"90-second rests fully restore creatine phosphate, so you can move the most weight every set.",
+"راحة 90 ثانية تتيح التعافي الكامل للكرياتين فوسفات لترفع أكبر وزن في كل مجموعة.",
+"Отдых 90 секунд полностью восстанавливает креатинфосфат, чтобы каждый подход был максимально тяжёлым.",
+"Descansos de 90 segundos reponen la fosfocreatina para mover el máximo peso en cada serie."
+],
+"حرکات تک‌مفصلی بیش از حد حذف شده‌اند تا تمام انرژی بدن صرف رشد عضلات اصلی (اسکوات، پرس، بارفیکس) شود.": [
+"Extra isolation moves are cut so all your energy goes into the main lifts (squat, press, pull-up).",
+"حُذفت التمارين المعزولة الزائدة لتذهب كل الطاقة إلى التمارين الأساسية (سكوات، ضغط، عقلة).",
+"Лишние изолирующие упражнения убраны, чтобы вся энергия шла на базу (присед, жим, подтягивания).",
+"Se quitan ejercicios aislados de más para centrar la energía en los básicos (sentadilla, press, dominadas)."
+],
+"تنوع بین حرکات ترکیبی سنگین و ایزولاسیون با سیم‌کش، رشد متوازن و تقارن عضلانی بدون آسیب ایجاد می‌کند.": [
+"Mixing heavy compounds with cable isolation builds balanced, symmetrical muscle without injury.",
+"المزج بين التمارين المركّبة الثقيلة والعزل بالكابل يبني عضلًا متوازنًا ومتناسقًا دون إصابات.",
+"Сочетание тяжёлой базы и изоляции на блоках даёт сбалансированный симметричный рост без травм.",
+"Combinar compuestos pesados con aislamiento en polea da músculo equilibrado y simétrico sin lesiones."
+]
+}

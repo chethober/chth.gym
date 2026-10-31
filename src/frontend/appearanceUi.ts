@@ -164,10 +164,10 @@ export function renderPublicNav(path: string): string {
   return `<nav class="site-nav" aria-label="ناوبری اصلی">
       <a class="site-brand" href="/"${current('/')}>${BRAND_MARK_SVG}<span>جسم و اندیشه</span></a>
       <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a></div>
-    </nav>`;
+    </nav><!--chth-lang-->`;
 }
 
 export function renderPublicFooter(path: string): string {
   const current = (href: string) => navCurrent(path, href);
-  return `<footer class="site-footer"><span>جسم و اندیشه · همراه مسیر تمرین تو</span><div class="site-links"><a class="site-link" href="/"${current('/')}>صفحه اصلی</a><a class="site-link" href="/programs"${current('/programs')}>برنامه‌های تمرینی</a></div></footer>`;
+  return `<footer class="site-footer"><span>جسم و اندیشه · همراه مسیر تمرین تو</span><div class="site-links"><a class="site-link" href="/"${current('/')}>صفحه اصلی</a><a class="site-link" href="/programs"${current('/programs')}>برنامه‌های تمرینی</a></div></footer><!--chth-footer-->`;
 }
