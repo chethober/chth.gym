@@ -1,7 +1,4 @@
 import { renderPublicAccentStyles, renderPublicPatterns, renderPublicNav, renderPublicFooter } from './appearanceUi';
-import { THEME } from './theme';
-
-const DARK_BG = THEME.colors.graphite[950];
 
 // Public introduction with a local, illustrative workout preview. Sign-in uses existing auth.
 export function renderLandingStyles(): string {
@@ -9,8 +6,6 @@ export function renderLandingStyles(): string {
     ${renderPublicAccentStyles('#landing-page')}
     #dashboard-shell[hidden], #landing-page[hidden] { display: none !important; }
     #landing-page { min-height:100svh; overflow:hidden; box-sizing:border-box; }
-    /* The landing stays graphite in light theme too, so the page behind the scrollbar gutter must match */
-    html.light:has(#landing-page:not([hidden])) { background:${DARK_BG}; color-scheme:dark; scrollbar-color:rgba(255,255,255,0.13) transparent; }
     #landing-page *, #landing-page *::before, #landing-page *::after { box-sizing:border-box; }
     #landing-page :is(a,button) { touch-action:manipulation; }
     #landing-page a { text-decoration:none; }
@@ -98,7 +93,7 @@ export function renderLandingStyles(): string {
 
 export function renderLandingPage(): string {
   return `<div id="landing-page">
-    ${renderPublicNav('/')}
+    ${renderPublicNav('/', { themeToggle: true })}
     <main>
       <section class="landing-hero" aria-labelledby="landing-title">
         <div class="landing-ring" aria-hidden="true"></div>
@@ -144,7 +139,7 @@ export function renderLandingPage(): string {
       </section>
       <section class="landing-finale landing-reveal"><p class="public-kicker">قدم بعدی از همین‌جا شروع می‌شود</p><h2>برای خودت وقت بگذار.</h2><a class="landing-button landing-primary public-button" href="/api/auth/google">شروع با حساب گوگل <span aria-hidden="true">↖</span></a></section>
     </main>
-    ${renderPublicFooter('/')}
+    ${renderPublicFooter()}
   </div>
   <script>
     (() => {

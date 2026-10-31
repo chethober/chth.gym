@@ -32,7 +32,7 @@ function renderPublicDocument(origin: string, title: string, description: string
   </head><body>
     ${renderPublicNav(path)}
     <main class="public-main">${content}</main>
-    ${renderPublicFooter(path)}
+    ${renderPublicFooter()}
   </body></html>`;
 }
 

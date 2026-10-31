@@ -48,6 +48,7 @@ export function renderTopNavbar(): string {
         </nav>
 
         <div class="flex items-center gap-2 shrink-0">
+          <!--chth-lang-->
           <button type="button" onclick="toggleTheme()" id="theme-toggle-btn-d" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب" class="btn-icon btn-ghost">
             <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
             <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
@@ -71,6 +72,7 @@ export function renderMobileTopHeader(): string {
       </button>
 
       <div class="flex items-center gap-1.5">
+        <!--chth-lang-->
         <button type="button" onclick="toggleTheme()" id="theme-toggle-btn-m" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب" class="btn-icon btn-ghost">
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
           <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>

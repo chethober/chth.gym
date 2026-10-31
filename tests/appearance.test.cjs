@@ -36,9 +36,10 @@ for(const accent of ACCENTS){
   app.attrs['data-accent']=accent.id;
   app.sync();
   assert.ok(decodeURIComponent(app.icon.href).includes(`fill="${accent.dark.accent}"`));
+  // The landing follows the app theme, so light theme gives the light favicon there too.
   app.light(true);
   app.sync();
-  assert.ok(decodeURIComponent(app.icon.href).includes(`fill="${accent.dark.accent}"`));
+  assert.ok(decodeURIComponent(app.icon.href).includes(`fill="${accent.light.accent}"`));
   app.landing.hidden=true;
   app.sync();
   assert.ok(decodeURIComponent(app.icon.href).includes(`fill="${accent.light.accent}"`));

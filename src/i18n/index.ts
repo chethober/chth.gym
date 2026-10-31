@@ -3,9 +3,10 @@
 // they're sent (no flash of Persian), and the browser script below translates whatever the app
 // renders afterwards: toasts, lists, charts, dialogs.
 
-import { LOCALES, dirOf, isLocale, localeCookie, localeFromCookie } from '../chth-kit/locales.js';
+import { dirOf, isLocale, localeCookie, localeFromCookie } from '../chth-kit/locales.js';
 import type { Locale } from '../chth-kit/locales.js';
 import { footerHtml } from '../chth-kit/footer.js';
+import { languageMenuHtml } from '../chth-kit/language-menu.js';
 import { BRAND_CSS } from '../chth-kit/brand.js';
 import { makeTranslator } from './core.js';
 import catalog from './catalog.json';
@@ -14,7 +15,6 @@ export type { Locale };
 
 const COLUMN: Record<Exclude<Locale, 'fa'>, number> = { en: 0, ar: 1, ru: 2, es: 3 };
 const CATALOG = catalog as unknown as Record<string, [string, string, string, string]>;
-const SOURCE_URL = 'https://github.com/chethober/chth.gym';
 
 const ENTITIES: Record<string, string> = { '&lt;': '<', '&gt;': '>', '&amp;': '&', '&quot;': '"', '&#39;': "'" };
 const decode = (s: string) => s.replace(/&(lt|gt|amp|quot|#39);/g, (m) => ENTITIES[m]);
@@ -75,18 +75,21 @@ export function localizeHtml(html: string, locale: Locale): string {
   }).join('');
 }
 
-/** The language links: the current page with ?lang=. */
+/** The navbar language menu: a globe icon opening the languages, each the current page with ?lang=. */
 export function languageSwitcher(locale: Locale): string {
-  const label = { en: 'Language', fa: 'زبان', ar: 'اللغة', ru: 'Язык', es: 'Idioma' }[locale];
-  return `<nav class="chth-footer__langs chth-lang" aria-label="${label}">${LOCALES.map((l) =>
-    `<a href="?lang=${l.code}" hreflang="${l.code}" lang="${l.code}"${l.code === locale ? ' aria-current="true"' : ''}>${l.native}</a>`).join('')}</nav>`;
+  return languageMenuHtml(locale);
 }
 
 // LTR pages: the app's few physical left/right classes were written for RTL, so mirror them.
 const LTR_FIXES = `html[dir="ltr"] .text-left{text-align:right}html[dir="ltr"] .text-right{text-align:left}
 html[dir="ltr"] .ml-1{margin-left:0;margin-right:.25rem}html[dir="ltr"] .mr-1{margin-right:0;margin-left:.25rem}
 html[dir="ltr"] .left-2{left:auto;right:.5rem}html[dir="ltr"] .right-2{right:auto;left:.5rem}
-.chth-lang{justify-content:center;margin:.5rem 0}.chth-lang a{text-decoration:none;color:inherit}`;
+`;
+
+// The shared footer and language menu, in the app's (and public pages') colors.
+const KIT_COLORS = `html{--chth-product-accent:var(--accent);--chth-line:var(--line-strong);--chth-menu-bg:var(--surface);--chth-menu-ink:var(--text)}
+.chth-lang-menu>summary{color:var(--text-2)}.chth-lang-menu[open]>summary{color:var(--accent-text)}
+.chth-footer{color:var(--text-2)}.chth-footer__brand{opacity:1}`;
 
 /**
  * The browser side: translates text the app adds later (MutationObserver), dialogs, and number
@@ -190,12 +193,12 @@ export function clientScript(locale: Locale): string {
 
 /** Brand stylesheet, LTR fixes and the browser translator, for the page's <head>. */
 export function headExtras(locale: Locale): string {
-  return `<style>${BRAND_CSS}${LTR_FIXES}</style>${clientScript(locale)}`;
+  return `<style>${BRAND_CSS}${LTR_FIXES}${KIT_COLORS}</style>${clientScript(locale)}`;
 }
 
-/** The shared CHTH footer for this locale (CHTH logo, link to chth.wtf, languages). */
+/** The shared CHTH footer for this locale: the CHTH mark, linking to chth.wtf. */
 export function chthFooter(locale: Locale): string {
-  return footerHtml(locale, 'gym', { sourceUrl: SOURCE_URL });
+  return footerHtml(locale, 'gym');
 }
 
 /**

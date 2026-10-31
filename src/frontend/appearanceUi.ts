@@ -1,9 +1,11 @@
 import { BRAND_MARK_SVG } from './components';
-import { ACCENTS, DEFAULT_PREFS, FOUNDATION_TOKENS, DARK_SURFACE_TOKENS, PREF_OPTIONS, PREF_SCALE_RULES } from './theme';
+import { ACCENTS, DEFAULT_PREFS, FOUNDATION_TOKENS, DARK_SURFACE_TOKENS, LIGHT_SURFACE_TOKENS, PREF_OPTIONS, PREF_SCALE_RULES } from './theme';
 
 export function renderPublicAccentStyles(scope: string): string {
   const tokens = (tone: typeof ACCENTS[number]['dark']) => `--accent:${tone.accent};--accent-hover:${tone.hover};--accent-text:${tone.text};--on-accent:${tone.on};`;
-  return `${scope}{${tokens(ACCENTS[0].dark)}}${ACCENTS.map(a => `html[data-accent="${a.id}"] ${scope}{${tokens(a.dark)}}`).join('')}`;
+  // Light tones come last, so html.light (on the landing, which follows the app theme) wins.
+  return `${scope}{${tokens(ACCENTS[0].dark)}}${ACCENTS.map(a => `html[data-accent="${a.id}"] ${scope}{${tokens(a.dark)}}`).join('')}`
+    + `html.light ${scope}{${tokens(ACCENTS[0].light)}}${ACCENTS.map(a => `html.light[data-accent="${a.id}"] ${scope}{${tokens(a.light)}}`).join('')}`;
 }
 
 // Public pages read the accent chosen in logged-in appearance settings.
@@ -31,8 +33,7 @@ export function renderAppearanceHead(publicPage = false): string {
         let lastIcon = '';
         function sync() {
           const accent = validAccent(root.getAttribute('data-accent'));
-          const landing = document.getElementById('landing-page');
-          const tone = palette[accent][${publicPage ? "'dark'" : "(landing && !landing.hidden) || !root.classList.contains('light') ? 'dark' : 'light'"}];
+          const tone = palette[accent][${publicPage ? "'dark'" : "root.classList.contains('light') ? 'light' : 'dark'"}];
           const iconKey = tone.accent + tone.on;
           if (iconKey === lastIcon) return;
           lastIcon = iconKey;
@@ -63,8 +64,9 @@ export function renderAppearanceHead(publicPage = false): string {
 }
 
 // Public pages (landing, /programs) keep their marketing scale but are built from
-// the app's tokens and component specs. They stay graphite whatever the app theme,
-// so the scope redeclares every token it uses rather than inheriting html.light.
+// the app's tokens and component specs. The scope redeclares every token it uses: graphite by
+// default (the /programs pages are always dark), paper under html.light, which only the landing
+// gets, from the app's theme toggle.
 export function renderPublicPatterns(scope: string): string {
   const reduced = (s: string) => `
     ${s} :is(.landing-hero-copy,.landing-ring) { animation:none !important; }
@@ -82,6 +84,18 @@ export function renderPublicPatterns(scope: string): string {
       background:var(--bg); color:var(--text); font-family:var(--font-sans); line-height:1.65;
       font-feature-settings:"ss01","tnum"; -webkit-font-smoothing:antialiased;
     }
+    html.light ${scope} {
+      color-scheme:light;
+      ${LIGHT_SURFACE_TOKENS}
+      --accent-soft:color-mix(in srgb,var(--accent) 10%,transparent);
+      --shadow-control:inset 0 1px 0 rgba(255,255,255,0.7),0 1px 2px rgba(16,17,19,0.08);
+    }
+    /* Theme toggle (landing only): the icon shows the theme it switches to */
+    ${scope} .site-theme { display:inline-grid; place-items:center; flex:none; width:2.5rem; height:2.5rem; padding:0; border:1px solid var(--line-strong); border-radius:var(--r-full); background:transparent; color:var(--text-2); cursor:pointer; transition:background-color var(--dur-fast) ease,color var(--dur-fast) ease,transform var(--dur-press) var(--ease-out); }
+    ${scope} .site-theme:active { transform:scale(0.92) rotate(-20deg); }
+    ${scope} .site-theme svg { width:1.15rem; height:1.15rem; }
+    ${scope} .site-theme .is-moon, html.light ${scope} .site-theme .is-sun { display:none; }
+    html.light ${scope} .site-theme .is-moon { display:block; }
     ${scope} ::selection { background:var(--accent); color:var(--on-accent); }
     ${scope} :is(a,button):focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:var(--r-sm); }
     ${scope} :is(h1,h2,h3) { text-wrap:balance; }
@@ -119,8 +133,8 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} .public-kicker { color:var(--accent-text); font-size:0.875rem; font-weight:500; }
     ${scope} .public-index { color:var(--accent-text); font-size:0.8125rem; font-weight:600; letter-spacing:0.08em; font-variant-numeric:tabular-nums; }
 
-    /* Site chrome: one nav and one footer for every public page */
-    ${scope} .site-nav, ${scope} .site-footer { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.25rem max(5vw, calc((100vw - 77.5rem) / 2), 1.25rem); }
+    /* Site chrome: one nav for every public page */
+    ${scope} .site-nav { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.25rem max(5vw, calc((100vw - 77.5rem) / 2), 1.25rem); }
     ${scope} .site-nav { position:relative; z-index:2; border-bottom:1px solid var(--line); }
     ${scope} .site-brand { display:inline-flex; align-items:center; gap:0.75rem; min-height:2.75rem; color:var(--text); font-size:1.125rem; font-weight:700; text-decoration:none; white-space:nowrap; }
     ${scope} .site-brand svg { width:2.25rem; height:2.25rem; flex-shrink:0; color:var(--accent); }
@@ -128,12 +142,9 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} .site-link { display:inline-flex; align-items:center; min-height:2.75rem; color:var(--text-2); font-size:0.875rem; font-weight:500; text-decoration:none; white-space:nowrap; transition:color var(--dur-fast) ease; }
     ${scope} .site-link[aria-current] { color:var(--accent-text); }
     ${scope} .site-nav .public-button { min-height:2.75rem; padding:0.5rem 1rem; font-size:0.875rem; white-space:nowrap; }
-    ${scope} .site-footer { flex-wrap:wrap; border-top:1px solid var(--line); color:var(--text-3); font-size:0.8125rem; }
-    ${scope} .site-footer .site-links { flex-wrap:wrap; gap:0.25rem 1.25rem; }
     @media (max-width:640px) {
       ${scope} .site-brand { font-size:0.9375rem; gap:0.5rem; } ${scope} .site-brand svg { width:1.75rem; height:1.75rem; }
       ${scope} .site-links { gap:0.875rem; } ${scope} .site-link { font-size:0.8125rem; }
-      ${scope} .site-footer { flex-direction:column; text-align:center; }
     }
     /* Narrow phones: the mark alone carries the brand so the links keep one row */
     @media (max-width:400px) { ${scope} .site-nav .site-brand span { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; } }
@@ -143,7 +154,8 @@ export function renderPublicPatterns(scope: string): string {
       ${scope} .public-button.is-outline:hover { background:var(--surface-3); border-color:var(--accent-line); }
       ${scope} .public-button:hover span { transform:translate(-2px,-2px); }
       ${scope} button.public-chip:not([aria-pressed="true"]):hover { border-color:var(--text-3); color:var(--text); }
-      ${scope} :is(.site-link,.site-footer a):not([aria-current]):hover { color:var(--text); }
+      ${scope} .site-link:not([aria-current]):hover { color:var(--text); }
+      ${scope} .site-theme:hover { background:var(--surface-2); color:var(--text); }
       ${scope} .public-card.is-interactive { transition:border-color var(--dur-fast) ease; }
       ${scope} .public-card.is-interactive:is(:hover,:focus-within) { border-color:var(--line-strong); }
     }
@@ -158,16 +170,21 @@ function navCurrent(path: string, href: string): string {
   return href !== '/' && path.startsWith(href + '/') ? ' aria-current="true"' : '';
 }
 
-// The same nav and footer on / and /programs/*; only aria-current changes.
-export function renderPublicNav(path: string): string {
+// The same nav on / and /programs/*; only aria-current changes.
+const SUN_SVG = '<svg class="is-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+const MOON_SVG = '<svg class="is-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
+
+// The landing shares the app's document, so its toggle uses the app's toggleTheme().
+export function renderPublicNav(path: string, opts: { themeToggle?: boolean } = {}): string {
   const current = (href: string) => navCurrent(path, href);
+  const theme = opts.themeToggle ? `<button type="button" class="site-theme" onclick="toggleTheme()" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب">${SUN_SVG}${MOON_SVG}</button>` : '';
   return `<nav class="site-nav" aria-label="ناوبری اصلی">
       <a class="site-brand" href="/"${current('/')}>${BRAND_MARK_SVG}<span>جسم و اندیشه</span></a>
-      <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a></div>
-    </nav><!--chth-lang-->`;
+      <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a><!--chth-lang-->${theme}</div>
+    </nav>`;
 }
 
-export function renderPublicFooter(path: string): string {
-  const current = (href: string) => navCurrent(path, href);
-  return `<footer class="site-footer"><span>جسم و اندیشه · همراه مسیر تمرین تو</span><div class="site-links"><a class="site-link" href="/"${current('/')}>صفحه اصلی</a><a class="site-link" href="/programs"${current('/programs')}>برنامه‌های تمرینی</a></div></footer><!--chth-footer-->`;
+// The only footer on public pages is the shared CHTH one (filled in per language by finishPage).
+export function renderPublicFooter(): string {
+  return '<!--chth-footer-->';
 }

@@ -96,6 +96,18 @@ export const DARK_SURFACE_TOKENS = `        --bg: #0E0F11;
         --text-2: #A1A1A6;
         --text-3: #6E6F75;`;
 
+// The paper surfaces of html.light, for public pages that switch theme inside their own scope.
+export const LIGHT_SURFACE_TOKENS = `        --bg: #F6F6F4;
+        --bg-sunken: #EEEEEB;
+        --surface: #FFFFFF;
+        --surface-2: #F4F4F1;
+        --surface-3: #ECECE8;
+        --line: rgba(16, 17, 19, 0.08);
+        --line-strong: rgba(16, 17, 19, 0.15);
+        --text: #111214;
+        --text-2: #55575C;
+        --text-3: #85878C;`;
+
 // Text size and corner preferences. Shared so public pages honor the same settings.
 export const PREF_OPTIONS = { text: ['sm', 'md', 'lg', 'xl'], radius: ['sharp', 'md', 'round'], motion: ['full', 'reduce'] };
 export const PREF_SCALE_RULES = `/* Text size preference: everything is rem-based, so the root scales the page */
