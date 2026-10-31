@@ -6,7 +6,7 @@
 import { LOCALES, dirOf, isLocale, localeCookie, localeFromCookie } from '../chth-kit/locales.js';
 import type { Locale } from '../chth-kit/locales.js';
 import { footerHtml } from '../chth-kit/footer.js';
-import { BRAND_CSS, LOGO_SVG } from '../chth-kit/brand.js';
+import { BRAND_CSS } from '../chth-kit/brand.js';
 import { makeTranslator } from './core.js';
 import catalog from './catalog.json';
 
@@ -193,9 +193,9 @@ export function headExtras(locale: Locale): string {
   return `<style>${BRAND_CSS}${LTR_FIXES}</style>${clientScript(locale)}`;
 }
 
-/** The shared CHTH footer for this locale (other CHTH sites and bots, languages). */
+/** The shared CHTH footer for this locale (CHTH logo, link to chth.wtf, languages). */
 export function chthFooter(locale: Locale): string {
-  return footerHtml(locale, 'gym', { sourceUrl: SOURCE_URL, logoSvg: LOGO_SVG });
+  return footerHtml(locale, 'gym', { sourceUrl: SOURCE_URL });
 }
 
 /**
