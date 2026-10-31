@@ -7,6 +7,7 @@ import { Env, User } from '../types';
 import { Database } from '../db/queries';
 import { createSession, destroySession, getSession, requireAuth } from '../auth/session';
 import { getGoogleAuthUrl, exchangeCodeForTokens, fetchGoogleUserInfo } from '../auth/google';
+import { track } from '../hub';
 
 const authRouter = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
 
@@ -51,6 +52,7 @@ authRouter.get('/google/callback', async (c) => {
     googleUser.name || 'ورزشکار گرامی',
     googleUser.picture
   );
+  if (user.created_at === user.updated_at) track(c, 'signup', {}, user.id);
 
   await createSession(c, user);
   return c.redirect('/?auth=success');

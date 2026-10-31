@@ -8,6 +8,7 @@ import { Env, User } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth } from '../auth/session';
 import { getPresetById } from '../data/preloadedWorkouts';
+import { track } from '../hub';
 
 const workoutsRouter = new Hono<{ Bindings: Env; Variables: { user: User } }>();
 
@@ -155,6 +156,7 @@ workoutsRouter.post('/:id/finish', async (c) => {
   if (!completedSession) {
     return c.json({ error: 'جلسه تمرین یافت نشد' }, 404);
   }
+  track(c, 'workout', { minutes: Math.round((completedSession.duration_seconds ?? 0) / 60), volume: Math.round(completedSession.total_volume_kg ?? 0) }, user.id);
 
   return c.json({
     success: true,

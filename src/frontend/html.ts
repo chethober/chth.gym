@@ -827,6 +827,12 @@ export function renderAppHtml(): string {
         </form>
       </div>
 
+      <!-- Language and the other CHTH sites and bots (filled in per language by finishPage) -->
+      <div class="card-glass p-3.5 sm:p-5">
+        <!--chth-lang-->
+        <!--chth-footer-->
+      </div>
+
     </section>
 
   </main>

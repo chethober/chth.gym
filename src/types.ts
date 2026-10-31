@@ -11,6 +11,9 @@ export interface Env {
   APP_NAME?: string;
   APP_ENV?: string;
   ASSETS?: Fetcher;
+  /** CHTH hub reporting (optional): the hub's URL and this site's own secret. */
+  HUB_URL?: string;
+  HUB_SECRET?: string;
 }
 
 export interface User {
