@@ -14,6 +14,8 @@ export interface Env {
   /** CHTH hub reporting (optional): the hub's URL and this site's own secret. */
   HUB_URL?: string;
   HUB_SECRET?: string;
+  /** Service binding to the hub Worker (same Cloudflare account); used when HUB_URL is unset. */
+  HUB?: Fetcher;
 }
 
 export interface User {

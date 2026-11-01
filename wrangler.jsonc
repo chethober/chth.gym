@@ -30,6 +30,11 @@
       "id": "8ef0d72f24f74b0eae3e182ecb5ed2e5"
     }
   ],
+  // The CHTH hub Worker (same Cloudflare account): sign-ups, workouts, tagged visits and errors
+  // are reported through it. Set the shared secret with `wrangler secret put HUB_SECRET`.
+  "services": [
+    { "binding": "HUB", "service": "chth-hub" }
+  ],
   "vars": {
     "APP_NAME": "CHTH Gym",
     "APP_ENV": "production",

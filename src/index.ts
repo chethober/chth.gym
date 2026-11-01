@@ -19,18 +19,22 @@ import { renderAppHtml } from './frontend/html';
 import { renderPublicPrograms, renderProgramNotFound, escapeHtml } from './frontend/publicPrograms';
 import { PRELOADED_WORKOUTS, getPresetById } from './data/preloadedWorkouts';
 import { finishPage, resolveLocale } from './i18n';
-import { statsResponse, track, trackRef } from './hub';
+import { announcementResponse, getAnnouncement, statsResponse, track, trackRef, withBanner } from './hub';
 
 const app = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
 
-/** Sends a rendered page in the visitor's language (see src/i18n), remembering ?lang= choices. */
-function page(c: any, html: string, status: 200 | 404 = 200) {
+/**
+ * Sends a rendered page in the visitor's language (see src/i18n), remembering ?lang= choices,
+ * with the banner set from the CHTH hub (cached for a minute at the edge).
+ */
+async function page(c: any, html: string, status: 200 | 404 = 200) {
   const { locale, setCookie } = resolveLocale(c.req.raw);
-  if (setCookie) c.header('Set-Cookie', setCookie);
+  if (setCookie) c.header('Set-Cookie', setCookie, { append: true });
   c.header('Content-Language', locale);
   c.header('Vary', 'Cookie, Accept-Language');
   trackRef(c, locale);
-  return c.html(finishPage(html, locale), status);
+  const banner = await getAnnouncement(c.env?.KV_SESSIONS, 60);
+  return c.html(withBanner(finishPage(html, locale), banner), status);
 }
 
 // Global Middlewares
@@ -89,6 +93,7 @@ app.get('/', (c) => page(c, renderAppHtml()));
 
 // Stats for the CHTH hub (signed requests only; see src/hub.ts).
 app.get('/internal/stats', (c) => statsResponse(c));
+app.post('/internal/announcement', (c) => announcementResponse(c));
 
 // Global Error Handler
 app.onError((err, c) => {

@@ -140,9 +140,17 @@ every CHTH site); otherwise the browser's languages decide, with Persian as the 
 
 `src/chth-kit/` is generated from the shared CHTH kit (brand tokens, logo, languages, product
 links, footer): don't edit it here. The optional CHTH hub integration (`src/hub.ts`) reports
-sign-ups, finished workouts, tagged visits and server errors, and answers signed
-`GET /internal/stats` calls. Set `HUB_URL` (var) and `HUB_SECRET` (`wrangler secret put
-HUB_SECRET`) to switch it on; without them nothing is sent and `/internal/stats` refuses every call.
+sign-ups, finished workouts, tagged visits and server errors, and answers the hub's signed calls:
+`GET /internal/stats` (including growth, activation and retention counts for its 📣 Marketing
+screen) and `POST /internal/announcement` (the site banner, kept in KV and shown at the top of
+every page). Visits tagged `?ref=` are remembered for 30 days, so a later sign-up counts for that
+campaign.
+
+Set `HUB_SECRET` (`wrangler secret put HUB_SECRET`, the same value as `gym` in the hub's
+`SOURCE_SECRETS`) to switch it on; without it nothing is sent and the internal routes refuse
+every call. Reports go through the `HUB` service binding to the `chth-hub` Worker, or to
+`HUB_URL` when that var is set. Deploying a fork to another Cloudflare account: remove the
+`services` entry from `wrangler.jsonc`.
 
 ## Configuration
 
@@ -153,7 +161,8 @@ HUB_SECRET`) to switch it on; without them nothing is sent and `/internal/stats`
 | `GOOGLE_CLIENT_ID` | Google OAuth client ID |
 | `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
 | `REDIRECT_URI` | OAuth callback URL |
-| `HUB_URL`, `HUB_SECRET` | CHTH hub reporting and stats (optional) |
+| `HUB_SECRET` | CHTH hub reporting, stats and banner (optional, secret) |
+| `HUB_URL` | The hub's URL, only when not using the `HUB` service binding (optional) |
 
 ### Cloudflare Wrangler Configuration
 

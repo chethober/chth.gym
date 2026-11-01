@@ -7,7 +7,7 @@ import { Env, User } from '../types';
 import { Database } from '../db/queries';
 import { createSession, destroySession, getSession, requireAuth } from '../auth/session';
 import { getGoogleAuthUrl, exchangeCodeForTokens, fetchGoogleUserInfo } from '../auth/google';
-import { track } from '../hub';
+import { refFromCookie, track } from '../hub';
 
 const authRouter = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
 
@@ -52,7 +52,11 @@ authRouter.get('/google/callback', async (c) => {
     googleUser.name || 'ورزشکار گرامی',
     googleUser.picture
   );
-  if (user.created_at === user.updated_at) track(c, 'signup', {}, user.id);
+  if (user.created_at === user.updated_at) {
+    // A campaign or CHTH link the visitor came from in the last 30 days, for the hub's funnel.
+    const ref = refFromCookie(c.req.header('Cookie'));
+    track(c, 'signup', ref ? { ref } : {}, user.id);
+  }
 
   await createSession(c, user);
   return c.redirect('/?auth=success');
