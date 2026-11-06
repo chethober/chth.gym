@@ -387,9 +387,16 @@ export class Database {
     userId: string,
     title: string,
     description: string,
-    exercises: RoutineExerciseInput[]
+    exercises: RoutineExerciseInput[],
+    clientRoutineId?: string
   ): Promise<Routine> {
-    const routineId = `rtn_${crypto.randomUUID()}`;
+    // A routine made offline arrives with its own id; a resend returns the routine already saved
+    if (clientRoutineId) {
+      const existing = await this.db.prepare('SELECT user_id FROM routines WHERE id = ?').bind(clientRoutineId).first<{ user_id: string }>();
+      if (existing && existing.user_id === userId) return (await this.getRoutineById(clientRoutineId, userId))!;
+      if (existing) clientRoutineId = undefined;
+    }
+    const routineId = clientRoutineId || `rtn_${crypto.randomUUID()}`;
     const now = new Date().toISOString();
 
     // Ensure the user exists in users table to satisfy foreign key constraint
@@ -496,6 +503,11 @@ export class Database {
       .first<WorkoutSession>();
 
     if (!session) return null;
+    return this.withSessionDetail(session);
+  }
+
+  // Set logs and the routine's planned exercises, as the active-workout screen shows them
+  private async withSessionDetail(session: WorkoutSession): Promise<WorkoutSession> {
 
     const { results: logs } = await this.db
       .prepare(`
@@ -532,10 +544,27 @@ export class Database {
     };
   }
 
-  async startWorkoutSession(userId: string, title?: string, routineId?: string): Promise<WorkoutSession> {
-    // If there is an active session, return it or discard older active ones
-    const active = await this.getActiveWorkoutSession(userId);
-    if (active) return active;
+  async startWorkoutSession(
+    userId: string,
+    title?: string,
+    routineId?: string,
+    opts: { id?: string; startTime?: string } = {}
+  ): Promise<WorkoutSession> {
+    if (opts.id) {
+      // Started offline: a resend returns the same session. It is created even when another
+      // device has a workout open, so the sets queued for it are never lost.
+      const existing = await this.db
+        .prepare('SELECT ws.*, r.title as routine_title FROM workout_sessions ws LEFT JOIN routines r ON ws.routine_id = r.id WHERE ws.id = ?')
+        .bind(opts.id)
+        .first<WorkoutSession>();
+      if (existing && existing.user_id === userId) return this.withSessionDetail(existing);
+      if (existing) opts = { ...opts, id: undefined };
+    }
+    if (!opts.id) {
+      // If there is an active session, return it
+      const active = await this.getActiveWorkoutSession(userId);
+      if (active) return active;
+    }
 
     const now = new Date().toISOString();
 
@@ -560,14 +589,18 @@ export class Database {
       }
     }
 
-    const sessionId = `ses_${crypto.randomUUID()}`;
+    const sessionId = opts.id || `ses_${crypto.randomUUID()}`;
 
     await this.db
       .prepare('INSERT INTO workout_sessions (id, user_id, routine_id, title, start_time, total_volume_kg, status) VALUES (?, ?, ?, ?, ?, 0, "active")')
-      .bind(sessionId, userId, validRoutineId, sessionTitle, now)
+      .bind(sessionId, userId, validRoutineId, sessionTitle, opts.startTime || now)
       .run();
 
-    return (await this.getActiveWorkoutSession(userId))!;
+    const created = await this.db
+      .prepare('SELECT ws.*, r.title as routine_title FROM workout_sessions ws LEFT JOIN routines r ON ws.routine_id = r.id WHERE ws.id = ?')
+      .bind(sessionId)
+      .first<WorkoutSession>();
+    return this.withSessionDetail(created!);
   }
 
   async logWorkoutSet(
@@ -577,7 +610,8 @@ export class Database {
     setNumber: number,
     reps: number,
     weightKg: number,
-    rpe?: number
+    rpe?: number,
+    opts: { id?: string; completedAt?: string } = {}
   ): Promise<{ log: WorkoutSetLogDetail; isPr: boolean; isE1rmPr: boolean } | null> {
     const ownsSession = await this.db
       .prepare('SELECT id FROM workout_sessions WHERE id = ? AND user_id = ?')
@@ -585,14 +619,14 @@ export class Database {
       .first();
     if (!ownsSession) return null;
 
-    const logId = `set_${crypto.randomUUID()}`;
-    const now = new Date().toISOString();
+    const logId = opts.id || `set_${crypto.randomUUID()}`;
+    const now = opts.completedAt || new Date().toISOString();
 
     // One row per set: a resent request (e.g. an offline retry) replaces the set instead of
     // duplicating it. Removed before the PR check so a retry is judged like the original.
     await this.db
-      .prepare('DELETE FROM workout_set_logs WHERE session_id = ? AND user_id = ? AND exercise_id = ? AND set_number = ?')
-      .bind(sessionId, userId, exerciseId, setNumber)
+      .prepare('DELETE FROM workout_set_logs WHERE user_id = ? AND (id = ? OR (session_id = ? AND exercise_id = ? AND set_number = ?))')
+      .bind(userId, logId, sessionId, exerciseId, setNumber)
       .run();
 
     // Check if this is a PR (Personal Record for this exercise and user)
@@ -678,15 +712,17 @@ export class Database {
     return totalVolume;
   }
 
-  async finishWorkoutSession(sessionId: string, userId: string, notes?: string): Promise<WorkoutSession | null> {
+  async finishWorkoutSession(sessionId: string, userId: string, notes?: string, endTimeIso?: string): Promise<WorkoutSession | null> {
     const session = await this.db
       .prepare('SELECT * FROM workout_sessions WHERE id = ? AND user_id = ?')
       .bind(sessionId, userId)
       .first<WorkoutSession>();
 
     if (!session) return null;
+    // A resent finish (offline replay) keeps the first end time
+    if (session.status === 'completed') return this.getWorkoutSessionById(sessionId, userId);
 
-    const endTime = new Date();
+    const endTime = new Date(Math.max(Date.parse(endTimeIso || '') || Date.now(), Date.parse(session.start_time) || 0));
     const startTime = new Date(session.start_time);
     const durationSeconds = Math.max(0, Math.floor((endTime.getTime() - startTime.getTime()) / 1000));
 
@@ -706,8 +742,8 @@ export class Database {
 
   async discardWorkoutSession(sessionId: string, userId: string): Promise<boolean> {
     await this.db
-      .prepare('DELETE FROM workout_set_logs WHERE session_id = ?')
-      .bind(sessionId)
+      .prepare('DELETE FROM workout_set_logs WHERE session_id = ? AND user_id = ?')
+      .bind(sessionId, userId)
       .run();
 
     const res = await this.db
