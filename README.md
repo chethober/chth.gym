@@ -31,6 +31,7 @@ Built on Cloudflare Workers with Hono, D1, KV and Google sign-in.
 | 🗂️ **Routine builder** | Workout splits (Push/Pull/Legs, Upper/Lower) with target sets, reps, rest periods and supersets |
 | ⏱️ **Active workout tracker** | Live stopwatch, rest countdown with audio alerts, PR and estimated-1RM detection, plate calculator and warm-up ramp for barbell lifts |
 | 📊 **Analytics** | Training volume charts, consistency streaks, a PR hall of fame with estimated 1RM, and a muscle recovery body map |
+| 📲 **Installable, works offline** | Install it as an app (PWA) on Android, iOS and desktop. Workouts, sets, routines, check-ins and the weekly plan all work without a connection and sync when it returns (`src/frontend/offlineUi.ts`, `public/sw.js`) |
 | 📅 **Weekly plan** | Drag saved routines onto the days of the week and see which ones are done |
 | 🚀 **First workout setup** | Preview a starter routine, save experience level and weekly goal, and start as a guest or signed in |
 | 🔁 **Repeat and share** | Repeat the last workout, see previous weights and reps, and share a result image |

@@ -33,6 +33,7 @@ import {
 import { renderActivationSection, renderActivationScript } from './activationUi';
 import { renderProgressionScript } from './progressionUi';
 import { renderOfflineScript } from './offlineUi';
+import { renderInstallHead, renderSyncIndicator, renderInstallBanner, renderInstallCard, renderInstallScript } from './installUi';
 import { BODY_PATHS } from './bodyPaths';
 
 export function renderAppHtml(): string {
@@ -77,6 +78,7 @@ export function renderAppHtml(): string {
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300..900&display=swap" rel="stylesheet">
   <meta name="theme-color" content="#0E0F11" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#F6F6F4" media="(prefers-color-scheme: light)">
+  ${renderInstallHead()}
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -99,6 +101,8 @@ export function renderAppHtml(): string {
 
   ${renderLandingPage()}
   ${renderToastAndDialogs()}
+  ${renderSyncIndicator()}
+  ${renderInstallBanner()}
   ${renderCheckinModal()}
   <div id="dashboard-shell" hidden>
   <!-- Top Desktop Navigation Bar -->
@@ -643,6 +647,8 @@ export function renderAppHtml(): string {
           </div>
         </div>
       </div>
+
+${renderInstallCard()}
 
       <!-- Guest Cloud Sync Banner -->
       <div id="profile-guest-sync-banner" class="hidden card-glass p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 card-accent">
@@ -1426,8 +1432,18 @@ export function renderAppHtml(): string {
       });
       if (!confirmed) return;
 
-      await fetch('/api/auth/logout', { method: 'POST' });
-      writePendingSets([]);
+      if (outboxSize()) {
+        const discardChanges = await showConfirmDialog({
+          title: 'تغییرات همگام‌نشده',
+          message: toPersianDigits(outboxSize()) + ' تغییر هنوز به سرور نرسیده است و با خروج از حساب از بین می‌رود. ابتدا به اینترنت وصل شوید تا همگام شوند.',
+          confirmText: 'خروج و حذف تغییرات',
+          color: 'rose',
+          icon: 'cloud-off'
+        });
+        if (!discardChanges) return;
+      }
+      try { await fetch('/api/auth/logout', { method: 'POST' }); } catch (e) {}
+      clearOfflineData();
       await clearOfflineApiCache();
       currentUser = null;
       window.location.reload();
@@ -1505,7 +1521,6 @@ export function renderAppHtml(): string {
 
       document.getElementById('return-workout')?.classList.toggle('hidden', hasActive || !returnWorkout);
       if (hasActive && activeSession) {
-        if (pendingSetsFor(activeSession.id).length && navigator.onLine !== false) flushPendingSets();
         if (inputSessionId !== activeSession.id) {
           currentExerciseWeights = {};
           currentExerciseReps = {};
@@ -2093,10 +2108,7 @@ export function renderAppHtml(): string {
       });
 
       // Sets queued offline show as logged until they reach the server
-      const logged = activeSession.set_logs || [];
-      const pending = pendingSetsFor(activeSession.id)
-        .filter(p => !logged.some(l => l.exercise_id === p.exercise_id && l.set_number === p.set_number));
-      [...logged, ...pending].forEach(log => {
+      (activeSession.set_logs || []).forEach(log => {
         if (!exMap.has(log.exercise_id)) {
           exMap.set(log.exercise_id, {
             id: log.exercise_id,
@@ -2218,23 +2230,18 @@ export function renderAppHtml(): string {
 
       if (currentUser && activeSession.user_id !== 'guest') {
         try {
-          let res;
-          try {
-            res = await fetch(\`/api/workouts/\${activeSession.id}/sets\`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                exercise_id: exerciseId,
-                set_number: setNumber,
-                reps: reps,
-                weight_kg: weight,
-                rpe: 8
-              })
-            });
-          } catch (networkError) {
-            queueOfflineSet(exerciseId, setNumber, reps, weight);
-            return;
-          }
+          // Works offline too: the set is kept on the device and synced later (offlineUi.ts)
+          const res = await fetch(\`/api/workouts/\${activeSession.id}/sets\`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              exercise_id: exerciseId,
+              set_number: setNumber,
+              reps: reps,
+              weight_kg: weight,
+              rpe: 8
+            })
+          });
 
           const data = await res.json();
           if (data.success) {
@@ -2302,26 +2309,6 @@ export function renderAppHtml(): string {
       }
     }
 
-    function queueOfflineSet(exerciseId, setNumber, reps, weight) {
-      const planned = (activeSession.planned_exercises || []).find(pe => pe.exercise_id === exerciseId);
-      const exFromCatalog = (exercisesCache || []).find(e => e.id === exerciseId);
-      queuePendingSet({
-        session_id: activeSession.id,
-        exercise_id: exerciseId,
-        exercise_name_fa: planned?.name_fa || exFromCatalog?.name_fa || 'حرکت تمرینی',
-        exercise_name_en: planned?.name_en || exFromCatalog?.name_en || '',
-        exercise_gif_url: planned?.gif_url || exFromCatalog?.gif_url || '',
-        exercise_category_fa: planned?.category_fa || exFromCatalog?.category_fa || '',
-        set_number: setNumber,
-        reps: reps,
-        weight_kg: weight,
-        rpe: 8
-      });
-      showNotification('اتصال برقرار نیست؛ ست ذخیره شد و پس از اتصال همگام می‌شود', 'warning');
-      renderActiveWorkoutTodoList();
-      restAfterSet(planned);
-    }
-
     async function deleteLoggedSet(setId) {
       if (!activeSession) return;
 
@@ -2333,13 +2320,6 @@ export function renderAppHtml(): string {
         icon: 'trash-2'
       });
       if (!confirmed) return;
-
-      if (String(setId).startsWith('pending-')) {
-        removePendingSet(setId);
-        showNotification('ست مورد نظر حذف شد', 'info');
-        renderActiveWorkoutTodoList();
-        return;
-      }
 
       if (currentUser && activeSession.user_id !== 'guest') {
         try {
@@ -2368,14 +2348,6 @@ export function renderAppHtml(): string {
 
     async function finishActiveWorkout() {
       if (!activeSession) return;
-
-      if (pendingSetsFor(activeSession.id).length) {
-        const waiting = await flushPendingSets();
-        if (waiting) {
-          showNotification('ست‌های آفلاین هنوز همگام نشده‌اند؛ پس از اتصال دوباره «پایان تمرین» را بزنید', 'warning');
-          return;
-        }
-      }
 
       const totalSets = (activeSession.set_logs || []).length;
       if (totalSets === 0) {
@@ -2410,7 +2382,12 @@ export function renderAppHtml(): string {
           if (data.success) {
             confetti({ colors: PLATE_COLORS, particleCount: 150, spread: 80, origin: { y: 0.6 } });
             showWorkoutRecap(finishedSnapshot);
-            showNotification('خسته نباشید! جلسه تمرین با موفقیت ذخیره شد.', 'success');
+            showNotification(data.offline ? 'خسته نباشید! تمرین روی این دستگاه ذخیره شد و پس از اتصال همگام می‌شود.' : 'خسته نباشید! جلسه تمرین با موفقیت ذخیره شد.', 'success');
+            if (activeTimerInterval) {
+              clearInterval(activeTimerInterval);
+              activeTimerInterval = null;
+            }
+            stopRestTimer();
             activeSession = null;
             showActiveWorkoutInDashboard(false);
             await loadDashboardData();
@@ -2467,7 +2444,6 @@ export function renderAppHtml(): string {
       if (currentUser && activeSession.user_id !== 'guest') {
         try {
           const sessionId = activeSession.id;
-          clearPendingSetsFor(sessionId);
           await fetch(\`/api/workouts/\${sessionId}/discard\`, { method: 'POST' });
         } catch (e) {}
       } else {
@@ -4530,6 +4506,7 @@ export function renderAppHtml(): string {
     ${renderActivationScript()}
     ${renderProgressionScript()}
     ${renderOfflineScript()}
+    ${renderInstallScript()}
     ${renderPresetsClientScript()}
 
     ${renderWeeklyPlanClientScript()}

@@ -3,7 +3,7 @@
 // ============================================================================
 
 import { Hono } from 'hono';
-import { TEXT_LIMITS, clampText } from '../lib/limits';
+import { TEXT_LIMITS, clampText, clientId, clientTime } from '../lib/limits';
 import { Env, User } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth } from '../auth/session';
@@ -41,6 +41,8 @@ workoutsRouter.post('/start', async (c) => {
     title?: string;
     routine_id?: string;
     preset_id?: string;
+    id?: string; // Made on the device when the workout starts offline
+    start_time?: string;
   };
 
   const db = new Database(c.env.DB);
@@ -72,7 +74,11 @@ workoutsRouter.post('/start', async (c) => {
     }
   }
 
-  const session = await db.startWorkoutSession(user.id, targetTitle, targetRoutineId);
+  const id = clientId(body.id, 'ses');
+  const session = await db.startWorkoutSession(user.id, targetTitle, targetRoutineId, {
+    id,
+    startTime: id ? clientTime(body.start_time) : undefined
+  });
 
   return c.json({
     success: true,
@@ -90,6 +96,8 @@ async function handleLogSet(c: any) {
     reps: number;
     weight_kg: number;
     rpe?: number;
+    id?: string; // Made on the device, so a set logged offline keeps its id after syncing
+    completed_at?: string;
   };
 
   if (!body.exercise_id) {
@@ -104,7 +112,8 @@ async function handleLogSet(c: any) {
     Number(body.set_number) || 1,
     Number(body.reps) || 0,
     Number(body.weight_kg) || 0,
-    body.rpe ? Number(body.rpe) : undefined
+    body.rpe ? Number(body.rpe) : undefined,
+    { id: clientId(body.id, 'set'), completedAt: clientTime(body.completed_at) }
   );
   if (!result) {
     return c.json({ error: 'جلسه تمرین یافت نشد' }, 404);
@@ -148,10 +157,10 @@ workoutsRouter.delete('/:id/sets/:setId', handleDeleteSet);
 workoutsRouter.post('/:id/finish', async (c) => {
   const user = c.get('user');
   const sessionId = c.req.param('id') || '';
-  const body = await c.req.json<{ notes?: string }>().catch(() => ({ notes: undefined }));
+  const body = await c.req.json<{ notes?: string; end_time?: string }>().catch(() => ({} as { notes?: string; end_time?: string }));
 
   const db = new Database(c.env.DB);
-  const completedSession = await db.finishWorkoutSession(sessionId, user.id, clampText(body.notes, TEXT_LIMITS.notes));
+  const completedSession = await db.finishWorkoutSession(sessionId, user.id, clampText(body.notes, TEXT_LIMITS.notes), clientTime(body.end_time));
 
   if (!completedSession) {
     return c.json({ error: 'جلسه تمرین یافت نشد' }, 404);

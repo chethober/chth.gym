@@ -651,7 +651,7 @@ export function renderPresetsClientScript(): string {
 
         if (currentUser && activeSession.user_id !== 'guest') {
           try {
-            await fetch('/api/workouts/discard', { method: 'POST' });
+            await fetch('/api/workouts/' + encodeURIComponent(activeSession.id) + '/discard', { method: 'POST' });
           } catch (e) {}
         } else {
           localStorage.removeItem('jesm_guest_active_session');

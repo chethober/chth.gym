@@ -3,7 +3,7 @@
 // ============================================================================
 
 import { Hono } from 'hono';
-import { TEXT_LIMITS, clampText } from '../lib/limits';
+import { TEXT_LIMITS, clampText, clientId } from '../lib/limits';
 import { Env, RoutineExerciseInput, User } from '../types';
 import { Database } from '../db/queries';
 import { requireAuth, optionalAuth } from '../auth/session';
@@ -12,6 +12,7 @@ import { getWorkoutSuggestions, getPresetById } from '../data/preloadedWorkouts'
 const routinesRouter = new Hono<{ Bindings: Env; Variables: { user?: User } }>();
 
 type RoutineBody = {
+  id?: string; // Made on the device when the routine is created offline
   title: string;
   description?: string;
   exercises: RoutineExerciseInput[];
@@ -190,7 +191,8 @@ routinesRouter.post('/', optionalAuth, async (c) => {
     userId,
     body.title.trim(),
     clampText(body.description, TEXT_LIMITS.description) || '',
-    body.exercises
+    body.exercises,
+    user ? clientId(body.id, 'rtn') : undefined
   );
 
   return c.json({

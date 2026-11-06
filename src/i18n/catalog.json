@@ -4918,5 +4918,149 @@
 "المزج بين التمارين المركّبة الثقيلة والعزل بالكابل يبني عضلًا متوازنًا ومتناسقًا دون إصابات.",
 "Сочетание тяжёлой базы и изоляции на блоках даёт сбалансированный симметричный рост без травм.",
 "Combinar compuestos pesados con aislamiento en polea da músculo equilibrado y simétrico sin lesiones."
+],
+"تغییرات همگام‌نشده": [
+"Unsynced changes",
+"تغييرات غير متزامنة",
+"Несинхронизированные изменения",
+"Cambios sin sincronizar"
+],
+"تغییر هنوز به سرور نرسیده است و با خروج از حساب از بین می‌رود. ابتدا به اینترنت وصل شوید تا همگام شوند.": [
+"changes haven't reached the server yet and will be lost if you sign out. Connect to the internet first so they can sync.",
+"تغييرات لم تصل إلى الخادم بعد وستضيع عند تسجيل الخروج. اتصل بالإنترنت أولًا لتتم مزامنتها.",
+"изменений ещё не дошли до сервера и пропадут при выходе. Сначала подключитесь к интернету, чтобы они синхронизировались.",
+"cambios aún no han llegado al servidor y se perderán al cerrar sesión. Conéctate primero a internet para sincronizarlos."
+],
+"خروج و حذف تغییرات": [
+"Sign out and discard changes",
+"تسجيل الخروج وحذف التغييرات",
+"Выйти и удалить изменения",
+"Cerrar sesión y descartar cambios"
+],
+"خسته نباشید! تمرین روی این دستگاه ذخیره شد و پس از اتصال همگام می‌شود.": [
+"Great work! The workout is saved on this device and will sync once you're online.",
+"أحسنت! تم حفظ التمرين على هذا الجهاز وستتم مزامنته عند الاتصال.",
+"Отличная работа! Тренировка сохранена на устройстве и синхронизируется при подключении.",
+"¡Buen trabajo! El entrenamiento se guardó en este dispositivo y se sincronizará al conectarte."
+],
+"تمرین ذخیره شد و پس از اتصال همگام می‌شود": [
+"Workout saved; it will sync once you're online",
+"تم حفظ التمرين وستتم مزامنته عند الاتصال",
+"Тренировка сохранена и синхронизируется при подключении",
+"Entrenamiento guardado; se sincronizará al conectarte"
+],
+"آفلاین": [
+"Offline",
+"غير متصل",
+"Офлайн",
+"Sin conexión"
+],
+"تغییر در انتظار همگام‌سازی": [
+"changes waiting to sync",
+"تغييرات بانتظار المزامنة",
+"изменений ждут синхронизации",
+"cambios pendientes de sincronizar"
+],
+"آفلاین · تغییرات روی همین دستگاه ذخیره می‌شوند": [
+"Offline · changes are saved on this device",
+"غير متصل · تُحفظ التغييرات على هذا الجهاز",
+"Офлайн · изменения сохраняются на этом устройстве",
+"Sin conexión · los cambios se guardan en este dispositivo"
+],
+"در حال همگام‌سازی": [
+"Syncing",
+"جارٍ مزامنة",
+"Синхронизация:",
+"Sincronizando"
+],
+"تغییر…": [
+"changes…",
+"تغييرات…",
+"изм.…",
+"cambios…"
+],
+"تغییر آفلاین همگام شد": [
+"offline changes synced",
+"تغييرات غير متصلة تمت مزامنتها",
+"офлайн-изменений синхронизировано",
+"cambios sin conexión sincronizados"
+],
+"نصب جسم و اندیشه": [
+"Install Jesm o Andishe",
+"تثبيت جسم و اندیشه",
+"Установить Jesm o Andishe",
+"Instalar Jesm o Andishe"
+],
+"اجرای سریع از صفحه‌ی اصلی، حتی بدون اینترنت.": [
+"Open it from your home screen, even without internet.",
+"افتحه من الشاشة الرئيسية، حتى دون إنترنت.",
+"Открывайте с главного экрана, даже без интернета.",
+"Ábrelo desde la pantalla de inicio, incluso sin internet."
+],
+"نصب": [
+"Install",
+"تثبيت",
+"Установить",
+"Instalar"
+],
+"نصب اپلیکیشن": [
+"Install app",
+"تثبيت التطبيق",
+"Установить приложение",
+"Instalar app"
+],
+"جسم و اندیشه را مثل یک برنامه روی گوشی یا رایانه نصب کنید؛ تمرین‌ها بدون اینترنت هم ثبت می‌شوند.": [
+"Install it like an app on your phone or computer; workouts log even without internet.",
+"ثبّته كتطبيق على هاتفك أو حاسوبك؛ تُسجَّل التمارين حتى دون إنترنت.",
+"Установите как приложение на телефон или компьютер — тренировки записываются даже без интернета.",
+"Instálala como una app en tu móvil o computadora; los entrenamientos se registran incluso sin internet."
+],
+"در Safari دکمه‌ی": [
+"In Safari, tap the",
+"في Safari اضغط زر",
+"В Safari нажмите кнопку",
+"En Safari, toca el botón"
+],
+"را بزنید.": [
+"button.",
+".",
+".",
+"."
+],
+"گزینه‌ی": [
+"Choose",
+"اختر",
+"Выберите",
+"Elige"
+],
+"را انتخاب کنید.": [
+".",
+".",
+".",
+"."
+],
+"روی": [
+"Tap",
+"اضغط",
+"Нажмите",
+"Toca"
+],
+"بزنید؛ آیکون برنامه به صفحه‌ی اصلی اضافه می‌شود.": [
+"; the app icon is added to your home screen.",
+"؛ ستُضاف أيقونة التطبيق إلى الشاشة الرئيسية.",
+"— значок приложения появится на главном экране.",
+"; el icono de la app se añadirá a tu pantalla de inicio."
+],
+"برای نصب، از منوی مرورگر گزینه‌ی «Install app» یا «Add to Home screen» را انتخاب کنید": [
+"To install, choose “Install app” or “Add to Home screen” from the browser menu",
+"للتثبيت، اختر «Install app» أو «Add to Home screen» من قائمة المتصفح",
+"Для установки выберите «Install app» или «Add to Home screen» в меню браузера",
+"Para instalar, elige «Install app» o «Add to Home screen» en el menú del navegador"
+],
+"اپلیکیشن نصب شد؛ از صفحه‌ی اصلی اجرایش کنید": [
+"App installed; open it from your home screen",
+"تم تثبيت التطبيق؛ افتحه من الشاشة الرئيسية",
+"Приложение установлено — открывайте его с главного экрана",
+"App instalada; ábrela desde tu pantalla de inicio"
 ]
 }
