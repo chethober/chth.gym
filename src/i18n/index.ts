@@ -8,6 +8,8 @@ import type { Locale } from '../chth-kit/locales.js';
 import { footerHtml } from '../chth-kit/footer.js';
 import { languageMenuHtml } from '../chth-kit/language-menu.js';
 import { BRAND_CSS } from '../chth-kit/brand.js';
+import { themeToggleHtml } from '../chth-kit/shell.js';
+import { SHELL_JS } from '../chth-kit/shell-script.js';
 import { makeTranslator } from './core.js';
 import catalog from './catalog.json';
 
@@ -89,7 +91,8 @@ html[dir="ltr"] .left-2{left:auto;right:.5rem}html[dir="ltr"] .right-2{right:aut
 // The shared footer and language menu, in the app's (and public pages') colors.
 const KIT_COLORS = `html{--chth-product-accent:var(--accent);--chth-line:var(--line-strong);--chth-menu-bg:var(--surface);--chth-menu-ink:var(--text)}
 .chth-lang-menu>summary{color:var(--text-2)}.chth-lang-menu[open]>summary{color:var(--accent-text)}
-.chth-footer{color:var(--text-2)}.chth-footer__brand{opacity:1}`;
+.chth-footer{color:var(--text-2)}.chth-footer__brand{opacity:1}
+.chth-theme{color:var(--text-2)}.chth-theme:hover{color:var(--text)}`;
 
 /**
  * The browser side: translates text the app adds later (MutationObserver), dialogs, and number
@@ -203,14 +206,17 @@ export function chthFooter(locale: Locale): string {
 
 /**
  * Finishes a rendered page for a locale: translated text, <html lang/dir>, the CHTH brand and
- * footer, the language switcher, and the browser translator.
+ * footer, the language menu and theme toggle, the browser translator, and the CHTH shell script
+ * (theme, toasts).
  */
 export function finishPage(html: string, locale: Locale): string {
   const page = localizeHtml(html, locale)
     .replace(/<html lang="fa" dir="rtl"/, `<html lang="${locale}" dir="${dirOf(locale)}" data-chth-product="gym"`)
     .replace('</head>', `${headExtras(locale)}\n</head>`)
     .replaceAll('<!--chth-lang-->', languageSwitcher(locale))
-    .replaceAll('<!--chth-footer-->', chthFooter(locale));
+    .replaceAll('<!--chth-theme-->', themeToggleHtml(locale))
+    .replaceAll('<!--chth-footer-->', chthFooter(locale))
+    .replace('</body>', () => `<script>${SHELL_JS}</script>\n</body>`);
   // "Forward" arrows point left in the RTL design.
   return dirOf(locale) === 'ltr' ? page.replaceAll('↖', '↗') : page;
 }

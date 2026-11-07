@@ -1293,28 +1293,6 @@ export function renderThemeStyles(): string {
         border-top: 1px solid var(--line);
       }
 
-      html .toast {
-        display: flex;
-        align-items: center;
-        gap: 0.625rem;
-        padding: 0.625rem 1rem 0.625rem 0.875rem;
-        font-size: 0.8125rem;
-        font-weight: 600;
-        color: var(--text);
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--r-md);
-        box-shadow: var(--shadow-pop);
-      }
-      html .toast i[data-lucide] { width: 1rem; height: 1rem; }
-      html .toast-success i[data-lucide] { color: var(--done); }
-      html .toast-error i[data-lucide] { color: var(--danger); }
-      html .toast-warning i[data-lucide] { color: var(--gold); }
-      html .toast-info i[data-lucide] { color: var(--steel); }
-
-      #toast-notification {
-        transition: opacity 250ms var(--ease-out), transform 250ms var(--ease-out) !important;
-      }
 
       /* Rest timer: rises from the bottom edge it is pinned to, and leaves the same way */
       .rest-timer {

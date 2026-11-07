@@ -90,12 +90,6 @@ export function renderPublicPatterns(scope: string): string {
       --accent-soft:color-mix(in srgb,var(--accent) 10%,transparent);
       --shadow-control:inset 0 1px 0 rgba(255,255,255,0.7),0 1px 2px rgba(16,17,19,0.08);
     }
-    /* Theme toggle (landing only): the icon shows the theme it switches to */
-    ${scope} .site-theme { display:inline-grid; place-items:center; flex:none; width:2.5rem; height:2.5rem; padding:0; border:1px solid var(--line-strong); border-radius:var(--r-full); background:transparent; color:var(--text-2); cursor:pointer; transition:background-color var(--dur-fast) ease,color var(--dur-fast) ease,transform var(--dur-press) var(--ease-out); }
-    ${scope} .site-theme:active { transform:scale(0.92) rotate(-20deg); }
-    ${scope} .site-theme svg { width:1.15rem; height:1.15rem; }
-    ${scope} .site-theme .is-moon, html.light ${scope} .site-theme .is-sun { display:none; }
-    html.light ${scope} .site-theme .is-moon { display:block; }
     ${scope} ::selection { background:var(--accent); color:var(--on-accent); }
     ${scope} :is(a,button):focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:var(--r-sm); }
     ${scope} :is(h1,h2,h3) { text-wrap:balance; }
@@ -161,7 +155,6 @@ export function renderPublicPatterns(scope: string): string {
       ${scope} .public-button:hover span { transform:translate(-2px,-2px); }
       ${scope} button.public-chip:not([aria-pressed="true"]):hover { border-color:var(--text-3); color:var(--text); }
       ${scope} .site-link:not([aria-current]):hover { color:var(--text); }
-      ${scope} .site-theme:hover { background:var(--surface-2); color:var(--text); }
       ${scope} .public-card.is-interactive { transition:border-color var(--dur-fast) ease; }
       ${scope} .public-card.is-interactive:is(:hover,:focus-within) { border-color:var(--line-strong); }
     }
@@ -177,13 +170,11 @@ function navCurrent(path: string, href: string): string {
 }
 
 // The same nav on / and /programs/*; only aria-current changes.
-const SUN_SVG = '<svg class="is-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
-const MOON_SVG = '<svg class="is-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
 
 // The landing shares the app's document, so its toggle uses the app's toggleTheme().
 export function renderPublicNav(path: string, opts: { themeToggle?: boolean } = {}): string {
   const current = (href: string) => navCurrent(path, href);
-  const theme = opts.themeToggle ? `<button type="button" class="site-theme" onclick="toggleTheme()" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب">${SUN_SVG}${MOON_SVG}</button>` : '';
+  const theme = opts.themeToggle ? '<!--chth-theme-->' : '';
   return `<nav class="site-nav" aria-label="ناوبری اصلی">
       <a class="site-brand" href="/"${current('/')}>${BRAND_MARK_SVG}<span>جسم و اندیشه</span></a>
       <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a><span class="site-tools"><!--chth-lang-->${theme}</span></div>

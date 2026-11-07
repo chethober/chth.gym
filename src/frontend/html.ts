@@ -49,8 +49,9 @@ export function renderAppHtml(): string {
   <script>
     (function() {
       try {
-        var t = localStorage.getItem('jesm_theme') || 'dark';
+        var t = localStorage.getItem('jesm_theme') || localStorage.getItem('chth_theme') || 'dark';
         var isDark = t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
         if (isDark) {
           document.documentElement.classList.add('dark');
           document.documentElement.classList.remove('light');
@@ -878,30 +879,10 @@ ${renderInstallCard()}
       'general_health': 'سلامتی عمومی'
     };
 
-    // --- Modular Toast Notifications ---
+    // --- Toasts: the shared CHTH toast (kit shell); 'error' is the kit's 'danger' ---
     function showNotification(message, type = 'success') {
-      const toast = document.getElementById('toast-notification');
-      const msgEl = document.getElementById('toast-message');
-      const card = document.getElementById('toast-card');
-      const iconWrap = document.getElementById('toast-icon-wrap');
-
-      if (!toast || !msgEl || !card) return;
-
-      msgEl.innerText = message;
-
-      const toastIcons = { error: 'alert-circle', warning: 'alert-triangle', info: 'info', success: 'check-circle-2' };
-      const kind = toastIcons[type] ? type : 'success';
-      card.className = 'toast toast-' + kind;
-      iconWrap.innerHTML = '<i data-lucide="' + toastIcons[kind] + '"></i>';
-
-      lucide.createIcons();
-
-      toast.classList.remove('opacity-0', '-translate-y-2');
-      toast.classList.add('opacity-100', 'translate-y-0');
-      setTimeout(() => {
-        toast.classList.add('opacity-0', '-translate-y-2');
-        toast.classList.remove('opacity-100', 'translate-y-0');
-      }, 3200);
+      const kind = type === 'error' ? 'danger' : (['success', 'warning', 'info'].includes(type) ? type : 'success');
+      if (window.chthToast) window.chthToast[kind](message);
     }
 
     function showToast(message, type = 'success') {
@@ -1024,7 +1005,7 @@ ${renderInstallCard()}
 
     // --- Theme Engine (Dark / Light / System Mode) ---
     function initTheme() {
-      const stored = localStorage.getItem('jesm_theme') || 'dark';
+      const stored = localStorage.getItem('jesm_theme') || localStorage.getItem('chth_theme') || 'dark';
       applyPrefs(getPrefs());
       applyTheme(stored, false);
       
@@ -1044,7 +1025,10 @@ ${renderInstallCard()}
       else update();
     }
 
-    function applyTheme(mode, save = true) {
+    // The shared CHTH theme toggle (kit shell) paints through this engine, inside its own transition.
+    window.chthApplyTheme = function (mode) { applyTheme(mode, true, false); };
+
+    function applyTheme(mode, save = true, fade = true) {
       const root = document.documentElement;
 
       let isDark = true;
@@ -1058,6 +1042,7 @@ ${renderInstallCard()}
 
       if (save) {
         localStorage.setItem('jesm_theme', mode);
+        if (mode !== 'system') localStorage.setItem('chth_theme', mode);
       }
 
       const swap = () => {
@@ -1068,7 +1053,8 @@ ${renderInstallCard()}
         lucide.createIcons();
       };
       // Page load and picking "system" while it already matches change nothing to fade
-      if (root.classList.contains('dark') === isDark) swap();
+      root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      if (!fade || root.classList.contains('dark') === isDark) swap();
       else crossfade(swap);
     }
 

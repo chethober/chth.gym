@@ -49,10 +49,7 @@ export function renderTopNavbar(): string {
 
         <div class="flex items-center gap-2 shrink-0">
           <!--chth-lang-->
-          <button type="button" onclick="toggleTheme()" id="theme-toggle-btn-d" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب" class="btn-icon btn-ghost">
-            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-            <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
-          </button>
+          <!--chth-theme-->
           <div id="desktop-top-auth" class="flex items-center gap-2">
             <!-- Injected dynamically via JS -->
           </div>
@@ -73,10 +70,7 @@ export function renderMobileTopHeader(): string {
 
       <div class="flex items-center gap-1.5">
         <!--chth-lang-->
-        <button type="button" onclick="toggleTheme()" id="theme-toggle-btn-m" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب" class="btn-icon btn-ghost">
-          <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-          <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
-        </button>
+        <!--chth-theme-->
         <div id="mobile-top-auth" class="flex items-center gap-2">
           <!-- Populated by JS -->
         </div>
@@ -118,34 +112,6 @@ export function renderMobileBottomNav(): string {
 
 export function renderToastAndDialogs(): string {
   return `
-    <!-- Toast Stack -->
-    <div id="toast-notification" role="status" aria-live="polite" class="fixed top-4 md:top-20 left-1/2 -translate-x-1/2 z-[60] pointer-events-none opacity-0 -translate-y-2">
-      <div id="toast-card" class="toast toast-success">
-        <div id="toast-icon-wrap" class="flex">
-          <i data-lucide="check-circle-2"></i>
-        </div>
-        <span id="toast-message">عملیات با موفقیت انجام شد</span>
-      </div>
-    </div>
-
-    <!-- Ongoing Exercise Detail Modal (before the dialog + rest timer so both stack above it) -->
-    <div id="ex-sheet-modal" class="modal-backdrop hidden" onclick="if (event.target === this) closeExerciseSheet()">
-      <div role="dialog" aria-modal="true" aria-labelledby="ex-sheet-title" class="modal-panel max-w-md max-h-[90vh] overflow-y-auto">
-        <div id="ex-sheet-media" class="ex-sheet-media"></div>
-        <div class="p-5 space-y-4">
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-              <h3 id="ex-sheet-title" class="text-base font-black text-white"></h3>
-              <p id="ex-sheet-subtitle" class="text-[11px] text-zinc-400 font-mono mt-0.5 text-right" dir="ltr"></p>
-            </div>
-            <button onclick="closeExerciseSheet()" class="btn-icon btn-ghost shrink-0" aria-label="بستن">
-              <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-          </div>
-          <div id="ex-sheet-controls"></div>
-          <div id="ex-sheet-info" class="space-y-3"></div>
-        </div>
-      </div>
     </div>
 
     <!-- Modular Dialogue Box Modal -->

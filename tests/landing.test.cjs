@@ -6,13 +6,13 @@ require.extensions['.ts'] = (mod, filename) => mod._compile(ts.transpileModule(f
 const html = require('../src/frontend/html.ts').renderAppHtml();
 assert.match(html, /id="dashboard-shell" hidden/);
 assert.match(html, /id="landing-page"/);
-// The landing nav has the theme toggle (the app's toggleTheme) and the language menu slot; the landing
+// The landing nav has the shared theme toggle slot and the language menu slot; the landing
 // follows html.light instead of staying graphite. /programs pages get neither toggle nor light theme.
 const nav = html.slice(html.indexOf('<nav class="site-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="site-nav"')));
-assert.match(nav, /<!--chth-lang--><button type="button" class="site-theme" onclick="toggleTheme\(\)"/);
+assert.match(nav, /<!--chth-lang--><!--chth-theme-->/);
 assert.match(html, /html\.light #landing-page \{\s*color-scheme:light;/);
 assert.doesNotMatch(html, /html\.light:has\(#landing-page/);
-assert.doesNotMatch(require('../src/frontend/appearanceUi.ts').renderPublicNav('/programs'), /site-theme/);
+assert.doesNotMatch(require('../src/frontend/appearanceUi.ts').renderPublicNav('/programs'), /chth-theme/);
 // Both app top bars carry the language menu; the settings card no longer does.
 assert.equal((html.match(/<!--chth-lang-->/g) || []).length, 3);
 assert.equal((html.match(/class="landing-button landing-primary[^"]*" href="\/api\/auth\/google"/g) || []).length, 2);
