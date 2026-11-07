@@ -298,7 +298,7 @@ export function renderThemeStyles(): string {
 
       /* Component selectors are specific; plain .hidden must still win.
          Responsive/dark variants (hidden md:flex, hidden dark:block) are left to Tailwind. */
-      html .hidden:not([class*="sm:"]):not([class*="md:"]):not([class*="lg:"]):not([class*="dark:"]) { display: none; }
+      html .hidden:not([class*="sm:"]):not([class*="md:"]):not([class*="lg:"]):not([class*="xl:"]):not([class*="dark:"]) { display: none; }
 
       /* ==========================================================================
          2. Base & Typography
@@ -541,6 +541,12 @@ export function renderThemeStyles(): string {
         html .btn-icon-danger:hover { background: var(--danger-soft) !important; color: var(--danger) !important; }
       }
 
+      /* The language globe in the app bars matches the borderless icon buttons beside it */
+      html .app-topbar .chth-lang-menu > summary {
+        width: 2.25rem; height: 2.25rem; border-color: transparent; border-radius: var(--r-md); color: var(--text-2);
+      }
+      html .app-topbar .chth-lang-menu > summary svg { width: 1rem; height: 1rem; }
+
       /* Text link button */
       html .link-btn {
         display: inline-flex;
@@ -700,7 +706,8 @@ export function renderThemeStyles(): string {
         box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--swatch);
       }
       html .swatch.is-selected i[data-lucide], html .swatch.is-selected svg { opacity: 1; transform: none; }
-      .swatch-row { display: flex; flex-wrap: wrap; gap: 0.75rem; padding: 0.25rem; }
+      /* All seven fit one line on a phone; spread evenly up to a comfortable width */
+      .swatch-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; max-width: 22rem; padding: 0.25rem; }
 
       /* Settings rows: label on one side, control on the other */
       .pref-row {
@@ -1081,16 +1088,27 @@ export function renderThemeStyles(): string {
         color: var(--text-3);
         font-variant-numeric: tabular-nums;
       }
-      /* Narrow lists (phones, large text): the name gets the full width and the
-         controls drop to a second line, lined up under the name */
+      /* Phones: the controls stay on the name's line; the thumbnail goes (the popup shows it).
+         Only very narrow lists (huge text) drop the controls to a second line. */
       html .ex-list { container: exlist / inline-size; }
       @container exlist (max-width: 26rem) {
+        html .ex-row { gap: 0.375rem; padding-inline: 0.625rem; }
+        html .ex-row-thumb { display: none; }
+        html .ex-row .rep-pill-btn { width: 1.625rem; height: 1.625rem; }
+        html .ex-row .set-ring { width: 2.5rem; height: 2.5rem; }
+      }
+      @container exlist (max-width: 16rem) {
         html .ex-row { flex-wrap: wrap; row-gap: 0.5rem; }
         html .ex-row-main { flex-basis: 100%; }
-        html .ex-row .rep-pill { margin-inline-start: 3.25rem; }
         html .ex-row .set-ring { margin-inline-start: auto; }
       }
-      /* "Last session" sits on its own line inside the clipped meta; it ellipsizes too */
+      /* Weight after the sets × reps, split by a thin rule (a middle dot reads as a Persian zero) */
+      html .ex-row-meta [data-weight-label-for]:not(:empty) {
+        margin-inline-start: 0.375rem;
+        padding-inline-start: 0.375rem;
+        border-inline-start: 1px solid var(--line-strong);
+      }
+      /* The superset note sits on its own line inside the clipped meta; it ellipsizes too */
       html .ex-row-meta > .block { overflow: hidden; text-overflow: ellipsis; }
       html .ex-row.is-done .ex-row-name {
         color: var(--text-3);
@@ -1353,6 +1371,15 @@ export function renderThemeStyles(): string {
         transition: transform var(--dur-base) var(--ease-out);
       }
       .nav-desktop-btn.is-active .nav-underline { transform: scaleX(1); }
+      /* Tablets: icon-only sections, a dot for the live workout, avatar-only account chip */
+      @media (max-width: 1023px) {
+        .nav-desktop-btn { padding: 0 0.75rem; }
+        .nav-desktop-btn .nav-underline { inset-inline: 0.5rem; }
+      }
+      @media (max-width: 1279px) {
+        .nav-desktop-btn .badge-live { font-size: 0; width: 0.5rem; height: 0.5rem; min-width: 0; padding: 0; border-radius: 9999px; }
+        #nav-d-profile:not(.no-avatar) { padding: 0.125rem !important; }
+      }
 
       .app-bottomnav {
         background: color-mix(in srgb, var(--surface) 88%, transparent);

@@ -9,40 +9,40 @@ export function renderTopNavbar(): string {
   return `
     <!-- Desktop top bar -->
     <header class="hidden md:block fixed top-0 inset-x-0 z-40 app-topbar">
-      <div class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-stretch justify-between gap-6">
+      <div class="max-w-6xl mx-auto px-4 lg:px-8 h-16 flex items-stretch justify-between gap-3 lg:gap-6">
 
         <button type="button" class="flex items-center gap-2.5 shrink-0" onclick="switchTab('dashboard')" aria-label="داشبورد">
           ${BRAND_MARK_SVG}
-          <span class="brand-word">جسم و اندیشه</span>
+          <span class="brand-word hidden lg:inline">جسم و اندیشه</span>
         </button>
 
         <!-- Same order as the mobile bar (RTL): suggestions, movements, dashboard, plan, history -->
-        <nav class="flex items-stretch" aria-label="بخش‌های اصلی">
+        <nav class="flex items-stretch min-w-0" aria-label="بخش‌های اصلی">
           <button onclick="switchTab('presets')" id="nav-d-presets" class="nav-desktop-btn">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
-            <span>پیشنهادها</span>
+            <span class="sr-only lg:not-sr-only">پیشنهادها</span>
             <span class="nav-underline"></span>
           </button>
           <button onclick="switchTab('movements')" id="nav-d-movements" class="nav-desktop-btn">
             <i data-lucide="dumbbell" class="w-4 h-4"></i>
-            <span>حرکات</span>
+            <span class="sr-only lg:not-sr-only">حرکات</span>
             <span id="nav-draft-count-badge" class="hidden badge badge-emerald">۰</span>
             <span class="nav-underline"></span>
           </button>
           <button onclick="switchTab('dashboard')" id="nav-d-dashboard" class="nav-desktop-btn is-active">
             <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-            <span>داشبورد</span>
+            <span class="sr-only lg:not-sr-only">داشبورد</span>
             <span id="active-badge-d" class="hidden badge badge-live">در حال تمرین</span>
             <span class="nav-underline"></span>
           </button>
           <button onclick="switchTab('plan')" id="nav-d-plan" class="nav-desktop-btn">
             <i data-lucide="calendar-days" class="w-4 h-4"></i>
-            <span>برنامه</span>
+            <span class="sr-only lg:not-sr-only">برنامه</span>
             <span class="nav-underline"></span>
           </button>
           <button onclick="switchTab('history')" id="nav-d-history" class="nav-desktop-btn">
             <i data-lucide="history" class="w-4 h-4"></i>
-            <span>تاریخچه</span>
+            <span class="sr-only lg:not-sr-only">تاریخچه</span>
             <span class="nav-underline"></span>
           </button>
         </nav>

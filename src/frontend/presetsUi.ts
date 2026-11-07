@@ -200,13 +200,13 @@ export function renderProfileSuggestionsBanner(): string {
   return `
     <!-- Personalized Workout Recommendations Callout Banner -->
     <div id="profile-suggested-workouts-banner" class="card-glass p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 card-accent">
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 min-w-0">
         <div class="icon-box icon-box-emerald w-10 h-10 shrink-0">
           <i data-lucide="sparkles" class="w-5 h-5 text-accent"></i>
         </div>
-        <div>
-          <h4 class="text-xs font-bold text-white flex items-center gap-2">
-            <span>برنامه‌های تمرینی توصیه شده برای شما</span>
+        <div class="min-w-0">
+          <h4 class="text-xs font-bold text-white flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>پیشنهاد برای شما</span>
             <span id="prof-suggest-bmi-tag" class="badge badge-emerald hidden"></span>
           </h4>
           <p id="prof-suggest-banner-desc" class="text-[11px] text-zinc-300 mt-0.5">
@@ -606,21 +606,21 @@ export function renderPresetsClientScript(): string {
             moreExercisesAction +
           '</div>' +
         '</div>' +
-        '<div class="pt-3 divider-top flex flex-wrap items-center justify-between gap-2">' +
-          '<div class="flex flex-wrap items-center gap-1.5">' +
-            '<button type="button" onclick="importPresetToMyRoutines(\\'' + preset.id + '\\')" title="افزودن به برنامه‌های من" class="btn btn-secondary btn-sm">' +
+        '<div class="pt-3 divider-top flex items-center justify-between gap-2">' +
+          '<div class="flex items-center gap-1.5">' +
+            '<button type="button" onclick="importPresetToMyRoutines(\\'' + preset.id + '\\')" title="افزودن به برنامه‌های من" aria-label="افزودن به برنامه‌های من" class="btn btn-secondary btn-sm">' +
               '<i data-lucide="bookmark-plus" class="w-3.5 h-3.5 text-accent"></i>' +
-              '<span>ذخیره در برنامه‌ها</span>' +
+              '<span class="hidden xl:inline">ذخیره در برنامه‌ها</span>' +
             '</button>' +
-            '<button type="button" onclick="loadPresetIntoBuilder(\\'' + preset.id + '\\')" title="ویرایش و شخصی‌سازی در طراح" class="btn btn-ghost btn-sm">' +
+            '<button type="button" onclick="loadPresetIntoBuilder(\\'' + preset.id + '\\')" title="ویرایش و شخصی‌سازی در طراح" aria-label="ویرایش و شخصی‌سازی در طراح" class="btn btn-ghost btn-sm">' +
               '<i data-lucide="edit-3" class="w-3.5 h-3.5"></i>' +
-              '<span class="hidden sm:inline">شخصی‌سازی</span>' +
+              '<span class="hidden xl:inline">شخصی‌سازی</span>' +
             '</button>' +
-            '<button type="button" onclick="sharePreset(\\'' + preset.id + '\\')" title="اشتراک‌گذاری و کد QR" class="btn btn-ghost btn-sm">' +
+            '<button type="button" onclick="sharePreset(\\'' + preset.id + '\\')" title="اشتراک‌گذاری و کد QR" aria-label="اشتراک‌گذاری و کد QR" class="btn btn-ghost btn-sm">' +
               '<i data-lucide="qr-code" class="w-3.5 h-3.5"></i>' +
             '</button>' +
           '</div>' +
-          '<button type="button" onclick="startPresetWorkout(\\'' + preset.id + '\\')" class="btn btn-primary btn-sm">' +
+          '<button type="button" onclick="startPresetWorkout(\\'' + preset.id + '\\')" class="btn btn-primary btn-sm shrink-0">' +
             '<i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>' +
             '<span>اجرای تمرین</span>' +
           '</button>' +
