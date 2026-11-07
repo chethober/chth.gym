@@ -142,9 +142,15 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} .site-link { display:inline-flex; align-items:center; min-height:2.75rem; color:var(--text-2); font-size:0.875rem; font-weight:500; text-decoration:none; white-space:nowrap; transition:color var(--dur-fast) ease; }
     ${scope} .site-link[aria-current] { color:var(--accent-text); }
     ${scope} .site-nav .public-button { min-height:2.75rem; padding:0.5rem 1rem; font-size:0.875rem; white-space:nowrap; }
+    /* Language and theme: round icon buttons kept close together */
+    ${scope} .site-tools { display:flex; align-items:center; gap:0.5rem; }
     @media (max-width:640px) {
+      ${scope} .site-nav { gap:0.5rem; padding-block:0.75rem; }
       ${scope} .site-brand { font-size:0.9375rem; gap:0.5rem; } ${scope} .site-brand svg { width:1.75rem; height:1.75rem; }
-      ${scope} .site-links { gap:0.875rem; } ${scope} .site-link { font-size:0.8125rem; }
+      ${scope} .site-links { gap:0.625rem; } ${scope} .site-link { font-size:0.8125rem; }
+      ${scope} .site-nav .public-button { min-height:2.5rem; padding:0.375rem 0.75rem; font-size:0.8125rem; }
+      ${scope} .site-nav .public-button span { display:none; }
+      ${scope} .site-tools { gap:0.375rem; }
     }
     /* Narrow phones: the mark alone carries the brand so the links keep one row */
     @media (max-width:400px) { ${scope} .site-nav .site-brand span { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; } }
@@ -180,7 +186,7 @@ export function renderPublicNav(path: string, opts: { themeToggle?: boolean } = 
   const theme = opts.themeToggle ? `<button type="button" class="site-theme" onclick="toggleTheme()" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب">${SUN_SVG}${MOON_SVG}</button>` : '';
   return `<nav class="site-nav" aria-label="ناوبری اصلی">
       <a class="site-brand" href="/"${current('/')}>${BRAND_MARK_SVG}<span>جسم و اندیشه</span></a>
-      <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a><!--chth-lang-->${theme}</div>
+      <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a><span class="site-tools"><!--chth-lang-->${theme}</span></div>
     </nav>`;
 }
 

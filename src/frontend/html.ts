@@ -136,13 +136,13 @@ export function renderAppHtml(): string {
               <span id="hero-goal-badge">هدف: تنظیم نشده</span>
             </button>
           </div>
-          <div class="flex flex-wrap items-center gap-2.5 pt-1">
-            <button onclick="startQuickWorkout()" class="btn btn-primary btn-lg">
+          <div class="flex items-center gap-2.5 pt-1">
+            <button onclick="startQuickWorkout()" class="btn btn-primary btn-lg flex-1 sm:flex-none">
               <i data-lucide="play" class="w-4 h-4 fill-current"></i>
-              <span>شروع تمرین آزاد</span>
+              <span>تمرین آزاد</span>
             </button>
-            <button onclick="switchTab('movements')" class="btn btn-secondary btn-lg">
-              <span>انتخاب از برنامه‌ها</span>
+            <button onclick="switchTab('movements')" class="btn btn-secondary btn-lg flex-1 sm:flex-none">
+              <span>برنامه‌های من</span>
             </button>
           </div>
         </div>
@@ -160,9 +160,9 @@ export function renderAppHtml(): string {
         <div class="card-glass p-5 md:p-6 space-y-5 card-accent">
           
           <!-- Active Workout Header -->
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-4 border-[color:var(--line)]">
-            <div class="flex items-center gap-3.5">
-              <div class="icon-box icon-box-emerald w-11 h-11">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b pb-4 border-[color:var(--line)]">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="icon-box icon-box-emerald w-11 h-11 shrink-0">
                 <i data-lucide="list-checks" class="w-5 h-5 text-accent"></i>
               </div>
               <div>
@@ -177,15 +177,15 @@ export function renderAppHtml(): string {
               </div>
             </div>
 
-            <!-- Action Controls -->
-            <div class="flex flex-wrap items-center gap-2">
-              <button onclick="openAddExerciseToSessionModal()" class="btn btn-secondary btn-md">
+            <!-- Action Controls: one row on every width -->
+            <div class="flex items-center gap-2">
+              <button onclick="openAddExerciseToSessionModal()" title="افزودن حرکت" class="btn btn-secondary btn-md">
                 <i data-lucide="plus" class="w-4 h-4 text-accent"></i>
-                <span>افزودن حرکت</span>
+                <span>حرکت</span>
               </button>
-              <button onclick="finishActiveWorkout()" class="btn btn-primary btn-md">
+              <button onclick="finishActiveWorkout()" class="btn btn-primary btn-md flex-1 md:flex-none">
                 <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                <span>پایان و ثبت تمرین</span>
+                <span>پایان تمرین</span>
               </button>
               <button onclick="discardActiveWorkout()" title="لغو تمرین" class="btn btn-danger btn-icon">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
@@ -1358,9 +1358,9 @@ ${renderInstallCard()}
 
       if (desktopTopAuth) {
         desktopTopAuth.innerHTML = \`
-          <button onclick="switchTab('profile')" id="nav-d-profile" title="پروفایل و اهداف" class="account-chip\${activeCls}">
+          <button onclick="switchTab('profile')" id="nav-d-profile" title="پروفایل و اهداف" aria-label="پروفایل و اهداف" class="account-chip\${activeCls}">
             <img src="\${escapeHtml(avatar)}" class="w-7 h-7 rounded-full object-cover shrink-0" alt="" onerror="avatarFallback(this)">
-            <span class="max-w-[110px] truncate">\${escapeHtml(user.name || 'حساب کاربری')}</span>
+            <span class="hidden xl:inline max-w-[110px] truncate">\${escapeHtml(user.name || 'حساب کاربری')}</span>
           </button>
           <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
@@ -1729,7 +1729,7 @@ ${renderInstallCard()}
     }
 
     function formatOngoingWeight(kg) {
-      return kg > 0 ? '· ' + toPersianDigits(kg) + ' کیلو' : '';
+      return kg > 0 ? toPersianDigits(kg) + ' کیلو' : '';
     }
 
     function adjustOngoingWeight(exerciseId, delta) {
@@ -1739,7 +1739,7 @@ ${renderInstallCard()}
       autoSeededInputs.delete(exerciseId);
       currentExerciseWeights[exerciseId] = newVal;
       document.querySelectorAll(\`[data-weight-for="\${exerciseId}"]\`).forEach(el => rollValue(el, toPersianDigits(newVal), delta));
-      document.querySelectorAll(\`[data-weight-label-for="\${exerciseId}"]\`).forEach(el => { el.innerText = formatOngoingWeight(newVal); });
+      document.querySelectorAll(\`[data-weight-label-for="\${exerciseId}"]\`).forEach(el => { el.innerText = formatOngoingWeight(newVal); el.classList.remove('text-accent'); });
       refreshBarbellTools(exerciseId);
     }
 
@@ -1878,6 +1878,8 @@ ${renderInstallCard()}
     function renderOngoingExerciseItem(item, exIdx, justDone = false) {
       const { totalSets, completedSetsCount, isAllDone } = getOngoingItemSets(item);
       seedOngoingInputs(item);
+      // Today's suggestion seeds the reps and weight, so the row shows it by tinting them
+      const suggestion = progressionSuggestion(item);
       const weight = currentExerciseWeights[item.id];
       const reps = currentExerciseReps[item.id];
 
@@ -1898,10 +1900,8 @@ ${renderInstallCard()}
               <span class="ex-row-name">\${escapeHtml(item.name_fa)}</span>
               <span class="ex-row-meta">
                 \${toPersianDigits(item.target_sets)} × \${toPersianDigits(item.target_reps)}
+                <span data-weight-label-for="\${item.id}" \${suggestion ? \`class="text-accent" title="\${formatSuggestion(suggestion)}"\` : ''}>\${formatOngoingWeight(weight)}\${suggestion && suggestion.reason === 'increase' ? ' ↑' : ''}</span>
                 \${item.superset_next ? '<span class="block text-accent">سوپرست با حرکت بعد</span>' : ''}
-                \${progressionSuggestion(item) ? \`<span class="block text-accent">\${formatSuggestion(progressionSuggestion(item))}</span>\` : ''}
-                \${previousExerciseLogs[item.id] ? \`<span class="block">جلسه قبل: \${toPersianDigits(previousExerciseLogs[item.id].weight_kg)} کیلو × \${toPersianDigits(previousExerciseLogs[item.id].reps)}</span>\` : ''}
-                <span data-weight-label-for="\${item.id}">\${formatOngoingWeight(weight)}</span>
               </span>
             </span>
           </button>
@@ -1968,7 +1968,14 @@ ${renderInstallCard()}
       document.getElementById('ex-sheet-title').innerText = item.name_fa;
       document.getElementById('ex-sheet-subtitle').innerText = item.name_en || ex?.name_en || '';
 
-      document.getElementById('ex-sheet-info').innerHTML = ex ? \`
+      // Last session and today's suggestion live here; the list row stays one line
+      const prev = previousExerciseLogs[item.id];
+      const suggestion = progressionSuggestion(item);
+      const prevHtml = (prev || suggestion) ? \`<div class="text-[12px] text-zinc-400 flex flex-wrap gap-x-4 gap-y-1">
+          \${suggestion ? \`<span class="text-accent">\${formatSuggestion(suggestion)}</span>\` : ''}
+          \${prev ? \`<span>جلسه قبل: <span class="text-zinc-200">\${toPersianDigits(prev.weight_kg)} کیلو × \${toPersianDigits(prev.reps)}</span></span>\` : ''}
+        </div>\` : '';
+      document.getElementById('ex-sheet-info').innerHTML = prevHtml + (ex ? \`
         <div class="text-[12px] text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
           <p><span class="text-emerald-400 font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles || '—'}</span></p>
           \${ex.secondary_muscles ? \`<p><span class="text-zinc-400 font-medium">عضلات کمکی:</span> <span class="text-zinc-300">\${ex.secondary_muscles}</span></p>\` : ''}
@@ -1981,7 +1988,7 @@ ${renderInstallCard()}
           </h4>
           <p class="text-[12px] text-zinc-300 whitespace-pre-line leading-relaxed" \${ex.instructions_fa ? '' : 'dir="ltr"'}>\${guide}</p>
         </div>\` : ''}
-      \` : '';
+      \` : '');
 
       const isOpen = exerciseSheetId !== null;
       exerciseSheetId = exerciseId;
