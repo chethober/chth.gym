@@ -11,7 +11,8 @@ export function renderLandingStyles(): string {
     #landing-page a { text-decoration:none; }
 
     /* Hero */
-    .landing-hero { min-height:min(56rem,calc(100svh - 5.75rem)); position:relative; display:flex; align-items:center; justify-content:center; padding:6rem 1.5rem 7.5rem; text-align:center; isolation:isolate; overflow:hidden; }
+    /* The ring runs up behind the CHTH navbar, so the top of the page reads as one surface */
+    .landing-hero { min-height:min(calc(56rem + var(--chth-nav-space)),100svh); margin-top:calc(-1 * var(--chth-nav-space)); position:relative; display:flex; align-items:center; justify-content:center; padding:calc(6rem + var(--chth-nav-space)) 1.5rem 7.5rem; text-align:center; isolation:isolate; overflow:hidden; }
     /* One accent: the ring is the user's accent at stepped strengths, not a rainbow */
     .landing-ring { width:min(86vw,65rem); aspect-ratio:1; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); border-radius:50%; z-index:-1;
       background:conic-gradient(from -35deg, var(--accent), color-mix(in srgb,var(--accent) 55%,var(--surface-3)) 90deg, color-mix(in srgb,var(--accent) 18%,var(--surface)) 180deg, color-mix(in srgb,var(--accent) 55%,var(--surface-3)) 270deg, var(--accent));
@@ -80,7 +81,7 @@ export function renderLandingStyles(): string {
     }
     @media(max-width:1000px) and (min-width:761px) { .landing-card { padding:2.25rem 1.5rem; } .landing-card h3 { font-size:1.75rem; } .landing-demo { gap:2rem; padding:2.25rem; } }
     @media(max-width:760px) {
-      .landing-hero { min-height:42.5rem; padding:6.25rem 1.25rem; }
+      .landing-hero { min-height:calc(42.5rem + var(--chth-nav-space)); padding:calc(6.25rem + var(--chth-nav-space)) 1.25rem 6.25rem; }
       .landing-ring { width:130vw; max-width:40.625rem; mask:radial-gradient(farthest-side,transparent calc(100% - 18px),#000 calc(100% - 17px)),repeating-conic-gradient(#000 0deg 18deg,transparent 18deg 20deg); mask-composite:intersect; }
       .landing-hero h1 { font-size:clamp(3.625rem,13vw,5.75rem); } .landing-subtitle { font-size:1.125rem; }
       .landing-manifesto { padding:5rem 1.25rem; }
