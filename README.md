@@ -163,11 +163,14 @@ every CHTH site); otherwise the browser's languages decide, with Persian as the 
 ## CHTH kit and hub
 
 `src/chth-kit/` is generated from the shared CHTH kit (brand tokens, logo, languages, product
-links, footer): don't edit it here. The optional CHTH hub integration (`src/hub.ts`) reports
+links, footer, and the CHTH shell: the theme toggle, toasts, the app switcher, the banner and the
+essential-cookies notice): don't edit it here. Every page ends its header with the shared tools
+(`<!--chth-lang-->`, `<!--chth-theme-->`, `<!--chth-apps-->`, filled in by `finishPage()`), and
+`showNotification()` shows the shared toasts. The optional CHTH hub integration (`src/hub.ts`) reports
 sign-ups, finished workouts, tagged visits and server errors, and answers the hub's signed calls:
 `GET /internal/stats` (including growth, activation and retention counts for its 📣 Marketing
-screen) and `POST /internal/announcement` (the site banner, kept in KV and shown at the top of
-every page). Visits tagged `?ref=` are remembered for 30 days, so a later sign-up counts for that
+screen) and `POST /internal/announcement` (the site banner from the hub's 📢 Banners, kept in KV and shown
+at the top of every page). Visits tagged `?ref=` are remembered for 30 days, so a later sign-up counts for that
 campaign.
 
 Set `HUB_SECRET` (`wrangler secret put HUB_SECRET`, the same value as `gym` in the hub's
