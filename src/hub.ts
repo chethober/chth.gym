@@ -8,6 +8,8 @@
 
 import type { Context } from 'hono';
 import { createReporter, verifySigned } from './chth-kit/hub.js';
+import { bannerHtml as kitBannerHtml, parseAnnouncement } from './chth-kit/shell.js';
+import type { Locale } from './chth-kit/locales.js';
 import type { Env } from './types';
 
 type Ctx = Context<{ Bindings: Env; Variables: any }>;
@@ -128,31 +130,18 @@ export async function announcementResponse(c: Ctx): Promise<Response> {
   if (!signed) return c.json({ ok: false, error: 'forbidden' }, 403);
   let body: { text?: unknown; url?: unknown };
   try { body = JSON.parse(signed.body || '{}'); } catch { return c.json({ ok: false, error: 'bad JSON' }, 400); }
-  const text = String(body.text ?? '').trim();
-  const url = String(body.url ?? '').trim();
-  if (!text) {
+  const parsed = parseAnnouncement(body);
+  if (!parsed.ok) return c.json({ ok: false, error: parsed.error }, 400);
+  if (!parsed.announcement) {
     await c.env.KV_SESSIONS.delete(ANNOUNCEMENT_KEY);
     return c.json({ ok: true, announcement: null });
   }
-  if (text.length > 200) return c.json({ ok: false, error: 'The banner can be up to 200 characters.' }, 400);
-  if (url && !/^https:\/\/[^\s"'<>]+$/.test(url)) return c.json({ ok: false, error: 'The link must start with https://' }, 400);
-  const announcement: Announcement = { text, url: url || null };
-  await c.env.KV_SESSIONS.put(ANNOUNCEMENT_KEY, JSON.stringify(announcement));
-  return c.json({ ok: true, announcement });
+  await c.env.KV_SESSIONS.put(ANNOUNCEMENT_KEY, JSON.stringify(parsed.announcement));
+  return c.json({ ok: true, announcement: parsed.announcement });
 }
 
-const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]!));
-
-/** The banner strip, closable per visitor (it comes back when the text changes). */
-export function bannerHtml(a: Announcement | null): string {
-  if (!a) return '';
-  const id = Array.from(a.text + (a.url ?? '')).reduce((h, ch) => (h * 31 + ch.codePointAt(0)!) >>> 0, 7).toString(36);
-  const text = escapeHtml(a.text);
-  const body = a.url ? `<a href="${escapeHtml(a.url)}" style="color:inherit;text-decoration:underline">${text}</a>` : text;
-  return `<div id="chth-banner" data-id="${id}" role="status" style="display:flex;align-items:center;justify-content:center;gap:.75rem;padding:.5rem 1rem;font-size:.875rem;line-height:1.4;text-align:center;background:var(--chth-product-accent,#16a34a);color:var(--chth-product-on-accent,#fff)">`
-    + `<span>${body}</span><button type="button" aria-label="Close" style="background:none;border:0;color:inherit;font-size:1.1rem;line-height:1;cursor:pointer;opacity:.8" onclick="try{localStorage.setItem('chth-banner',this.parentNode.dataset.id)}catch(e){}this.parentNode.remove()">×</button></div>`
-    + `<script>try{var b=document.getElementById('chth-banner');if(b&&localStorage.getItem('chth-banner')===b.dataset.id)b.remove()}catch(e){}</script>`;
-}
+/** The shared CHTH banner strip (chth-kit), closable per visitor until the text changes. */
+export const bannerHtml = (a: Announcement | null, locale: Locale = 'fa') => kitBannerHtml(a, locale);
 
 /** Puts the banner right after <body>. */
-export const withBanner = (html: string, a: Announcement | null) => (a ? html.replace(/<body[^>]*>/, (tag) => tag + bannerHtml(a)) : html);
+export const withBanner = (html: string, a: Announcement | null, locale: Locale = 'fa') => (a ? html.replace(/<body[^>]*>/, (tag) => tag + bannerHtml(a, locale)) : html);

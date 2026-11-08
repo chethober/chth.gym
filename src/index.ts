@@ -34,7 +34,7 @@ async function page(c: any, html: string, status: 200 | 404 = 200) {
   c.header('Vary', 'Cookie, Accept-Language');
   trackRef(c, locale);
   const banner = await getAnnouncement(c.env?.KV_SESSIONS, 60);
-  return c.html(withBanner(finishPage(html, locale), banner), status);
+  return c.html(withBanner(finishPage(html, locale), banner, locale), status);
 }
 
 // Global Middlewares

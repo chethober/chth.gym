@@ -8,7 +8,7 @@ import type { Locale } from '../chth-kit/locales.js';
 import { footerHtml } from '../chth-kit/footer.js';
 import { languageMenuHtml } from '../chth-kit/language-menu.js';
 import { BRAND_CSS } from '../chth-kit/brand.js';
-import { appSwitcherHtml, themeToggleHtml } from '../chth-kit/shell.js';
+import { appSwitcherHtml, cookieNoticeHtml, themeToggleHtml } from '../chth-kit/shell.js';
 import { SHELL_JS } from '../chth-kit/shell-script.js';
 import { makeTranslator } from './core.js';
 import catalog from './catalog.json';
@@ -206,8 +206,8 @@ export function chthFooter(locale: Locale): string {
 
 /**
  * Finishes a rendered page for a locale: translated text, <html lang/dir>, the CHTH brand and
- * footer, the language menu and theme toggle, the browser translator, and the CHTH shell script
- * (theme, toasts).
+ * footer, the language menu, theme toggle and app switcher, the cookie notice, the browser
+ * translator, and the CHTH shell script (theme, toasts, closing the banner and notice).
  */
 export function finishPage(html: string, locale: Locale): string {
   const page = localizeHtml(html, locale)
@@ -217,7 +217,7 @@ export function finishPage(html: string, locale: Locale): string {
     .replaceAll('<!--chth-theme-->', themeToggleHtml(locale))
     .replaceAll('<!--chth-apps-->', appSwitcherHtml(locale, 'gym'))
     .replaceAll('<!--chth-footer-->', chthFooter(locale))
-    .replace('</body>', () => `<script>${SHELL_JS}</script>\n</body>`);
+    .replace('</body>', () => `${cookieNoticeHtml(locale)}<script>${SHELL_JS}</script>\n</body>`);
   // "Forward" arrows point left in the RTL design.
   return dirOf(locale) === 'ltr' ? page.replaceAll('↖', '↗') : page;
 }

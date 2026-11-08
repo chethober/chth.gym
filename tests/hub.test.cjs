@@ -55,11 +55,11 @@ const ctx = { waitUntil: () => {}, passThroughOnException: () => {} };
   const set = await (await signed('POST', 'https://gym.test/internal/announcement', { text: 'New <program>', url: 'https://gym.test/programs' })).json();
   assert.deepEqual(set, { ok: true, announcement: { text: 'New <program>', url: 'https://gym.test/programs' } });
   const programs = await (await app.request('https://gym.test/programs', {}, env, ctx)).text();
-  assert.match(programs, /<body[^>]*><div id="chth-banner"/);
+  assert.match(programs, /<body[^>]*><div class="chth-banner"/);
   assert.ok(programs.includes('New &lt;program&gt;') && !programs.includes('New <program>'));
   assert.equal((await (await signed('GET', 'https://gym.test/internal/stats')).json()).marketing.announcement.text, 'New <program>');
   await signed('POST', 'https://gym.test/internal/announcement', { text: '' });
-  assert.ok(!(await (await app.request('https://gym.test/programs', {}, env, ctx)).text()).includes('chth-banner'));
+  assert.ok(!(await (await app.request('https://gym.test/programs', {}, env, ctx)).text()).includes('class="chth-banner"'));
   assert.equal(bannerHtml(null), '');
 
   // ?ref= is reported through the hub binding (signed) and remembered for a later sign-up.
