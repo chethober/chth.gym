@@ -9,7 +9,7 @@ assert.match(html, /id="landing-page"/);
 // The landing nav has the shared theme toggle slot and the language menu slot; the landing
 // follows html.light instead of staying graphite. /programs pages get neither toggle nor light theme.
 const nav = html.slice(html.indexOf('<nav class="site-nav"'), html.indexOf('</nav>', html.indexOf('<nav class="site-nav"')));
-assert.match(nav, /<!--chth-lang--><!--chth-theme-->/);
+assert.match(nav, /<!--chth-lang--><!--chth-theme--><!--chth-apps-->/);
 assert.match(html, /html\.light #landing-page \{\s*color-scheme:light;/);
 assert.doesNotMatch(html, /html\.light:has\(#landing-page/);
 assert.doesNotMatch(require('../src/frontend/appearanceUi.ts').renderPublicNav('/programs'), /chth-theme/);

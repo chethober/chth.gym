@@ -8,7 +8,7 @@ import type { Locale } from '../chth-kit/locales.js';
 import { footerHtml } from '../chth-kit/footer.js';
 import { languageMenuHtml } from '../chth-kit/language-menu.js';
 import { BRAND_CSS } from '../chth-kit/brand.js';
-import { themeToggleHtml } from '../chth-kit/shell.js';
+import { appSwitcherHtml, themeToggleHtml } from '../chth-kit/shell.js';
 import { SHELL_JS } from '../chth-kit/shell-script.js';
 import { makeTranslator } from './core.js';
 import catalog from './catalog.json';
@@ -92,7 +92,7 @@ html[dir="ltr"] .left-2{left:auto;right:.5rem}html[dir="ltr"] .right-2{right:aut
 const KIT_COLORS = `html{--chth-product-accent:var(--accent);--chth-line:var(--line-strong);--chth-menu-bg:var(--surface);--chth-menu-ink:var(--text)}
 .chth-lang-menu>summary{color:var(--text-2)}.chth-lang-menu[open]>summary{color:var(--accent-text)}
 .chth-footer{color:var(--text-2)}.chth-footer__brand{opacity:1}
-.chth-theme{color:var(--text-2)}.chth-theme:hover{color:var(--text)}`;
+.chth-theme,.chth-apps>summary{color:var(--text-2)}.chth-theme:hover,.chth-apps>summary:hover{color:var(--text)}`;
 
 /**
  * The browser side: translates text the app adds later (MutationObserver), dialogs, and number
@@ -215,6 +215,7 @@ export function finishPage(html: string, locale: Locale): string {
     .replace('</head>', `${headExtras(locale)}\n</head>`)
     .replaceAll('<!--chth-lang-->', languageSwitcher(locale))
     .replaceAll('<!--chth-theme-->', themeToggleHtml(locale))
+    .replaceAll('<!--chth-apps-->', appSwitcherHtml(locale, 'gym'))
     .replaceAll('<!--chth-footer-->', chthFooter(locale))
     .replace('</body>', () => `<script>${SHELL_JS}</script>\n</body>`);
   // "Forward" arrows point left in the RTL design.

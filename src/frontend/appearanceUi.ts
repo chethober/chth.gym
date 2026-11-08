@@ -177,7 +177,7 @@ export function renderPublicNav(path: string, opts: { themeToggle?: boolean } = 
   const theme = opts.themeToggle ? '<!--chth-theme-->' : '';
   return `<nav class="site-nav" aria-label="ناوبری اصلی">
       <a class="site-brand" href="/"${current('/')}>${BRAND_MARK_SVG}<span>جسم و اندیشه</span></a>
-      <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a><span class="site-tools"><!--chth-lang-->${theme}</span></div>
+      <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a><span class="site-tools"><!--chth-lang-->${theme}<!--chth-apps--></span></div>
     </nav>`;
 }
 

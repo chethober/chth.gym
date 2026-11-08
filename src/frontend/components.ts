@@ -49,7 +49,7 @@ export function renderTopNavbar(): string {
 
         <div class="flex items-center gap-2 shrink-0">
           <!--chth-lang-->
-          <!--chth-theme-->
+          <!--chth-theme--><!--chth-apps-->
           <div id="desktop-top-auth" class="flex items-center gap-2">
             <!-- Injected dynamically via JS -->
           </div>
@@ -70,7 +70,7 @@ export function renderMobileTopHeader(): string {
 
       <div class="flex items-center gap-1.5">
         <!--chth-lang-->
-        <!--chth-theme-->
+        <!--chth-theme--><!--chth-apps-->
         <div id="mobile-top-auth" class="flex items-center gap-2">
           <!-- Populated by JS -->
         </div>
