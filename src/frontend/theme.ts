@@ -1,6 +1,6 @@
 // ============================================================================
 // Design System for جسم و اندیشه — "Iron & Ember"
-// Graphite neutrals, one accent (ember by default, user-selectable), one font (Vazirmatn).
+// Graphite neutrals, one accent (the CHTH grey by default, user-selectable), one font (Vazirmatn).
 //
 // Appearance preferences live as data-* attributes on <html>: data-accent,
 // data-text, data-radius, data-motion. Markup names roles (text-accent,
@@ -14,7 +14,7 @@
 
 export const THEME = {
   colors: {
-    ember: { 400: '#FF8A57', 500: '#FF6A2B', 600: '#EA580C', 700: '#C2410C' },
+    grey: { 300: '#D4D4D8', 200: '#E4E4E7', 800: '#27272A', 700: '#3F3F46' },
     graphite: { 950: '#0E0F11', 900: '#16181B', 800: '#1D2024', 700: '#2A2E33' },
     paper: { 50: '#FFFFFF', 100: '#F6F6F4', 200: '#EEEEEB' },
   },
@@ -28,6 +28,12 @@ export const THEME = {
 // Red and success green retain semantic roles; lime is a separate brand accent.
 type AccentTone = { accent: string; hover: string; text: string; on: string };
 export const ACCENTS: { id: string; name: string; dark: AccentTone; light: AccentTone }[] = [
+  {
+    // The default: the CHTH grey (chth-kit tokens.json, gym). The others are kept for people who pick them.
+    id: 'mono', name: 'خنثی',
+    dark: { accent: '#D4D4D8', hover: '#E4E4E7', text: '#E4E4E7', on: '#09090B' },
+    light: { accent: '#27272A', hover: '#3F3F46', text: '#27272A', on: '#FAFAFA' },
+  },
   {
     id: 'ember', name: 'اخگر',
     dark: { accent: '#FF6A2B', hover: '#FF7D45', text: '#FF8A57', on: '#1A0A02' },
@@ -57,11 +63,6 @@ export const ACCENTS: { id: string; name: string; dark: AccentTone; light: Accen
     id: 'lime', name: 'لیمویی',
     dark: { accent: '#A6FF00', hover: '#BDFF42', text: '#BDFF42', on: '#101010' },
     light: { accent: '#A6FF00', hover: '#BDFF42', text: '#416500', on: '#101010' },
-  },
-  {
-    id: 'mono', name: 'خنثی',
-    dark: { accent: '#F2F2F0', hover: '#FFFFFF', text: '#F2F2F0', on: '#0E0F11' },
-    light: { accent: '#111214', hover: '#2A2E33', text: '#111214', on: '#FFFFFF' },
   },
 ];
 
@@ -119,12 +120,12 @@ export const PREF_SCALE_RULES = `/* Text size preference: everything is rem-base
       html[data-radius="sharp"] { --r-xs: 3px; --r-sm: 4px; --r-md: 6px; --r-lg: 8px; --r-xl: 10px; }
       html[data-radius="round"] { --r-xs: 8px; --r-sm: 11px; --r-md: 14px; --r-lg: 20px; --r-xl: 26px; }`;
 
-export const DEFAULT_PREFS = { accent: 'ember', text: 'md', radius: 'md', motion: 'full' };
+export const DEFAULT_PREFS = { accent: 'mono', text: 'md', radius: 'md', motion: 'full' };
 
 function renderAccentTokens(): string {
   const tone = (t: AccentTone) =>
     `--accent: ${t.accent}; --accent-hover: ${t.hover}; --accent-text: ${t.text}; --on-accent: ${t.on};`;
-  return ACCENTS.filter(a => a.id !== 'ember').map(a => `
+  return ACCENTS.filter(a => a.id !== DEFAULT_PREFS.accent).map(a => `
       html.dark[data-accent="${a.id}"] { ${tone(a.dark)} }
       html.light[data-accent="${a.id}"] { ${tone(a.light)} }`).join('') +
     // Swatches always show their own hue for the current mode, whatever accent is active
@@ -196,10 +197,10 @@ export function renderThemeStyles(): string {
         color-scheme: dark;
         ${DARK_SURFACE_TOKENS}
 
-        --accent: #FF6A2B;
-        --accent-hover: #FF7D45;
-        --accent-text: #FF8A57;
-        --on-accent: #1A0A02;
+        --accent: #D4D4D8;
+        --accent-hover: #E4E4E7;
+        --accent-text: #E4E4E7;
+        --on-accent: #09090B;
 
         --done: #3FCF8E;
         --done-soft: rgba(63, 207, 142, 0.12);
@@ -236,10 +237,10 @@ export function renderThemeStyles(): string {
         --text-2: #55575C;
         --text-3: #85878C;
 
-        --accent: #F2601F;
-        --accent-hover: #FF6E2E;
-        --accent-text: #C2410C;
-        --on-accent: #1A0A02;
+        --accent: #27272A;
+        --accent-hover: #3F3F46;
+        --accent-text: #27272A;
+        --on-accent: #FAFAFA;
 
         --done: #16A34A;
         --done-soft: rgba(22, 163, 74, 0.09);

@@ -44,8 +44,8 @@ for(const accent of ACCENTS){
   app.sync();
   assert.ok(decodeURIComponent(app.icon.href).includes(`fill="${accent.light.accent}"`));
 }
-for(const saved of ['invalid JSON','null','{"accent":"unknown"}'])assert.equal(mount(saved).attrs['data-accent'],'ember');
-assert.equal(mount('{}',true,true).attrs['data-accent'],'ember');
+for(const saved of ['invalid JSON','null','{"accent":"unknown"}'])assert.equal(mount(saved).attrs['data-accent'],'mono');
+assert.equal(mount('{}',true,true).attrs['data-accent'],'mono');
 assert.equal(mount('{}').attrs['data-motion'],'full');
 const page = mount('{"accent":"violet"}');
 page.store('{"accent":"azure","radius":"sharp","motion":"reduce"}');

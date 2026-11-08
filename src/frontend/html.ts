@@ -1151,7 +1151,7 @@ ${renderInstallCard()}
     // Canvas can't read CSS variables, so charts resolve the tokens at draw time
     function chartColors() {
       const css = getComputedStyle(document.documentElement);
-      const accent = css.getPropertyValue('--accent').trim() || '#FF6A2B';
+      const accent = css.getPropertyValue('--accent').trim() || '#D4D4D8';
       const isDark = document.documentElement.classList.contains('dark');
       const n = parseInt(accent.slice(1), 16);
       return {
