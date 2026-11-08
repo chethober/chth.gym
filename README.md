@@ -163,9 +163,10 @@ every CHTH site); otherwise the browser's languages decide, with Persian as the 
 ## CHTH kit and hub
 
 `src/chth-kit/` is generated from the shared CHTH kit (brand tokens, logo, languages, product
-links, footer, and the CHTH shell: the theme toggle, toasts, the app switcher, the banner and the
-essential-cookies notice): don't edit it here. Every page ends its header with the shared tools
-(`<!--chth-lang-->`, `<!--chth-theme-->`, `<!--chth-apps-->`, filled in by `finishPage()`), and
+links, and the CHTH shell: the navbar, footer, theme toggle, toasts, banner and essential-cookies
+notice): don't edit it here. The landing, `/programs` and the app all open with the shared CHTH
+navbar (`<!--chth-nav:…-->`, filled in per language by `finishPage()`); in the app the account
+chip sits in it and the tabs are the bottom bar, a floating dock on wider screens.
 `showNotification()` shows the shared toasts. The optional CHTH hub integration (`src/hub.ts`) reports
 sign-ups, finished workouts, tagged visits and server errors, and answers the hub's signed calls:
 `GET /internal/stats` (including growth, activation and retention counts for its 📣 Marketing

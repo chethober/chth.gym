@@ -8,7 +8,7 @@ import type { Locale } from '../chth-kit/locales.js';
 import { footerHtml } from '../chth-kit/footer.js';
 import { languageMenuHtml } from '../chth-kit/language-menu.js';
 import { BRAND_CSS } from '../chth-kit/brand.js';
-import { appSwitcherHtml, cookieNoticeHtml, themeToggleHtml } from '../chth-kit/shell.js';
+import { cookieNoticeHtml, navbarHtml, themeToggleHtml } from '../chth-kit/shell.js';
 import { SHELL_JS } from '../chth-kit/shell-script.js';
 import { makeTranslator } from './core.js';
 import catalog from './catalog.json';
@@ -199,7 +199,21 @@ export function headExtras(locale: Locale): string {
   return `<style>${BRAND_CSS}${LTR_FIXES}${KIT_COLORS}</style>${clientScript(locale)}`;
 }
 
-/** The shared CHTH footer for this locale: the CHTH mark, linking to chth.wtf. */
+/**
+ * The shared CHTH navbar: the gym's words on the left (to /programs), the CHTH mark in the middle,
+ * then profile, theme and language. In the app the profile is the account chip the app fills in
+ * (#mobile-top-auth); the /programs pages are always dark, so they have no theme toggle.
+ */
+export function chthNav(locale: Locale, where: 'landing' | 'programs' | 'app'): string {
+  return navbarHtml(locale, 'gym', {
+    leadHref: '/programs',
+    account: where === 'app' ? null : { href: '/api/auth/google' },
+    extra: where === 'app' ? '<div id="mobile-top-auth" class="chth-nav__auth"></div>' : '',
+    theme: where !== 'programs',
+  });
+}
+
+/** The shared CHTH footer for this locale: the call to CHTH and the gym's links. */
 export function chthFooter(locale: Locale): string {
   return footerHtml(locale, 'gym');
 }
@@ -215,7 +229,9 @@ export function finishPage(html: string, locale: Locale): string {
     .replace('</head>', `${headExtras(locale)}\n</head>`)
     .replaceAll('<!--chth-lang-->', languageSwitcher(locale))
     .replaceAll('<!--chth-theme-->', themeToggleHtml(locale))
-    .replaceAll('<!--chth-apps-->', appSwitcherHtml(locale, 'gym'))
+    .replaceAll('<!--chth-nav:landing-->', chthNav(locale, 'landing'))
+    .replaceAll('<!--chth-nav:programs-->', chthNav(locale, 'programs'))
+    .replaceAll('<!--chth-nav:app-->', chthNav(locale, 'app'))
     .replaceAll('<!--chth-footer-->', chthFooter(locale))
     .replace('</body>', () => `${cookieNoticeHtml(locale)}<script>${SHELL_JS}</script>\n</body>`);
   // "Forward" arrows point left in the RTL design.

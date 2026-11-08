@@ -10,7 +10,6 @@ import { TEXT_LIMITS } from '../lib/limits';
 import { renderLandingPage, renderLandingStyles } from './landingUi';
 import { 
   renderTopNavbar, 
-  renderMobileTopHeader, 
   renderMobileBottomNav, 
   renderToastAndDialogs 
 } from './components';
@@ -110,12 +109,11 @@ export function renderAppHtml(): string {
   ${renderTopNavbar()}
 
   <!-- Top Mobile Header -->
-  ${renderMobileTopHeader()}
 
 
 
   <!-- ================= MAIN CONTENT CONTAINER ================= -->
-  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 md:pt-24 pb-28 md:pb-16 space-y-6">
+  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-2 pb-28 md:pb-32 space-y-6">
     
     <!-- ======================================================= -->
     <!-- TAB 1: MAIN DASHBOARD                                   -->

@@ -541,11 +541,11 @@ export function renderThemeStyles(): string {
         html .btn-icon-danger:hover { background: var(--danger-soft) !important; color: var(--danger) !important; }
       }
 
-      /* The language globe in the app bars matches the borderless icon buttons beside it */
-      html .app-topbar .chth-lang-menu > summary {
-        width: 2.25rem; height: 2.25rem; border-color: transparent; border-radius: var(--r-md); color: var(--text-2);
-      }
-      html .app-topbar .chth-lang-menu > summary svg { width: 1rem; height: 1rem; }
+      /* The account chip in the CHTH navbar: round, like the icons beside it */
+      html .chth-nav__auth { display: flex; align-items: center; gap: 0.125rem; }
+      html .chth-nav__auth .account-chip { border-radius: 9999px; }
+      html .chth-nav__auth .btn-icon { width: 2rem; height: 2rem; border-radius: 9999px; }
+      @media (max-width: 640px) { html .chth-nav__auth .account-chip span { display: none; } }
 
       /* Text link button */
       html .link-btn {
@@ -1318,53 +1318,20 @@ export function renderThemeStyles(): string {
       /* ==========================================================================
          13. App Shell
          ========================================================================== */
-      .app-topbar {
-        background: color-mix(in srgb, var(--bg) 82%, transparent);
-        backdrop-filter: saturate(160%) blur(12px);
-        -webkit-backdrop-filter: saturate(160%) blur(12px);
-        border-bottom: 1px solid var(--line);
-      }
-      .nav-desktop-btn {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        height: 100%;
-        padding: 0 0.875rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: var(--text-2);
-        transition: color var(--dur-fast) ease;
-      }
-      .nav-desktop-btn:hover { color: var(--text); }
-      .nav-desktop-btn.is-active { color: var(--text); font-weight: 600; }
-      .nav-desktop-btn .nav-underline {
-        position: absolute;
-        inset-inline: 0.875rem;
-        bottom: -1px;
-        height: 2px;
-        border-radius: 2px;
-        background: var(--accent);
-        transform: scaleX(0);
-        transition: transform var(--dur-base) var(--ease-out);
-      }
-      .nav-desktop-btn.is-active .nav-underline { transform: scaleX(1); }
-      /* Tablets: icon-only sections, a dot for the live workout, avatar-only account chip */
-      @media (max-width: 1023px) {
-        .nav-desktop-btn { padding: 0 0.75rem; }
-        .nav-desktop-btn .nav-underline { inset-inline: 0.5rem; }
-      }
-      @media (max-width: 1279px) {
-        .nav-desktop-btn .badge-live { font-size: 0; width: 0.5rem; height: 0.5rem; min-width: 0; padding: 0; border-radius: 9999px; }
-        #nav-d-profile:not(.no-avatar) { padding: 0.125rem !important; }
-      }
-
       .app-bottomnav {
         background: color-mix(in srgb, var(--surface) 88%, transparent);
         backdrop-filter: saturate(160%) blur(12px);
         -webkit-backdrop-filter: saturate(160%) blur(12px);
         border-top: 1px solid var(--line);
         padding-bottom: env(safe-area-inset-bottom);
+      }
+      /* Wider screens: the tab bar floats as a pill under the page, a match for the navbar */
+      @media (min-width: 768px) {
+        .app-bottomnav {
+          left: 50%; right: auto; bottom: 1rem; width: min(34rem, calc(100% - 2rem)); transform: translateX(-50%);
+          border: 1px solid var(--line); border-radius: 9999px; padding: 0.25rem; box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+        }
+        .app-bottomnav .nav-mobile-btn { border-radius: 9999px; }
       }
       .nav-mobile-btn {
         flex: 1;

@@ -1,4 +1,3 @@
-import { BRAND_MARK_SVG } from './components';
 import { ACCENTS, DEFAULT_PREFS, FOUNDATION_TOKENS, DARK_SURFACE_TOKENS, LIGHT_SURFACE_TOKENS, PREF_OPTIONS, PREF_SCALE_RULES } from './theme';
 
 export function renderPublicAccentStyles(scope: string): string {
@@ -128,33 +127,16 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} .public-index { color:var(--accent-text); font-size:0.8125rem; font-weight:600; letter-spacing:0.08em; font-variant-numeric:tabular-nums; }
 
     /* Site chrome: one nav for every public page */
-    ${scope} .site-nav { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.25rem max(5vw, calc((100vw - 77.5rem) / 2), 1.25rem); }
-    ${scope} .site-nav { position:relative; z-index:2; border-bottom:1px solid var(--line); }
-    ${scope} .site-brand { display:inline-flex; align-items:center; gap:0.75rem; min-height:2.75rem; color:var(--text); font-size:1.125rem; font-weight:700; text-decoration:none; white-space:nowrap; }
-    ${scope} .site-brand svg { width:2.25rem; height:2.25rem; flex-shrink:0; color:var(--accent); }
-    ${scope} .site-links { display:flex; align-items:center; gap:1.5rem; }
-    ${scope} .site-link { display:inline-flex; align-items:center; min-height:2.75rem; color:var(--text-2); font-size:0.875rem; font-weight:500; text-decoration:none; white-space:nowrap; transition:color var(--dur-fast) ease; }
-    ${scope} .site-link[aria-current] { color:var(--accent-text); }
-    ${scope} .site-nav .public-button { min-height:2.75rem; padding:0.5rem 1rem; font-size:0.875rem; white-space:nowrap; }
     /* Language and theme: round icon buttons kept close together */
-    ${scope} .site-tools { display:flex; align-items:center; gap:0.5rem; }
     @media (max-width:640px) {
-      ${scope} .site-nav { gap:0.5rem; padding-block:0.75rem; }
-      ${scope} .site-brand { font-size:0.9375rem; gap:0.5rem; } ${scope} .site-brand svg { width:1.75rem; height:1.75rem; }
-      ${scope} .site-links { gap:0.625rem; } ${scope} .site-link { font-size:0.8125rem; }
-      ${scope} .site-nav .public-button { min-height:2.5rem; padding:0.375rem 0.75rem; font-size:0.8125rem; }
-      ${scope} .site-nav .public-button span { display:none; }
-      ${scope} .site-tools { gap:0.375rem; }
     }
     /* Narrow phones: the mark alone carries the brand so the links keep one row */
-    @media (max-width:400px) { ${scope} .site-nav .site-brand span { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; } }
 
     @media (hover:hover) and (pointer:fine) {
       ${scope} .public-button:hover { background:var(--accent-hover); border-color:var(--accent-hover); }
       ${scope} .public-button.is-outline:hover { background:var(--surface-3); border-color:var(--accent-line); }
       ${scope} .public-button:hover span { transform:translate(-2px,-2px); }
       ${scope} button.public-chip:not([aria-pressed="true"]):hover { border-color:var(--text-3); color:var(--text); }
-      ${scope} .site-link:not([aria-current]):hover { color:var(--text); }
       ${scope} .public-card.is-interactive { transition:border-color var(--dur-fast) ease; }
       ${scope} .public-card.is-interactive:is(:hover,:focus-within) { border-color:var(--line-strong); }
     }
@@ -163,22 +145,12 @@ export function renderPublicPatterns(scope: string): string {
   </style>`;
 }
 
-// A program page sits inside the programs section, so its nav link stays marked
-function navCurrent(path: string, href: string): string {
-  if (path === href) return ' aria-current="page"';
-  return href !== '/' && path.startsWith(href + '/') ? ' aria-current="true"' : '';
-}
-
-// The same nav on / and /programs/*; only aria-current changes.
 
 // The landing shares the app's document, so its toggle uses the app's toggleTheme().
-export function renderPublicNav(path: string, opts: { themeToggle?: boolean } = {}): string {
-  const current = (href: string) => navCurrent(path, href);
-  const theme = opts.themeToggle ? '<!--chth-theme-->' : '';
-  return `<nav class="site-nav" aria-label="ناوبری اصلی">
-      <a class="site-brand" href="/"${current('/')}>${BRAND_MARK_SVG}<span>جسم و اندیشه</span></a>
-      <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a><span class="site-tools"><!--chth-lang-->${theme}<!--chth-apps--></span></div>
-    </nav>`;
+// The public pages' top is the shared CHTH navbar (filled in per language by finishPage). The
+// /programs pages are always dark, so theirs has no theme toggle.
+export function renderPublicNav(_path: string, opts: { themeToggle?: boolean } = {}): string {
+  return opts.themeToggle ? '<!--chth-nav:landing-->' : '<!--chth-nav:programs-->';
 }
 
 // The only footer on public pages is the shared CHTH one (filled in per language by finishPage).
