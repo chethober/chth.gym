@@ -1,95 +1,22 @@
 // ============================================================================
 // Modular UI Components for جسم و اندیشه
-// App shell (top bar, bottom nav), toasts, dialogs and shared modals
+// App shell (the CHTH navbar slot, the tab bar), dialogs and shared modals
 // ============================================================================
 
 export const BRAND_MARK_SVG = `<svg class="brand-mark" width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><g fill="var(--on-accent)"><rect x="4" y="14.75" width="24" height="2.5" rx="1.25"/><rect x="8.5" y="9" width="3" height="14" rx="1.25"/><rect x="20.5" y="9" width="3" height="14" rx="1.25"/><rect x="5.5" y="11.5" width="2.25" height="9" rx="1"/><rect x="24.25" y="11.5" width="2.25" height="9" rx="1"/></g></svg>`;
 
+// The top of the app is the shared CHTH navbar (filled in per language by finishPage): the account
+// chip (#mobile-top-auth, filled by renderUserUI/renderAuthPrompt) goes before theme and language.
+// The tabs live in the bottom bar, a floating dock on wider screens.
 export function renderTopNavbar(): string {
-  return `
-    <!-- Desktop top bar -->
-    <header class="hidden md:block fixed top-0 inset-x-0 z-40 app-topbar">
-      <div class="max-w-6xl mx-auto px-4 lg:px-8 h-16 flex items-stretch justify-between gap-3 lg:gap-6">
-
-        <button type="button" class="flex items-center gap-2.5 shrink-0" onclick="switchTab('dashboard')" aria-label="داشبورد">
-          ${BRAND_MARK_SVG}
-          <span class="brand-word hidden lg:inline">جسم و اندیشه</span>
-        </button>
-
-        <!-- Same order as the mobile bar (RTL): suggestions, movements, dashboard, plan, history -->
-        <nav class="flex items-stretch min-w-0" aria-label="بخش‌های اصلی">
-          <button onclick="switchTab('presets')" id="nav-d-presets" class="nav-desktop-btn">
-            <i data-lucide="sparkles" class="w-4 h-4"></i>
-            <span class="sr-only lg:not-sr-only">پیشنهادها</span>
-            <span class="nav-underline"></span>
-          </button>
-          <button onclick="switchTab('movements')" id="nav-d-movements" class="nav-desktop-btn">
-            <i data-lucide="dumbbell" class="w-4 h-4"></i>
-            <span class="sr-only lg:not-sr-only">حرکات</span>
-            <span id="nav-draft-count-badge" class="hidden badge badge-emerald">۰</span>
-            <span class="nav-underline"></span>
-          </button>
-          <button onclick="switchTab('dashboard')" id="nav-d-dashboard" class="nav-desktop-btn is-active">
-            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-            <span class="sr-only lg:not-sr-only">داشبورد</span>
-            <span id="active-badge-d" class="hidden badge badge-live">در حال تمرین</span>
-            <span class="nav-underline"></span>
-          </button>
-          <button onclick="switchTab('plan')" id="nav-d-plan" class="nav-desktop-btn">
-            <i data-lucide="calendar-days" class="w-4 h-4"></i>
-            <span class="sr-only lg:not-sr-only">برنامه</span>
-            <span class="nav-underline"></span>
-          </button>
-          <button onclick="switchTab('history')" id="nav-d-history" class="nav-desktop-btn">
-            <i data-lucide="history" class="w-4 h-4"></i>
-            <span class="sr-only lg:not-sr-only">تاریخچه</span>
-            <span class="nav-underline"></span>
-          </button>
-        </nav>
-
-        <div class="flex items-center gap-2 shrink-0">
-          <!--chth-lang-->
-          <button type="button" onclick="toggleTheme()" id="theme-toggle-btn-d" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب" class="btn-icon btn-ghost">
-            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-            <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
-          </button>
-          <div id="desktop-top-auth" class="flex items-center gap-2">
-            <!-- Injected dynamically via JS -->
-          </div>
-        </div>
-
-      </div>
-    </header>
-  `;
-}
-
-export function renderMobileTopHeader(): string {
-  return `
-    <header id="mobile-top-header" class="md:hidden sticky top-0 z-40 app-topbar px-4 h-14 flex items-center justify-between">
-      <button type="button" class="flex items-center gap-2" onclick="switchTab('dashboard')" aria-label="داشبورد">
-        ${BRAND_MARK_SVG}
-        <span class="brand-word">جسم و اندیشه</span>
-      </button>
-
-      <div class="flex items-center gap-1.5">
-        <!--chth-lang-->
-        <button type="button" onclick="toggleTheme()" id="theme-toggle-btn-m" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب" class="btn-icon btn-ghost">
-          <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-          <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
-        </button>
-        <div id="mobile-top-auth" class="flex items-center gap-2">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-    </header>
-  `;
+  return '<!--chth-nav:app-->';
 }
 
 export function renderMobileBottomNav(): string {
   return `
     <!-- Mobile bottom navigation. DOM order is right-to-left on screen (RTL),
          so visually left→right it reads: history, plan, dashboard, movements, suggestions -->
-    <nav id="mobile-bottom-nav" class="md:hidden fixed bottom-0 inset-x-0 z-40 app-bottomnav flex items-stretch px-1" aria-label="بخش‌های اصلی">
+    <nav id="mobile-bottom-nav" class="fixed bottom-0 inset-x-0 z-40 app-bottomnav flex items-stretch px-1" aria-label="بخش‌های اصلی">
       <button onclick="switchTab('presets')" id="nav-m-presets" class="nav-mobile-btn">
         <span class="nav-m-pill"><i data-lucide="sparkles" class="w-5 h-5"></i></span>
         <span>پیشنهادها</span>
@@ -118,34 +45,6 @@ export function renderMobileBottomNav(): string {
 
 export function renderToastAndDialogs(): string {
   return `
-    <!-- Toast Stack -->
-    <div id="toast-notification" role="status" aria-live="polite" class="fixed top-4 md:top-20 left-1/2 -translate-x-1/2 z-[60] pointer-events-none opacity-0 -translate-y-2">
-      <div id="toast-card" class="toast toast-success">
-        <div id="toast-icon-wrap" class="flex">
-          <i data-lucide="check-circle-2"></i>
-        </div>
-        <span id="toast-message">عملیات با موفقیت انجام شد</span>
-      </div>
-    </div>
-
-    <!-- Ongoing Exercise Detail Modal (before the dialog + rest timer so both stack above it) -->
-    <div id="ex-sheet-modal" class="modal-backdrop hidden" onclick="if (event.target === this) closeExerciseSheet()">
-      <div role="dialog" aria-modal="true" aria-labelledby="ex-sheet-title" class="modal-panel max-w-md max-h-[90vh] overflow-y-auto">
-        <div id="ex-sheet-media" class="ex-sheet-media"></div>
-        <div class="p-5 space-y-4">
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-              <h3 id="ex-sheet-title" class="text-base font-black text-white"></h3>
-              <p id="ex-sheet-subtitle" class="text-[11px] text-zinc-400 font-mono mt-0.5 text-right" dir="ltr"></p>
-            </div>
-            <button onclick="closeExerciseSheet()" class="btn-icon btn-ghost shrink-0" aria-label="بستن">
-              <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-          </div>
-          <div id="ex-sheet-controls"></div>
-          <div id="ex-sheet-info" class="space-y-3"></div>
-        </div>
-      </div>
     </div>
 
     <!-- Modular Dialogue Box Modal -->

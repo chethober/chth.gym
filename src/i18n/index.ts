@@ -8,6 +8,8 @@ import type { Locale } from '../chth-kit/locales.js';
 import { footerHtml } from '../chth-kit/footer.js';
 import { languageMenuHtml } from '../chth-kit/language-menu.js';
 import { BRAND_CSS } from '../chth-kit/brand.js';
+import { cookieNoticeHtml, navbarHtml, themeToggleHtml } from '../chth-kit/shell.js';
+import { SHELL_JS } from '../chth-kit/shell-script.js';
 import { makeTranslator } from './core.js';
 import catalog from './catalog.json';
 
@@ -89,7 +91,8 @@ html[dir="ltr"] .left-2{left:auto;right:.5rem}html[dir="ltr"] .right-2{right:aut
 // The shared footer and language menu, in the app's (and public pages') colors.
 const KIT_COLORS = `html{--chth-product-accent:var(--accent);--chth-line:var(--line-strong);--chth-menu-bg:var(--surface);--chth-menu-ink:var(--text)}
 .chth-lang-menu>summary{color:var(--text-2)}.chth-lang-menu[open]>summary{color:var(--accent-text)}
-.chth-footer{color:var(--text-2)}.chth-footer__brand{opacity:1}`;
+.chth-footer{color:var(--text-2)}.chth-footer__brand{opacity:1}
+.chth-theme,.chth-apps>summary{color:var(--text-2)}.chth-theme:hover,.chth-apps>summary:hover{color:var(--text)}`;
 
 /**
  * The browser side: translates text the app adds later (MutationObserver), dialogs, and number
@@ -196,21 +199,41 @@ export function headExtras(locale: Locale): string {
   return `<style>${BRAND_CSS}${LTR_FIXES}${KIT_COLORS}</style>${clientScript(locale)}`;
 }
 
-/** The shared CHTH footer for this locale: the CHTH mark, linking to chth.wtf. */
+/**
+ * The shared CHTH navbar: the gym's words on the left (to /programs), the CHTH mark in the middle,
+ * then profile, theme and language. In the app the profile is the account chip the app fills in
+ * (#mobile-top-auth); the /programs pages are always dark, so they have no theme toggle.
+ */
+export function chthNav(locale: Locale, where: 'landing' | 'programs' | 'app'): string {
+  return navbarHtml(locale, 'gym', {
+    leadHref: '/programs',
+    account: where === 'app' ? null : { href: '/api/auth/google' },
+    extra: where === 'app' ? '<div id="mobile-top-auth" class="chth-nav__auth"></div>' : '',
+    theme: where !== 'programs',
+  });
+}
+
+/** The shared CHTH footer for this locale: the call to CHTH and the gym's links. */
 export function chthFooter(locale: Locale): string {
   return footerHtml(locale, 'gym');
 }
 
 /**
  * Finishes a rendered page for a locale: translated text, <html lang/dir>, the CHTH brand and
- * footer, the language switcher, and the browser translator.
+ * footer, the language menu, theme toggle and app switcher, the cookie notice, the browser
+ * translator, and the CHTH shell script (theme, toasts, closing the banner and notice).
  */
 export function finishPage(html: string, locale: Locale): string {
   const page = localizeHtml(html, locale)
     .replace(/<html lang="fa" dir="rtl"/, `<html lang="${locale}" dir="${dirOf(locale)}" data-chth-product="gym"`)
     .replace('</head>', `${headExtras(locale)}\n</head>`)
     .replaceAll('<!--chth-lang-->', languageSwitcher(locale))
-    .replaceAll('<!--chth-footer-->', chthFooter(locale));
+    .replaceAll('<!--chth-theme-->', themeToggleHtml(locale))
+    .replaceAll('<!--chth-nav:landing-->', chthNav(locale, 'landing'))
+    .replaceAll('<!--chth-nav:programs-->', chthNav(locale, 'programs'))
+    .replaceAll('<!--chth-nav:app-->', chthNav(locale, 'app'))
+    .replaceAll('<!--chth-footer-->', chthFooter(locale))
+    .replace('</body>', () => `${cookieNoticeHtml(locale)}<script>${SHELL_JS}</script>\n</body>`);
   // "Forward" arrows point left in the RTL design.
   return dirOf(locale) === 'ltr' ? page.replaceAll('↖', '↗') : page;
 }

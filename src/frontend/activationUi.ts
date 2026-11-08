@@ -119,7 +119,7 @@ export function renderActivationScript(): string {
         canvas.width = 1080; canvas.height = 1080;
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = '#0e0f11'; ctx.fillRect(0, 0, 1080, 1080);
-        ctx.fillStyle = '#ff6a2b'; ctx.fillRect(80, 110, 920, 8);
+        ctx.fillStyle = '#d4d4d8'; ctx.fillRect(80, 110, 920, 8);
         ctx.textAlign = 'center'; ctx.direction = 'rtl';
         ctx.font = 'bold 64px Vazirmatn, sans-serif'; ctx.fillText('تمرین امروز من', 540, 250, 900);
         ctx.fillStyle = '#ffffff'; ctx.font = '42px Vazirmatn, sans-serif';

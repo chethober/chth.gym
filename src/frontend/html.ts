@@ -10,7 +10,6 @@ import { TEXT_LIMITS } from '../lib/limits';
 import { renderLandingPage, renderLandingStyles } from './landingUi';
 import { 
   renderTopNavbar, 
-  renderMobileTopHeader, 
   renderMobileBottomNav, 
   renderToastAndDialogs 
 } from './components';
@@ -49,8 +48,9 @@ export function renderAppHtml(): string {
   <script>
     (function() {
       try {
-        var t = localStorage.getItem('jesm_theme') || 'dark';
+        var t = localStorage.getItem('jesm_theme') || localStorage.getItem('chth_theme') || 'dark';
         var isDark = t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
         if (isDark) {
           document.documentElement.classList.add('dark');
           document.documentElement.classList.remove('light');
@@ -109,12 +109,11 @@ export function renderAppHtml(): string {
   ${renderTopNavbar()}
 
   <!-- Top Mobile Header -->
-  ${renderMobileTopHeader()}
 
 
 
   <!-- ================= MAIN CONTENT CONTAINER ================= -->
-  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 md:pt-24 pb-28 md:pb-16 space-y-6">
+  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-2 pb-28 md:pb-32 space-y-6">
     
     <!-- ======================================================= -->
     <!-- TAB 1: MAIN DASHBOARD                                   -->
@@ -878,30 +877,10 @@ ${renderInstallCard()}
       'general_health': 'سلامتی عمومی'
     };
 
-    // --- Modular Toast Notifications ---
+    // --- Toasts: the shared CHTH toast (kit shell); 'error' is the kit's 'danger' ---
     function showNotification(message, type = 'success') {
-      const toast = document.getElementById('toast-notification');
-      const msgEl = document.getElementById('toast-message');
-      const card = document.getElementById('toast-card');
-      const iconWrap = document.getElementById('toast-icon-wrap');
-
-      if (!toast || !msgEl || !card) return;
-
-      msgEl.innerText = message;
-
-      const toastIcons = { error: 'alert-circle', warning: 'alert-triangle', info: 'info', success: 'check-circle-2' };
-      const kind = toastIcons[type] ? type : 'success';
-      card.className = 'toast toast-' + kind;
-      iconWrap.innerHTML = '<i data-lucide="' + toastIcons[kind] + '"></i>';
-
-      lucide.createIcons();
-
-      toast.classList.remove('opacity-0', '-translate-y-2');
-      toast.classList.add('opacity-100', 'translate-y-0');
-      setTimeout(() => {
-        toast.classList.add('opacity-0', '-translate-y-2');
-        toast.classList.remove('opacity-100', 'translate-y-0');
-      }, 3200);
+      const kind = type === 'error' ? 'danger' : (['success', 'warning', 'info'].includes(type) ? type : 'success');
+      if (window.chthToast) window.chthToast[kind](message);
     }
 
     function showToast(message, type = 'success') {
@@ -1024,7 +1003,7 @@ ${renderInstallCard()}
 
     // --- Theme Engine (Dark / Light / System Mode) ---
     function initTheme() {
-      const stored = localStorage.getItem('jesm_theme') || 'dark';
+      const stored = localStorage.getItem('jesm_theme') || localStorage.getItem('chth_theme') || 'dark';
       applyPrefs(getPrefs());
       applyTheme(stored, false);
       
@@ -1044,7 +1023,10 @@ ${renderInstallCard()}
       else update();
     }
 
-    function applyTheme(mode, save = true) {
+    // The shared CHTH theme toggle (kit shell) paints through this engine, inside its own transition.
+    window.chthApplyTheme = function (mode) { applyTheme(mode, true, false); };
+
+    function applyTheme(mode, save = true, fade = true) {
       const root = document.documentElement;
 
       let isDark = true;
@@ -1058,6 +1040,7 @@ ${renderInstallCard()}
 
       if (save) {
         localStorage.setItem('jesm_theme', mode);
+        if (mode !== 'system') localStorage.setItem('chth_theme', mode);
       }
 
       const swap = () => {
@@ -1068,7 +1051,8 @@ ${renderInstallCard()}
         lucide.createIcons();
       };
       // Page load and picking "system" while it already matches change nothing to fade
-      if (root.classList.contains('dark') === isDark) swap();
+      root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      if (!fade || root.classList.contains('dark') === isDark) swap();
       else crossfade(swap);
     }
 
@@ -1167,7 +1151,7 @@ ${renderInstallCard()}
     // Canvas can't read CSS variables, so charts resolve the tokens at draw time
     function chartColors() {
       const css = getComputedStyle(document.documentElement);
-      const accent = css.getPropertyValue('--accent').trim() || '#FF6A2B';
+      const accent = css.getPropertyValue('--accent').trim() || '#D4D4D8';
       const isDark = document.documentElement.classList.contains('dark');
       const n = parseInt(accent.slice(1), 16);
       return {

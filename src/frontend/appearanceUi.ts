@@ -1,4 +1,3 @@
-import { BRAND_MARK_SVG } from './components';
 import { ACCENTS, DEFAULT_PREFS, FOUNDATION_TOKENS, DARK_SURFACE_TOKENS, LIGHT_SURFACE_TOKENS, PREF_OPTIONS, PREF_SCALE_RULES } from './theme';
 
 export function renderPublicAccentStyles(scope: string): string {
@@ -90,12 +89,6 @@ export function renderPublicPatterns(scope: string): string {
       --accent-soft:color-mix(in srgb,var(--accent) 10%,transparent);
       --shadow-control:inset 0 1px 0 rgba(255,255,255,0.7),0 1px 2px rgba(16,17,19,0.08);
     }
-    /* Theme toggle (landing only): the icon shows the theme it switches to */
-    ${scope} .site-theme { display:inline-grid; place-items:center; flex:none; width:2.5rem; height:2.5rem; padding:0; border:1px solid var(--line-strong); border-radius:var(--r-full); background:transparent; color:var(--text-2); cursor:pointer; transition:background-color var(--dur-fast) ease,color var(--dur-fast) ease,transform var(--dur-press) var(--ease-out); }
-    ${scope} .site-theme:active { transform:scale(0.92) rotate(-20deg); }
-    ${scope} .site-theme svg { width:1.15rem; height:1.15rem; }
-    ${scope} .site-theme .is-moon, html.light ${scope} .site-theme .is-sun { display:none; }
-    html.light ${scope} .site-theme .is-moon { display:block; }
     ${scope} ::selection { background:var(--accent); color:var(--on-accent); }
     ${scope} :is(a,button):focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:var(--r-sm); }
     ${scope} :is(h1,h2,h3) { text-wrap:balance; }
@@ -134,34 +127,16 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} .public-index { color:var(--accent-text); font-size:0.8125rem; font-weight:600; letter-spacing:0.08em; font-variant-numeric:tabular-nums; }
 
     /* Site chrome: one nav for every public page */
-    ${scope} .site-nav { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.25rem max(5vw, calc((100vw - 77.5rem) / 2), 1.25rem); }
-    ${scope} .site-nav { position:relative; z-index:2; border-bottom:1px solid var(--line); }
-    ${scope} .site-brand { display:inline-flex; align-items:center; gap:0.75rem; min-height:2.75rem; color:var(--text); font-size:1.125rem; font-weight:700; text-decoration:none; white-space:nowrap; }
-    ${scope} .site-brand svg { width:2.25rem; height:2.25rem; flex-shrink:0; color:var(--accent); }
-    ${scope} .site-links { display:flex; align-items:center; gap:1.5rem; }
-    ${scope} .site-link { display:inline-flex; align-items:center; min-height:2.75rem; color:var(--text-2); font-size:0.875rem; font-weight:500; text-decoration:none; white-space:nowrap; transition:color var(--dur-fast) ease; }
-    ${scope} .site-link[aria-current] { color:var(--accent-text); }
-    ${scope} .site-nav .public-button { min-height:2.75rem; padding:0.5rem 1rem; font-size:0.875rem; white-space:nowrap; }
     /* Language and theme: round icon buttons kept close together */
-    ${scope} .site-tools { display:flex; align-items:center; gap:0.5rem; }
     @media (max-width:640px) {
-      ${scope} .site-nav { gap:0.5rem; padding-block:0.75rem; }
-      ${scope} .site-brand { font-size:0.9375rem; gap:0.5rem; } ${scope} .site-brand svg { width:1.75rem; height:1.75rem; }
-      ${scope} .site-links { gap:0.625rem; } ${scope} .site-link { font-size:0.8125rem; }
-      ${scope} .site-nav .public-button { min-height:2.5rem; padding:0.375rem 0.75rem; font-size:0.8125rem; }
-      ${scope} .site-nav .public-button span { display:none; }
-      ${scope} .site-tools { gap:0.375rem; }
     }
     /* Narrow phones: the mark alone carries the brand so the links keep one row */
-    @media (max-width:400px) { ${scope} .site-nav .site-brand span { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; } }
 
     @media (hover:hover) and (pointer:fine) {
       ${scope} .public-button:hover { background:var(--accent-hover); border-color:var(--accent-hover); }
       ${scope} .public-button.is-outline:hover { background:var(--surface-3); border-color:var(--accent-line); }
       ${scope} .public-button:hover span { transform:translate(-2px,-2px); }
       ${scope} button.public-chip:not([aria-pressed="true"]):hover { border-color:var(--text-3); color:var(--text); }
-      ${scope} .site-link:not([aria-current]):hover { color:var(--text); }
-      ${scope} .site-theme:hover { background:var(--surface-2); color:var(--text); }
       ${scope} .public-card.is-interactive { transition:border-color var(--dur-fast) ease; }
       ${scope} .public-card.is-interactive:is(:hover,:focus-within) { border-color:var(--line-strong); }
     }
@@ -170,24 +145,12 @@ export function renderPublicPatterns(scope: string): string {
   </style>`;
 }
 
-// A program page sits inside the programs section, so its nav link stays marked
-function navCurrent(path: string, href: string): string {
-  if (path === href) return ' aria-current="page"';
-  return href !== '/' && path.startsWith(href + '/') ? ' aria-current="true"' : '';
-}
-
-// The same nav on / and /programs/*; only aria-current changes.
-const SUN_SVG = '<svg class="is-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
-const MOON_SVG = '<svg class="is-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
 
 // The landing shares the app's document, so its toggle uses the app's toggleTheme().
-export function renderPublicNav(path: string, opts: { themeToggle?: boolean } = {}): string {
-  const current = (href: string) => navCurrent(path, href);
-  const theme = opts.themeToggle ? `<button type="button" class="site-theme" onclick="toggleTheme()" title="تغییر حالت روز و شب" aria-label="تغییر حالت روز و شب">${SUN_SVG}${MOON_SVG}</button>` : '';
-  return `<nav class="site-nav" aria-label="ناوبری اصلی">
-      <a class="site-brand" href="/"${current('/')}>${BRAND_MARK_SVG}<span>جسم و اندیشه</span></a>
-      <div class="site-links"><a class="site-link" href="/programs"${current('/programs')}>همه برنامه‌ها</a><a class="landing-button public-button is-outline" href="/api/auth/google">ورود به حساب <span aria-hidden="true">↖</span></a><span class="site-tools"><!--chth-lang-->${theme}</span></div>
-    </nav>`;
+// The public pages' top is the shared CHTH navbar (filled in per language by finishPage). The
+// /programs pages are always dark, so theirs has no theme toggle.
+export function renderPublicNav(_path: string, opts: { themeToggle?: boolean } = {}): string {
+  return opts.themeToggle ? '<!--chth-nav:landing-->' : '<!--chth-nav:programs-->';
 }
 
 // The only footer on public pages is the shared CHTH one (filled in per language by finishPage).
