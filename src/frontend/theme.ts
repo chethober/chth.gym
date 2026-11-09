@@ -1319,8 +1319,8 @@ export function renderThemeStyles(): string {
       /* ==========================================================================
          13. App Shell
          ========================================================================== */
-      /* The tab bar is the CHTH kit's glass tab bar (.chth-tabs): a floating pill on every screen,
-         narrower when it minimizes on scroll. Its look and behaviour come from the kit. */
+      /* The tab bar is the CHTH kit's glass tab bar (.chth-tabs): a floating pill on every screen.
+         Its look and its minimizing on scroll (transform only, nothing re-laid out) come from the kit. */
       .app-bottomnav {
         position: fixed;
         z-index: 40;
@@ -1329,10 +1329,8 @@ export function renderThemeStyles(): string {
         right: 0.75rem;
         color: var(--text);
       }
-      .app-bottomnav.chth-tabs--min { left: 12%; right: 12%; }
       @media (min-width: 768px) {
         .app-bottomnav { left: calc(50% - min(17rem, 50% - 1rem)); right: calc(50% - min(17rem, 50% - 1rem)); bottom: 1rem; }
-        .app-bottomnav.chth-tabs--min { left: calc(50% - 13rem); right: calc(50% - 13rem); }
       }
       .nav-mobile-btn {
         flex: 1;
@@ -1356,9 +1354,9 @@ export function renderThemeStyles(): string {
         width: min(3.5rem, 100%);
         height: 1.75rem;
         border-radius: var(--r-full);
-        transition: color var(--dur-base) ease, transform var(--dur-press) var(--ease-out);
+        transition: color var(--dur-base) ease, scale var(--dur-press) var(--ease-out), transform var(--chth-glass-dur) var(--chth-glass-ease), opacity 200ms ease;
       }
-      .nav-mobile-btn:active .nav-m-pill { transform: scale(0.94); }
+      .nav-mobile-btn:active .nav-m-pill { scale: 0.94; }
       .nav-mobile-btn.is-active { color: var(--text); font-weight: 600; }
       .nav-mobile-btn.is-active .nav-m-pill, .nav-mobile-btn.is-scrub .nav-m-pill { color: var(--text); }
       .nav-mobile-btn.is-scrub { color: var(--text); }
