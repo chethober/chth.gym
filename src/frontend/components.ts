@@ -47,6 +47,25 @@ export function renderMobileBottomNav(): string {
 
 export function renderToastAndDialogs(): string {
   return `
+    <!-- Ongoing exercise: the full movement card (media, muscles, guide) with its set controls.
+         Before the dialog and rest timer so both stack above it. -->
+    <div id="ex-sheet-modal" class="modal-backdrop hidden" onclick="if (event.target === this) closeExerciseSheet()">
+      <div role="dialog" aria-modal="true" aria-labelledby="ex-sheet-title" class="modal-panel max-w-md max-h-[90vh] overflow-y-auto">
+        <div id="ex-sheet-media" class="ex-sheet-media"></div>
+        <div class="p-5 space-y-4">
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <h3 id="ex-sheet-title" class="text-base font-black text-white"></h3>
+              <p id="ex-sheet-subtitle" class="text-[11px] text-zinc-400 font-mono mt-0.5 text-right" dir="ltr"></p>
+            </div>
+            <button onclick="closeExerciseSheet()" class="btn-icon btn-ghost shrink-0" aria-label="بستن">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+          <div id="ex-sheet-controls"></div>
+          <div id="ex-sheet-info" class="space-y-3"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Modular Dialogue Box Modal -->
@@ -78,27 +97,22 @@ export function renderToastAndDialogs(): string {
       </div>
     </div>
 
-    <!-- Rest Timer Floating Capsule Overlay -->
-    <div id="rest-timer-overlay" class="rest-timer fixed bottom-24 md:bottom-8 left-4 md:left-8 z-50 hidden">
-      <div class="rest-timer-panel p-4 flex items-center gap-4 w-auto">
-        <div class="relative w-14 h-14 flex items-center justify-center">
-          <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
-            <path class="text-[color:var(--line-strong)]" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-            <path id="rest-timer-svg-path" class="text-[color:var(--accent)]" stroke-dasharray="100, 100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+    <!-- Rest timer: a glass pill like the toasts, above the tab bar -->
+    <div id="rest-timer-overlay" class="rest-timer hidden">
+      <div class="rest-timer-panel chth-glass" role="timer" aria-label="زمان استراحت ست">
+        <span class="rest-ring">
+          <svg viewBox="0 0 36 36" aria-hidden="true">
+            <path class="rest-ring-track" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path id="rest-timer-svg-path" class="rest-ring-fill" stroke-dasharray="100, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
           </svg>
-          <span id="rest-timer-seconds" class="absolute font-mono font-bold text-sm text-white">۶۰</span>
-        </div>
-        <div>
-          <div class="flex items-center gap-1.5">
-            <i data-lucide="timer" class="w-3.5 h-3.5 text-accent"></i>
-            <p class="text-xs font-bold text-white">زمان استراحت ست</p>
-          </div>
-          <div class="flex items-center gap-1.5 mt-2">
-            <button onclick="adjustRestTimer(15)" class="btn btn-secondary btn-sm">+۱۵ ث</button>
-            <button onclick="adjustRestTimer(30)" class="btn btn-secondary btn-sm">+۳۰ ث</button>
-            <button onclick="stopRestTimer()" class="btn btn-danger btn-sm">پایان</button>
-          </div>
-        </div>
+          <span id="rest-timer-seconds" class="rest-ring-value">۶۰</span>
+        </span>
+        <span class="rest-timer-label">استراحت</span>
+        <button type="button" onclick="adjustRestTimer(15)" class="rest-timer-chip">+۱۵ ث</button>
+        <button type="button" onclick="adjustRestTimer(30)" class="rest-timer-chip">+۳۰ ث</button>
+        <button type="button" onclick="stopRestTimer()" class="rest-timer-stop" aria-label="پایان استراحت" title="پایان استراحت">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
       </div>
     </div>
 
