@@ -14,30 +14,32 @@ export function renderTopNavbar(): string {
 
 export function renderMobileBottomNav(): string {
   return `
-    <!-- Mobile bottom navigation. DOM order is right-to-left on screen (RTL),
+    <!-- The tab bar: the CHTH kit's glass tab bar (data-chth-tabs), a floating pill on every screen.
+         A highlight slides to the active tab, labels fold away when it minimizes on scroll, and a
+         finger dragged across it scrubs between tabs. DOM order is right-to-left on screen (RTL),
          so visually left→right it reads: history, plan, dashboard, movements, suggestions -->
-    <nav id="mobile-bottom-nav" class="fixed bottom-0 inset-x-0 z-40 app-bottomnav flex items-stretch px-1" aria-label="بخش‌های اصلی">
-      <button onclick="switchTab('presets')" id="nav-m-presets" class="nav-mobile-btn">
+    <nav id="mobile-bottom-nav" class="fixed z-40 app-bottomnav chth-tabs" data-chth-tabs aria-label="بخش‌های اصلی">
+      <button onclick="switchTab('presets')" id="nav-m-presets" class="nav-mobile-btn" data-chth-tab>
         <span class="nav-m-pill"><i data-lucide="sparkles" class="w-5 h-5"></i></span>
-        <span>پیشنهادها</span>
+        <span class="chth-tabs__label">پیشنهادها</span>
       </button>
-      <button onclick="switchTab('movements')" id="nav-m-movements" class="nav-mobile-btn">
+      <button onclick="switchTab('movements')" id="nav-m-movements" class="nav-mobile-btn" data-chth-tab>
         <span class="nav-m-pill"><i data-lucide="dumbbell" class="w-5 h-5"></i></span>
-        <span>حرکات</span>
+        <span class="chth-tabs__label">حرکات</span>
         <span id="nav-m-draft-badge" class="hidden absolute top-1.5 right-[calc(50%-1.9rem)] w-2.5 h-2.5 rounded-full bg-accent ring-2 ring-[color:var(--color-surface)]"></span>
       </button>
-      <button onclick="switchTab('dashboard')" id="nav-m-dashboard" class="nav-mobile-btn is-active">
+      <button onclick="switchTab('dashboard')" id="nav-m-dashboard" class="nav-mobile-btn is-active" data-chth-tab aria-current="page">
         <span class="nav-m-pill"><i data-lucide="layout-dashboard" class="w-5 h-5"></i></span>
-        <span>داشبورد</span>
+        <span class="chth-tabs__label">داشبورد</span>
         <span id="active-badge-m" class="hidden absolute top-1.5 right-[calc(50%-1.9rem)] w-2.5 h-2.5 rounded-full bg-danger ring-2 ring-[color:var(--color-surface)]"></span>
       </button>
-      <button onclick="switchTab('plan')" id="nav-m-plan" class="nav-mobile-btn">
+      <button onclick="switchTab('plan')" id="nav-m-plan" class="nav-mobile-btn" data-chth-tab>
         <span class="nav-m-pill"><i data-lucide="calendar-days" class="w-5 h-5"></i></span>
-        <span>برنامه</span>
+        <span class="chth-tabs__label">برنامه</span>
       </button>
-      <button onclick="switchTab('history')" id="nav-m-history" class="nav-mobile-btn">
+      <button onclick="switchTab('history')" id="nav-m-history" class="nav-mobile-btn" data-chth-tab>
         <span class="nav-m-pill"><i data-lucide="history" class="w-5 h-5"></i></span>
-        <span>تاریخچه</span>
+        <span class="chth-tabs__label">تاریخچه</span>
       </button>
     </nav>
   `;
