@@ -1319,20 +1319,20 @@ export function renderThemeStyles(): string {
       /* ==========================================================================
          13. App Shell
          ========================================================================== */
+      /* The tab bar is the CHTH kit's glass tab bar (.chth-tabs): a floating pill on every screen,
+         narrower when it minimizes on scroll. Its look and behaviour come from the kit. */
       .app-bottomnav {
-        background: color-mix(in srgb, var(--surface) 88%, transparent);
-        backdrop-filter: saturate(160%) blur(12px);
-        -webkit-backdrop-filter: saturate(160%) blur(12px);
-        border-top: 1px solid var(--line);
-        padding-bottom: env(safe-area-inset-bottom);
+        position: fixed;
+        z-index: 40;
+        bottom: calc(0.75rem + env(safe-area-inset-bottom));
+        left: 0.75rem;
+        right: 0.75rem;
+        color: var(--text);
       }
-      /* Wider screens: the tab bar floats as a pill under the page, a match for the navbar */
+      .app-bottomnav.chth-tabs--min { left: 12%; right: 12%; }
       @media (min-width: 768px) {
-        .app-bottomnav {
-          left: 50%; right: auto; bottom: 1rem; width: min(34rem, calc(100% - 2rem)); transform: translateX(-50%);
-          border: 1px solid var(--line); border-radius: 9999px; padding: 0.25rem; box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
-        }
-        .app-bottomnav .nav-mobile-btn { border-radius: 9999px; }
+        .app-bottomnav { left: calc(50% - min(17rem, 50% - 1rem)); right: calc(50% - min(17rem, 50% - 1rem)); bottom: 1rem; }
+        .app-bottomnav.chth-tabs--min { left: calc(50% - 13rem); right: calc(50% - 13rem); }
       }
       .nav-mobile-btn {
         flex: 1;
@@ -1340,9 +1340,11 @@ export function renderThemeStyles(): string {
         flex-direction: column;
         align-items: center;
         gap: 0.2rem;
-        padding: 0.5rem 0.25rem 0.55rem;
+        justify-content: center;
+        padding: 0.45rem 0.25rem;
         font-size: 0.75rem;
         color: var(--text-3);
+        transition: color var(--dur-base) ease;
         position: relative;
         min-width: 0;
         white-space: nowrap;
@@ -1352,13 +1354,14 @@ export function renderThemeStyles(): string {
         align-items: center;
         justify-content: center;
         width: min(3.5rem, 100%);
-        height: 1.875rem;
+        height: 1.75rem;
         border-radius: var(--r-full);
-        transition: background-color var(--dur-base) ease, color var(--dur-base) ease, transform var(--dur-press) var(--ease-out);
+        transition: color var(--dur-base) ease, transform var(--dur-press) var(--ease-out);
       }
       .nav-mobile-btn:active .nav-m-pill { transform: scale(0.94); }
       .nav-mobile-btn.is-active { color: var(--text); font-weight: 600; }
-      .nav-mobile-btn.is-active .nav-m-pill { background: var(--accent-soft); color: var(--accent-text); }
+      .nav-mobile-btn.is-active .nav-m-pill, .nav-mobile-btn.is-scrub .nav-m-pill { color: var(--text); }
+      .nav-mobile-btn.is-scrub { color: var(--text); }
 
       .brand-mark { color: var(--accent); }
       .brand-word { font-weight: 800; font-size: 1.125rem; line-height: 1; letter-spacing: -0.01em; color: var(--text); }
