@@ -1945,9 +1945,12 @@ ${renderInstallCard()}
       const gif = item.gif_url || ex?.gif_url || '';
       const guide = ex?.instructions_fa || ex?.instructions_en || '';
 
-      document.getElementById('ex-sheet-media').innerHTML = gif
+      // The same tags as the movement card in the library
+      const tags = ex ? \`<span class="absolute top-2 right-2 badge badge-overlay">\${ex.category_fa || ''}</span>
+        <span class="absolute top-2 left-2 badge badge-overlay">\${ex.equipment_fa || ''}</span>\` : '';
+      document.getElementById('ex-sheet-media').innerHTML = (gif
         ? \`<img src="\${gif}" alt="\${escapeHtml(item.name_fa)}" decoding="async" onerror="this.parentElement.classList.add('hidden')">\`
-        : (ex ? renderExerciseMuscleMap(ex) : '');
+        : (ex ? renderExerciseMuscleMap(ex) : '')) + tags;
       document.getElementById('ex-sheet-media').classList.toggle('hidden', !gif && !ex);
       document.getElementById('ex-sheet-title').innerText = item.name_fa;
       document.getElementById('ex-sheet-subtitle').innerText = item.name_en || ex?.name_en || '';

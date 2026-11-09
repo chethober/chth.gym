@@ -1197,6 +1197,7 @@ export function renderThemeStyles(): string {
 
       /* Exercise popup: movement GIF on white, flush with the panel's top corners */
       html .ex-sheet-media {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1295,11 +1296,21 @@ export function renderThemeStyles(): string {
       }
 
 
-      /* Rest timer: rises from the bottom edge it is pinned to, and leaves the same way */
+      /* Rest timer: the toasts' glass pill (kit .chth-glass), centred above the tab bar
+         (--chth-bottom-room, measured by the kit). It rises in and leaves the same way. */
       .rest-timer {
+        position: fixed;
+        inset-inline: 0;
+        bottom: max(calc(1rem + env(safe-area-inset-bottom, 0px)), var(--chth-bottom-room, 0px));
+        z-index: 2147482500;
+        display: flex;
+        justify-content: center;
+        padding-inline: 1rem;
+        pointer-events: none;
         transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
         @starting-style { opacity: 0; transform: translateY(12px); }
       }
+      .rest-timer.hidden { display: none; }
       .rest-timer.is-leaving {
         opacity: 0;
         transform: translateY(12px);
@@ -1308,10 +1319,43 @@ export function renderThemeStyles(): string {
         transition-timing-function: ease-in;
       }
       .rest-timer-panel {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--r-xl);
-        box-shadow: var(--shadow-pop);
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        max-width: 100%;
+        padding: 0.375rem;
+        border-radius: 9999px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        pointer-events: auto;
+      }
+      .rest-ring { position: relative; display: inline-grid; place-items: center; flex: none; width: 2.5rem; height: 2.5rem; }
+      .rest-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+      .rest-ring-track { color: color-mix(in srgb, currentColor 14%, transparent); }
+      .rest-ring-fill { color: var(--accent); }
+      .rest-ring-value { position: relative; font-size: 0.8125rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+      .rest-timer-label { padding-inline: 0.25rem 0.375rem; white-space: nowrap; }
+      .rest-timer-chip, .rest-timer-stop {
+        border: 0;
+        display: inline-grid;
+        place-items: center;
+        flex: none;
+        height: 2rem;
+        border-radius: 9999px;
+        color: inherit;
+        background: color-mix(in srgb, currentColor 9%, transparent);
+        transition: background-color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
+      }
+      .rest-timer-chip { padding-inline: 0.7rem; font-size: 0.75rem; white-space: nowrap; }
+      .rest-timer-stop { width: 2rem; color: var(--danger); background: color-mix(in srgb, var(--danger) 14%, transparent); }
+      .rest-timer-chip:active, .rest-timer-stop:active { transform: scale(0.94); }
+      @media (hover: hover) and (pointer: fine) {
+        .rest-timer-chip:hover { background: color-mix(in srgb, currentColor 16%, transparent); }
+        .rest-timer-stop:hover { background: color-mix(in srgb, var(--danger) 22%, transparent); }
+      }
+      /* While it runs, toasts stack above it */
+      :root:has(#rest-timer-overlay:not(.hidden)) .chth-toasts {
+        bottom: calc(max(calc(1rem + env(safe-area-inset-bottom, 0px)), var(--chth-bottom-room, 0px)) + 3.75rem);
       }
       /* The ring drains continuously between one-second ticks */
       #rest-timer-svg-path { transition: stroke-dasharray 1000ms linear; }
