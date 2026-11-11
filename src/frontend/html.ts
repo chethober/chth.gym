@@ -126,21 +126,21 @@ export function renderAppHtml(): string {
         <div class="space-y-4">
           <h2 id="hero-greeting" class="hero-title text-white">آماده‌ی تمرین امروز؟</h2>
           <div class="flex items-center gap-2 flex-wrap">
-            <span class="badge badge-gold">
+            <span class="chth-badge chth-badge--warning">
               <i data-lucide="flame" class="w-3.5 h-3.5"></i>
               <span id="hero-streak-text">استریک: ۰ روز</span>
             </span>
-            <button onclick="switchTab('profile')" class="badge badge-zinc cursor-pointer">
+            <button onclick="switchTab('profile')" class="chth-badge chth-badge--neutral cursor-pointer">
               <i data-lucide="target" class="w-3.5 h-3.5"></i>
               <span id="hero-goal-badge">هدف: تنظیم نشده</span>
             </button>
           </div>
           <div class="flex items-center gap-2.5 pt-1">
-            <button onclick="startQuickWorkout()" class="btn btn-primary btn-lg flex-1 sm:flex-none">
+            <button onclick="startQuickWorkout()" class="chth-btn chth-btn--primary chth-btn--lg flex-1 sm:flex-none">
               <i data-lucide="play" class="w-4 h-4 fill-current"></i>
               <span>تمرین آزاد</span>
             </button>
-            <button onclick="switchTab('movements')" class="btn btn-secondary btn-lg flex-1 sm:flex-none">
+            <button onclick="switchTab('movements')" class="chth-btn chth-btn--secondary chth-btn--lg flex-1 sm:flex-none">
               <span>برنامه‌های من</span>
             </button>
           </div>
@@ -178,15 +178,15 @@ export function renderAppHtml(): string {
 
             <!-- Action Controls: one row on every width -->
             <div class="flex items-center gap-2">
-              <button onclick="openAddExerciseToSessionModal()" title="افزودن حرکت" class="btn btn-secondary btn-md">
+              <button onclick="openAddExerciseToSessionModal()" title="افزودن حرکت" class="chth-btn chth-btn--secondary chth-btn--md">
                 <i data-lucide="plus" class="w-4 h-4 text-accent"></i>
                 <span>حرکت</span>
               </button>
-              <button onclick="finishActiveWorkout()" class="btn btn-primary btn-md flex-1 md:flex-none">
+              <button onclick="finishActiveWorkout()" class="chth-btn chth-btn--primary chth-btn--md flex-1 md:flex-none">
                 <i data-lucide="check-circle-2" class="w-4 h-4"></i>
                 <span>پایان تمرین</span>
               </button>
-              <button onclick="discardActiveWorkout()" title="لغو تمرین" class="btn btn-danger btn-icon">
+              <button onclick="discardActiveWorkout()" title="لغو تمرین" class="chth-btn chth-btn--danger chth-btn--icon">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
             </div>
@@ -256,7 +256,7 @@ export function renderAppHtml(): string {
             </div>
           </div>
 
-          <button onclick="switchTab('movements')" class="btn btn-outline-dashed btn-md w-full">
+          <button onclick="switchTab('movements')" class="chth-btn chth-btn--dashed chth-btn--md w-full">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>طراحی برنامه جدید</span>
           </button>
@@ -277,10 +277,10 @@ export function renderAppHtml(): string {
             </div>
 
             <!-- View Switcher Tabs: Weekly, Monthly, 3 Months -->
-            <div class="segmented self-start sm:self-auto" role="tablist" aria-label="بازه زمانی">
-              <button onclick="switchCalendarView('weekly')" id="cal-btn-weekly" role="tab" class="segmented-item is-active">هفتگی</button>
-              <button onclick="switchCalendarView('monthly')" id="cal-btn-monthly" role="tab" class="segmented-item">ماهانه</button>
-              <button onclick="switchCalendarView('3month')" id="cal-btn-3month" role="tab" class="segmented-item">۳ ماهه</button>
+            <div class="chth-seg self-start sm:self-auto" role="tablist" aria-label="بازه زمانی" data-chth-seg><span class="chth-seg__thumb" aria-hidden="true"></span>
+              <button onclick="switchCalendarView('weekly')" id="cal-btn-weekly" role="tab" class="chth-seg__item is-active">هفتگی</button>
+              <button onclick="switchCalendarView('monthly')" id="cal-btn-monthly" role="tab" class="chth-seg__item">ماهانه</button>
+              <button onclick="switchCalendarView('3month')" id="cal-btn-3month" role="tab" class="chth-seg__item">۳ ماهه</button>
             </div>
           </div>
 
@@ -293,7 +293,7 @@ export function renderAppHtml(): string {
             <div class="progress-track">
               <div id="cal-progress-bar" class="progress-bar-emerald" style="width: 0%"></div>
             </div>
-            <div class="flex items-center justify-between text-[10px] text-zinc-400">
+            <div class="flex items-center justify-between text-10 text-zinc-400">
               <span id="cal-progress-details">۰ از ۴ جلسه تمرین انجام شده</span>
               <span id="cal-period-volume">حجم: ۰ کیلوگرم</span>
             </div>
@@ -352,10 +352,10 @@ export function renderAppHtml(): string {
               <i data-lucide="bar-chart-3" class="w-4 h-4 text-accent"></i>
               <span>آمار تمرین</span>
             </h3>
-            <div class="segmented" role="tablist" aria-label="بازه زمانی">
-              <button type="button" id="hist-range-30" role="tab" aria-selected="true" onclick="setHistoryRange(30)" class="segmented-item is-active">۳۰ روز</button>
-              <button type="button" id="hist-range-90" role="tab" aria-selected="false" onclick="setHistoryRange(90)" class="segmented-item">۹۰ روز</button>
-              <button type="button" id="hist-range-365" role="tab" aria-selected="false" onclick="setHistoryRange(365)" class="segmented-item">۱ سال</button>
+            <div class="chth-seg" role="tablist" aria-label="بازه زمانی" data-chth-seg><span class="chth-seg__thumb" aria-hidden="true"></span>
+              <button type="button" id="hist-range-30" role="tab" aria-selected="true" onclick="setHistoryRange(30)" class="chth-seg__item is-active">۳۰ روز</button>
+              <button type="button" id="hist-range-90" role="tab" aria-selected="false" onclick="setHistoryRange(90)" class="chth-seg__item">۹۰ روز</button>
+              <button type="button" id="hist-range-365" role="tab" aria-selected="false" onclick="setHistoryRange(365)" class="chth-seg__item">۱ سال</button>
             </div>
           </div>
 
@@ -365,7 +365,7 @@ export function renderAppHtml(): string {
             <div class="viz-card card-glass p-5 space-y-4 lg:col-span-3">
               <div>
                 <h3 class="text-sm font-bold text-white">حجم تمرین</h3>
-                <p id="hist-volume-sub" class="text-[12px] text-zinc-400">کیلوگرم در هر هفته</p>
+                <p id="hist-volume-sub" class="text-12 text-zinc-400">کیلوگرم در هر هفته</p>
               </div>
               <div id="hist-volume-chart"></div>
               <details class="viz-table-wrap">
@@ -378,7 +378,7 @@ export function renderAppHtml(): string {
             <div class="viz-card card-glass p-5 space-y-4 lg:col-span-2">
               <div>
                 <h3 class="text-sm font-bold text-white">ست‌ها بر اساس عضله</h3>
-                <p class="text-[12px] text-zinc-400">تعداد ست ثبت‌شده</p>
+                <p class="text-12 text-zinc-400">تعداد ست ثبت‌شده</p>
               </div>
               <div id="hist-muscle-chart"></div>
               <details class="viz-table-wrap">
@@ -393,7 +393,7 @@ export function renderAppHtml(): string {
             <div class="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h3 class="text-sm font-bold text-white">وضعیت ریکاوری عضلات</h3>
-                <p class="text-[12px] text-zinc-400">بر اساس آخرین جلسه هر عضله در ۲۸ روز اخیر</p>
+                <p class="text-12 text-zinc-400">بر اساس آخرین جلسه هر عضله در ۲۸ روز اخیر</p>
               </div>
               <div class="bm-legend">
                 <span><i style="background: var(--danger)"></i>خسته</span>
@@ -445,7 +445,7 @@ export function renderAppHtml(): string {
           <p class="text-xs text-zinc-400 mt-1">با ورود به حساب گوگل، سوابق و رکوردهای شما ذخیره می‌شوند.</p>
         </div>
         <div class="pt-2 flex justify-center">
-          <a href="/api/auth/google" class="btn btn-primary btn-lg">
+          <a href="/api/auth/google" class="chth-btn chth-btn--primary chth-btn--lg">
             <i data-lucide="log-in" class="w-4 h-4"></i>
             <span>ورود با حساب گوگل</span>
           </a>
@@ -475,8 +475,8 @@ export function renderAppHtml(): string {
           </div>
           
           <div class="flex items-center gap-2">
-            <span id="builder-count-badge" class="badge badge-emerald">۰ حرکت انتخاب شده</span>
-            <button onclick="clearDraftProgram()" class="btn btn-ghost btn-sm">
+            <span id="builder-count-badge" class="chth-badge chth-badge--accent">۰ حرکت انتخاب شده</span>
+            <button onclick="clearDraftProgram()" class="chth-btn chth-btn--ghost chth-btn--sm">
               <i data-lucide="eraser"></i>
               <span>پاکسازی</span>
             </button>
@@ -486,12 +486,12 @@ export function renderAppHtml(): string {
         <!-- Program Title & Description Input Form -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <div>
-            <label class="label-styled">نام برنامه تمرینی *</label>
-            <input type="text" id="inline-routine-title" maxlength="${TEXT_LIMITS.title}" placeholder="مثلاً: بالا تنه قدرتی" class="input-styled">
+            <label class="chth-field__label">نام برنامه تمرینی *</label>
+            <input type="text" id="inline-routine-title" maxlength="${TEXT_LIMITS.title}" placeholder="مثلاً: بالا تنه قدرتی" class="chth-input">
           </div>
           <div>
-            <label class="label-styled">توضیحات یا هدف برنامه (اختیاری)</label>
-            <input type="text" id="inline-routine-desc" maxlength="${TEXT_LIMITS.description}" placeholder="مثلاً: برنامه ۴ روزه برای افزایش حجم سینه و بازو" class="input-styled">
+            <label class="chth-field__label">توضیحات یا هدف برنامه (اختیاری)</label>
+            <input type="text" id="inline-routine-desc" maxlength="${TEXT_LIMITS.description}" placeholder="مثلاً: برنامه ۴ روزه برای افزایش حجم سینه و بازو" class="chth-input">
           </div>
         </div>
 
@@ -504,12 +504,12 @@ export function renderAppHtml(): string {
 
         <!-- Builder Actions -->
         <div id="inline-builder-actions" class="hidden pt-2 divider-top flex items-center justify-between">
-          <button id="builder-cancel-edit" onclick="cancelRoutineEdit()" class="btn btn-ghost btn-md hidden">
+          <button id="builder-cancel-edit" onclick="cancelRoutineEdit()" class="chth-btn chth-btn--ghost chth-btn--md hidden">
             <i data-lucide="x" class="w-4 h-4"></i>
             <span>انصراف از ویرایش</span>
           </button>
           <span id="builder-actions-spacer"></span>
-          <button onclick="saveInlineProgram()" class="btn btn-primary btn-md">
+          <button onclick="saveInlineProgram()" class="chth-btn chth-btn--primary chth-btn--md">
             <i data-lucide="check" class="w-4 h-4"></i>
             <span id="builder-save-label">ذخیره برنامه</span>
           </button>
@@ -548,18 +548,18 @@ export function renderAppHtml(): string {
               id="exercise-search-input" 
               oninput="handleExerciseSearch()" 
               placeholder="مثلاً: پرس سینه، اسکوات، زیربغل..." 
-              class="input-styled"
+              class="chth-input"
             >
           </div>
 
           <!-- Muscle & Tool (Equipment) Selectors in One Line -->
           <div class="grid grid-cols-2 gap-2.5">
             <div>
-              <label for="muscle-filter-select" class="label-styled">عضله</label>
+              <label for="muscle-filter-select" class="chth-field__label">عضله</label>
               <select 
                 id="muscle-filter-select" 
                 onchange="setMuscleFilter(this.value)" 
-                class="select-styled cursor-pointer"
+                class="chth-select cursor-pointer"
               >
                 <option value="all">همه عضلات</option>
                 <option value="chest">سینه</option>
@@ -572,11 +572,11 @@ export function renderAppHtml(): string {
             </div>
 
             <div>
-              <label for="equipment-filter-select" class="label-styled">تجهیزات</label>
+              <label for="equipment-filter-select" class="chth-field__label">تجهیزات</label>
               <select 
                 id="equipment-filter-select" 
                 onchange="setEquipmentFilter(this.value)" 
-                class="select-styled cursor-pointer"
+                class="chth-select cursor-pointer"
               >
                 <option value="all">همه ابزارها</option>
                 <option value="barbell">هالتر</option>
@@ -626,22 +626,22 @@ export function renderAppHtml(): string {
           <img id="prof-header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="avatar-frame w-10 h-10 sm:w-14 sm:h-14 shrink-0" alt="">
           <div class="min-w-0">
             <h2 id="prof-header-name" class="text-xs sm:text-base font-black text-white truncate">پروفایل کاربری</h2>
-            <p id="prof-header-email" class="text-[10px] sm:text-xs text-accent font-mono truncate hidden sm:block"></p>
+            <p id="prof-header-email" class="text-10 sm:text-xs text-accent font-mono truncate hidden sm:block"></p>
           </div>
         </div>
 
         <!-- Metric KPI Cards (Always in Same Line as Avatar) -->
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <div class="metric-pill text-center">
-            <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">وزن فعلی</p>
+            <p class="text-10 sm:text-10 text-zinc-400 whitespace-nowrap">وزن فعلی</p>
             <h4 id="prof-disp-weight" class="text-xs sm:text-sm font-black text-white font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
           <div class="metric-pill text-center">
-            <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">وزن هدف</p>
+            <p class="text-10 sm:text-10 text-zinc-400 whitespace-nowrap">وزن هدف</p>
             <h4 id="prof-disp-target" class="text-xs sm:text-sm font-black text-accent font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
           <div class="metric-pill text-center">
-            <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">شاخص BMI</p>
+            <p class="text-10 sm:text-10 text-zinc-400 whitespace-nowrap">شاخص BMI</p>
             <h4 id="prof-disp-bmi" class="text-xs sm:text-sm font-black text-accent font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
         </div>
@@ -657,10 +657,10 @@ ${renderInstallCard()}
           </div>
           <div>
             <h4 class="text-xs font-bold text-white">حالت آفلاین (مهمان)</h4>
-            <p class="text-[12px] text-zinc-400">برای همگام‌سازی وارد شوید.</p>
+            <p class="text-12 text-zinc-400">برای همگام‌سازی وارد شوید.</p>
           </div>
         </div>
-        <a href="/api/auth/google" class="btn btn-primary btn-sm whitespace-nowrap shrink-0">
+        <a href="/api/auth/google" class="chth-btn chth-btn--primary chth-btn--sm whitespace-nowrap shrink-0">
           <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
           <span>ورود با گوگل</span>
         </a>
@@ -685,7 +685,7 @@ ${renderInstallCard()}
 
         <div class="flex items-center justify-between">
           <span class="pref-label">پوسته</span>
-          <span id="theme-active-label" class="badge badge-emerald">تاریک</span>
+          <span id="theme-active-label" class="chth-badge chth-badge--accent">تاریک</span>
         </div>
         <div class="grid grid-cols-3 gap-2.5">
           <button type="button" onclick="setTheme('dark')" id="theme-opt-dark" class="theme-option-btn option-card">
@@ -719,20 +719,20 @@ ${renderInstallCard()}
 
         <div class="pref-row">
           <span class="pref-label">اندازه متن</span>
-          <div class="segmented" role="radiogroup" aria-label="اندازه متن">
-            <button type="button" role="radio" data-pref="text" data-value="sm" onclick="setPref('text', 'sm')" class="segmented-item text-xs">کوچک</button>
-            <button type="button" role="radio" data-pref="text" data-value="md" onclick="setPref('text', 'md')" class="segmented-item">معمولی</button>
-            <button type="button" role="radio" data-pref="text" data-value="lg" onclick="setPref('text', 'lg')" class="segmented-item text-[0.9rem]">بزرگ</button>
-            <button type="button" role="radio" data-pref="text" data-value="xl" onclick="setPref('text', 'xl')" class="segmented-item text-base">خیلی بزرگ</button>
+          <div class="chth-seg" role="radiogroup" aria-label="اندازه متن" data-chth-seg><span class="chth-seg__thumb" aria-hidden="true"></span>
+            <button type="button" role="radio" data-pref="text" data-value="sm" onclick="setPref('text', 'sm')" class="chth-seg__item text-xs">کوچک</button>
+            <button type="button" role="radio" data-pref="text" data-value="md" onclick="setPref('text', 'md')" class="chth-seg__item">معمولی</button>
+            <button type="button" role="radio" data-pref="text" data-value="lg" onclick="setPref('text', 'lg')" class="chth-seg__item text-14">بزرگ</button>
+            <button type="button" role="radio" data-pref="text" data-value="xl" onclick="setPref('text', 'xl')" class="chth-seg__item text-base">خیلی بزرگ</button>
           </div>
         </div>
 
         <div class="pref-row">
           <span class="pref-label">گوشه‌ها</span>
-          <div class="segmented" role="radiogroup" aria-label="گوشه‌ها">
-            <button type="button" role="radio" data-pref="radius" data-value="sharp" onclick="setPref('radius', 'sharp')" class="segmented-item">تیز</button>
-            <button type="button" role="radio" data-pref="radius" data-value="md" onclick="setPref('radius', 'md')" class="segmented-item">معمولی</button>
-            <button type="button" role="radio" data-pref="radius" data-value="round" onclick="setPref('radius', 'round')" class="segmented-item">گرد</button>
+          <div class="chth-seg" role="radiogroup" aria-label="گوشه‌ها" data-chth-seg><span class="chth-seg__thumb" aria-hidden="true"></span>
+            <button type="button" role="radio" data-pref="radius" data-value="sharp" onclick="setPref('radius', 'sharp')" class="chth-seg__item">تیز</button>
+            <button type="button" role="radio" data-pref="radius" data-value="md" onclick="setPref('radius', 'md')" class="chth-seg__item">معمولی</button>
+            <button type="button" role="radio" data-pref="radius" data-value="round" onclick="setPref('radius', 'round')" class="chth-seg__item">گرد</button>
           </div>
         </div>
 
@@ -741,9 +741,9 @@ ${renderInstallCard()}
             <p class="pref-label">کاهش حرکت</p>
             <p class="pref-hint">انیمیشن‌های جابه‌جایی حذف می‌شوند</p>
           </div>
-          <label class="switch" title="کاهش حرکت">
-            <input type="checkbox" id="pref-motion" onchange="setPref('motion', this.checked ? 'reduce' : 'full')">
-            <span class="switch-track"></span>
+          <label class="chth-switch" title="کاهش حرکت">
+            <input type="checkbox" role="switch" class="chth-switch__input" id="pref-motion" aria-label="کاهش حرکت" onchange="setPref('motion', this.checked ? 'reduce' : 'full')">
+            <span class="chth-switch__track" aria-hidden="true"><span class="chth-switch__thumb"></span></span>
           </label>
         </div>
       </div>
@@ -760,23 +760,23 @@ ${renderInstallCard()}
         <form id="profile-info-form" onsubmit="event.preventDefault(); saveProfileData();" class="space-y-4 text-xs">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label class="label-styled">قد (سانتی‌متر)</label>
-              <input type="number" id="prof-height" min="100" max="250" placeholder="مثلاً: ۱۷۸" class="input-styled font-mono">
+              <label class="chth-field__label">قد (سانتی‌متر)</label>
+              <input type="number" id="prof-height" min="100" max="250" placeholder="مثلاً: ۱۷۸" class="chth-input font-mono">
             </div>
 
             <div>
-              <label class="label-styled">وزن فعلی (کیلوگرم)</label>
-              <input type="number" step="0.1" id="prof-weight" min="30" max="250" placeholder="مثلاً: ۷۸" class="input-styled font-mono">
+              <label class="chth-field__label">وزن فعلی (کیلوگرم)</label>
+              <input type="number" step="0.1" id="prof-weight" min="30" max="250" placeholder="مثلاً: ۷۸" class="chth-input font-mono">
             </div>
 
             <div>
-              <label class="label-styled">وزن هدف (کیلوگرم)</label>
-              <input type="number" step="0.1" id="prof-target-weight" min="30" max="250" placeholder="مثلاً: ۸۲" class="input-styled font-mono">
+              <label class="chth-field__label">وزن هدف (کیلوگرم)</label>
+              <input type="number" step="0.1" id="prof-target-weight" min="30" max="250" placeholder="مثلاً: ۸۲" class="chth-input font-mono">
             </div>
 
             <div>
-              <label class="label-styled">هدف اصلی فیتنس</label>
-              <select id="prof-goal" class="select-styled">
+              <label class="chth-field__label">هدف اصلی فیتنس</label>
+              <select id="prof-goal" class="chth-select">
                 <option value="hypertrophy">هایپرتروفی و عضله‌سازی</option>
                 <option value="fat_loss">چربی‌سوزی و کاهش وزن</option>
                 <option value="strength">افزایش رکورد و قدرت</option>
@@ -786,8 +786,8 @@ ${renderInstallCard()}
             </div>
 
             <div>
-              <label class="label-styled">تعداد جلسات تمرین در هفته</label>
-              <select id="prof-weekly-workouts" class="select-styled">
+              <label class="chth-field__label">تعداد جلسات تمرین در هفته</label>
+              <select id="prof-weekly-workouts" class="chth-select">
                 <option value="2">۲ جلسه در هفته</option>
                 <option value="3">۳ جلسه در هفته</option>
                 <option value="4" selected>۴ جلسه در هفته</option>
@@ -797,8 +797,8 @@ ${renderInstallCard()}
             </div>
 
             <div>
-              <label class="label-styled">سطح تجربه</label>
-              <select id="prof-level" class="select-styled">
+              <label class="chth-field__label">سطح تجربه</label>
+              <select id="prof-level" class="chth-select">
                 <option value="beginner">مبتدی (زیر ۱ سال)</option>
                 <option value="intermediate">متوسط (۱ تا ۳ سال)</option>
                 <option value="advanced">پیشرفته (بیش از ۳ سال)</option>
@@ -809,13 +809,13 @@ ${renderInstallCard()}
           <!-- Subtle Extra Fields -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2 divider-top">
             <div>
-              <label class="label-styled">سن (سال)</label>
-              <input type="number" id="prof-age" min="10" max="100" placeholder="مثلاً: ۲۵" class="input-styled font-mono">
+              <label class="chth-field__label">سن (سال)</label>
+              <input type="number" id="prof-age" min="10" max="100" placeholder="مثلاً: ۲۵" class="chth-input font-mono">
             </div>
 
             <div>
-              <label class="label-styled">جنسیت</label>
-              <select id="prof-gender" class="select-styled">
+              <label class="chth-field__label">جنسیت</label>
+              <select id="prof-gender" class="chth-select">
                 <option value="male">مرد</option>
                 <option value="female">زن</option>
                 <option value="other">سایر</option>
@@ -824,7 +824,7 @@ ${renderInstallCard()}
           </div>
 
           <div class="pt-3 divider-top flex justify-end">
-            <button type="submit" class="btn btn-primary btn-md">
+            <button type="submit" class="chth-btn chth-btn--primary chth-btn--md">
               <i data-lucide="check" class="w-4 h-4"></i>
               <span>ذخیره تغییرات</span>
             </button>
@@ -932,19 +932,19 @@ ${renderInstallCard()}
         const color = options.color || 'emerald';
         if (color === 'rose') {
           iconContainer.className = 'icon-box icon-box-rose w-11 h-11 shrink-0';
-          confirmBtn.className = 'btn btn-danger btn-md';
+          confirmBtn.className = 'chth-btn chth-btn--danger chth-btn--md';
           iconEl.setAttribute('data-lucide', options.icon || 'trash-2');
         } else if (color === 'amber') {
           iconContainer.className = 'icon-box icon-box-gold w-11 h-11 shrink-0';
-          confirmBtn.className = 'btn btn-primary btn-md';
+          confirmBtn.className = 'chth-btn chth-btn--primary chth-btn--md';
           iconEl.setAttribute('data-lucide', options.icon || 'alert-triangle');
         } else if (color === 'purple') {
           iconContainer.className = 'icon-box icon-box-cyan w-11 h-11 shrink-0';
-          confirmBtn.className = 'btn btn-primary btn-md';
+          confirmBtn.className = 'chth-btn chth-btn--primary chth-btn--md';
           iconEl.setAttribute('data-lucide', options.icon || 'share-2');
         } else {
           iconContainer.className = 'icon-box icon-box-emerald w-11 h-11 shrink-0';
-          confirmBtn.className = 'btn btn-primary btn-md';
+          confirmBtn.className = 'chth-btn chth-btn--primary chth-btn--md';
           iconEl.setAttribute('data-lucide', options.icon || 'check-circle-2');
         }
 
@@ -1346,7 +1346,7 @@ ${renderInstallCard()}
             <img src="\${escapeHtml(avatar)}" class="w-7 h-7 rounded-full object-cover shrink-0" alt="" onerror="avatarFallback(this)">
             <span class="hidden xl:inline max-w-[110px] truncate">\${escapeHtml(user.name || 'حساب کاربری')}</span>
           </button>
-          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-icon-danger">
+          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="chth-btn chth-btn--icon chth-btn--icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
           </button>
         \`;
@@ -1357,7 +1357,7 @@ ${renderInstallCard()}
           <button onclick="switchTab('profile')" id="nav-m-profile" title="پروفایل و اهداف" aria-label="پروفایل و اهداف" class="account-chip p-0.5\${activeCls}">
             <img src="\${escapeHtml(avatar)}" class="w-8 h-8 rounded-full object-cover" alt="" onerror="avatarFallback(this)">
           </button>
-          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="btn-icon btn-icon-danger">
+          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="chth-btn chth-btn--icon chth-btn--icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
           </button>
         \`;
@@ -1799,15 +1799,15 @@ ${renderInstallCard()}
       const warmups = warmupSets(work);
 
       const platesHtml = work <= BAR_KG
-        ? \`<p class="text-[11px] text-zinc-400">فقط میله خالی (\${toPersianDigits(BAR_KG)} کیلوگرم)</p>\`
+        ? \`<p class="text-11 text-zinc-400">فقط میله خالی (\${toPersianDigits(BAR_KG)} کیلوگرم)</p>\`
         : \`<div class="bar-sleeve" role="img" aria-label="وزنه‌های هر طرف: \${plates.map(p => toPersianDigits(p)).join('، ')}">
             \${plates.map(p => \`<span class="bar-plate" style="background: \${PLATE_STYLE[p][0]}; height: \${PLATE_STYLE[p][1] * 0.52}px"></span>\`).join('')}
           </div>
-          <p class="text-[11px] text-zinc-300">هر طرف: <span class="font-mono">\${plates.map(p => toPersianDigits(p)).join(' + ')}</span></p>
-          \${leftover > 0 ? \`<p class="text-[11px] text-[color:var(--gold)]">\${toPersianDigits(leftover)} کیلوگرم با این وزنه‌ها قابل بستن نیست</p>\` : ''}\`;
+          <p class="text-11 text-zinc-300">هر طرف: <span class="font-mono">\${plates.map(p => toPersianDigits(p)).join(' + ')}</span></p>
+          \${leftover > 0 ? \`<p class="text-11 text-[color:var(--gold)]">\${toPersianDigits(leftover)} کیلوگرم با این وزنه‌ها قابل بستن نیست</p>\` : ''}\`;
 
       const warmupHtml = warmups.length === 0
-        ? '<p class="text-[11px] text-zinc-400">برای گرم کردن، وزن ست اصلی را بیشتر از میله خالی تنظیم کنید.</p>'
+        ? '<p class="text-11 text-zinc-400">برای گرم کردن، وزن ست اصلی را بیشتر از میله خالی تنظیم کنید.</p>'
         : warmups.map((w, i) => {
             const done = !!warmupDone[exerciseId + ':' + i];
             return \`<button type="button" onclick="toggleWarmupSet('\${exerciseId}', \${i})" aria-pressed="\${done}" class="warmup-row \${done ? 'is-done' : ''}">
@@ -1819,11 +1819,11 @@ ${renderInstallCard()}
       panel.innerHTML = \`
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="space-y-1.5">
-            <h5 class="text-[11px] font-bold text-zinc-300">بستن وزنه برای \${toPersianDigits(work)} کیلوگرم</h5>
+            <h5 class="text-11 font-bold text-zinc-300">بستن وزنه برای \${toPersianDigits(work)} کیلوگرم</h5>
             \${platesHtml}
           </div>
           <div class="space-y-1.5">
-            <h5 class="text-[11px] font-bold text-zinc-300">ست‌های گرم کردن <span class="font-normal text-zinc-500">(ثبت نمی‌شوند)</span></h5>
+            <h5 class="text-11 font-bold text-zinc-300">ست‌های گرم کردن <span class="font-normal text-zinc-500">(ثبت نمی‌شوند)</span></h5>
             <div class="space-y-1">\${warmupHtml}</div>
           </div>
         </div>\`;
@@ -1946,8 +1946,8 @@ ${renderInstallCard()}
       const guide = ex?.instructions_fa || ex?.instructions_en || '';
 
       // The same tags as the movement card in the library
-      const tags = ex ? \`<span class="absolute top-2 right-2 badge badge-overlay">\${ex.category_fa || ''}</span>
-        <span class="absolute top-2 left-2 badge badge-overlay">\${ex.equipment_fa || ''}</span>\` : '';
+      const tags = ex ? \`<span class="absolute top-2 right-2 chth-badge chth-badge--overlay">\${ex.category_fa || ''}</span>
+        <span class="absolute top-2 left-2 chth-badge chth-badge--overlay">\${ex.equipment_fa || ''}</span>\` : '';
       document.getElementById('ex-sheet-media').innerHTML = (gif
         ? \`<img src="\${gif}" alt="\${escapeHtml(item.name_fa)}" decoding="async" onerror="this.parentElement.classList.add('hidden')">\`
         : (ex ? renderExerciseMuscleMap(ex) : '')) + tags;
@@ -1958,12 +1958,12 @@ ${renderInstallCard()}
       // Last session and today's suggestion live here; the list row stays one line
       const prev = previousExerciseLogs[item.id];
       const suggestion = progressionSuggestion(item);
-      const prevHtml = (prev || suggestion) ? \`<div class="text-[12px] text-zinc-400 flex flex-wrap gap-x-4 gap-y-1">
+      const prevHtml = (prev || suggestion) ? \`<div class="text-12 text-zinc-400 flex flex-wrap gap-x-4 gap-y-1">
           \${suggestion ? \`<span class="text-accent">\${formatSuggestion(suggestion)}</span>\` : ''}
           \${prev ? \`<span>جلسه قبل: <span class="text-zinc-200">\${toPersianDigits(prev.weight_kg)} کیلو × \${toPersianDigits(prev.reps)}</span></span>\` : ''}
         </div>\` : '';
       document.getElementById('ex-sheet-info').innerHTML = prevHtml + (ex ? \`
-        <div class="text-[12px] text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
+        <div class="text-12 text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
           <p><span class="text-emerald-400 font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles || '—'}</span></p>
           \${ex.secondary_muscles ? \`<p><span class="text-zinc-400 font-medium">عضلات کمکی:</span> <span class="text-zinc-300">\${ex.secondary_muscles}</span></p>\` : ''}
         </div>
@@ -1973,7 +1973,7 @@ ${renderInstallCard()}
             <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-400"></i>
             <span>راهنمای اجرای حرکت</span>
           </h4>
-          <p class="text-[12px] text-zinc-300 whitespace-pre-line leading-relaxed" \${ex.instructions_fa ? '' : 'dir="ltr"'}>\${guide}</p>
+          <p class="text-12 text-zinc-300 whitespace-pre-line leading-relaxed" \${ex.instructions_fa ? '' : 'dir="ltr"'}>\${guide}</p>
         </div>\` : ''}
       \` : '');
 
@@ -2027,8 +2027,8 @@ ${renderInstallCard()}
           ? \`<button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, '\${log.id}')" title="ست \${toPersianDigits(sNum)} انجام شد (کلیک برای حذف)" class="set-chip is-done">
               <i data-lucide="check" class="stroke-[3]"></i>
               <span>ست \${toPersianDigits(sNum)}</span>
-              \${log.weight_kg > 0 ? \`<span class="text-[11px] opacity-75 font-mono font-normal">\${toPersianDigits(log.weight_kg)}×\${toPersianDigits(log.reps)}</span>\` : ''}
-              \${log.is_pr ? '<span class="badge badge-gold">PR</span>' : ''}
+              \${log.weight_kg > 0 ? \`<span class="text-11 opacity-75 font-mono font-normal">\${toPersianDigits(log.weight_kg)}×\${toPersianDigits(log.reps)}</span>\` : ''}
+              \${log.is_pr ? '<span class="chth-badge chth-badge--warning">PR</span>' : ''}
             </button>\`
           : \`<button type="button" onclick="logSetFromSheet('\${item.id}', \${sNum})" title="ثبت انجام ست \${toPersianDigits(sNum)}" class="set-chip">
               <i data-lucide="circle"></i>
@@ -2039,18 +2039,18 @@ ${renderInstallCard()}
       document.getElementById('ex-sheet-controls').innerHTML = \`
         <div class="space-y-3">
           <div class="flex flex-wrap items-center gap-2">
-            <div class="stepper">
-              <span class="stepper-label">وزن</span>
-              <button type="button" onclick="adjustOngoingWeight('\${item.id}', -2.5)" class="stepper-btn" aria-label="کاهش وزن">−</button>
-              <span class="stepper-value"><span class="roll" data-weight-for="\${item.id}">\${toPersianDigits(currentExerciseWeights[item.id])}</span></span>
-              <button type="button" onclick="adjustOngoingWeight('\${item.id}', 2.5)" class="stepper-btn" aria-label="افزایش وزن">+</button>
-              <span class="stepper-unit">kg</span>
+            <div class="chth-stepper">
+              <span class="chth-stepper__label">وزن</span>
+              <button type="button" onclick="adjustOngoingWeight('\${item.id}', -2.5)" class="chth-stepper__btn" aria-label="کاهش وزن">−</button>
+              <span class="chth-stepper__input"><span class="roll" data-weight-for="\${item.id}">\${toPersianDigits(currentExerciseWeights[item.id])}</span></span>
+              <button type="button" onclick="adjustOngoingWeight('\${item.id}', 2.5)" class="chth-stepper__btn" aria-label="افزایش وزن">+</button>
+              <span class="chth-stepper__unit">kg</span>
             </div>
-            <div class="stepper">
-              <span class="stepper-label">تکرار</span>
-              <button type="button" onclick="adjustOngoingReps('\${item.id}', -1)" class="stepper-btn" aria-label="کاهش تکرار">−</button>
-              <span class="stepper-value"><span class="roll" data-reps-for="\${item.id}">\${toPersianDigits(currentExerciseReps[item.id])}</span></span>
-              <button type="button" onclick="adjustOngoingReps('\${item.id}', 1)" class="stepper-btn" aria-label="افزایش تکرار">+</button>
+            <div class="chth-stepper">
+              <span class="chth-stepper__label">تکرار</span>
+              <button type="button" onclick="adjustOngoingReps('\${item.id}', -1)" class="chth-stepper__btn" aria-label="کاهش تکرار">−</button>
+              <span class="chth-stepper__input"><span class="roll" data-reps-for="\${item.id}">\${toPersianDigits(currentExerciseReps[item.id])}</span></span>
+              <button type="button" onclick="adjustOngoingReps('\${item.id}', 1)" class="chth-stepper__btn" aria-label="افزایش تکرار">+</button>
             </div>
           </div>
           <div class="flex items-center gap-1.5 flex-wrap">
@@ -2138,7 +2138,7 @@ ${renderInstallCard()}
           <div class="card-glass p-6 text-center space-y-3">
             <i data-lucide="dumbbell" class="w-8 h-8 mx-auto text-accent"></i>
             <p class="text-xs text-zinc-400">هنوز حرکتی در این جلسه اضافه نشده است. با دکمه «افزودن حرکت» حرکات دلخواه را اضافه کنید.</p>
-            <button onclick="openAddExerciseToSessionModal()" class="btn btn-primary btn-md">
+            <button onclick="openAddExerciseToSessionModal()" class="chth-btn chth-btn--primary chth-btn--md">
               افزودن حرکت به تمرین
             </button>
           </div>
@@ -2604,19 +2604,19 @@ ${renderInstallCard()}
           
           <div class="flex items-center gap-2.5 min-w-0">
             <div class="flex flex-col shrink-0">
-              <button type="button" onclick="moveDraftMovement(\${idx}, -1)" \${idx === 0 ? 'disabled' : ''} class="btn-icon-sm btn-ghost h-5 disabled:opacity-30" aria-label="انتقال به بالا">
+              <button type="button" onclick="moveDraftMovement(\${idx}, -1)" \${idx === 0 ? 'disabled' : ''} class="chth-btn chth-btn--icon-sm chth-btn--ghost h-5 disabled:opacity-30" aria-label="انتقال به بالا">
                 <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
               </button>
-              <button type="button" onclick="moveDraftMovement(\${idx}, 1)" \${idx === count - 1 ? 'disabled' : ''} class="btn-icon-sm btn-ghost h-5 disabled:opacity-30" aria-label="انتقال به پایین">
+              <button type="button" onclick="moveDraftMovement(\${idx}, 1)" \${idx === count - 1 ? 'disabled' : ''} class="chth-btn chth-btn--icon-sm chth-btn--ghost h-5 disabled:opacity-30" aria-label="انتقال به پایین">
                 <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
               </button>
             </div>
-            <span class="badge badge-emerald w-6 justify-center shrink-0">\${toPersianDigits(idx + 1)}</span>
+            <span class="chth-badge chth-badge--accent w-6 justify-center shrink-0">\${toPersianDigits(idx + 1)}</span>
             \${item.gif_url ? \`<img src="\${item.gif_url}" class="thumb w-10 h-10" alt="">\` : \`<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div class="min-w-0 truncate">
               <h5 class="font-bold text-white text-xs truncate">
                 <span>\${escapeHtml(item.name_fa)}</span>
-                \${item.name_en ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal mr-1">(\${escapeHtml(item.name_en)})</span>\` : ''}
+                \${item.name_en ? \`<span dir="ltr" class="text-10 text-zinc-400 font-normal mr-1">(\${escapeHtml(item.name_en)})</span>\` : ''}
               </h5>
             </div>
           </div>
@@ -2625,32 +2625,32 @@ ${renderInstallCard()}
           <div class="flex items-center flex-wrap justify-end gap-2 shrink-0 self-end sm:self-auto">
             
             <!-- Sets Counter -->
-            <div class="stepper">
-              <span class="stepper-label">ست</span>
-              <button type="button" onclick="adjustDraftSets(\${idx}, -1)" class="stepper-btn" aria-label="کاهش ست">−</button>
-              <span class="stepper-value">\${toPersianDigits(item.target_sets || 4)}</span>
-              <button type="button" onclick="adjustDraftSets(\${idx}, 1)" class="stepper-btn" aria-label="افزایش ست">+</button>
+            <div class="chth-stepper">
+              <span class="chth-stepper__label">ست</span>
+              <button type="button" onclick="adjustDraftSets(\${idx}, -1)" class="chth-stepper__btn" aria-label="کاهش ست">−</button>
+              <span class="chth-stepper__input">\${toPersianDigits(item.target_sets || 4)}</span>
+              <button type="button" onclick="adjustDraftSets(\${idx}, 1)" class="chth-stepper__btn" aria-label="افزایش ست">+</button>
             </div>
 
             <!-- Reps Counter -->
-            <div class="stepper">
-              <span class="stepper-label">تکرار</span>
-              <button type="button" onclick="adjustDraftReps(\${idx}, -1)" class="stepper-btn" aria-label="کاهش تکرار">−</button>
-              <span class="stepper-value">\${toPersianDigits(item.target_reps || 10)}</span>
-              <button type="button" onclick="adjustDraftReps(\${idx}, 1)" class="stepper-btn" aria-label="افزایش تکرار">+</button>
+            <div class="chth-stepper">
+              <span class="chth-stepper__label">تکرار</span>
+              <button type="button" onclick="adjustDraftReps(\${idx}, -1)" class="chth-stepper__btn" aria-label="کاهش تکرار">−</button>
+              <span class="chth-stepper__input">\${toPersianDigits(item.target_reps || 10)}</span>
+              <button type="button" onclick="adjustDraftReps(\${idx}, 1)" class="chth-stepper__btn" aria-label="افزایش تکرار">+</button>
             </div>
 
             <!-- Rest Counter (seconds, 15s steps) -->
-            <div class="stepper">
-              <span class="stepper-label">استراحت</span>
-              <button type="button" onclick="adjustDraftRest(\${idx}, -15)" class="stepper-btn" aria-label="کاهش استراحت">−</button>
-              <span class="stepper-value">\${toPersianDigits(item.rest_seconds || 60)}</span>
-              <span class="stepper-unit">ث</span>
-              <button type="button" onclick="adjustDraftRest(\${idx}, 15)" class="stepper-btn" aria-label="افزایش استراحت">+</button>
+            <div class="chth-stepper">
+              <span class="chth-stepper__label">استراحت</span>
+              <button type="button" onclick="adjustDraftRest(\${idx}, -15)" class="chth-stepper__btn" aria-label="کاهش استراحت">−</button>
+              <span class="chth-stepper__input">\${toPersianDigits(item.rest_seconds || 60)}</span>
+              <span class="chth-stepper__unit">ث</span>
+              <button type="button" onclick="adjustDraftRest(\${idx}, 15)" class="chth-stepper__btn" aria-label="افزایش استراحت">+</button>
             </div>
 
             <!-- Delete Button -->
-            <button type="button" onclick="removeDraftMovement(\${idx})" title="حذف از برنامه" class="btn-icon-sm btn-icon-danger">
+            <button type="button" onclick="removeDraftMovement(\${idx})" title="حذف از برنامه" class="chth-btn chth-btn--icon-sm chth-btn--icon-danger">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
           </div>
@@ -2658,7 +2658,7 @@ ${renderInstallCard()}
         </div>
         \${idx < count - 1 ? \`
         <div class="flex justify-center -my-1">
-          <button type="button" onclick="toggleDraftSuperset(\${idx})" aria-pressed="\${item.superset_next ? 'true' : 'false'}" class="badge \${item.superset_next ? 'badge-emerald' : 'badge-zinc'} cursor-pointer">
+          <button type="button" onclick="toggleDraftSuperset(\${idx})" aria-pressed="\${item.superset_next ? 'true' : 'false'}" class="chth-badge \${item.superset_next ? 'chth-badge--accent' : 'chth-badge--neutral'} cursor-pointer">
             <i data-lucide="link-2" class="w-3 h-3"></i>
             <span>\${item.superset_next ? 'سوپرست با حرکت بعد' : 'اتصال سوپرست'}</span>
           </button>
@@ -2979,7 +2979,7 @@ ${renderInstallCard()}
           <div class="space-y-2">
             <div class="flex items-start justify-between gap-3">
               <h3 class="font-bold text-sm text-white min-w-0 text-wrap-safe">\${userText(r.title)}</h3>
-              <span class="badge badge-emerald shrink-0">
+              <span class="chth-badge chth-badge--accent shrink-0">
                 \${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت
               </span>
             </div>
@@ -2993,7 +2993,7 @@ ${renderInstallCard()}
                 return \`
                 <div class="card-glass-subtle px-2.5 py-1.5 flex items-center justify-between gap-2 text-xs">
                   <span class="text-zinc-200 font-medium min-w-0">\${toPersianDigits(i + 1)}. \${escapeHtml(nameFa)}\${Number(ex.superset_next) ? ' <i data-lucide="link-2" class="w-3 h-3 inline text-accent" aria-label="سوپرست با حرکت بعد"></i>' : ''}</span>
-                  <span class="text-zinc-400 font-mono text-[11px] shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)} · \${toPersianDigits(Number(ex.rest_seconds) || 60)}ث</span>
+                  <span class="text-zinc-400 font-mono text-11 shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)} · \${toPersianDigits(Number(ex.rest_seconds) || 60)}ث</span>
                 </div>
               \`;}).join('')}
             </div>
@@ -3002,21 +3002,21 @@ ${renderInstallCard()}
           <!-- Routine Bottom Action Controls -->
           <div class="pt-3 divider-top flex items-center justify-between gap-2">
             <div class="flex items-center gap-1.5">
-              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری این برنامه" class="btn btn-secondary btn-icon-sm">
+              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری این برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
               </button>
-              <button onclick="editRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ویرایش برنامه" class="btn btn-secondary btn-icon-sm">
+              <button onclick="editRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ویرایش برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
                 <i data-lucide="pencil" class="w-4 h-4"></i>
               </button>
-              <button onclick="duplicateRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ساخت کپی از برنامه" class="btn btn-secondary btn-icon-sm">
+              <button onclick="duplicateRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ساخت کپی از برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
                 <i data-lucide="copy" class="w-4 h-4"></i>
               </button>
-              <button onclick="deleteRoutine('\${r.id}')" title="حذف برنامه" class="btn-icon-sm btn-icon-danger">
+              <button onclick="deleteRoutine('\${r.id}')" title="حذف برنامه" class="chth-btn chth-btn--icon-sm chth-btn--icon-danger">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
             </div>
 
-            <button onclick="startRoutineWorkout('\${r.id}')" class="btn btn-primary btn-sm">
+            <button onclick="startRoutineWorkout('\${r.id}')" class="chth-btn chth-btn--primary chth-btn--sm">
               <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
               <span>اجرای برنامه</span>
             </button>
@@ -3117,10 +3117,10 @@ ${renderInstallCard()}
               class="w-full h-full object-contain"
               onerror="this.src='https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg'"
             >\` : renderExerciseMuscleMap(ex)}
-            <span class="absolute top-2 right-2 badge badge-overlay">
+            <span class="absolute top-2 right-2 chth-badge chth-badge--overlay">
               \${ex.category_fa}
             </span>
-            <span class="absolute top-2 left-2 badge badge-overlay">
+            <span class="absolute top-2 left-2 chth-badge chth-badge--overlay">
               \${ex.equipment_fa}
             </span>
           </div>
@@ -3133,18 +3133,18 @@ ${renderInstallCard()}
               <div>
                 <h4 class="font-bold text-sm text-white flex items-baseline gap-1.5 flex-wrap">
                   <span>\${escapeHtml(ex.name_fa)}</span>
-                  \${ex.name_en ? \`<span dir="ltr" class="text-[11px] text-zinc-400 font-normal">(\${escapeHtml(ex.name_en)})</span>\` : ''}
+                  \${ex.name_en ? \`<span dir="ltr" class="text-11 text-zinc-400 font-normal">(\${escapeHtml(ex.name_en)})</span>\` : ''}
                 </h4>
               </div>
 
               <!-- Muscles Info -->
-              <div class="text-[12px] text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
+              <div class="text-12 text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
                 <p><span class="text-accent font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles}</span></p>
                 \${ex.secondary_muscles ? \`<p><span class="text-zinc-400 font-medium">عضلات کمکی:</span> <span class="text-zinc-300">\${ex.secondary_muscles}</span></p>\` : ''}
               </div>
 
               <!-- Step-by-Step Guidance Box Directly on Card -->
-              <details class="text-[12px] text-zinc-300 card-glass-subtle p-2.5 group/guide">
+              <details class="text-12 text-zinc-300 card-glass-subtle p-2.5 group/guide">
                 <summary class="cursor-pointer font-semibold text-white text-xs flex items-center justify-between select-none">
                   <span class="flex items-center gap-1.5">
                     <svg class="w-3.5 h-3.5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
@@ -3158,7 +3158,7 @@ ${renderInstallCard()}
 
             <!-- Card Bottom Action: Add to Program -->
             <div class="pt-2 divider-top">
-              <button onclick="addMovementToInlineProgram('\${ex.id}')" class="btn btn-primary btn-md w-full">
+              <button onclick="addMovementToInlineProgram('\${ex.id}')" class="chth-btn chth-btn--primary chth-btn--md w-full">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                 <span>افزودن به برنامه</span>
               </button>
@@ -3169,7 +3169,7 @@ ${renderInstallCard()}
 
       const loadMoreBtn = hasMore ? \`
         <div class="col-span-full pt-4 flex justify-center">
-          <button onclick="loadMoreExercises()" class="btn btn-secondary btn-md">
+          <button onclick="loadMoreExercises()" class="chth-btn chth-btn--secondary chth-btn--md">
             <span>نمایش حرکات بیشتر (\${toPersianDigits(filtered.length - exerciseRenderLimit)} حرکت دیگر)</span>
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
           </button>
@@ -3240,10 +3240,10 @@ ${renderInstallCard()}
             \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="thumb w-9 h-9" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div>
               <h5 class="font-bold text-xs text-white">\${escapeHtml(ex.name_fa)}</h5>
-              <p dir="ltr" class="text-[10px] text-zinc-400 text-right">\${escapeHtml(ex.name_en)}</p>
+              <p dir="ltr" class="text-10 text-zinc-400 text-right">\${escapeHtml(ex.name_en)}</p>
             </div>
           </div>
-          <button onclick="addSelectedExToWorkout('\${ex.id}')" class="btn btn-primary btn-sm">
+          <button onclick="addSelectedExToWorkout('\${ex.id}')" class="chth-btn chth-btn--primary chth-btn--sm">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
             <span>افزودن</span>
           </button>
@@ -3375,27 +3375,27 @@ ${renderInstallCard()}
               if (hasWorkout) {
                 return \`
                   <div class="day-tile is-done">
-                    <span class="text-[11px] font-bold text-accent">\${dayName}</span>
+                    <span class="text-11 font-bold text-accent">\${dayName}</span>
                     <div class="w-6 h-6 rounded-full bg-accent text-on-accent flex items-center justify-center">
                       <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
                     </div>
-                    <span class="text-[9px] font-mono font-bold text-accent">\${toPersianDigits(Math.round(item.volume / 100) / 10)}k</span>
+                    <span class="text-10 font-mono font-bold text-accent">\${toPersianDigits(Math.round(item.volume / 100) / 10)}k</span>
                   </div>
                 \`;
               } else if (isToday) {
                 return \`
                   <div class="day-tile is-today">
-                    <span class="text-[11px] font-bold text-white">\${dayName}</span>
-                    <span class="badge badge-emerald">امروز</span>
-                    <span class="text-[9px] text-zinc-400">\${dayNum}</span>
+                    <span class="text-11 font-bold text-white">\${dayName}</span>
+                    <span class="chth-badge chth-badge--accent">امروز</span>
+                    <span class="text-10 text-zinc-400">\${dayNum}</span>
                   </div>
                 \`;
               } else {
                 return \`
                   <div class="day-tile is-empty">
-                    <span class="text-[11px] font-medium text-zinc-400">\${dayName}</span>
+                    <span class="text-11 font-medium text-zinc-400">\${dayName}</span>
                     <div class="w-2 h-2 rounded-full bg-muted"></div>
-                    <span class="text-[9px] text-zinc-500">\${dayNum}</span>
+                    <span class="text-10 text-zinc-500">\${dayNum}</span>
                   </div>
                 \`;
               }
@@ -3424,21 +3424,21 @@ ${renderInstallCard()}
                 if (hasWorkout) {
                   return \`
                     <div title="\${item.dateStr}: \${toPersianDigits(item.volume)} kg" class="day-tile day-tile-sm is-done">
-                      <span class="text-[11px] font-bold text-white font-mono">\${dayNum}</span>
+                      <span class="text-11 font-bold text-white font-mono">\${dayNum}</span>
                       <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
                     </div>
                   \`;
                 } else if (isToday) {
                   return \`
                     <div title="امروز: هنوز ثبت نشده" class="day-tile day-tile-sm is-today">
-                      <span class="text-[11px] font-bold text-accent font-mono">\${dayNum}</span>
-                      <span class="text-[10px] text-zinc-400">امروز</span>
+                      <span class="text-11 font-bold text-accent font-mono">\${dayNum}</span>
+                      <span class="text-10 text-zinc-400">امروز</span>
                     </div>
                   \`;
                 } else {
                   return \`
                     <div class="day-tile day-tile-sm is-empty">
-                      <span class="text-[11px] font-mono text-zinc-500">\${dayNum}</span>
+                      <span class="text-11 font-mono text-zinc-500">\${dayNum}</span>
                       <span class="w-1 h-1 rounded-full bg-muted"></span>
                     </div>
                   \`;
@@ -3482,7 +3482,7 @@ ${renderInstallCard()}
               }).join('')}
             </div>
 
-            <div class="flex items-center justify-between text-[10px] text-zinc-400 px-1">
+            <div class="flex items-center justify-between text-10 text-zinc-400 px-1">
               <span>کمتر</span>
               <div class="flex items-center gap-1">
                 <span class="heat-cell heat-0"></span>
@@ -3643,12 +3643,12 @@ ${renderInstallCard()}
               </div>
               <div class="min-w-0">
                 <h4 class="font-bold text-xs md:text-sm text-white text-wrap-safe">\${userText(w.title)}</h4>
-                <p class="text-[10px] text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
+                <p class="text-10 text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
               </div>
             </div>
             <div class="text-left shrink-0">
               <span class="text-xs font-mono font-bold text-accent whitespace-nowrap">\${formatKg(w.total_volume_kg)} kg</span>
-              <p class="text-[10px] text-zinc-400">\${toPersianDigits(w.set_logs ? w.set_logs.length : 0)} ست</p>
+              <p class="text-10 text-zinc-400">\${toPersianDigits(w.set_logs ? w.set_logs.length : 0)} ست</p>
             </div>
           </div>
         \`;
@@ -3695,13 +3695,13 @@ ${renderInstallCard()}
           <div class="card-glass-subtle p-3 flex items-center justify-between gap-3">
             <div class="min-w-0">
               <h4 class="font-bold text-xs text-white text-wrap-safe">\${userText(r.title)}</h4>
-              <p class="text-[10px] text-zinc-400">\${isToday(r) ? '<span class="badge badge-emerald ml-1">امروز</span>' : ''}\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
+              <p class="text-10 text-zinc-400">\${isToday(r) ? '<span class="chth-badge chth-badge--accent ml-1">امروز</span>' : ''}\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری" class="btn btn-secondary btn-icon-sm">
+              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
                 <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
               </button>
-              <button onclick="startRoutineWorkout('\${r.id}')" class="btn btn-primary btn-sm">
+              <button onclick="startRoutineWorkout('\${r.id}')" class="chth-btn chth-btn--primary chth-btn--sm">
                 <i data-lucide="play" class="w-3 h-3 fill-current"></i>
                 <span>اجرا</span>
               </button>
@@ -4135,16 +4135,16 @@ ${renderInstallCard()}
           prsGrid.innerHTML = prs.map(pr => \`
             <div class="card-glass-interactive p-4 flex items-center justify-between gap-3">
               <div class="space-y-1 min-w-0">
-                <span class="badge badge-emerald">\${escapeHtml(pr.category_fa)}</span>
+                <span class="chth-badge chth-badge--accent">\${escapeHtml(pr.category_fa)}</span>
                 <h4 class="font-bold text-xs md:text-sm text-white flex items-baseline gap-x-1.5 flex-wrap">
                   <span>\${escapeHtml(pr.exercise_name_fa)}</span>
-                  \${pr.exercise_name_en ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal">(\${escapeHtml(pr.exercise_name_en)})</span>\` : ''}
+                  \${pr.exercise_name_en ? \`<span dir="ltr" class="text-10 text-zinc-400 font-normal">(\${escapeHtml(pr.exercise_name_en)})</span>\` : ''}
                 </h4>
               </div>
               <div class="text-left shrink-0">
                 <span class="text-base md:text-lg font-black font-mono text-accent whitespace-nowrap">\${formatKg(pr.max_weight_kg)} kg</span>
-                <p class="text-[10px] text-zinc-400">\${toPersianDigits(pr.reps_at_max)} تکرار</p>
-                \${pr.est_1rm ? \`<p class="text-[10px] text-zinc-400 whitespace-nowrap" title="یک تکرار بیشینه تخمینی (فرمول اپلی)">۱RM تخمینی: <span class="font-mono text-zinc-200">\${toPersianDigits(Math.round(pr.est_1rm * 2) / 2)}</span></p>\` : ''}
+                <p class="text-10 text-zinc-400">\${toPersianDigits(pr.reps_at_max)} تکرار</p>
+                \${pr.est_1rm ? \`<p class="text-10 text-zinc-400 whitespace-nowrap" title="یک تکرار بیشینه تخمینی (فرمول اپلی)">۱RM تخمینی: <span class="font-mono text-zinc-200">\${toPersianDigits(Math.round(pr.est_1rm * 2) / 2)}</span></p>\` : ''}
               </div>
             </div>
           \`).join('');
@@ -4170,7 +4170,7 @@ ${renderInstallCard()}
                 <div class="flex items-center justify-between gap-3 border-b pb-2 border-[color:var(--line)]">
                   <div class="min-w-0">
                     <h4 class="font-bold text-xs md:text-sm text-white text-wrap-safe">\${userText(w.title)}</h4>
-                    <p class="text-[10px] text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
+                    <p class="text-10 text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
                   </div>
                   <div class="text-left shrink-0">
                     <span class="text-xs md:text-sm font-bold font-mono text-accent whitespace-nowrap">\${formatKg(w.total_volume_kg)} kg</span>
@@ -4179,7 +4179,7 @@ ${renderInstallCard()}
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pt-1">
                   \${(w.set_logs || []).map(s => \`
-                    <div class="card-glass-subtle p-2 text-[11px] flex items-center justify-between gap-1.5">
+                    <div class="card-glass-subtle p-2 text-11 flex items-center justify-between gap-1.5">
                       <span class="text-zinc-300 truncate min-w-0" title="\${escapeHtml(s.exercise_name_fa)}">\${escapeHtml(s.exercise_name_fa)}</span>
                       <span class="font-mono font-bold text-accent whitespace-nowrap shrink-0">\${formatKg(s.weight_kg)}kg × \${toPersianDigits(s.reps)}</span>
                     </div>
@@ -4405,11 +4405,11 @@ ${renderInstallCard()}
                 <div>
                   <h6 class="font-bold text-xs text-white flex items-baseline gap-1.5 flex-wrap">
                     <span>\${toPersianDigits(idx + 1)}. \${escapeHtml(nameFa)}</span>
-                    \${nameEn ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal">(\${escapeHtml(nameEn)})</span>\` : ''}
+                    \${nameEn ? \`<span dir="ltr" class="text-10 text-zinc-400 font-normal">(\${escapeHtml(nameEn)})</span>\` : ''}
                   </h6>
                 </div>
               </div>
-              <span class="badge badge-emerald font-mono">
+              <span class="chth-badge chth-badge--accent font-mono">
                 \${toPersianDigits(sets)}×\${toPersianDigits(reps)}
               </span>
             </div>
@@ -4419,7 +4419,7 @@ ${renderInstallCard()}
         const btnContainer = document.getElementById('shared-import-btn-container');
         if (currentUser) {
           btnContainer.innerHTML = \`
-            <button onclick="importRoutine('\${currentSharedRoutine.id}')" class="btn btn-primary btn-md w-full">
+            <button onclick="importRoutine('\${currentSharedRoutine.id}')" class="chth-btn chth-btn--primary chth-btn--md w-full">
               <i data-lucide="plus-circle" class="w-4 h-4"></i>
               <span>افزودن این برنامه به برنامه‌های من</span>
             </button>
@@ -4427,11 +4427,11 @@ ${renderInstallCard()}
         } else {
           btnContainer.innerHTML = \`
             <div class="space-y-2">
-              <button onclick="importGuestRoutine('\${currentSharedRoutine.id}')" class="btn btn-primary btn-md w-full">
+              <button onclick="importGuestRoutine('\${currentSharedRoutine.id}')" class="chth-btn chth-btn--primary chth-btn--md w-full">
                 <i data-lucide="plus-circle" class="w-4 h-4"></i>
                 <span>ذخیره در برنامه‌های من</span>
               </button>
-              <button onclick="loginAndImportPending('\${currentSharedRoutine.id}')" class="btn btn-secondary btn-md w-full">
+              <button onclick="loginAndImportPending('\${currentSharedRoutine.id}')" class="chth-btn chth-btn--secondary chth-btn--md w-full">
                 <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
                 <span>ورود با گوگل برای همگام‌سازی ابری</span>
               </button>
@@ -4441,7 +4441,7 @@ ${renderInstallCard()}
 
         const startButton = document.createElement('button');
         startButton.type = 'button';
-        startButton.className = 'btn btn-primary btn-md w-full mt-2';
+        startButton.className = 'chth-btn chth-btn--primary chth-btn--md w-full mt-2';
         startButton.textContent = 'ذخیره و شروع تمرین';
         startButton.onclick = saveAndStartSharedRoutine;
         btnContainer.appendChild(startButton);

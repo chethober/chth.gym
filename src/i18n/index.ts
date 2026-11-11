@@ -84,7 +84,7 @@ export function languageSwitcher(locale: Locale): string {
 
 // LTR pages: the app's few physical left/right classes were written for RTL, so mirror them.
 const LTR_FIXES = `html[dir="ltr"] .text-left{text-align:right}html[dir="ltr"] .text-right{text-align:left}
-html[dir="ltr"] .ml-1{margin-left:0;margin-right:.25rem}html[dir="ltr"] .mr-1{margin-right:0;margin-left:.25rem}
+html[dir="ltr"] .ml-1{margin-left:0;margin-right:var(--chth-space-4)}html[dir="ltr"] .mr-1{margin-right:0;margin-left:var(--chth-space-4)}
 html[dir="ltr"] .left-2{left:auto;right:.5rem}html[dir="ltr"] .right-2{right:auto;left:.5rem}
 `;
 

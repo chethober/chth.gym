@@ -66,25 +66,26 @@ export const ACCENTS: { id: string; name: string; dark: AccentTone; light: Accen
   },
 ];
 
-// Shared sizing and motion rhythm for public and authenticated surfaces.
-export const FOUNDATION_TOKENS = `        --font-sans: 'Vazirmatn', system-ui, sans-serif;
+// Shared sizing and motion rhythm for public and authenticated surfaces: the gym's names for the
+// CHTH kit's tokens (brand.css, inlined on every page), so a change to the kit reaches the gym.
+export const FOUNDATION_TOKENS = `        --font-sans: var(--chth-font-rtl);
 
-        --r-xs: 6px;      /* badges, tiny inner controls */
-        --r-sm: 8px;      /* chips, small inner controls */
-        --r-md: 10px;     /* buttons, inputs, inset wells */
-        --r-lg: 14px;     /* cards */
-        --r-xl: 20px;     /* hero, modals */
-        --r-full: 9999px;
+        --r-xs: var(--chth-radius-6);     /* badges, tiny inner controls */
+        --r-sm: var(--chth-radius-sm);    /* chips, small inner controls (8px) */
+        --r-md: var(--chth-radius-md);    /* buttons, inputs, inset wells (10px) */
+        --r-lg: var(--chth-radius-lg);    /* cards (14px) */
+        --r-xl: var(--chth-radius-xl);    /* hero, modals (20px) */
+        --r-full: var(--chth-radius-full);
 
-        --h-sm: 2rem;     /* 32px */
-        --h-md: 2.5rem;   /* 40px */
-        --h-lg: 3rem;     /* 48px */
+        --h-sm: var(--chth-space-32);     /* control heights */
+        --h-md: var(--chth-space-40);
+        --h-lg: var(--chth-space-48);
 
-        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-        --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-        --dur-press: 160ms;
-        --dur-fast: 150ms;
-        --dur-base: 200ms;`;
+        --ease-out: var(--chth-ease-out);
+        --ease-in-out: var(--chth-ease-in-out);
+        --dur-press: var(--chth-dur-150);
+        --dur-fast: var(--chth-dur-fast);
+        --dur-base: var(--chth-dur-base);`;
 
 export const DARK_SURFACE_TOKENS = `        --bg: #0E0F11;
         --bg-sunken: #0A0B0D;
@@ -117,8 +118,8 @@ export const PREF_SCALE_RULES = `/* Text size preference: everything is rem-base
       html[data-text="xl"] { font-size: 112.5%; }
 
       /* Corner preference */
-      html[data-radius="sharp"] { --r-xs: 3px; --r-sm: 4px; --r-md: 6px; --r-lg: 8px; --r-xl: 10px; }
-      html[data-radius="round"] { --r-xs: 8px; --r-sm: 11px; --r-md: 14px; --r-lg: 20px; --r-xl: 26px; }`;
+      html[data-radius="sharp"] { --r-xs: var(--chth-radius-2); --r-sm: var(--chth-radius-4); --r-md: var(--chth-radius-6); --r-lg: var(--chth-radius-sm); --r-xl: var(--chth-radius-md); }
+      html[data-radius="round"] { --r-xs: var(--chth-radius-sm); --r-sm: var(--chth-radius-md); --r-md: var(--chth-radius-lg); --r-lg: var(--chth-radius-xl); --r-xl: var(--chth-radius-24); }`;
 
 export const DEFAULT_PREFS = { accent: 'mono', text: 'md', radius: 'md', motion: 'full' };
 
@@ -142,8 +143,8 @@ function renderReducedMotionRules(scope: string): string {
           animation-iteration-count: 1 !important;
           scroll-behavior: auto !important;
         }
-        ${scope} .btn:active, ${scope} .btn-icon:active, ${scope} .btn-icon-sm:active, ${scope} .chip:active, ${scope} .set-chip:active,
-        ${scope} .option-card:active, ${scope} .segmented-item:active, ${scope} .stepper-btn:active, ${scope} .swatch:active { transform: none; }
+        ${scope} .chth-btn:active, ${scope} .chth-btn--icon:active, ${scope} .chth-btn--icon-sm:active, ${scope} .chth-chip:active, ${scope} .set-chip:active,
+        ${scope} .option-card:active, ${scope} .chth-seg__item:active, ${scope} .chth-stepper__btn:active, ${scope} .swatch:active { transform: none; }
         /* Gentler, not zero: these keep their fade but lose the movement */
         ${scope} .rest-timer, ${scope} .rest-timer.is-leaving, ${scope} .reveal, ${scope} .modal-panel { transform: none !important; }
         ${scope} #rest-timer-svg-path { transition: none; }`;
@@ -157,10 +158,22 @@ export function renderThemeStyles(): string {
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Vazirmatn', 'system-ui', 'sans-serif'],
-              mono: ['Vazirmatn', 'system-ui', 'sans-serif'],
-              display: ['Vazirmatn', 'system-ui', 'sans-serif'],
+              sans: ['var(--chth-font-rtl)'],
+              mono: ['var(--chth-font-rtl)'],
+              display: ['var(--chth-font-rtl)'],
             },
+            // Layout utilities (p-4, gap-2, w-10…) and text sizes come from the CHTH kit's scales.
+            spacing: Object.fromEntries([[0.5, 2], [1, 4], [1.5, 6], [2, 8], [2.5, 10], [3, 12], [3.5, 14], [4, 16], [5, 20], [6, 24], [7, 28], [8, 32], [9, 36], [10, 40], [11, 44], [12, 48], [14, 56], [16, 64], [20, 80], [24, 96]].map(([k, px]) => [k, 'var(--chth-space-' + px + ')'])),
+            fontSize: {
+              xs: ['var(--chth-text-12)', { lineHeight: '1rem' }], sm: ['var(--chth-text-14)', { lineHeight: '1.25rem' }],
+              base: ['var(--chth-text-16)', { lineHeight: '1.5rem' }], lg: ['var(--chth-text-18)', { lineHeight: '1.75rem' }],
+              xl: ['var(--chth-text-20)', { lineHeight: '1.75rem' }], '2xl': ['var(--chth-text-24)', { lineHeight: '2rem' }],
+              '4xl': ['var(--chth-text-36)', { lineHeight: '2.5rem' }],
+              // The small sizes the app's labels use (text-10 replaces text-10); size only, like the arbitrary values were.
+              10: 'var(--chth-text-10)', 11: 'var(--chth-text-11)', 12: 'var(--chth-text-12)', 13: 'var(--chth-text-13)', 14: 'var(--chth-text-14)',
+            },
+            borderRadius: { sm: 'var(--chth-radius-4)', DEFAULT: 'var(--chth-radius-4)', md: 'var(--chth-radius-6)', lg: 'var(--chth-radius-sm)', xl: 'var(--chth-radius-12)', '2xl': 'var(--chth-radius-16)', '3xl': 'var(--chth-radius-24)', full: 'var(--chth-radius-full)' },
+            transitionDuration: { DEFAULT: 'var(--chth-dur-150)', 100: 'var(--chth-dur-100)', 150: 'var(--chth-dur-150)', 200: 'var(--chth-dur-200)', 300: 'var(--chth-dur-300)', 500: 'var(--chth-dur-500)', 1000: 'var(--chth-dur-1000)' },
             colors: {
               // Legacy "emerald" utilities follow the user's accent
               emerald: {
@@ -334,18 +347,18 @@ export function renderThemeStyles(): string {
       }
       #dashboard-shell main section > div > h2,
       #dashboard-shell main section > h2 {
-        font-size: 1.125rem !important;
+        font-size: var(--chth-text-18) !important;
       }
       /* Quiet hierarchy: titles are labels, content carries the weight */
       #dashboard-shell main h3, #dashboard-shell main h4 { font-weight: 600 !important; }
-      main h3.text-sm, main h3.text-base, main h3.text-xs { font-size: 0.875rem !important; }
-      main h4.text-xs { font-size: 0.8125rem !important; }
+      main h3.text-sm, main h3.text-base, main h3.text-xs { font-size: var(--chth-text-14) !important; }
+      main h4.text-xs { font-size: var(--chth-text-13) !important; }
       main h3 > i[data-lucide], main h4 > i[data-lucide] { width: 0.875rem; height: 0.875rem; }
       .font-black { font-weight: 800; }
 
       /* Persian script gets hard to read under 11px */
-      .text-\\[8px\\], .text-\\[9px\\] { font-size: 10.5px !important; }
-      .text-\\[10px\\] { font-size: 11px !important; }
+      .text-\\[8px\\], .text-\\[9px\\] { font-size: var(--chth-text-10) !important; }
+      .text-\\[10px\\] { font-size: var(--chth-text-11) !important; }
 
       :focus-visible {
         outline: 2px solid var(--accent);
@@ -420,8 +433,8 @@ export function renderThemeStyles(): string {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 0.75rem;
-        padding-bottom: 0.875rem;
+        gap: var(--chth-space-12);
+        padding-bottom: var(--chth-space-14);
         border-bottom: 1px solid var(--line);
       }
       .divider-top { border-top: 1px solid var(--line); }
@@ -431,11 +444,11 @@ export function renderThemeStyles(): string {
       /* Empty states */
       .empty-state {
         text-align: center;
-        padding: 1.75rem 1rem;
+        padding: var(--chth-space-28) var(--chth-space-16);
         border: 1px dashed var(--line-strong);
         border-radius: var(--r-md);
         color: var(--text-3);
-        font-size: 0.8125rem;
+        font-size: var(--chth-text-13);
       }
 
       /* Retired effects */
@@ -445,14 +458,14 @@ export function renderThemeStyles(): string {
          4. Buttons
          Three sizes by height, five variants. Press = scale(0.97).
          ========================================================================== */
-      html .btn {
+      html .chth-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        gap: var(--chth-space-8);
         height: var(--h-md);
-        padding: 0 1rem;
-        font-size: 0.875rem;
+        padding: 0 var(--chth-space-16);
+        font-size: var(--chth-text-14);
         font-weight: 600;
         line-height: 1;
         white-space: nowrap;
@@ -468,56 +481,56 @@ export function renderThemeStyles(): string {
           color var(--dur-fast) ease,
           box-shadow var(--dur-fast) ease;
       }
-      html .btn:active { transform: scale(0.97); }
-      html .btn:disabled, html .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
-      html .btn i[data-lucide], html .btn svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+      html .chth-btn:active { transform: scale(0.97); }
+      html .chth-btn:disabled, html .chth-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+      html .chth-btn i[data-lucide], html .chth-btn svg { width: 1rem; height: 1rem; flex-shrink: 0; }
 
-      html .btn-sm { height: var(--h-sm); padding: 0 0.75rem; font-size: 0.8125rem; gap: 0.375rem; border-radius: var(--r-sm); }
-      html .btn-sm i[data-lucide], html .btn-sm svg { width: 0.875rem; height: 0.875rem; }
-      html .btn-md { height: var(--h-md); padding: 0 1rem; font-size: 0.875rem; }
-      html .btn-lg { height: var(--h-lg); padding: 0 1.375rem; font-size: 0.9375rem; }
-      html .btn-block { width: 100%; }
+      html .chth-btn--sm { height: var(--h-sm); padding: 0 var(--chth-space-12); font-size: var(--chth-text-13); gap: var(--chth-space-6); border-radius: var(--r-sm); }
+      html .chth-btn--sm i[data-lucide], html .chth-btn--sm svg { width: 0.875rem; height: 0.875rem; }
+      html .chth-btn--md { height: var(--h-md); padding: 0 var(--chth-space-16); font-size: var(--chth-text-14); }
+      html .chth-btn--lg { height: var(--h-lg); padding: 0 var(--chth-space-22); font-size: var(--chth-text-15); }
+      html .chth-btn--block { width: 100%; }
 
-      html .btn-primary {
+      html .chth-btn--primary {
         background: var(--accent);
         color: var(--on-accent) !important;
         border-color: transparent;
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.2);
       }
-      html .btn-secondary {
+      html .chth-btn--secondary {
         background: var(--surface-2);
         color: var(--accent-text) !important;
         border-color: var(--accent-line);
         box-shadow: var(--shadow-control);
       }
-      html.light .btn-secondary { background: var(--surface); }
-      html .btn-ghost {
+      html.light .chth-btn--secondary { background: var(--surface); }
+      html .chth-btn--ghost {
         background: transparent;
         color: var(--accent-text);
         border-color: transparent;
       }
-      html .btn-danger {
+      html .chth-btn--danger {
         background: var(--danger-soft);
         color: var(--danger) !important;
         border-color: transparent;
       }
-      html .btn-outline-dashed {
+      html .chth-btn--dashed {
         background: transparent;
         color: var(--text-2);
         border: 1px dashed var(--line-strong);
       }
 
       @media (hover: hover) and (pointer: fine) {
-        html .btn-primary:hover { background: var(--accent-hover); }
-        html .btn-secondary:hover { background: var(--surface-3); }
-        html.light .btn-secondary:hover { background: var(--surface-2); }
-        html .btn-ghost:hover { background: var(--surface-2); color: var(--text); }
-        html .btn-danger:hover { background: var(--danger); color: #fff !important; }
-        html .btn-outline-dashed:hover { border-color: var(--accent-line); color: var(--accent-text); background: var(--accent-soft); }
+        html .chth-btn--primary:hover { background: var(--accent-hover); }
+        html .chth-btn--secondary:hover { background: var(--surface-3); }
+        html.light .chth-btn--secondary:hover { background: var(--surface-2); }
+        html .chth-btn--ghost:hover { background: var(--surface-2); color: var(--text); }
+        html .chth-btn--danger:hover { background: var(--danger); color: #fff !important; }
+        html .chth-btn--dashed:hover { border-color: var(--accent-line); color: var(--accent-text); background: var(--accent-soft); }
       }
 
       /* Icon buttons: square, same heights as text buttons */
-      html .btn-icon, html .btn-icon-sm {
+      html .chth-btn--icon, html .chth-btn--icon-sm {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -532,28 +545,28 @@ export function renderThemeStyles(): string {
           background-color var(--dur-fast) ease,
           color var(--dur-fast) ease;
       }
-      html .btn-icon-sm { width: var(--h-sm); height: var(--h-sm); border-radius: var(--r-sm); }
-      html .btn-icon:active, html .btn-icon-sm:active { transform: scale(0.94); }
-      html .btn-icon:not(.btn-secondary):not(.btn-danger):not(.btn-primary),
-      html .btn-icon-sm:not(.btn-secondary):not(.btn-danger):not(.btn-primary) { color: var(--accent-text); }
-      html .btn-icon.btn-danger, html .btn-icon-sm.btn-danger { color: var(--danger); }
-      html .btn-icon-danger { color: var(--text-3) !important; }
+      html .chth-btn--icon-sm { width: var(--h-sm); height: var(--h-sm); border-radius: var(--r-sm); }
+      html .chth-btn--icon:active, html .chth-btn--icon-sm:active { transform: scale(0.94); }
+      html .chth-btn--icon:not(.chth-btn--secondary):not(.chth-btn--danger):not(.chth-btn--primary),
+      html .chth-btn--icon-sm:not(.chth-btn--secondary):not(.chth-btn--danger):not(.chth-btn--primary) { color: var(--accent-text); }
+      html .chth-btn--icon.chth-btn--danger, html .chth-btn--icon-sm.chth-btn--danger { color: var(--danger); }
+      html .chth-btn--icon-danger { color: var(--text-3) !important; }
       @media (hover: hover) and (pointer: fine) {
-        html .btn-icon-danger:hover { background: var(--danger-soft) !important; color: var(--danger) !important; }
+        html .chth-btn--icon-danger:hover { background: var(--danger-soft) !important; color: var(--danger) !important; }
       }
 
       /* The account chip in the CHTH navbar: round, like the icons beside it */
-      html .chth-nav__auth { display: flex; align-items: center; gap: 0.125rem; }
-      html .chth-nav__auth .account-chip { border-radius: 9999px; }
-      html .chth-nav__auth .btn-icon { width: 2rem; height: 2rem; border-radius: 9999px; }
+      html .chth-nav__auth { display: flex; align-items: center; gap: var(--chth-space-2); }
+      html .chth-nav__auth .account-chip { border-radius: var(--chth-radius-full); }
+      html .chth-nav__auth .chth-btn--icon { width: 2rem; height: 2rem; border-radius: var(--chth-radius-full); }
       @media (max-width: 640px) { html .chth-nav__auth .account-chip span { display: none; } }
 
       /* Text link button */
       html .link-btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.375rem;
-        font-size: 0.8125rem;
+        gap: var(--chth-space-6);
+        font-size: var(--chth-text-13);
         font-weight: 600;
         color: var(--accent-text);
         border-radius: var(--r-xs);
@@ -566,44 +579,44 @@ export function renderThemeStyles(): string {
       /* ==========================================================================
          5. Selection controls: segmented, chips, option cards, switch
          ========================================================================== */
-      html .segmented {
+      html .chth-seg {
         display: inline-flex;
         align-items: center;
-        gap: 2px;
-        padding: 3px;
+        gap: var(--chth-space-2);
+        padding: var(--chth-space-2);
         background: var(--bg-sunken);
         border: 1px solid var(--line);
         border-radius: var(--r-md);
       }
-      html.light .segmented { background: var(--surface-3); }
-      html .segmented-item {
+      html.light .chth-seg { background: var(--surface-3); }
+      html .chth-seg .chth-seg__item {
         height: 1.75rem;
-        padding: 0 0.875rem;
-        font-size: 0.8125rem;
+        padding: 0 var(--chth-space-14);
+        font-size: var(--chth-text-13);
         font-weight: 500;
         color: var(--text-2);
         border-radius: max(2px, calc(var(--r-md) - 3px));
         transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
-      html .segmented-item:active { transform: scale(0.97); }
-      html .segmented-item.is-active {
+      html .chth-seg .chth-seg__item:active { transform: scale(0.97); }
+      html .chth-seg .chth-seg__item.is-active {
         background: var(--accent-soft);
         color: var(--accent-text);
         font-weight: 600;
         box-shadow: var(--shadow-control);
       }
-      html.light .segmented-item.is-active { background: var(--accent-soft); }
+      html.light .chth-seg .chth-seg__item.is-active { background: var(--accent-soft); }
       @media (hover: hover) and (pointer: fine) {
-        html .segmented-item:not(.is-active):hover { color: var(--text); }
+        html .chth-seg .chth-seg__item:not(.is-active):hover { color: var(--text); }
       }
 
-      html .chip {
+      html .chth-chip {
         display: inline-flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: var(--chth-space-6);
         height: 1.875rem;
-        padding: 0 0.75rem;
-        font-size: 0.8125rem;
+        padding: 0 var(--chth-space-12);
+        font-size: var(--chth-text-13);
         font-weight: 500;
         color: var(--text-2);
         background: var(--surface);
@@ -611,15 +624,15 @@ export function renderThemeStyles(): string {
         border-radius: var(--r-full);
         transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
-      html .chip:active { transform: scale(0.96); }
-      html .chip.is-selected {
+      html .chth-chip:active { transform: scale(0.96); }
+      html .chth-chip.is-selected {
         background: var(--accent);
         border-color: var(--accent);
         color: var(--on-accent);
         font-weight: 600;
       }
       @media (hover: hover) and (pointer: fine) {
-        html .chip:not(.is-selected):hover { border-color: var(--text-3); color: var(--text); }
+        html .chth-chip:not(.is-selected):hover { border-color: var(--text-3); color: var(--text); }
       }
 
       /* Option card: a large selectable tile (theme picker) */
@@ -628,9 +641,9 @@ export function renderThemeStyles(): string {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 0.375rem;
-        padding: 0.875rem 0.5rem;
-        font-size: 0.8125rem;
+        gap: var(--chth-space-6);
+        padding: var(--chth-space-14) var(--chth-space-8);
+        font-size: var(--chth-text-13);
         color: var(--text);
         background: var(--surface-2);
         border: 1px solid var(--line);
@@ -648,37 +661,6 @@ export function renderThemeStyles(): string {
       @media (hover: hover) and (pointer: fine) {
         html .option-card:not(.active):hover { border-color: var(--line-strong); }
       }
-
-      /* Switch */
-      .switch { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
-      .switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-      .switch-track {
-        width: 2.375rem;
-        height: 1.375rem;
-        border-radius: var(--r-full);
-        background: var(--surface-3);
-        border: 1px solid var(--line-strong);
-        position: relative;
-        transition: background-color var(--dur-base) ease, border-color var(--dur-base) ease;
-      }
-      .switch-track::after {
-        content: '';
-        position: absolute;
-        top: 2px;
-        inset-inline-start: 2px;
-        width: 1rem;
-        height: 1rem;
-        border-radius: var(--r-full);
-        background: #fff;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        transition: transform var(--dur-base) var(--ease-out);
-      }
-      .switch input:checked + .switch-track { background: var(--accent); border-color: var(--accent); }
-      .switch input:checked + .switch-track::after { transform: translateX(1rem); }
-      [dir="rtl"] .switch input:checked + .switch-track::after { transform: translateX(-1rem); }
-      .switch input:focus-visible + .switch-track { outline: 2px solid var(--accent); outline-offset: 2px; }
-      /* A white thumb disappears on the neutral accent's light fill */
-      html[data-accent="mono"] .switch input:checked + .switch-track::after { background: var(--on-accent); }
 
       /* Accent swatch: a color dot that rings itself when chosen */
       html .swatch {
@@ -708,32 +690,71 @@ export function renderThemeStyles(): string {
       }
       html .swatch.is-selected i[data-lucide], html .swatch.is-selected svg { opacity: 1; transform: none; }
       /* All seven fit one line on a phone; spread evenly up to a comfortable width */
-      .swatch-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; max-width: 22rem; padding: 0.25rem; }
+      .swatch-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--chth-space-8); max-width: 22rem; padding: var(--chth-space-4); }
 
       /* Settings rows: label on one side, control on the other */
       .pref-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 0.75rem;
+        gap: var(--chth-space-12);
         flex-wrap: wrap;
-        padding-top: 0.875rem;
+        padding-top: var(--chth-space-14);
         border-top: 1px solid var(--line);
       }
-      .pref-label { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
-      .pref-hint { font-size: 0.75rem; color: var(--text-3); }
+      .pref-label { font-size: var(--chth-text-13); font-weight: 600; color: var(--text); }
+      .pref-hint { font-size: var(--chth-text-12); color: var(--text-3); }
+
+      /* The CHTH kit's components (buttons, badges, fields, chips, segmented controls, steppers,
+         switches; chth-kit/brand.css) take the gym's accent, palette and corner preference here.
+         The rules in this file are the gym's own look on top of the kit's classes. */
+      html {
+        --chth-product-accent-hover: var(--accent-hover);
+        --chth-product-on-accent: var(--on-accent);
+        --chth-product-accent-soft: var(--accent-soft);
+        --chth-success: var(--done); --chth-success-soft: var(--done-soft);
+        --chth-danger: var(--danger); --chth-danger-soft: var(--danger-soft);
+        --chth-warning: var(--gold); --chth-warning-soft: var(--gold-soft);
+        --chth-telegram: var(--steel); --chth-telegram-soft: var(--steel-soft);
+        --chth-btn-radius: var(--r-md);
+        --chth-field-radius: var(--r-md);
+        --chth-field-focus: var(--accent);
+        --chth-field-h: var(--h-md);
+        --chth-field-font: var(--chth-text-14);
+        --chth-chip-radius: var(--r-full);
+        --chth-badge-radius: var(--r-xs);
+        --chth-seg-radius: var(--r-md);
+        --chth-dialog-radius: var(--r-xl);
+        --chth-card-radius: var(--r-lg);
+      }
+      @media (pointer: coarse) { html { --chth-field-font: var(--chth-text-16); } }
+      /* The segmented thumb: the gym's soft accent chip, sliding */
+      html .chth-seg__thumb { background: var(--accent-soft); box-shadow: var(--shadow-control); border-radius: max(2px, calc(var(--r-md) - 3px)); top: var(--chth-space-2); bottom: var(--chth-space-2); }
+      html .chth-seg { position: relative; }
+      html .chth-seg .chth-seg__item { opacity: 1; min-height: 0; }
+      /* The gym's smaller switch, its thumb white on a coloured accent */
+      html .chth-switch__track { width: 2.375rem; height: 1.375rem; }
+      html .chth-switch__thumb { width: 1rem; height: 1rem; inset-block-start: 2px; inset-inline-start: 2px; }
+      html .chth-switch__input:checked + .chth-switch__track .chth-switch__thumb { transform: translateX(1rem); background: #fff; }
+      html[dir="rtl"] .chth-switch__input:checked + .chth-switch__track .chth-switch__thumb { transform: translateX(-1rem); }
+      html[data-accent="mono"] .chth-switch__input:checked + .chth-switch__track .chth-switch__thumb { background: var(--on-accent); }
+      html .chth-stepper__input { width: auto; }
+      html .chth-chip, html .chth-badge { min-height: 0; }
+      /* The switch: the gym's neutral track, its accent when on */
+      html .chth-switch__track { background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--line-strong); }
+      html .chth-switch__input:checked + .chth-switch__track { box-shadow: none; }
 
       /* ==========================================================================
          6. Badges
          ========================================================================== */
-      html .badge {
+      html .chth-badge {
         display: inline-flex;
         align-items: center;
-        gap: 0.3rem;
+        gap: var(--chth-space-4);
         height: 1.375rem;
-        padding: 0 0.5rem;
+        padding: 0 var(--chth-space-8);
         border-radius: var(--r-xs);
-        font-size: 0.71875rem;
+        font-size: var(--chth-text-11);
         font-weight: 600;
         line-height: 1;
         white-space: nowrap;
@@ -741,18 +762,18 @@ export function renderThemeStyles(): string {
         background: var(--surface-3);
         color: var(--text-2);
       }
-      html .badge i[data-lucide] { width: 0.75rem; height: 0.75rem; }
+      html .chth-badge i[data-lucide] { width: 0.75rem; height: 0.75rem; }
       /* A badge carrying data (BMI + category) may wrap instead of overflowing on narrow phones */
-      html .badge.badge-wrap { height: auto; min-height: 1.375rem; padding-block: 0.25rem; white-space: normal; line-height: 1.4; }
-      html .badge-emerald { background: var(--accent-soft); color: var(--accent-text); }
-      html .badge-cyan, html .badge-blue { background: var(--steel-soft); color: var(--steel); }
-      html .badge-gold, html .badge-amber { background: var(--gold-soft); color: var(--gold); }
-      html .badge-rose { background: var(--danger-soft); color: var(--danger); }
-      html .badge-done { background: var(--done-soft); color: var(--done); }
-      html .badge-purple, html .badge-zinc { background: var(--surface-3); color: var(--text-2); }
-      html .badge-live { background: var(--danger); color: #fff; }
+      html .chth-badge.chth-badge--wrap { height: auto; min-height: 1.375rem; padding-block: var(--chth-space-4); white-space: normal; line-height: 1.4; }
+      html .chth-badge--accent { background: var(--accent-soft); color: var(--accent-text); }
+      html .chth-badge--info, html .chth-badge--info { background: var(--steel-soft); color: var(--steel); }
+      html .chth-badge--warning, html .chth-badge--warning { background: var(--gold-soft); color: var(--gold); }
+      html .chth-badge--danger { background: var(--danger-soft); color: var(--danger); }
+      html .chth-badge--success { background: var(--done-soft); color: var(--done); }
+      html .chth-badge--neutral, html .chth-badge--neutral { background: var(--surface-3); color: var(--text-2); }
+      html .chth-badge--live { background: var(--danger); color: #fff; }
       /* Badges sitting on top of imagery */
-      html .badge-overlay {
+      html .chth-badge--overlay {
         background: rgba(14, 15, 17, 0.72) !important;
         color: #F2F2F0 !important;
         backdrop-filter: blur(8px);
@@ -763,21 +784,21 @@ export function renderThemeStyles(): string {
          7. Form Controls
          One height (40px), one radius, one focus ring.
          ========================================================================== */
-      .field { display: flex; flex-direction: column; gap: 0.375rem; }
+      .field { display: flex; flex-direction: column; gap: var(--chth-space-6); }
 
-      html .label-styled {
+      html .chth-field__label {
         display: block;
-        font-size: 0.8125rem;
+        font-size: var(--chth-text-13);
         font-weight: 500;
         color: var(--text-2);
-        margin-bottom: 0.375rem;
+        margin-bottom: var(--chth-space-6);
       }
 
-      html .input-styled, html .select-styled, html .textarea-styled {
+      html .chth-input, html .chth-select, html .chth-textarea {
         width: 100%;
         height: var(--h-md);
-        padding: 0 0.875rem;
-        font-size: 0.875rem;
+        padding: 0 var(--chth-space-14);
+        font-size: var(--chth-text-14);
         color: var(--text);
         background-color: var(--bg-sunken);
         border: 1px solid var(--line-strong);
@@ -785,28 +806,28 @@ export function renderThemeStyles(): string {
         box-shadow: none;
         transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease, background-color var(--dur-fast) ease;
       }
-      html.light .input-styled, html.light .select-styled, html.light .textarea-styled {
+      html.light .chth-input, html.light .chth-select, html.light .chth-textarea {
         background-color: var(--surface);
         box-shadow: var(--shadow-control);
       }
-      html .textarea-styled { height: auto; min-height: 5.5rem; padding: 0.625rem 0.875rem; }
-      html .input-sm { height: var(--h-sm); font-size: 0.8125rem; padding: 0 0.625rem; border-radius: var(--r-sm); }
+      html .chth-textarea { height: auto; min-height: 5.5rem; padding: var(--chth-space-10) var(--chth-space-14); }
+      html .chth-input--sm { height: var(--h-sm); font-size: var(--chth-text-13); padding: 0 var(--chth-space-10); border-radius: var(--r-sm); }
 
       @media (hover: hover) and (pointer: fine) {
-        html .input-styled:hover:not(:focus), html .select-styled:hover:not(:focus), html .textarea-styled:hover:not(:focus) {
+        html .chth-input:hover:not(:focus), html .chth-select:hover:not(:focus), html .chth-textarea:hover:not(:focus) {
           border-color: var(--text-3);
         }
       }
-      html .input-styled:focus, html .select-styled:focus, html .textarea-styled:focus {
+      html .chth-input:focus, html .chth-select:focus, html .chth-textarea:focus {
         outline: none;
         border-color: var(--accent);
         box-shadow: 0 0 0 3px var(--accent-soft);
       }
-      html .input-styled::placeholder, html .textarea-styled::placeholder { color: var(--text-3); }
-      html .input-styled[type="number"] { font-variant-numeric: tabular-nums; }
-      html .input-styled[type="number"]::-webkit-inner-spin-button,
-      html .input-styled[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-      html .input-styled[type="number"] { -moz-appearance: textfield; }
+      html .chth-input::placeholder, html .chth-textarea::placeholder { color: var(--text-3); }
+      html .chth-input[type="number"] { font-variant-numeric: tabular-nums; }
+      html .chth-input[type="number"]::-webkit-inner-spin-button,
+      html .chth-input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+      html .chth-input[type="number"] { -moz-appearance: textfield; }
 
       /* Input with leading icon (search) */
       .input-icon { position: relative; }
@@ -820,20 +841,20 @@ export function renderThemeStyles(): string {
         color: var(--text-3);
         pointer-events: none;
       }
-      html .input-icon > .input-styled { padding-inline-start: 2.5rem; }
+      html .input-icon > .chth-input { padding-inline-start: var(--chth-space-40); }
 
       /* Native select with our own chevron, placed for RTL */
-      html .select-styled, html select.input-styled {
+      html .chth-select, html select.chth-input {
         appearance: none;
         -webkit-appearance: none;
         cursor: pointer;
-        padding-inline-end: 2.25rem;
+        padding-inline-end: var(--chth-space-36);
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2385878C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-size: 1rem;
         background-position: left 0.75rem center;
       }
-      [dir="ltr"] .select-styled { background-position: right 0.75rem center; }
+      [dir="ltr"] .chth-select { background-position: right 0.75rem center; }
 
       /* Range */
       html .range {
@@ -844,12 +865,12 @@ export function renderThemeStyles(): string {
         background: transparent;
         cursor: pointer;
       }
-      html .range::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: var(--line-strong); }
-      html .range::-moz-range-track { height: 4px; border-radius: 4px; background: var(--line-strong); }
-      html .range::-moz-range-progress { height: 4px; border-radius: 4px; background: var(--accent); }
+      html .range::-webkit-slider-runnable-track { height: 4px; border-radius: var(--chth-radius-4); background: var(--line-strong); }
+      html .range::-moz-range-track { height: 4px; border-radius: var(--chth-radius-4); background: var(--line-strong); }
+      html .range::-moz-range-progress { height: 4px; border-radius: var(--chth-radius-4); background: var(--accent); }
       html .range::-webkit-slider-thumb {
         -webkit-appearance: none;
-        width: 16px; height: 16px; margin-top: -6px;
+        width: 16px; height: 16px; margin-top: calc(-1 * var(--chth-space-6));
         border-radius: 50%;
         background: #fff;
         border: 2px solid var(--accent);
@@ -867,33 +888,33 @@ export function renderThemeStyles(): string {
       input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
 
       /* Stepper: − value + */
-      html .stepper {
+      html .chth-stepper {
         display: inline-flex;
         align-items: center;
-        gap: 0.25rem;
+        gap: var(--chth-space-4);
         height: var(--h-sm);
-        padding: 0 0.25rem;
+        padding: 0 var(--chth-space-4);
         background: var(--surface);
         border: 1px solid var(--line-strong);
         border-radius: var(--r-sm);
         flex-shrink: 0;
       }
-      html.light .stepper { box-shadow: var(--shadow-control); }
-      html .stepper-label {
-        font-size: 0.75rem;
+      html.light .chth-stepper { box-shadow: var(--shadow-control); }
+      html .chth-stepper__label {
+        font-size: var(--chth-text-12);
         color: var(--text-3);
-        padding-inline: 0.25rem;
+        padding-inline: var(--chth-space-4);
       }
-      html .stepper-value {
+      html .chth-stepper__input {
         min-width: 2rem;
         text-align: center;
-        font-size: 0.875rem;
+        font-size: var(--chth-text-14);
         font-weight: 700;
         color: var(--text);
         font-variant-numeric: tabular-nums;
       }
-      html .stepper-unit { font-size: 0.6875rem; color: var(--text-3); padding-inline-end: 0.25rem; }
-      html .stepper-btn {
+      html .chth-stepper__unit { font-size: var(--chth-text-11); color: var(--text-3); padding-inline-end: var(--chth-space-4); }
+      html .chth-stepper__btn {
         width: 1.5rem;
         height: 1.5rem;
         display: inline-flex;
@@ -906,9 +927,9 @@ export function renderThemeStyles(): string {
         background: var(--surface-3);
         transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
-      html .stepper-btn:active { transform: scale(0.9); }
+      html .chth-stepper__btn:active { transform: scale(0.9); }
       @media (hover: hover) and (pointer: fine) {
-        html .stepper-btn:hover { background: var(--accent-soft); color: var(--accent-text); }
+        html .chth-stepper__btn:hover { background: var(--accent-soft); color: var(--accent-text); }
       }
 
       /* ==========================================================================
@@ -950,20 +971,20 @@ export function renderThemeStyles(): string {
          9. Stats
          ========================================================================== */
       html .stat-tile {
-        padding: 1rem 1.125rem;
+        padding: var(--chth-space-16) var(--chth-space-18);
         border-radius: var(--r-lg);
         background: var(--surface);
         border: 1px solid var(--line);
         box-shadow: var(--shadow-card);
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
+        gap: var(--chth-space-4);
       }
       .stat-tile .icon-box { display: none; }
-      .stat-label { font-size: 0.75rem; color: var(--text-2); }
+      .stat-label { font-size: var(--chth-text-12); color: var(--text-2); }
       /* Big standalone numbers use proportional figures; tabular only in columns */
-      .stat-value { font-size: 1.25rem; color: var(--text); font-feature-settings: "ss01"; font-variant-numeric: proportional-nums; }
-      .stat-delta { font-size: 0.75rem; color: var(--text-3); display: flex; gap: 0.375rem; flex-wrap: wrap; }
+      .stat-value { font-size: var(--chth-text-20); color: var(--text); font-feature-settings: "ss01"; font-variant-numeric: proportional-nums; }
+      .stat-delta { font-size: var(--chth-text-12); color: var(--text-3); display: flex; gap: var(--chth-space-6); flex-wrap: wrap; }
       .stat-delta-mark { font-weight: 600; }
       .stat-delta-mark.is-good { color: var(--done); }
       .stat-delta-mark.is-bad { color: var(--danger); }
@@ -971,7 +992,7 @@ export function renderThemeStyles(): string {
 
       html .metric-pill {
         background: var(--surface-2);
-        padding: 0.375rem 0.75rem;
+        padding: var(--chth-space-6) var(--chth-space-12);
         border-radius: var(--r-md);
         border: 1px solid var(--line);
         text-align: center;
@@ -991,7 +1012,7 @@ export function renderThemeStyles(): string {
       .progress-bar-emerald, .progress-bar-gold {
         height: 100%;
         border-radius: var(--r-full);
-        transition: width 400ms var(--ease-out);
+        transition: width var(--chth-dur-400) var(--ease-out);
       }
       .progress-bar-emerald { background: var(--accent); }
       .progress-bar-gold { background: var(--gold); }
@@ -1004,10 +1025,10 @@ export function renderThemeStyles(): string {
       html .set-chip {
         display: inline-flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: var(--chth-space-6);
         height: var(--h-sm);
-        padding: 0 0.625rem;
-        font-size: 0.8125rem;
+        padding: 0 var(--chth-space-10);
+        font-size: var(--chth-text-13);
         font-weight: 500;
         color: var(--text-2);
         background: var(--surface);
@@ -1039,8 +1060,8 @@ export function renderThemeStyles(): string {
       html .ex-row {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.625rem 0.75rem;
+        gap: var(--chth-space-8);
+        padding: var(--chth-space-10) var(--chth-space-12);
       }
       html .ex-row + .ex-row { border-top: 1px solid var(--line); }
       html .ex-row-main {
@@ -1048,9 +1069,9 @@ export function renderThemeStyles(): string {
         min-width: 0;
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding: 0.25rem;
-        margin: -0.25rem;
+        gap: var(--chth-space-12);
+        padding: var(--chth-space-4);
+        margin: calc(-1 * var(--chth-space-4));
         text-align: start;
         border-radius: var(--r-md);
         transition: background-color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
@@ -1074,18 +1095,18 @@ export function renderThemeStyles(): string {
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
-        font-size: 0.8125rem;
+        font-size: var(--chth-text-13);
         font-weight: 700;
         line-height: 1.35;
         color: var(--text);
       }
       html .ex-row-meta {
         display: block;
-        margin-top: 0.125rem;
+        margin-top: var(--chth-space-2);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 0.6875rem;
+        font-size: var(--chth-text-11);
         color: var(--text-3);
         font-variant-numeric: tabular-nums;
       }
@@ -1093,20 +1114,20 @@ export function renderThemeStyles(): string {
          Only very narrow lists (huge text) drop the controls to a second line. */
       html .ex-list { container: exlist / inline-size; }
       @container exlist (max-width: 26rem) {
-        html .ex-row { gap: 0.375rem; padding-inline: 0.625rem; }
+        html .ex-row { gap: var(--chth-space-6); padding-inline: var(--chth-space-10); }
         html .ex-row-thumb { display: none; }
         html .ex-row .rep-pill-btn { width: 1.625rem; height: 1.625rem; }
         html .ex-row .set-ring { width: 2.5rem; height: 2.5rem; }
       }
       @container exlist (max-width: 16rem) {
-        html .ex-row { flex-wrap: wrap; row-gap: 0.5rem; }
+        html .ex-row { flex-wrap: wrap; row-gap: var(--chth-space-8); }
         html .ex-row-main { flex-basis: 100%; }
         html .ex-row .set-ring { margin-inline-start: auto; }
       }
       /* Weight after the sets × reps, split by a thin rule (a middle dot reads as a Persian zero) */
       html .ex-row-meta [data-weight-label-for]:not(:empty) {
-        margin-inline-start: 0.375rem;
-        padding-inline-start: 0.375rem;
+        margin-inline-start: var(--chth-space-6);
+        padding-inline-start: var(--chth-space-6);
         border-inline-start: 1px solid var(--line-strong);
       }
       /* The superset note sits on its own line inside the clipped meta; it ellipsizes too */
@@ -1119,15 +1140,15 @@ export function renderThemeStyles(): string {
 
       /* Rolling number inside a counter; the wrapper clips the roll */
       .roll { display: inline-block; }
-      html .stepper-value { overflow: hidden; }
+      html .chth-stepper__input { overflow: hidden; }
 
       /* Rep counter: round − / + around a rolling number */
       html .rep-pill {
         display: inline-flex;
         align-items: center;
         flex-shrink: 0;
-        gap: 0.125rem;
-        padding: 0.1875rem;
+        gap: var(--chth-space-2);
+        padding: var(--chth-space-2);
         border-radius: var(--r-full);
         background: var(--surface-3);
       }
@@ -1152,7 +1173,7 @@ export function renderThemeStyles(): string {
         min-width: 1.5rem;
         overflow: hidden;
         text-align: center;
-        font-size: 0.9375rem;
+        font-size: var(--chth-text-15);
         font-weight: 800;
         line-height: 1.75rem;
         color: var(--text);
@@ -1187,7 +1208,7 @@ export function renderThemeStyles(): string {
       html .set-ring-label {
         position: relative;
         display: inline-flex;
-        font-size: 0.75rem;
+        font-size: var(--chth-text-12);
         font-weight: 800;
         font-variant-numeric: tabular-nums;
       }
@@ -1230,7 +1251,7 @@ export function renderThemeStyles(): string {
         align-items: center;
         justify-content: space-between;
         height: 5rem;
-        padding: 0.5rem 0.25rem;
+        padding: var(--chth-space-8) var(--chth-space-4);
         text-align: center;
         background: var(--surface-2);
         border: 1px solid var(--line);
@@ -1239,12 +1260,12 @@ export function renderThemeStyles(): string {
       html .day-tile.is-done { background: var(--accent-soft); border-color: var(--accent-line); }
       html .day-tile.is-today { border-color: var(--text-3); border-style: dashed; }
       /* Seven tiles share a phone's width; the "today" badge must fit a ~38px tile */
-      html .day-tile .badge { max-width: 100%; padding: 0 0.25rem; font-size: 0.625rem; }
+      html .day-tile .chth-badge { max-width: 100%; padding: 0 var(--chth-space-4); font-size: var(--chth-text-10); }
       html .day-tile.is-empty { opacity: 0.55; }
-      html .day-tile-sm { height: auto; gap: 0.25rem; padding: 0.5rem 0.25rem; border-radius: var(--r-sm); }
+      html .day-tile-sm { height: auto; gap: var(--chth-space-4); padding: var(--chth-space-8) var(--chth-space-4); border-radius: var(--r-sm); }
 
       /* 3-month heatmap: accent intensity, no glow */
-      .heat-cell { display: inline-block; width: 0.875rem; height: 0.875rem; border-radius: 3px; background: var(--line); }
+      .heat-cell { display: inline-block; width: 0.875rem; height: 0.875rem; border-radius: var(--chth-radius-2); background: var(--line); }
       .heat-0 { background: var(--line); }
       .heat-1 { background: color-mix(in srgb, var(--accent) 30%, transparent); }
       .heat-2 { background: color-mix(in srgb, var(--accent) 60%, transparent); }
@@ -1263,7 +1284,7 @@ export function renderThemeStyles(): string {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 1rem;
+        padding: var(--chth-space-16);
         transition: opacity var(--dur-base) ease;
         @starting-style { opacity: 0; }
       }
@@ -1282,16 +1303,16 @@ export function renderThemeStyles(): string {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 0.75rem;
-        padding-bottom: 0.875rem;
+        gap: var(--chth-space-12);
+        padding-bottom: var(--chth-space-14);
         border-bottom: 1px solid var(--line);
       }
       .modal-foot {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: 0.5rem;
-        padding-top: 1rem;
+        gap: var(--chth-space-8);
+        padding-top: var(--chth-space-16);
         border-top: 1px solid var(--line);
       }
 
@@ -1305,7 +1326,7 @@ export function renderThemeStyles(): string {
         z-index: 2147482500;
         display: flex;
         justify-content: center;
-        padding-inline: 1rem;
+        padding-inline: var(--chth-space-16);
         pointer-events: none;
         transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
         @starting-style { opacity: 0; transform: translateY(12px); }
@@ -1321,11 +1342,11 @@ export function renderThemeStyles(): string {
       .rest-timer-panel {
         display: flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: var(--chth-space-6);
         max-width: 100%;
-        padding: 0.375rem;
-        border-radius: 9999px;
-        font-size: 0.8125rem;
+        padding: var(--chth-space-6);
+        border-radius: var(--chth-radius-full);
+        font-size: var(--chth-text-13);
         font-weight: 600;
         pointer-events: auto;
       }
@@ -1333,20 +1354,20 @@ export function renderThemeStyles(): string {
       .rest-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
       .rest-ring-track { color: color-mix(in srgb, currentColor 14%, transparent); }
       .rest-ring-fill { color: var(--accent); }
-      .rest-ring-value { position: relative; font-size: 0.8125rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-      .rest-timer-label { padding-inline: 0.25rem 0.375rem; white-space: nowrap; }
+      .rest-ring-value { position: relative; font-size: var(--chth-text-13); font-weight: 800; font-variant-numeric: tabular-nums; }
+      .rest-timer-label { padding-inline: var(--chth-space-4) var(--chth-space-6); white-space: nowrap; }
       .rest-timer-chip, .rest-timer-stop {
         border: 0;
         display: inline-grid;
         place-items: center;
         flex: none;
         height: 2rem;
-        border-radius: 9999px;
+        border-radius: var(--chth-radius-full);
         color: inherit;
         background: color-mix(in srgb, currentColor 9%, transparent);
         transition: background-color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
-      .rest-timer-chip { padding-inline: 0.7rem; font-size: 0.75rem; white-space: nowrap; }
+      .rest-timer-chip { padding-inline: var(--chth-space-12); font-size: var(--chth-text-12); white-space: nowrap; }
       .rest-timer-stop { width: 2rem; color: var(--danger); background: color-mix(in srgb, var(--danger) 14%, transparent); }
       .rest-timer-chip:active, .rest-timer-stop:active { transform: scale(0.94); }
       @media (hover: hover) and (pointer: fine) {
@@ -1358,7 +1379,7 @@ export function renderThemeStyles(): string {
         bottom: calc(max(calc(1rem + env(safe-area-inset-bottom, 0px)), var(--chth-bottom-room, 0px)) + 3.75rem);
       }
       /* The ring drains continuously between one-second ticks */
-      #rest-timer-svg-path { transition: stroke-dasharray 1000ms linear; }
+      #rest-timer-svg-path { transition: stroke-dasharray var(--chth-dur-1000) linear; }
 
       /* ==========================================================================
          13. App Shell
@@ -1381,10 +1402,10 @@ export function renderThemeStyles(): string {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.2rem;
+        gap: var(--chth-space-4);
         justify-content: center;
-        padding: 0.45rem 0.25rem;
-        font-size: 0.75rem;
+        padding: var(--chth-space-8) var(--chth-space-4);
+        font-size: var(--chth-text-12);
         color: var(--text-3);
         transition: color var(--dur-base) ease;
         position: relative;
@@ -1398,7 +1419,7 @@ export function renderThemeStyles(): string {
         width: min(3.5rem, 100%);
         height: 1.75rem;
         border-radius: var(--r-full);
-        transition: color var(--dur-base) ease, scale var(--dur-press) var(--ease-out), transform var(--chth-glass-dur) var(--chth-glass-ease), opacity 200ms ease;
+        transition: color var(--dur-base) ease, scale var(--dur-press) var(--ease-out), transform var(--chth-glass-dur) var(--chth-glass-ease), opacity var(--chth-dur-200) ease;
       }
       .nav-mobile-btn:active .nav-m-pill { scale: 0.94; }
       .nav-mobile-btn.is-active { color: var(--text); font-weight: 600; }
@@ -1406,28 +1427,28 @@ export function renderThemeStyles(): string {
       .nav-mobile-btn.is-scrub { color: var(--text); }
 
       .brand-mark { color: var(--accent); }
-      .brand-word { font-weight: 800; font-size: 1.125rem; line-height: 1; letter-spacing: -0.01em; color: var(--text); }
+      .brand-word { font-weight: 800; font-size: var(--chth-text-18); line-height: 1; letter-spacing: -0.01em; color: var(--text); }
 
       .account-chip {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: var(--chth-space-8);
         height: 2.25rem;
-        padding: 0 0.75rem 0 0.25rem;
+        padding: 0 var(--chth-space-12) 0 var(--chth-space-4);
         border-radius: var(--r-full);
         border: 1px solid var(--line-strong);
         background: var(--surface);
         color: var(--text);
-        font-size: 0.8125rem;
+        font-size: var(--chth-text-13);
         font-weight: 500;
         transition: border-color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
       .account-chip:active { transform: scale(0.97); }
-      [dir="rtl"] .account-chip { padding: 0 0.25rem 0 0.75rem; }
+      [dir="rtl"] .account-chip { padding: 0 var(--chth-space-4) 0 var(--chth-space-12); }
       .account-chip:hover { border-color: var(--text-3); }
       .account-chip.is-active { border-color: var(--accent); }
-      [dir="rtl"] .account-chip.p-0\\.5, .account-chip.p-0\\.5 { padding: 0.125rem; }
-      .account-chip.no-avatar { padding: 0 0.875rem; }
+      [dir="rtl"] .account-chip.p-0\\.5, .account-chip.p-0\\.5 { padding: var(--chth-space-2); }
+      .account-chip.no-avatar { padding: 0 var(--chth-space-14); }
 
       /* ==========================================================================
          14. Weekly Barbell (dashboard hero)
@@ -1441,9 +1462,9 @@ export function renderThemeStyles(): string {
       .barbell .bar { fill: var(--color-bar); }
       .barbell .collar { fill: var(--text-2); }
       .barbell .slot { fill: none; stroke: var(--line-strong); stroke-width: 1.5; stroke-dasharray: 4 4; }
-      .barbell .plate { transform-box: fill-box; transform-origin: center; animation: plate-drop 350ms var(--ease-out) backwards; }
-      .barbell-caption { color: var(--text-2); font-size: 0.875rem; }
-      .barbell-caption strong { color: var(--text); font-weight: 800; font-size: 1.25rem; }
+      .barbell .plate { transform-box: fill-box; transform-origin: center; animation: plate-drop var(--chth-dur-300) var(--ease-out) backwards; }
+      .barbell-caption { color: var(--text-2); font-size: var(--chth-text-14); }
+      .barbell-caption strong { color: var(--text); font-weight: 800; font-size: var(--chth-text-20); }
 
       /* ==========================================================================
          15. Light-mode remaps for legacy dark utilities in rendered templates
@@ -1458,7 +1479,7 @@ export function renderThemeStyles(): string {
       html.light [class*="border-white"] { border-color: var(--line) !important; }
       html.light [class*="bg-white/5"],
       html.light [class*="bg-white/10"] { background-color: rgba(16, 17, 19, 0.04) !important; }
-      html.light [class*="bg-black/"]:not(.badge-overlay) { background-color: var(--surface-2) !important; }
+      html.light [class*="bg-black/"]:not(.chth-badge--overlay) { background-color: var(--surface-2) !important; }
       html.light .border-zinc-800 { border-color: var(--line) !important; }
 
       /* Semantic color utilities: markup names the role, the tokens pick the color */
@@ -1489,7 +1510,7 @@ export function renderThemeStyles(): string {
       @container (max-width: 440px) {
         .vcol-x span:nth-child(even) { visibility: hidden; }
       }
-      .vcol-plot { position: relative; height: 11rem; margin-top: 1.25rem; }
+      .vcol-plot { position: relative; height: 11rem; margin-top: var(--chth-space-20); }
       .vcol-grid {
         position: absolute;
         left: var(--axis);
@@ -1503,7 +1524,7 @@ export function renderThemeStyles(): string {
         right: calc(100% + 0.5rem);
         top: 0;
         transform: translateY(-50%);
-        font-size: 0.6875rem;
+        font-size: var(--chth-text-11);
         color: var(--text-3);
         font-variant-numeric: tabular-nums;
         white-space: nowrap;
@@ -1522,7 +1543,7 @@ export function renderThemeStyles(): string {
         justify-content: center;
         padding: 0 1px;
         cursor: default;
-        border-radius: 4px;
+        border-radius: var(--chth-radius-4);
       }
       .vcol-bar {
         position: relative;
@@ -1530,7 +1551,7 @@ export function renderThemeStyles(): string {
         max-width: 24px;
         min-height: 0;
         background: var(--viz-1);
-        border-radius: 4px 4px 0 0;
+        border-radius: var(--chth-radius-4) var(--chth-radius-4) 0 0;
         transition: background-color var(--dur-fast) ease;
       }
       .vcol-col:hover .vcol-bar, .vcol-col:focus-visible .vcol-bar { background: var(--viz-1-hover); }
@@ -1540,7 +1561,7 @@ export function renderThemeStyles(): string {
         bottom: calc(100% + 4px);
         left: 50%;
         transform: translateX(-50%);
-        font-size: 0.6875rem;
+        font-size: var(--chth-text-11);
         font-weight: 600;
         color: var(--text-2);
         white-space: nowrap;
@@ -1548,45 +1569,45 @@ export function renderThemeStyles(): string {
       .vcol-x {
         display: flex;
         padding-left: var(--axis);
-        margin-top: 0.5rem;
+        margin-top: var(--chth-space-8);
       }
       .vcol-x span {
         flex: 1;
         min-width: 0;
         text-align: center;
-        font-size: 0.6875rem;
+        font-size: var(--chth-text-11);
         color: var(--text-3);
         white-space: nowrap;
         overflow: visible;
       }
 
       /* Horizontal bars: grow from the (RTL) start edge, value at the tip */
-      .hbar { display: flex; flex-direction: column; gap: 0.25rem; }
+      .hbar { display: flex; flex-direction: column; gap: var(--chth-space-4); }
       .hbar-row {
         display: grid;
         grid-template-columns: 6.5rem 1fr;
         align-items: center;
-        gap: 0.75rem;
+        gap: var(--chth-space-12);
         min-height: 2rem;
-        padding: 0 0.25rem;
+        padding: 0 var(--chth-space-4);
         border-radius: var(--r-sm);
         text-align: start;
         cursor: default;
         transition: background-color var(--dur-fast) ease;
       }
       .hbar-row:hover, .hbar-row:focus-visible { background: var(--surface-2); }
-      .hbar-label { font-size: 0.8125rem; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .hbar-track { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+      .hbar-label { font-size: var(--chth-text-13); color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .hbar-track { display: flex; align-items: center; gap: var(--chth-space-8); min-width: 0; }
       .hbar-bar {
         height: 14px;
         min-width: 2px;
         background: var(--viz-1);
-        border-start-end-radius: 4px;
-        border-end-end-radius: 4px;
+        border-start-end-radius: var(--chth-radius-4);
+        border-end-end-radius: var(--chth-radius-4);
         transition: background-color var(--dur-fast) ease;
       }
       .hbar-row:hover .hbar-bar, .hbar-row:focus-visible .hbar-bar { background: var(--viz-1-hover); }
-      .hbar-val { font-size: 0.75rem; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+      .hbar-val { font-size: var(--chth-text-12); font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
 
       /* Tooltip: value leads, label follows */
       .viz-tip {
@@ -1596,8 +1617,8 @@ export function renderThemeStyles(): string {
         top: 0;
         display: flex;
         flex-direction: column;
-        gap: 0.125rem;
-        padding: 0.4rem 0.625rem;
+        gap: var(--chth-space-2);
+        padding: var(--chth-space-6) var(--chth-space-10);
         background: var(--surface);
         border: 1px solid var(--line-strong);
         border-radius: var(--r-sm);
@@ -1606,16 +1627,16 @@ export function renderThemeStyles(): string {
         white-space: nowrap;
         opacity: 0;
         transform: translate(-50%, calc(-100% - 8px));
-        transition: opacity 120ms ease;
+        transition: opacity var(--chth-dur-100) ease;
       }
       .viz-tip.is-visible { opacity: 1; }
-      .viz-tip strong { font-size: 0.8125rem; font-weight: 700; color: var(--text); }
-      .viz-tip span { font-size: 0.6875rem; color: var(--text-2); }
+      .viz-tip strong { font-size: var(--chth-text-13); font-weight: 700; color: var(--text); }
+      .viz-tip span { font-size: var(--chth-text-11); color: var(--text-2); }
 
       /* Table view twin */
       .viz-table-wrap summary {
         cursor: pointer;
-        font-size: 0.75rem;
+        font-size: var(--chth-text-12);
         font-weight: 500;
         color: var(--text-3);
         width: fit-content;
@@ -1623,13 +1644,13 @@ export function renderThemeStyles(): string {
       }
       .viz-table-wrap summary::-webkit-details-marker { display: none; }
       .viz-table-wrap summary:hover { color: var(--text); }
-      .viz-table-wrap[open] summary { margin-bottom: 0.5rem; }
-      .viz-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; font-variant-numeric: tabular-nums; }
-      .viz-table th { text-align: start; font-weight: 600; color: var(--text-2); padding: 0.375rem 0.5rem; border-bottom: 1px solid var(--line-strong); }
-      .viz-table td { color: var(--text); padding: 0.375rem 0.5rem; border-bottom: 1px solid var(--line); }
+      .viz-table-wrap[open] summary { margin-bottom: var(--chth-space-8); }
+      .viz-table { width: 100%; border-collapse: collapse; font-size: var(--chth-text-12); font-variant-numeric: tabular-nums; }
+      .viz-table th { text-align: start; font-weight: 600; color: var(--text-2); padding: var(--chth-space-6) var(--chth-space-8); border-bottom: 1px solid var(--line-strong); }
+      .viz-table td { color: var(--text); padding: var(--chth-space-6) var(--chth-space-8); border-bottom: 1px solid var(--line); }
 
       /* Body map — muscle groups reference shared <g> defs via <use>; fill comes from data-state */
-      .bm-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+      .bm-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--chth-space-8); }
       .bm-svg { width: 100%; height: auto; display: block; }
       .bm-outline { fill: var(--surface-3); }
       .bm-muscle { fill: var(--surface-3); stroke: var(--bg); stroke-width: 3; transition: fill var(--dur-base) var(--ease-out); outline: none; }
@@ -1643,18 +1664,18 @@ export function renderThemeStyles(): string {
       @media (hover: hover) and (pointer: fine) {
         .bm-muscle[tabindex]:hover { stroke: var(--text); }
       }
-      .bm-legend { display: flex; flex-wrap: wrap; gap: 0.375rem 0.875rem; font-size: 0.6875rem; color: var(--text-2); }
-      .bm-legend span { display: inline-flex; align-items: center; gap: 0.375rem; }
-      .bm-legend i { width: 0.625rem; height: 0.625rem; border-radius: 3px; display: inline-block; }
-      .bm-thumb { display: flex; justify-content: center; gap: 0.75rem; width: 100%; height: 100%; padding: 0.625rem; background: var(--surface-2); }
+      .bm-legend { display: flex; flex-wrap: wrap; gap: var(--chth-space-6) var(--chth-space-14); font-size: var(--chth-text-11); color: var(--text-2); }
+      .bm-legend span { display: inline-flex; align-items: center; gap: var(--chth-space-6); }
+      .bm-legend i { width: 0.625rem; height: 0.625rem; border-radius: var(--chth-radius-2); display: inline-block; }
+      .bm-thumb { display: flex; justify-content: center; gap: var(--chth-space-12); width: 100%; height: 100%; padding: var(--chth-space-10); background: var(--surface-2); }
       .bm-thumb .bm-svg { width: auto; height: 100%; }
 
       /* Barbell tools — plates per side, drawn as a sleeve with plates of proportional height */
-      .bar-sleeve { display: flex; align-items: center; gap: 2px; min-height: 3.25rem; direction: ltr; }
-      .bar-sleeve::before { content: ''; width: 1.5rem; height: 0.5rem; background: var(--color-bar); border-radius: 2px; }
-      .bar-plate { width: 0.875rem; border-radius: 3px; border: 1px solid var(--line-strong); }
-      .bar-sleeve::after { content: ''; flex: 1; max-width: 1.5rem; height: 0.5rem; background: var(--color-bar); border-radius: 2px; }
-      .warmup-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.375rem 0.5rem; border-radius: var(--r-sm); font-size: 0.75rem; color: var(--text); background: var(--surface-2); width: 100%; text-align: start; }
+      .bar-sleeve { display: flex; align-items: center; gap: var(--chth-space-2); min-height: 3.25rem; direction: ltr; }
+      .bar-sleeve::before { content: ''; width: 1.5rem; height: 0.5rem; background: var(--color-bar); border-radius: var(--chth-radius-2); }
+      .bar-plate { width: 0.875rem; border-radius: var(--chth-radius-2); border: 1px solid var(--line-strong); }
+      .bar-sleeve::after { content: ''; flex: 1; max-width: 1.5rem; height: 0.5rem; background: var(--color-bar); border-radius: var(--chth-radius-2); }
+      .warmup-row { display: flex; align-items: center; justify-content: space-between; gap: var(--chth-space-8); padding: var(--chth-space-6) var(--chth-space-8); border-radius: var(--r-sm); font-size: var(--chth-text-12); color: var(--text); background: var(--surface-2); width: 100%; text-align: start; }
       .warmup-row.is-done { color: var(--text-3); text-decoration: line-through; }
 
       /* ==========================================================================
@@ -1675,13 +1696,13 @@ export function renderThemeStyles(): string {
       .active-todo-pulse { animation: none; }
 
       /* Tab content enters softly; tabs switch a few times per session, not hundreds */
-      .tab-content:not(.hidden) { animation: fade-up 220ms var(--ease-out); }
+      .tab-content:not(.hidden) { animation: fade-up var(--chth-dur-200) var(--ease-out); }
 
       /* Workout card arrives when the user starts a session (not on page load) */
-      .is-entering { animation: fade-up 260ms var(--ease-out); }
+      .is-entering { animation: fade-up var(--chth-dur-250) var(--ease-out); }
 
       /* An exercise's last set was just logged: only its done badge pops */
-      .just-done .badge-done, .just-done .set-ring-label { animation: pop-in 220ms var(--ease-out); }
+      .just-done .chth-badge--success, .just-done .set-ring-label { animation: pop-in var(--chth-dur-200) var(--ease-out); }
 
       /* Panels revealed from a hidden toggle */
       .reveal {

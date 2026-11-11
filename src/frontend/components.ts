@@ -56,9 +56,9 @@ export function renderToastAndDialogs(): string {
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
               <h3 id="ex-sheet-title" class="text-base font-black text-white"></h3>
-              <p id="ex-sheet-subtitle" class="text-[11px] text-zinc-400 font-mono mt-0.5 text-right" dir="ltr"></p>
+              <p id="ex-sheet-subtitle" class="text-11 text-zinc-400 font-mono mt-0.5 text-right" dir="ltr"></p>
             </div>
-            <button onclick="closeExerciseSheet()" class="btn-icon btn-ghost shrink-0" aria-label="بستن">
+            <button onclick="closeExerciseSheet()" class="chth-btn chth-btn--icon chth-btn--ghost shrink-0" aria-label="بستن">
               <i data-lucide="x" class="w-5 h-5"></i>
             </button>
           </div>
@@ -83,14 +83,14 @@ export function renderToastAndDialogs(): string {
         </div>
 
         <div id="dialog-input-wrap" class="hidden space-y-2 pt-1">
-          <input type="text" id="dialog-text-input" class="input-styled font-mono">
+          <input type="text" id="dialog-text-input" class="chth-input font-mono">
         </div>
 
         <div class="modal-foot">
-          <button id="dialog-cancel-btn" onclick="handleDialogClose(false)" class="btn btn-secondary btn-md">
+          <button id="dialog-cancel-btn" onclick="handleDialogClose(false)" class="chth-btn chth-btn--secondary chth-btn--md">
             انصراف
           </button>
-          <button id="dialog-confirm-btn" onclick="handleDialogClose(true)" class="btn btn-primary btn-md">
+          <button id="dialog-confirm-btn" onclick="handleDialogClose(true)" class="chth-btn chth-btn--primary chth-btn--md">
             <span>تایید</span>
           </button>
         </div>
@@ -121,7 +121,7 @@ export function renderToastAndDialogs(): string {
       <div class="modal-panel max-w-md max-h-[85vh] flex flex-col p-5 space-y-4">
         <div class="modal-head">
           <h3 class="text-base font-bold text-white">افزودن حرکت</h3>
-          <button onclick="closeAddExerciseModal()" class="btn-icon btn-ghost" aria-label="بستن">
+          <button onclick="closeAddExerciseModal()" class="chth-btn chth-btn--icon chth-btn--ghost" aria-label="بستن">
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
@@ -133,7 +133,7 @@ export function renderToastAndDialogs(): string {
           id="modal-add-search" 
           oninput="filterModalExercises()" 
           placeholder="مثلاً: پرس سینه، نشر جانب، پلانک..." 
-          class="input-styled"
+          class="chth-input"
         >
         </div>
 
@@ -153,7 +153,7 @@ export function renderToastAndDialogs(): string {
             </div>
             <h3 class="text-sm font-bold text-white">اشتراک‌گذاری برنامه</h3>
           </div>
-          <button onclick="closeShareQrModal()" class="btn-icon btn-ghost" aria-label="بستن">
+          <button onclick="closeShareQrModal()" class="chth-btn chth-btn--icon chth-btn--ghost" aria-label="بستن">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -170,15 +170,15 @@ export function renderToastAndDialogs(): string {
         <!-- Copy Link Section -->
         <div class="space-y-2 pt-1">
           <div class="flex items-center gap-1.5">
-            <input type="text" id="share-qr-url" readonly class="input-styled input-sm font-mono select-all" dir="ltr">
-            <button onclick="copyShareQrUrl()" class="btn btn-primary btn-sm shrink-0">
+            <input type="text" id="share-qr-url" readonly class="chth-input chth-input--sm font-mono select-all" dir="ltr">
+            <button onclick="copyShareQrUrl()" class="chth-btn chth-btn--primary chth-btn--sm shrink-0">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>کپی لینک</span>
             </button>
           </div>
         </div>
 
-        <button onclick="closeShareQrModal()" class="btn btn-secondary btn-sm w-full">
+        <button onclick="closeShareQrModal()" class="chth-btn chth-btn--secondary chth-btn--sm w-full">
           بستن
         </button>
       </div>
@@ -194,7 +194,7 @@ export function renderToastAndDialogs(): string {
             </div>
             <h3 class="text-sm font-bold text-white">برنامه اشتراکی</h3>
           </div>
-          <button onclick="closeSharedRoutineModal()" class="btn-icon btn-ghost" aria-label="بستن">
+          <button onclick="closeSharedRoutineModal()" class="chth-btn chth-btn--icon chth-btn--ghost" aria-label="بستن">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -220,7 +220,7 @@ export function renderToastAndDialogs(): string {
           <div id="shared-import-btn-container">
             <!-- Populated by JS based on login state -->
           </div>
-          <button onclick="closeSharedRoutineModal()" class="btn btn-secondary btn-md w-full">
+          <button onclick="closeSharedRoutineModal()" class="chth-btn chth-btn--secondary chth-btn--md w-full">
             انصراف و بستن
           </button>
         </div>

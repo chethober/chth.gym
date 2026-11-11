@@ -4,18 +4,18 @@ export function renderActivationSection(): string {
     <h2 id="first-workout-title" class="text-lg font-bold text-white">اولین تمرینت را آماده کن</h2>
     <p class="text-sm text-zinc-400">سطح و تعداد جلساتت را انتخاب کن؛ برنامه را ببین و بدون ساخت حساب شروع کن.</p>
     <div class="grid sm:grid-cols-2 gap-3">
-      <label class="text-sm text-zinc-300">تجربه تمرین<select id="setup-level" class="input-styled mt-2"><option value="beginner">تازه شروع کرده‌ام</option><option value="intermediate">به‌طور منظم تمرین می‌کنم</option><option value="advanced">باتجربه هستم</option></select></label>
-      <label class="text-sm text-zinc-300">جلسات در هفته<select id="setup-days" class="input-styled mt-2"><option value="2">۲ جلسه</option><option value="3" selected>۳ جلسه</option><option value="4">۴ جلسه</option></select></label>
+      <label class="text-sm text-zinc-300">تجربه تمرین<select id="setup-level" class="chth-input mt-2"><option value="beginner">تازه شروع کرده‌ام</option><option value="intermediate">به‌طور منظم تمرین می‌کنم</option><option value="advanced">باتجربه هستم</option></select></label>
+      <label class="text-sm text-zinc-300">جلسات در هفته<select id="setup-days" class="chth-input mt-2"><option value="2">۲ جلسه</option><option value="3" selected>۳ جلسه</option><option value="4">۴ جلسه</option></select></label>
     </div>
     <p id="setup-recommendation" class="text-sm text-zinc-300" aria-live="polite"></p>
-    <div class="flex flex-wrap gap-2"><button id="setup-start" type="button" onclick="startGuidedWorkout()" class="btn btn-primary">مشاهده برنامه پیشنهادی</button><button type="button" onclick="dismissWorkoutSetup()" class="btn btn-ghost">خودم برنامه دارم</button><a href="/programs" class="btn btn-secondary">راهنمای برنامه‌ها</a></div>
+    <div class="flex flex-wrap gap-2"><button id="setup-start" type="button" onclick="startGuidedWorkout()" class="chth-btn chth-btn--primary">مشاهده برنامه پیشنهادی</button><button type="button" onclick="dismissWorkoutSetup()" class="chth-btn chth-btn--ghost">خودم برنامه دارم</button><a href="/programs" class="chth-btn chth-btn--secondary">راهنمای برنامه‌ها</a></div>
   </div>
   <div id="return-workout" class="card-glass p-5 space-y-3 hidden">
     <h2 class="text-base font-bold text-white">تمرین بعدی، آماده است</h2><p id="return-workout-title" class="text-sm text-zinc-400"></p>
-    <button id="repeat-workout" type="button" onclick="repeatLastWorkout()" class="btn btn-primary">تکرار آخرین تمرین</button>
-    <button type="button" onclick="switchTab('plan')" class="btn btn-secondary">تنظیم روزهای تمرین</button>
+    <button id="repeat-workout" type="button" onclick="repeatLastWorkout()" class="chth-btn chth-btn--primary">تکرار آخرین تمرین</button>
+    <button type="button" onclick="switchTab('plan')" class="chth-btn chth-btn--secondary">تنظیم روزهای تمرین</button>
   </div>
-  <div id="workout-recap" class="card-glass p-5 space-y-3 hidden" role="status"><h2 class="text-base font-bold text-white">تمرینت ثبت شد!</h2><p id="workout-recap-text" class="text-sm text-zinc-300"></p><p class="text-sm text-zinc-400">برای جلسه بعد، روز تمرینت را در برنامه هفتگی انتخاب کن.</p><button type="button" onclick="shareWorkoutResult()" class="btn btn-secondary">اشتراک نتیجه تمرین</button><button type="button" onclick="switchTab('plan')" class="btn btn-primary">برنامه‌ریزی جلسه بعد</button></div>`;
+  <div id="workout-recap" class="card-glass p-5 space-y-3 hidden" role="status"><h2 class="text-base font-bold text-white">تمرینت ثبت شد!</h2><p id="workout-recap-text" class="text-sm text-zinc-300"></p><p class="text-sm text-zinc-400">برای جلسه بعد، روز تمرینت را در برنامه هفتگی انتخاب کن.</p><button type="button" onclick="shareWorkoutResult()" class="chth-btn chth-btn--secondary">اشتراک نتیجه تمرین</button><button type="button" onclick="switchTab('plan')" class="chth-btn chth-btn--primary">برنامه‌ریزی جلسه بعد</button></div>`;
 }
 
 export function renderActivationScript(): string {

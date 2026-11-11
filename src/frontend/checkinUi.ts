@@ -8,11 +8,11 @@
 export function renderCheckinStyles(): string {
   return `
     <style>
-      .ci-steps { display: flex; gap: 0.375rem; }
+      .ci-steps { display: flex; gap: var(--chth-space-6); }
       .ci-steps span {
         flex: 1;
         height: 4px;
-        border-radius: 999px;
+        border-radius: var(--chth-radius-full);
         background: var(--line-strong);
         transition: background-color var(--dur-base) ease;
       }
@@ -29,20 +29,20 @@ export function renderCheckinStyles(): string {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.75rem;
+        gap: var(--chth-space-12);
       }
-      .ci-weight .stepper-btn {
+      .ci-weight .chth-stepper__btn {
         width: 2.75rem;
         height: 2.75rem;
         border-radius: var(--r-sm);
-        font-size: 1.25rem;
+        font-size: var(--chth-text-20);
         flex-shrink: 0;
       }
       .ci-weight-field {
         display: flex;
         align-items: baseline;
         justify-content: center;
-        gap: 0.25rem;
+        gap: var(--chth-space-4);
         min-width: 0;
       }
       .ci-weight-input {
@@ -51,7 +51,7 @@ export function renderCheckinStyles(): string {
         border: none;
         outline: none;
         text-align: center;
-        font-size: 2.5rem;
+        font-size: var(--chth-text-40);
         font-weight: 800;
         line-height: 1.1;
         color: var(--text);
@@ -65,7 +65,7 @@ export function renderCheckinStyles(): string {
       .ci-weight-input:focus { border-bottom-color: var(--accent); }
       .ci-weight-input::-webkit-outer-spin-button,
       .ci-weight-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-      .ci-weight-unit { font-size: 0.875rem; color: var(--text-3); }
+      .ci-weight-unit { font-size: var(--chth-text-14); color: var(--text-3); }
     </style>
   `;
 }
@@ -77,8 +77,8 @@ export function renderCheckinModal(): string {
       <div role="dialog" aria-modal="true" aria-labelledby="checkin-title" class="modal-panel max-w-sm p-5 space-y-5">
         <div class="space-y-3">
           <div class="flex items-center justify-between gap-3">
-            <span id="checkin-step-label" class="text-[11px] text-zinc-400">مرحله ۱ از ۲</span>
-            <button type="button" onclick="closeCheckin(false)" class="btn-icon btn-ghost" aria-label="بستن">
+            <span id="checkin-step-label" class="text-11 text-zinc-400">مرحله ۱ از ۲</span>
+            <button type="button" onclick="closeCheckin(false)" class="chth-btn chth-btn--icon chth-btn--ghost" aria-label="بستن">
               <i data-lucide="x" class="w-4 h-4"></i>
             </button>
           </div>
@@ -96,19 +96,19 @@ export function renderCheckinModal(): string {
           </div>
 
           <div class="ci-weight">
-            <button type="button" onclick="adjustCheckinWeight(-0.1)" class="stepper-btn" aria-label="کاهش وزن">−</button>
+            <button type="button" onclick="adjustCheckinWeight(-0.1)" class="chth-stepper__btn" aria-label="کاهش وزن">−</button>
             <label class="ci-weight-field">
               <input type="number" id="checkin-weight-input" step="0.1" min="30" max="250" inputmode="decimal" class="ci-weight-input" aria-label="وزن امروز به کیلوگرم">
               <span class="ci-weight-unit">kg</span>
             </label>
-            <button type="button" onclick="adjustCheckinWeight(0.1)" class="stepper-btn" aria-label="افزایش وزن">+</button>
+            <button type="button" onclick="adjustCheckinWeight(0.1)" class="chth-stepper__btn" aria-label="افزایش وزن">+</button>
           </div>
 
-          <p id="checkin-last-weight" class="text-[11px] text-zinc-400 text-center"></p>
+          <p id="checkin-last-weight" class="text-11 text-zinc-400 text-center"></p>
 
           <div class="modal-foot">
-            <button type="button" onclick="skipCheckin()" class="btn btn-ghost btn-md">رد کردن</button>
-            <button type="submit" id="checkin-save-btn" class="btn btn-primary btn-md">
+            <button type="button" onclick="skipCheckin()" class="chth-btn chth-btn--ghost chth-btn--md">رد کردن</button>
+            <button type="submit" id="checkin-save-btn" class="chth-btn chth-btn--primary chth-btn--md">
               <span>ثبت و ادامه</span>
               <i data-lucide="arrow-left" class="w-4 h-4"></i>
             </button>
@@ -125,12 +125,12 @@ export function renderCheckinModal(): string {
               <h3 class="text-base font-bold text-white">آماده‌ای؟</h3>
               <p id="checkin-workout-title" class="text-xs text-zinc-400"></p>
             </div>
-            <span id="checkin-summary" class="badge badge-emerald font-mono"></span>
+            <span id="checkin-summary" class="chth-badge chth-badge--accent font-mono"></span>
           </div>
 
           <div class="modal-foot">
-            <button type="button" onclick="showCheckinStep(1)" class="btn btn-secondary btn-md">بازگشت</button>
-            <button type="button" onclick="closeCheckin(true)" class="btn btn-primary btn-md">
+            <button type="button" onclick="showCheckinStep(1)" class="chth-btn chth-btn--secondary chth-btn--md">بازگشت</button>
+            <button type="button" onclick="closeCheckin(true)" class="chth-btn chth-btn--primary chth-btn--md">
               <i data-lucide="play" class="w-4 h-4 fill-current"></i>
               <span>شروع تمرین</span>
             </button>

@@ -13,12 +13,12 @@ export function renderInstallHead(): string {
   <meta name="application-name" content="جسم و اندیشه">
   <style>
     .sync-pill { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 0.6rem); left: 50%; transform: translateX(-50%);
-      z-index: 70; display: inline-flex; align-items: center; gap: 0.45rem; max-width: calc(100vw - 2rem);
-      padding: 0.4rem 0.85rem; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap;
+      z-index: 70; display: inline-flex; align-items: center; gap: var(--chth-space-8); max-width: calc(100vw - 2rem);
+      padding: var(--chth-space-6) var(--chth-space-14); border-radius: var(--chth-radius-full); font-size: var(--chth-text-12); font-weight: 600; white-space: nowrap;
       background: var(--surface-2); color: var(--text-2); border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
     .sync-pill[data-state="offline"] { color: var(--gold); background: var(--gold-soft); border-color: transparent; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
     .sync-pill .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-    .sync-pill[data-state="syncing"] .sync-dot { animation: sync-pulse 1s ease-in-out infinite alternate; }
+    .sync-pill[data-state="syncing"] .sync-dot { animation: sync-pulse var(--chth-dur-1000) ease-in-out infinite alternate; }
     @keyframes sync-pulse { from { opacity: 0.25; } to { opacity: 1; } }
     .install-banner { position: fixed; z-index: 60; inset-inline: 1rem; bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
       max-width: 26rem; margin-inline: auto; }
@@ -42,10 +42,10 @@ export function renderInstallBanner(): string {
     <img src="/icons/icon-192x192.png" alt="" class="w-11 h-11 rounded-xl shrink-0">
     <div class="min-w-0 flex-1">
       <h4 id="install-banner-title" class="text-xs font-bold text-white">نصب جسم و اندیشه</h4>
-      <p class="text-[12px] text-zinc-400">اجرای سریع از صفحه‌ی اصلی، حتی بدون اینترنت.</p>
+      <p class="text-12 text-zinc-400">اجرای سریع از صفحه‌ی اصلی، حتی بدون اینترنت.</p>
     </div>
-    <button type="button" onclick="installApp()" class="btn btn-primary btn-sm shrink-0">نصب</button>
-    <button type="button" onclick="dismissInstallBanner()" class="btn-icon-sm shrink-0" aria-label="بستن" title="بستن">
+    <button type="button" onclick="installApp()" class="chth-btn chth-btn--primary chth-btn--sm shrink-0">نصب</button>
+    <button type="button" onclick="dismissInstallBanner()" class="chth-btn chth-btn--icon-sm shrink-0" aria-label="بستن" title="بستن">
       <i data-lucide="x" class="w-4 h-4"></i>
     </button>
   </div>`;
@@ -62,15 +62,15 @@ export function renderInstallCard(): string {
             </div>
             <div>
               <h4 class="text-xs font-bold text-white">نصب اپلیکیشن</h4>
-              <p class="text-[12px] text-zinc-400">جسم و اندیشه را مثل یک برنامه روی گوشی یا رایانه نصب کنید؛ تمرین‌ها بدون اینترنت هم ثبت می‌شوند.</p>
+              <p class="text-12 text-zinc-400">جسم و اندیشه را مثل یک برنامه روی گوشی یا رایانه نصب کنید؛ تمرین‌ها بدون اینترنت هم ثبت می‌شوند.</p>
             </div>
           </div>
-          <button type="button" onclick="installApp()" class="btn btn-primary btn-sm whitespace-nowrap shrink-0">
+          <button type="button" onclick="installApp()" class="chth-btn chth-btn--primary chth-btn--sm whitespace-nowrap shrink-0">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
             <span>نصب اپلیکیشن</span>
           </button>
         </div>
-        <ol id="install-ios-steps" class="hidden text-[12px] text-zinc-400 space-y-1.5 list-decimal ps-5">
+        <ol id="install-ios-steps" class="hidden text-12 text-zinc-400 space-y-1.5 list-decimal ps-5">
           <li>در Safari دکمه‌ی <b class="text-white">اشتراک‌گذاری</b> <i data-lucide="share" class="inline w-3.5 h-3.5 align-[-2px]"></i> را بزنید.</li>
           <li>گزینه‌ی <b class="text-white">Add to Home Screen</b> را انتخاب کنید.</li>
           <li>روی <b class="text-white">Add</b> بزنید؛ آیکون برنامه به صفحه‌ی اصلی اضافه می‌شود.</li>

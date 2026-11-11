@@ -69,9 +69,9 @@ export function renderAppearanceHead(publicPage = false): string {
 export function renderPublicPatterns(scope: string): string {
   const reduced = (s: string) => `
     ${s} :is(.landing-hero-copy,.landing-ring) { animation:none !important; }
-    ${s} .landing-reveal { transition:opacity 150ms ease !important; }
+    ${s} .landing-reveal { transition:opacity var(--chth-dur-150) ease !important; }
     ${s} .landing-reveal[data-pending] { transform:none; }
-    ${s} :is(.public-button,.public-chip) { transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease; }
+    ${s} :is(.public-button,.public-chip) { transition:background-color var(--chth-dur-150) ease,border-color var(--chth-dur-150) ease,color var(--chth-dur-150) ease; }
     ${s} :is(.public-button,.public-chip):active, ${s} .public-button span, ${s} .landing-scroll span { transform:none !important; transition:none; }`;
   return `<style>
     ${scope} {
@@ -93,11 +93,11 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} :is(a,button):focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:var(--r-sm); }
     ${scope} :is(h1,h2,h3) { text-wrap:balance; }
 
-    /* Button: the app's .btn-lg, with .btn-secondary as the outline variant */
+    /* Button: the app's .chth-btn--lg, with .chth-btn--secondary as the outline variant */
     ${scope} .public-button {
-      display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;
-      min-height:var(--h-lg); padding:0.625rem 1.375rem; border:1px solid var(--accent); border-radius:var(--r-md);
-      background:var(--accent); color:var(--on-accent); font:inherit; font-size:0.9375rem; font-weight:600; line-height:1.4;
+      display:inline-flex; align-items:center; justify-content:center; gap:var(--chth-space-8);
+      min-height:var(--h-lg); padding:var(--chth-space-10) var(--chth-space-22); border:1px solid var(--accent); border-radius:var(--r-md);
+      background:var(--accent); color:var(--on-accent); font:inherit; font-size:var(--chth-text-15); font-weight:600; line-height:1.4;
       text-align:center; text-decoration:none; cursor:pointer; user-select:none; -webkit-user-select:none;
       box-shadow:inset 0 1px 0 rgba(255,255,255,0.25),0 1px 2px rgba(0,0,0,0.2);
       transition:transform var(--dur-press) var(--ease-out),background-color var(--dur-fast) ease,border-color var(--dur-fast) ease,color var(--dur-fast) ease;
@@ -106,13 +106,13 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} .public-button.is-outline { background:var(--surface-2); color:var(--accent-text); border-color:var(--accent-line); box-shadow:var(--shadow-control); }
     ${scope} .public-button span { display:inline-block; transition:transform var(--dur-base) var(--ease-out); }
 
-    /* Chip: the app's .chip, as a toggle (aria-pressed) or a static tag */
+    /* Chip: the app's .chth-chip, as a toggle (aria-pressed) or a static tag */
     ${scope} .public-chip {
-      display:inline-flex; align-items:center; gap:0.375rem; min-height:1.875rem; padding:0.25rem 0.75rem;
+      display:inline-flex; align-items:center; gap:var(--chth-space-6); min-height:1.875rem; padding:var(--chth-space-4) var(--chth-space-12);
       border:1px solid var(--line-strong); border-radius:var(--r-full); background:var(--surface);
-      color:var(--text-2); font:inherit; font-size:0.8125rem; font-weight:500; line-height:1.5; white-space:nowrap;
+      color:var(--text-2); font:inherit; font-size:var(--chth-text-13); font-weight:500; line-height:1.5; white-space:nowrap;
     }
-    ${scope} button.public-chip { min-height:2.75rem; padding:0.5rem 1.125rem; font-size:0.875rem; cursor:pointer;
+    ${scope} button.public-chip { min-height:2.75rem; padding:var(--chth-space-8) var(--chth-space-18); font-size:var(--chth-text-14); cursor:pointer;
       transition:background-color var(--dur-fast) ease,border-color var(--dur-fast) ease,color var(--dur-fast) ease,transform var(--dur-press) var(--ease-out); }
     ${scope} button.public-chip:active { transform:scale(0.96); }
     ${scope} .public-chip[aria-pressed="true"] { background:var(--accent); border-color:var(--accent); color:var(--on-accent); font-weight:600; }
@@ -123,8 +123,8 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} .public-card.is-large { border-radius:var(--r-xl); }
 
     /* Section label: small accent text that names what follows */
-    ${scope} .public-kicker { color:var(--accent-text); font-size:0.875rem; font-weight:500; }
-    ${scope} .public-index { color:var(--accent-text); font-size:0.8125rem; font-weight:600; letter-spacing:0.08em; font-variant-numeric:tabular-nums; }
+    ${scope} .public-kicker { color:var(--accent-text); font-size:var(--chth-text-14); font-weight:500; }
+    ${scope} .public-index { color:var(--accent-text); font-size:var(--chth-text-13); font-weight:600; letter-spacing:0.08em; font-variant-numeric:tabular-nums; }
 
     /* Site chrome: one nav for every public page */
     /* Language and theme: round icon buttons kept close together */

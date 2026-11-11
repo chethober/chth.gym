@@ -18,21 +18,21 @@ export function renderWeeklyPlanStyles(): string {
         background: color-mix(in srgb, var(--bg) 86%, transparent);
         backdrop-filter: saturate(160%) blur(10px);
         -webkit-backdrop-filter: saturate(160%) blur(10px);
-        margin-inline: -1rem;
-        padding: 0.625rem 1rem;
+        margin-inline: calc(-1 * var(--chth-space-16));
+        padding: var(--chth-space-10) var(--chth-space-16);
         border-bottom: 1px solid transparent;
         transition: border-color var(--dur-fast) ease, background-color var(--dur-fast) ease;
       }
-      @media (min-width: 640px) { .wp-tray-wrap { margin-inline: -1.5rem; padding-inline: 1.5rem; } }
+      @media (min-width: 640px) { .wp-tray-wrap { margin-inline: calc(-1 * var(--chth-space-24)); padding-inline: var(--chth-space-24); } }
       @media (min-width: 768px) { .wp-tray-wrap { top: 4rem; } }
-      @media (min-width: 1024px) { .wp-tray-wrap { margin-inline: -2rem; padding-inline: 2rem; } }
+      @media (min-width: 1024px) { .wp-tray-wrap { margin-inline: calc(-1 * var(--chth-space-32)); padding-inline: var(--chth-space-32); } }
 
       .wp-tray {
         display: flex;
-        gap: 0.5rem;
+        gap: var(--chth-space-8);
         overflow-x: auto;
         scrollbar-width: none;
-        padding-block: 0.125rem;
+        padding-block: var(--chth-space-2);
         overscroll-behavior-x: contain;
       }
       .wp-tray::-webkit-scrollbar { display: none; }
@@ -42,12 +42,12 @@ export function renderWeeklyPlanStyles(): string {
         display: none;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        gap: var(--chth-space-8);
         height: 2.75rem;
         border-radius: var(--r-md);
         border: 1.5px dashed color-mix(in srgb, var(--danger) 55%, transparent);
         color: var(--danger);
-        font-size: 0.8125rem;
+        font-size: var(--chth-text-13);
         font-weight: 600;
         transition: background-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out);
       }
@@ -58,17 +58,17 @@ export function renderWeeklyPlanStyles(): string {
       .wp-chip {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: var(--chth-space-8);
         flex-shrink: 0;
         max-width: 15rem;
         height: 2.75rem;
-        padding-inline: 0.75rem 0.875rem;
+        padding-inline: var(--chth-space-12) var(--chth-space-14);
         border-radius: var(--r-md);
         background: var(--surface);
         border: 1px solid var(--line-strong);
         box-shadow: var(--shadow-control);
         color: var(--text);
-        font-size: 0.8125rem;
+        font-size: var(--chth-text-13);
         font-weight: 600;
         cursor: grab;
         user-select: none;
@@ -83,7 +83,7 @@ export function renderWeeklyPlanStyles(): string {
       }
       /* dir=auto lets a Latin title truncate at its own end; text stays right-aligned with the RTL UI */
       .wp-chip .wp-chip-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; text-align: right; }
-      .wp-chip .wp-chip-meta { color: var(--text-3); font-size: 0.6875rem; font-weight: 500; white-space: nowrap; }
+      .wp-chip .wp-chip-meta { color: var(--text-3); font-size: var(--chth-text-11); font-weight: 500; white-space: nowrap; }
       .wp-chip .wp-grip { color: var(--text-3); flex-shrink: 0; }
       .wp-chip:active, .wp-chip.is-pressing { transform: scale(0.97); }
       .wp-chip.is-selected { border-color: var(--accent); background: var(--accent-soft); }
@@ -99,7 +99,7 @@ export function renderWeeklyPlanStyles(): string {
         background: var(--accent-soft);
         border-color: color-mix(in srgb, var(--accent) 30%, transparent);
         box-shadow: none;
-        padding-inline: 0.625rem 0.25rem;
+        padding-inline: var(--chth-space-10) var(--chth-space-4);
       }
       .wp-chip.is-slotted.is-done { background: var(--done-soft); border-color: var(--done-line); }
       .wp-chip-btn {
@@ -120,16 +120,16 @@ export function renderWeeklyPlanStyles(): string {
       }
 
       /* Day cards */
-      .wp-days { display: grid; gap: 0.5rem; grid-template-columns: minmax(0, 1fr); }
-      @media (min-width: 640px) { .wp-days { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; } }
-      @media (min-width: 1024px) { .wp-days { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.5rem; } }
+      .wp-days { display: grid; gap: var(--chth-space-8); grid-template-columns: minmax(0, 1fr); }
+      @media (min-width: 640px) { .wp-days { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--chth-space-12); } }
+      @media (min-width: 1024px) { .wp-days { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--chth-space-8); } }
 
       .wp-day {
         position: relative;
         display: flex;
-        gap: 0.75rem;
+        gap: var(--chth-space-12);
         min-height: 4rem;
-        padding: 0.625rem;
+        padding: var(--chth-space-10);
         border-radius: var(--r-lg);
         background: var(--surface);
         border: 1px solid var(--line);
@@ -139,11 +139,11 @@ export function renderWeeklyPlanStyles(): string {
           transform var(--dur-base) var(--ease-out);
       }
       @media (min-width: 1024px) {
-        .wp-day { flex-direction: column; min-height: 11rem; gap: 0.625rem; }
-        .wp-day .wp-day-head { width: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.375rem; }
-        .wp-day .wp-day-head .wp-status, .wp-day .wp-day-head .badge { margin-inline-start: auto; }
+        .wp-day { flex-direction: column; min-height: 11rem; gap: var(--chth-space-10); }
+        .wp-day .wp-day-head { width: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--chth-space-4) var(--chth-space-6); }
+        .wp-day .wp-day-head .wp-status, .wp-day .wp-day-head .chth-badge { margin-inline-start: auto; }
         /* Narrow columns: title gets its own two lines, actions sit underneath */
-        .wp-chip.is-slotted { height: auto; flex-wrap: wrap; gap: 0.125rem; padding: 0.5rem 0.5rem 0.25rem; }
+        .wp-chip.is-slotted { height: auto; flex-wrap: wrap; gap: var(--chth-space-2); padding: var(--chth-space-8) var(--chth-space-8) var(--chth-space-4); }
         .wp-chip.is-slotted .wp-chip-title {
           flex-basis: 100%;
           white-space: normal;
@@ -164,13 +164,13 @@ export function renderWeeklyPlanStyles(): string {
         justify-content: center;
         width: 4.25rem;
         flex-shrink: 0;
-        gap: 0.125rem;
+        gap: var(--chth-space-2);
       }
-      .wp-day-name { font-size: 0.8125rem; font-weight: 700; color: var(--text); }
-      .wp-day-date { font-size: 0.6875rem; color: var(--text-3); }
+      .wp-day-name { font-size: var(--chth-text-13); font-weight: 700; color: var(--text); }
+      .wp-day-date { font-size: var(--chth-text-11); color: var(--text-3); }
       .wp-day.is-today .wp-day-name { color: var(--accent-text); }
 
-      .wp-slots { flex: 1; display: flex; flex-wrap: wrap; align-content: center; gap: 0.375rem; min-width: 0; }
+      .wp-slots { flex: 1; display: flex; flex-wrap: wrap; align-content: center; gap: var(--chth-space-6); min-width: 0; }
       @media (min-width: 1024px) { .wp-slots { flex-direction: column; flex-wrap: nowrap; align-content: stretch; justify-content: flex-start; } }
       .wp-slots .wp-chip { min-width: 0; flex-shrink: 1; }
 
@@ -179,12 +179,12 @@ export function renderWeeklyPlanStyles(): string {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.375rem;
+        gap: var(--chth-space-6);
         min-height: 2.5rem;
         border-radius: var(--r-md);
         border: 1.5px dashed var(--line-strong);
         color: var(--text-3);
-        font-size: 0.75rem;
+        font-size: var(--chth-text-12);
         transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease, background-color var(--dur-fast) ease;
       }
 
@@ -209,14 +209,14 @@ export function renderWeeklyPlanStyles(): string {
         opacity: 0;
         pointer-events: none;
       }
-      .wp-day.just-dropped::after { animation: wp-ring 520ms var(--ease-out); }
+      .wp-day.just-dropped::after { animation: wp-ring var(--chth-dur-500) var(--ease-out); }
       @keyframes wp-ring { 0% { opacity: 1; } 100% { opacity: 0; } }
 
-      .wp-status { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.625rem; font-weight: 600; }
+      .wp-status { display: inline-flex; align-items: center; gap: var(--chth-space-4); font-size: var(--chth-text-10); font-weight: 600; }
       .wp-status.is-done { color: var(--done); }
       .wp-status.is-missed { color: var(--text-3); }
 
-      .wp-chip.is-new { animation: pop-in 200ms var(--ease-out); }
+      .wp-chip.is-new { animation: pop-in var(--chth-dur-200) var(--ease-out); }
 
       /* Floating copy that follows the pointer */
       .wp-ghost {
@@ -235,7 +235,7 @@ export function renderWeeklyPlanStyles(): string {
       }
       html.wp-dragging, html.wp-dragging * { cursor: grabbing !important; user-select: none; -webkit-user-select: none; }
 
-      .wp-hint { font-size: 0.75rem; color: var(--text-3); }
+      .wp-hint { font-size: var(--chth-text-12); color: var(--text-3); }
       .wp-hint.is-armed { color: var(--accent-text); }
 
       @media (prefers-reduced-motion: reduce) {
@@ -255,11 +255,11 @@ export function renderWeeklyPlanSection(): string {
           <p id="wp-week-label" class="text-xs text-zinc-400 mt-0.5">&nbsp;</p>
         </div>
         <div class="flex items-center gap-1 shrink-0">
-          <button type="button" onclick="wpShiftWeek(-1)" class="btn-icon btn-ghost" title="هفته قبل" aria-label="هفته قبل">
+          <button type="button" onclick="wpShiftWeek(-1)" class="chth-btn chth-btn--icon chth-btn--ghost" title="هفته قبل" aria-label="هفته قبل">
             <i data-lucide="chevron-right" class="w-5 h-5"></i>
           </button>
-          <button type="button" id="wp-this-week-btn" onclick="wpShiftWeek(0)" class="btn btn-secondary btn-sm">این هفته</button>
-          <button type="button" onclick="wpShiftWeek(1)" class="btn-icon btn-ghost" title="هفته بعد" aria-label="هفته بعد">
+          <button type="button" id="wp-this-week-btn" onclick="wpShiftWeek(0)" class="chth-btn chth-btn--secondary chth-btn--sm">این هفته</button>
+          <button type="button" onclick="wpShiftWeek(1)" class="chth-btn chth-btn--icon chth-btn--ghost" title="هفته بعد" aria-label="هفته بعد">
             <i data-lucide="chevron-left" class="w-5 h-5"></i>
           </button>
         </div>
@@ -430,7 +430,7 @@ export function renderWeeklyPlanClientScript(): string {
       if (wpState.routines.length === 0) {
         trayEl.innerHTML = '<div class="flex items-center justify-between gap-3 w-full card-glass-subtle px-3 py-2.5">' +
           '<span class="text-xs text-zinc-400">هنوز برنامه‌ای ذخیره نکرده‌اید.</span>' +
-          '<button type="button" onclick="switchTab(\\'movements\\')" class="btn btn-primary btn-sm shrink-0"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>ساخت برنامه</span></button>' +
+          '<button type="button" onclick="switchTab(\\'movements\\')" class="chth-btn chth-btn--primary chth-btn--sm shrink-0"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>ساخت برنامه</span></button>' +
         '</div>';
       } else {
         trayEl.innerHTML = wpState.routines.map(function(r) { return wpChipHtml(r, { slotted: false }); }).join('');
@@ -454,7 +454,7 @@ export function renderWeeklyPlanClientScript(): string {
         } else if (isPast && ids.length && currentUser) {
           status = '<span class="wp-status is-missed">انجام نشد</span>';
         } else if (isToday) {
-          status = '<span class="badge badge-emerald">امروز</span>';
+          status = '<span class="chth-badge chth-badge--accent">امروز</span>';
         }
 
         const slots = ids.length
@@ -490,7 +490,7 @@ export function renderWeeklyPlanClientScript(): string {
       if (ids.length === 0) {
         el.innerHTML = '<div class="flex items-center gap-3 min-w-0">' +
           '<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="coffee" class="w-5 h-5"></i></div>' +
-          '<div class="min-w-0"><p class="text-[11px] text-zinc-400">امروز، ' + WP_DAY_NAMES[todayIdx] + '</p><p class="text-sm font-bold text-white">روز استراحت</p></div>' +
+          '<div class="min-w-0"><p class="text-11 text-zinc-400">امروز، ' + WP_DAY_NAMES[todayIdx] + '</p><p class="text-sm font-bold text-white">روز استراحت</p></div>' +
         '</div>';
         return;
       }
@@ -498,9 +498,9 @@ export function renderWeeklyPlanClientScript(): string {
       const more = ids.length > 1 ? '<span class="text-zinc-400 font-normal text-xs shrink-0 whitespace-nowrap">+' + toPersianDigits(ids.length - 1) + '</span>' : '';
       el.innerHTML = '<div class="flex items-center gap-3 min-w-0">' +
           '<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-5 h-5"></i></div>' +
-          '<div class="min-w-0"><p class="text-[11px] text-zinc-400">امروز، ' + WP_DAY_NAMES[todayIdx] + '</p><p class="text-sm font-bold text-white flex min-w-0 gap-1"><span class="truncate min-w-0 text-right" dir="auto">' + wpEsc(r.title) + '</span>' + more + '</p></div>' +
+          '<div class="min-w-0"><p class="text-11 text-zinc-400">امروز، ' + WP_DAY_NAMES[todayIdx] + '</p><p class="text-sm font-bold text-white flex min-w-0 gap-1"><span class="truncate min-w-0 text-right" dir="auto">' + wpEsc(r.title) + '</span>' + more + '</p></div>' +
         '</div>' +
-        '<button type="button" onclick="startRoutineWorkout(\\'' + wpEsc(r.id) + '\\')" class="btn btn-primary btn-sm shrink-0"><i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i><span>شروع تمرین</span></button>';
+        '<button type="button" onclick="startRoutineWorkout(\\'' + wpEsc(r.id) + '\\')" class="chth-btn chth-btn--primary chth-btn--sm shrink-0"><i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i><span>شروع تمرین</span></button>';
     }
 
     function wpShiftWeek(dir) {
@@ -672,14 +672,14 @@ export function renderWeeklyPlanClientScript(): string {
       const p = wpDrag.pending;
       if (!p) return;
       clearTimeout(p.timer);
-      p.chip.classList.remove('is-pressing');
+      p.chth-chip.classList.remove('is-pressing');
       wpDrag.pending = null;
     }
 
     function wpStartDrag(p) {
       wpClearPending();
       if (wpState.selectedId) wpSelect(wpState.selectedId);
-      const chip = p.chip;
+      const chip = p.chth-chip;
       const rect = chip.getBoundingClientRect();
       const reduced = wpReducedMotion();
 
@@ -819,7 +819,7 @@ export function renderWeeklyPlanClientScript(): string {
 
     // Nowhere valid: return to where it was picked up
     function wpFlyBack(a) {
-      const restore = function() { a.chip.classList.remove('is-drag-source'); a.ghost.remove(); };
+      const restore = function() { a.chth-chip.classList.remove('is-drag-source'); a.ghost.remove(); };
       if (a.reduced) return restore();
       a.ghost.style.transition = 'transform 260ms ' + WP_EASE_OUT;
       a.inner.style.transition = 'transform 260ms ' + WP_EASE_OUT;
