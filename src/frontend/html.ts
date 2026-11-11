@@ -293,7 +293,7 @@ export function renderAppHtml(): string {
             <div class="progress-track">
               <div id="cal-progress-bar" class="progress-bar-emerald" style="width: 0%"></div>
             </div>
-            <div class="flex items-center justify-between text-[10px] text-zinc-400">
+            <div class="flex items-center justify-between text-10 text-zinc-400">
               <span id="cal-progress-details">۰ از ۴ جلسه تمرین انجام شده</span>
               <span id="cal-period-volume">حجم: ۰ کیلوگرم</span>
             </div>
@@ -365,7 +365,7 @@ export function renderAppHtml(): string {
             <div class="viz-card card-glass p-5 space-y-4 lg:col-span-3">
               <div>
                 <h3 class="text-sm font-bold text-white">حجم تمرین</h3>
-                <p id="hist-volume-sub" class="text-[12px] text-zinc-400">کیلوگرم در هر هفته</p>
+                <p id="hist-volume-sub" class="text-12 text-zinc-400">کیلوگرم در هر هفته</p>
               </div>
               <div id="hist-volume-chart"></div>
               <details class="viz-table-wrap">
@@ -378,7 +378,7 @@ export function renderAppHtml(): string {
             <div class="viz-card card-glass p-5 space-y-4 lg:col-span-2">
               <div>
                 <h3 class="text-sm font-bold text-white">ست‌ها بر اساس عضله</h3>
-                <p class="text-[12px] text-zinc-400">تعداد ست ثبت‌شده</p>
+                <p class="text-12 text-zinc-400">تعداد ست ثبت‌شده</p>
               </div>
               <div id="hist-muscle-chart"></div>
               <details class="viz-table-wrap">
@@ -393,7 +393,7 @@ export function renderAppHtml(): string {
             <div class="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h3 class="text-sm font-bold text-white">وضعیت ریکاوری عضلات</h3>
-                <p class="text-[12px] text-zinc-400">بر اساس آخرین جلسه هر عضله در ۲۸ روز اخیر</p>
+                <p class="text-12 text-zinc-400">بر اساس آخرین جلسه هر عضله در ۲۸ روز اخیر</p>
               </div>
               <div class="bm-legend">
                 <span><i style="background: var(--danger)"></i>خسته</span>
@@ -626,22 +626,22 @@ export function renderAppHtml(): string {
           <img id="prof-header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="avatar-frame w-10 h-10 sm:w-14 sm:h-14 shrink-0" alt="">
           <div class="min-w-0">
             <h2 id="prof-header-name" class="text-xs sm:text-base font-black text-white truncate">پروفایل کاربری</h2>
-            <p id="prof-header-email" class="text-[10px] sm:text-xs text-accent font-mono truncate hidden sm:block"></p>
+            <p id="prof-header-email" class="text-10 sm:text-xs text-accent font-mono truncate hidden sm:block"></p>
           </div>
         </div>
 
         <!-- Metric KPI Cards (Always in Same Line as Avatar) -->
         <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <div class="metric-pill text-center">
-            <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">وزن فعلی</p>
+            <p class="text-10 sm:text-10 text-zinc-400 whitespace-nowrap">وزن فعلی</p>
             <h4 id="prof-disp-weight" class="text-xs sm:text-sm font-black text-white font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
           <div class="metric-pill text-center">
-            <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">وزن هدف</p>
+            <p class="text-10 sm:text-10 text-zinc-400 whitespace-nowrap">وزن هدف</p>
             <h4 id="prof-disp-target" class="text-xs sm:text-sm font-black text-accent font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
           <div class="metric-pill text-center">
-            <p class="text-[9px] sm:text-[10px] text-zinc-400 whitespace-nowrap">شاخص BMI</p>
+            <p class="text-10 sm:text-10 text-zinc-400 whitespace-nowrap">شاخص BMI</p>
             <h4 id="prof-disp-bmi" class="text-xs sm:text-sm font-black text-accent font-mono mt-0.5 whitespace-nowrap">--</h4>
           </div>
         </div>
@@ -657,7 +657,7 @@ ${renderInstallCard()}
           </div>
           <div>
             <h4 class="text-xs font-bold text-white">حالت آفلاین (مهمان)</h4>
-            <p class="text-[12px] text-zinc-400">برای همگام‌سازی وارد شوید.</p>
+            <p class="text-12 text-zinc-400">برای همگام‌سازی وارد شوید.</p>
           </div>
         </div>
         <a href="/api/auth/google" class="btn btn-primary btn-sm whitespace-nowrap shrink-0">
@@ -722,7 +722,7 @@ ${renderInstallCard()}
           <div class="segmented" role="radiogroup" aria-label="اندازه متن">
             <button type="button" role="radio" data-pref="text" data-value="sm" onclick="setPref('text', 'sm')" class="segmented-item text-xs">کوچک</button>
             <button type="button" role="radio" data-pref="text" data-value="md" onclick="setPref('text', 'md')" class="segmented-item">معمولی</button>
-            <button type="button" role="radio" data-pref="text" data-value="lg" onclick="setPref('text', 'lg')" class="segmented-item text-[0.9rem]">بزرگ</button>
+            <button type="button" role="radio" data-pref="text" data-value="lg" onclick="setPref('text', 'lg')" class="segmented-item text-14">بزرگ</button>
             <button type="button" role="radio" data-pref="text" data-value="xl" onclick="setPref('text', 'xl')" class="segmented-item text-base">خیلی بزرگ</button>
           </div>
         </div>
@@ -1799,15 +1799,15 @@ ${renderInstallCard()}
       const warmups = warmupSets(work);
 
       const platesHtml = work <= BAR_KG
-        ? \`<p class="text-[11px] text-zinc-400">فقط میله خالی (\${toPersianDigits(BAR_KG)} کیلوگرم)</p>\`
+        ? \`<p class="text-11 text-zinc-400">فقط میله خالی (\${toPersianDigits(BAR_KG)} کیلوگرم)</p>\`
         : \`<div class="bar-sleeve" role="img" aria-label="وزنه‌های هر طرف: \${plates.map(p => toPersianDigits(p)).join('، ')}">
             \${plates.map(p => \`<span class="bar-plate" style="background: \${PLATE_STYLE[p][0]}; height: \${PLATE_STYLE[p][1] * 0.52}px"></span>\`).join('')}
           </div>
-          <p class="text-[11px] text-zinc-300">هر طرف: <span class="font-mono">\${plates.map(p => toPersianDigits(p)).join(' + ')}</span></p>
-          \${leftover > 0 ? \`<p class="text-[11px] text-[color:var(--gold)]">\${toPersianDigits(leftover)} کیلوگرم با این وزنه‌ها قابل بستن نیست</p>\` : ''}\`;
+          <p class="text-11 text-zinc-300">هر طرف: <span class="font-mono">\${plates.map(p => toPersianDigits(p)).join(' + ')}</span></p>
+          \${leftover > 0 ? \`<p class="text-11 text-[color:var(--gold)]">\${toPersianDigits(leftover)} کیلوگرم با این وزنه‌ها قابل بستن نیست</p>\` : ''}\`;
 
       const warmupHtml = warmups.length === 0
-        ? '<p class="text-[11px] text-zinc-400">برای گرم کردن، وزن ست اصلی را بیشتر از میله خالی تنظیم کنید.</p>'
+        ? '<p class="text-11 text-zinc-400">برای گرم کردن، وزن ست اصلی را بیشتر از میله خالی تنظیم کنید.</p>'
         : warmups.map((w, i) => {
             const done = !!warmupDone[exerciseId + ':' + i];
             return \`<button type="button" onclick="toggleWarmupSet('\${exerciseId}', \${i})" aria-pressed="\${done}" class="warmup-row \${done ? 'is-done' : ''}">
@@ -1819,11 +1819,11 @@ ${renderInstallCard()}
       panel.innerHTML = \`
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="space-y-1.5">
-            <h5 class="text-[11px] font-bold text-zinc-300">بستن وزنه برای \${toPersianDigits(work)} کیلوگرم</h5>
+            <h5 class="text-11 font-bold text-zinc-300">بستن وزنه برای \${toPersianDigits(work)} کیلوگرم</h5>
             \${platesHtml}
           </div>
           <div class="space-y-1.5">
-            <h5 class="text-[11px] font-bold text-zinc-300">ست‌های گرم کردن <span class="font-normal text-zinc-500">(ثبت نمی‌شوند)</span></h5>
+            <h5 class="text-11 font-bold text-zinc-300">ست‌های گرم کردن <span class="font-normal text-zinc-500">(ثبت نمی‌شوند)</span></h5>
             <div class="space-y-1">\${warmupHtml}</div>
           </div>
         </div>\`;
@@ -1958,12 +1958,12 @@ ${renderInstallCard()}
       // Last session and today's suggestion live here; the list row stays one line
       const prev = previousExerciseLogs[item.id];
       const suggestion = progressionSuggestion(item);
-      const prevHtml = (prev || suggestion) ? \`<div class="text-[12px] text-zinc-400 flex flex-wrap gap-x-4 gap-y-1">
+      const prevHtml = (prev || suggestion) ? \`<div class="text-12 text-zinc-400 flex flex-wrap gap-x-4 gap-y-1">
           \${suggestion ? \`<span class="text-accent">\${formatSuggestion(suggestion)}</span>\` : ''}
           \${prev ? \`<span>جلسه قبل: <span class="text-zinc-200">\${toPersianDigits(prev.weight_kg)} کیلو × \${toPersianDigits(prev.reps)}</span></span>\` : ''}
         </div>\` : '';
       document.getElementById('ex-sheet-info').innerHTML = prevHtml + (ex ? \`
-        <div class="text-[12px] text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
+        <div class="text-12 text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
           <p><span class="text-emerald-400 font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles || '—'}</span></p>
           \${ex.secondary_muscles ? \`<p><span class="text-zinc-400 font-medium">عضلات کمکی:</span> <span class="text-zinc-300">\${ex.secondary_muscles}</span></p>\` : ''}
         </div>
@@ -1973,7 +1973,7 @@ ${renderInstallCard()}
             <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-400"></i>
             <span>راهنمای اجرای حرکت</span>
           </h4>
-          <p class="text-[12px] text-zinc-300 whitespace-pre-line leading-relaxed" \${ex.instructions_fa ? '' : 'dir="ltr"'}>\${guide}</p>
+          <p class="text-12 text-zinc-300 whitespace-pre-line leading-relaxed" \${ex.instructions_fa ? '' : 'dir="ltr"'}>\${guide}</p>
         </div>\` : ''}
       \` : '');
 
@@ -2027,7 +2027,7 @@ ${renderInstallCard()}
           ? \`<button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, '\${log.id}')" title="ست \${toPersianDigits(sNum)} انجام شد (کلیک برای حذف)" class="set-chip is-done">
               <i data-lucide="check" class="stroke-[3]"></i>
               <span>ست \${toPersianDigits(sNum)}</span>
-              \${log.weight_kg > 0 ? \`<span class="text-[11px] opacity-75 font-mono font-normal">\${toPersianDigits(log.weight_kg)}×\${toPersianDigits(log.reps)}</span>\` : ''}
+              \${log.weight_kg > 0 ? \`<span class="text-11 opacity-75 font-mono font-normal">\${toPersianDigits(log.weight_kg)}×\${toPersianDigits(log.reps)}</span>\` : ''}
               \${log.is_pr ? '<span class="badge badge-gold">PR</span>' : ''}
             </button>\`
           : \`<button type="button" onclick="logSetFromSheet('\${item.id}', \${sNum})" title="ثبت انجام ست \${toPersianDigits(sNum)}" class="set-chip">
@@ -2616,7 +2616,7 @@ ${renderInstallCard()}
             <div class="min-w-0 truncate">
               <h5 class="font-bold text-white text-xs truncate">
                 <span>\${escapeHtml(item.name_fa)}</span>
-                \${item.name_en ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal mr-1">(\${escapeHtml(item.name_en)})</span>\` : ''}
+                \${item.name_en ? \`<span dir="ltr" class="text-10 text-zinc-400 font-normal mr-1">(\${escapeHtml(item.name_en)})</span>\` : ''}
               </h5>
             </div>
           </div>
@@ -2993,7 +2993,7 @@ ${renderInstallCard()}
                 return \`
                 <div class="card-glass-subtle px-2.5 py-1.5 flex items-center justify-between gap-2 text-xs">
                   <span class="text-zinc-200 font-medium min-w-0">\${toPersianDigits(i + 1)}. \${escapeHtml(nameFa)}\${Number(ex.superset_next) ? ' <i data-lucide="link-2" class="w-3 h-3 inline text-accent" aria-label="سوپرست با حرکت بعد"></i>' : ''}</span>
-                  <span class="text-zinc-400 font-mono text-[11px] shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)} · \${toPersianDigits(Number(ex.rest_seconds) || 60)}ث</span>
+                  <span class="text-zinc-400 font-mono text-11 shrink-0">\${toPersianDigits(sets)}×\${toPersianDigits(reps)} · \${toPersianDigits(Number(ex.rest_seconds) || 60)}ث</span>
                 </div>
               \`;}).join('')}
             </div>
@@ -3133,18 +3133,18 @@ ${renderInstallCard()}
               <div>
                 <h4 class="font-bold text-sm text-white flex items-baseline gap-1.5 flex-wrap">
                   <span>\${escapeHtml(ex.name_fa)}</span>
-                  \${ex.name_en ? \`<span dir="ltr" class="text-[11px] text-zinc-400 font-normal">(\${escapeHtml(ex.name_en)})</span>\` : ''}
+                  \${ex.name_en ? \`<span dir="ltr" class="text-11 text-zinc-400 font-normal">(\${escapeHtml(ex.name_en)})</span>\` : ''}
                 </h4>
               </div>
 
               <!-- Muscles Info -->
-              <div class="text-[12px] text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
+              <div class="text-12 text-zinc-400 leading-relaxed card-glass-subtle p-2.5 space-y-1">
                 <p><span class="text-accent font-medium">عضله اصلی:</span> <span class="text-zinc-200">\${ex.target_muscles}</span></p>
                 \${ex.secondary_muscles ? \`<p><span class="text-zinc-400 font-medium">عضلات کمکی:</span> <span class="text-zinc-300">\${ex.secondary_muscles}</span></p>\` : ''}
               </div>
 
               <!-- Step-by-Step Guidance Box Directly on Card -->
-              <details class="text-[12px] text-zinc-300 card-glass-subtle p-2.5 group/guide">
+              <details class="text-12 text-zinc-300 card-glass-subtle p-2.5 group/guide">
                 <summary class="cursor-pointer font-semibold text-white text-xs flex items-center justify-between select-none">
                   <span class="flex items-center gap-1.5">
                     <svg class="w-3.5 h-3.5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
@@ -3240,7 +3240,7 @@ ${renderInstallCard()}
             \${ex.gif_url ? \`<img src="\${ex.gif_url}" class="thumb w-9 h-9" alt="">\` : \`<div class="icon-box icon-box-emerald w-9 h-9 shrink-0"><i data-lucide="dumbbell" class="w-4 h-4"></i></div>\`}
             <div>
               <h5 class="font-bold text-xs text-white">\${escapeHtml(ex.name_fa)}</h5>
-              <p dir="ltr" class="text-[10px] text-zinc-400 text-right">\${escapeHtml(ex.name_en)}</p>
+              <p dir="ltr" class="text-10 text-zinc-400 text-right">\${escapeHtml(ex.name_en)}</p>
             </div>
           </div>
           <button onclick="addSelectedExToWorkout('\${ex.id}')" class="btn btn-primary btn-sm">
@@ -3375,27 +3375,27 @@ ${renderInstallCard()}
               if (hasWorkout) {
                 return \`
                   <div class="day-tile is-done">
-                    <span class="text-[11px] font-bold text-accent">\${dayName}</span>
+                    <span class="text-11 font-bold text-accent">\${dayName}</span>
                     <div class="w-6 h-6 rounded-full bg-accent text-on-accent flex items-center justify-center">
                       <i data-lucide="check" class="w-3.5 h-3.5 stroke-[3]"></i>
                     </div>
-                    <span class="text-[9px] font-mono font-bold text-accent">\${toPersianDigits(Math.round(item.volume / 100) / 10)}k</span>
+                    <span class="text-10 font-mono font-bold text-accent">\${toPersianDigits(Math.round(item.volume / 100) / 10)}k</span>
                   </div>
                 \`;
               } else if (isToday) {
                 return \`
                   <div class="day-tile is-today">
-                    <span class="text-[11px] font-bold text-white">\${dayName}</span>
+                    <span class="text-11 font-bold text-white">\${dayName}</span>
                     <span class="badge badge-emerald">امروز</span>
-                    <span class="text-[9px] text-zinc-400">\${dayNum}</span>
+                    <span class="text-10 text-zinc-400">\${dayNum}</span>
                   </div>
                 \`;
               } else {
                 return \`
                   <div class="day-tile is-empty">
-                    <span class="text-[11px] font-medium text-zinc-400">\${dayName}</span>
+                    <span class="text-11 font-medium text-zinc-400">\${dayName}</span>
                     <div class="w-2 h-2 rounded-full bg-muted"></div>
-                    <span class="text-[9px] text-zinc-500">\${dayNum}</span>
+                    <span class="text-10 text-zinc-500">\${dayNum}</span>
                   </div>
                 \`;
               }
@@ -3424,21 +3424,21 @@ ${renderInstallCard()}
                 if (hasWorkout) {
                   return \`
                     <div title="\${item.dateStr}: \${toPersianDigits(item.volume)} kg" class="day-tile day-tile-sm is-done">
-                      <span class="text-[11px] font-bold text-white font-mono">\${dayNum}</span>
+                      <span class="text-11 font-bold text-white font-mono">\${dayNum}</span>
                       <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
                     </div>
                   \`;
                 } else if (isToday) {
                   return \`
                     <div title="امروز: هنوز ثبت نشده" class="day-tile day-tile-sm is-today">
-                      <span class="text-[11px] font-bold text-accent font-mono">\${dayNum}</span>
-                      <span class="text-[10px] text-zinc-400">امروز</span>
+                      <span class="text-11 font-bold text-accent font-mono">\${dayNum}</span>
+                      <span class="text-10 text-zinc-400">امروز</span>
                     </div>
                   \`;
                 } else {
                   return \`
                     <div class="day-tile day-tile-sm is-empty">
-                      <span class="text-[11px] font-mono text-zinc-500">\${dayNum}</span>
+                      <span class="text-11 font-mono text-zinc-500">\${dayNum}</span>
                       <span class="w-1 h-1 rounded-full bg-muted"></span>
                     </div>
                   \`;
@@ -3482,7 +3482,7 @@ ${renderInstallCard()}
               }).join('')}
             </div>
 
-            <div class="flex items-center justify-between text-[10px] text-zinc-400 px-1">
+            <div class="flex items-center justify-between text-10 text-zinc-400 px-1">
               <span>کمتر</span>
               <div class="flex items-center gap-1">
                 <span class="heat-cell heat-0"></span>
@@ -3643,12 +3643,12 @@ ${renderInstallCard()}
               </div>
               <div class="min-w-0">
                 <h4 class="font-bold text-xs md:text-sm text-white text-wrap-safe">\${userText(w.title)}</h4>
-                <p class="text-[10px] text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
+                <p class="text-10 text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
               </div>
             </div>
             <div class="text-left shrink-0">
               <span class="text-xs font-mono font-bold text-accent whitespace-nowrap">\${formatKg(w.total_volume_kg)} kg</span>
-              <p class="text-[10px] text-zinc-400">\${toPersianDigits(w.set_logs ? w.set_logs.length : 0)} ست</p>
+              <p class="text-10 text-zinc-400">\${toPersianDigits(w.set_logs ? w.set_logs.length : 0)} ست</p>
             </div>
           </div>
         \`;
@@ -3695,7 +3695,7 @@ ${renderInstallCard()}
           <div class="card-glass-subtle p-3 flex items-center justify-between gap-3">
             <div class="min-w-0">
               <h4 class="font-bold text-xs text-white text-wrap-safe">\${userText(r.title)}</h4>
-              <p class="text-[10px] text-zinc-400">\${isToday(r) ? '<span class="badge badge-emerald ml-1">امروز</span>' : ''}\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
+              <p class="text-10 text-zinc-400">\${isToday(r) ? '<span class="badge badge-emerald ml-1">امروز</span>' : ''}\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
               <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری" class="btn btn-secondary btn-icon-sm">
@@ -4138,13 +4138,13 @@ ${renderInstallCard()}
                 <span class="badge badge-emerald">\${escapeHtml(pr.category_fa)}</span>
                 <h4 class="font-bold text-xs md:text-sm text-white flex items-baseline gap-x-1.5 flex-wrap">
                   <span>\${escapeHtml(pr.exercise_name_fa)}</span>
-                  \${pr.exercise_name_en ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal">(\${escapeHtml(pr.exercise_name_en)})</span>\` : ''}
+                  \${pr.exercise_name_en ? \`<span dir="ltr" class="text-10 text-zinc-400 font-normal">(\${escapeHtml(pr.exercise_name_en)})</span>\` : ''}
                 </h4>
               </div>
               <div class="text-left shrink-0">
                 <span class="text-base md:text-lg font-black font-mono text-accent whitespace-nowrap">\${formatKg(pr.max_weight_kg)} kg</span>
-                <p class="text-[10px] text-zinc-400">\${toPersianDigits(pr.reps_at_max)} تکرار</p>
-                \${pr.est_1rm ? \`<p class="text-[10px] text-zinc-400 whitespace-nowrap" title="یک تکرار بیشینه تخمینی (فرمول اپلی)">۱RM تخمینی: <span class="font-mono text-zinc-200">\${toPersianDigits(Math.round(pr.est_1rm * 2) / 2)}</span></p>\` : ''}
+                <p class="text-10 text-zinc-400">\${toPersianDigits(pr.reps_at_max)} تکرار</p>
+                \${pr.est_1rm ? \`<p class="text-10 text-zinc-400 whitespace-nowrap" title="یک تکرار بیشینه تخمینی (فرمول اپلی)">۱RM تخمینی: <span class="font-mono text-zinc-200">\${toPersianDigits(Math.round(pr.est_1rm * 2) / 2)}</span></p>\` : ''}
               </div>
             </div>
           \`).join('');
@@ -4170,7 +4170,7 @@ ${renderInstallCard()}
                 <div class="flex items-center justify-between gap-3 border-b pb-2 border-[color:var(--line)]">
                   <div class="min-w-0">
                     <h4 class="font-bold text-xs md:text-sm text-white text-wrap-safe">\${userText(w.title)}</h4>
-                    <p class="text-[10px] text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
+                    <p class="text-10 text-zinc-400">\${dateStr} • \${toPersianDigits(durationMin)} دقیقه</p>
                   </div>
                   <div class="text-left shrink-0">
                     <span class="text-xs md:text-sm font-bold font-mono text-accent whitespace-nowrap">\${formatKg(w.total_volume_kg)} kg</span>
@@ -4179,7 +4179,7 @@ ${renderInstallCard()}
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pt-1">
                   \${(w.set_logs || []).map(s => \`
-                    <div class="card-glass-subtle p-2 text-[11px] flex items-center justify-between gap-1.5">
+                    <div class="card-glass-subtle p-2 text-11 flex items-center justify-between gap-1.5">
                       <span class="text-zinc-300 truncate min-w-0" title="\${escapeHtml(s.exercise_name_fa)}">\${escapeHtml(s.exercise_name_fa)}</span>
                       <span class="font-mono font-bold text-accent whitespace-nowrap shrink-0">\${formatKg(s.weight_kg)}kg × \${toPersianDigits(s.reps)}</span>
                     </div>
@@ -4405,7 +4405,7 @@ ${renderInstallCard()}
                 <div>
                   <h6 class="font-bold text-xs text-white flex items-baseline gap-1.5 flex-wrap">
                     <span>\${toPersianDigits(idx + 1)}. \${escapeHtml(nameFa)}</span>
-                    \${nameEn ? \`<span dir="ltr" class="text-[10px] text-zinc-400 font-normal">(\${escapeHtml(nameEn)})</span>\` : ''}
+                    \${nameEn ? \`<span dir="ltr" class="text-10 text-zinc-400 font-normal">(\${escapeHtml(nameEn)})</span>\` : ''}
                   </h6>
                 </div>
               </div>

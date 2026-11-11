@@ -56,7 +56,7 @@ export function renderToastAndDialogs(): string {
           <div class="flex items-start justify-between gap-3">
             <div class="min-w-0">
               <h3 id="ex-sheet-title" class="text-base font-black text-white"></h3>
-              <p id="ex-sheet-subtitle" class="text-[11px] text-zinc-400 font-mono mt-0.5 text-right" dir="ltr"></p>
+              <p id="ex-sheet-subtitle" class="text-11 text-zinc-400 font-mono mt-0.5 text-right" dir="ltr"></p>
             </div>
             <button onclick="closeExerciseSheet()" class="btn-icon btn-ghost shrink-0" aria-label="بستن">
               <i data-lucide="x" class="w-5 h-5"></i>

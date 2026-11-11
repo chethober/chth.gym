@@ -45,7 +45,7 @@ export function renderSmartSuggestionsSection(): string {
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <!-- Height Slider / Input -->
           <div class="space-y-1">
-            <div class="flex justify-between text-zinc-300 text-[11px]">
+            <div class="flex justify-between text-zinc-300 text-11">
               <span>قد:</span>
               <span id="quick-calibrator-height-val" class="font-mono text-accent">۱۷۵ cm</span>
             </div>
@@ -54,7 +54,7 @@ export function renderSmartSuggestionsSection(): string {
 
           <!-- Weight Slider / Input -->
           <div class="space-y-1">
-            <div class="flex justify-between text-zinc-300 text-[11px]">
+            <div class="flex justify-between text-zinc-300 text-11">
               <span>وزن:</span>
               <span id="quick-calibrator-weight-val" class="font-mono text-accent">۷۵ kg</span>
             </div>
@@ -63,7 +63,7 @@ export function renderSmartSuggestionsSection(): string {
 
           <!-- Goal Dropdown -->
           <div class="space-y-1">
-            <label class="text-[11px] text-zinc-300 block">هدف ورزشی:</label>
+            <label class="text-11 text-zinc-300 block">هدف ورزشی:</label>
             <select id="quick-calibrator-goal" onchange="updateQuickCalibratorBmi()" class="input-styled">
               <option value="hypertrophy">هایپرتروفی و عضله‌سازی</option>
               <option value="fat_loss">چربی‌سوزی و کات</option>
@@ -84,7 +84,7 @@ export function renderSmartSuggestionsSection(): string {
       </div>
 
       <!-- Scientific Rationale Insight Box -->
-      <div id="dash-suggest-insight-box" class="callout p-3 flex items-start gap-2.5 text-[13px]">
+      <div id="dash-suggest-insight-box" class="callout p-3 flex items-start gap-2.5 text-13">
         <i data-lucide="info" class="w-4 h-4 text-accent shrink-0 mt-0.5"></i>
         <p id="dash-suggest-insight-text" class="leading-relaxed min-w-0 break-words">در حال تحلیل شاخص بدنی و بارگذاری برنامه‌های متناسب با فیزیولوژی شما...</p>
       </div>
@@ -135,11 +135,11 @@ export function renderPreloadedPresetsExplorer(): string {
         <!-- Filter 1: BMI Category -->
         <div class="space-y-1.5 pt-1">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-zinc-300 flex items-center gap-1.5">
+            <span class="text-11 font-bold text-zinc-300 flex items-center gap-1.5">
               <i data-lucide="scale" class="w-3.5 h-3.5 text-accent"></i>
               <span>BMI</span>
             </span>
-            <span id="presets-active-bmi-label" class="text-[10px] text-accent font-mono"></span>
+            <span id="presets-active-bmi-label" class="text-10 text-accent font-mono"></span>
           </div>
           <div id="preset-bmi-filters" class="flex flex-wrap items-center gap-1.5">
             <button type="button" onclick="setPresetBmiFilter('all')" data-bmi="all" class="preset-bmi-btn chip is-selected">همه شاخص‌ها</button>
@@ -153,11 +153,11 @@ export function renderPreloadedPresetsExplorer(): string {
         <!-- Filter 2: Fitness Goal -->
         <div class="space-y-1.5 pt-2 divider-top">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-zinc-300 flex items-center gap-1.5">
+            <span class="text-11 font-bold text-zinc-300 flex items-center gap-1.5">
               <i data-lucide="target" class="w-3.5 h-3.5 text-steel"></i>
               <span>هدف</span>
             </span>
-            <span id="presets-active-goal-label" class="text-[10px] text-steel font-mono"></span>
+            <span id="presets-active-goal-label" class="text-10 text-steel font-mono"></span>
           </div>
           <div id="preset-goal-filters" class="flex flex-wrap items-center gap-1.5">
             <button type="button" onclick="setPresetGoalFilter('all')" data-goal="all" class="preset-goal-btn chip is-selected">همه اهداف</button>
@@ -172,7 +172,7 @@ export function renderPreloadedPresetsExplorer(): string {
         <!-- Filter 3: Equipment Filter -->
         <div class="space-y-1.5 pt-2 divider-top">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-zinc-300 flex items-center gap-1.5">
+            <span class="text-11 font-bold text-zinc-300 flex items-center gap-1.5">
               <i data-lucide="dumbbell" class="w-3.5 h-3.5 text-gold"></i>
               <span>تجهیزات</span>
             </span>
@@ -209,7 +209,7 @@ export function renderProfileSuggestionsBanner(): string {
             <span>پیشنهاد برای شما</span>
             <span id="prof-suggest-bmi-tag" class="badge badge-emerald hidden"></span>
           </h4>
-          <p id="prof-suggest-banner-desc" class="text-[11px] text-zinc-300 mt-0.5">
+          <p id="prof-suggest-banner-desc" class="text-11 text-zinc-300 mt-0.5">
             الگوهای تمرینی اختصاصی بر اساس مشخصات بدنی و هدف ثبت شده شما آماده شده‌اند.
           </p>
         </div>
@@ -371,7 +371,7 @@ export function renderPresetsClientScript(): string {
       }
 
       if (tag) {
-        tag.className = cls + ' font-mono text-[10px]';
+        tag.className = cls + ' font-mono text-10';
         tag.innerText = 'BMI: ' + toPersianDigits(bmi) + ' (' + cat + ')';
       }
     }
@@ -531,7 +531,7 @@ export function renderPresetsClientScript(): string {
 
       const exercisesHtml = displayExercises.map(function(ex, i) {
         const notesHtml = ex.notes_fa ? (
-          '<div class="text-[10px] text-zinc-400 leading-tight pt-1 flex items-start gap-1 divider-top mt-1">' +
+          '<div class="text-10 text-zinc-400 leading-tight pt-1 flex items-start gap-1 divider-top mt-1">' +
             '<i data-lucide="lightbulb" class="w-3 h-3 text-gold shrink-0 mt-0.5"></i>' +
             '<span class="min-w-0 break-words">' + ex.notes_fa + '</span>' +
           '</div>'
@@ -543,7 +543,7 @@ export function renderPresetsClientScript(): string {
               '<img src="' + ex.gif_url + '" loading="lazy" class="thumb w-8 h-8" alt="" onerror="this.src=\\'/icons/icon-192x192.png\\'">' +
               '<div class="min-w-0">' +
                 '<div class="flex items-center gap-1.5 min-w-0">' +
-                  '<span class="text-zinc-500 font-mono text-[10px] shrink-0">' + toPersianDigits(i + 1) + '.</span>' +
+                  '<span class="text-zinc-500 font-mono text-10 shrink-0">' + toPersianDigits(i + 1) + '.</span>' +
                   '<span class="text-zinc-800 dark:text-zinc-200 font-bold text-xs line-clamp-2 min-w-0" title="' + ex.name_fa + '">' + ex.name_fa + '</span>' +
                 '</div>' +
                 '<span class="badge badge-zinc">' + ex.equipment_fa + '</span>' +
@@ -561,12 +561,12 @@ export function renderPresetsClientScript(): string {
       let moreExercisesAction = '';
       if (isCompact && exercises.length > 4) {
         if (!isExpanded) {
-          moreExercisesAction = '<button type="button" onclick="togglePresetExercisesExpand(\\'' + preset.id + '\\')" class="text-[11px] text-accent hover:opacity-75 font-bold text-center w-full pt-1 flex items-center justify-center gap-1 transition">' +
+          moreExercisesAction = '<button type="button" onclick="togglePresetExercisesExpand(\\'' + preset.id + '\\')" class="text-11 text-accent hover:opacity-75 font-bold text-center w-full pt-1 flex items-center justify-center gap-1 transition">' +
             '<span>+ ' + toPersianDigits(exercises.length - 4) + ' حرکت دیگر (مشاهده لیست کامل)</span>' +
             '<i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>' +
           '</button>';
         } else {
-          moreExercisesAction = '<button type="button" onclick="togglePresetExercisesExpand(\\'' + preset.id + '\\')" class="text-[11px] text-zinc-500 dark:text-zinc-400 hover:text-white font-medium text-center w-full pt-1 flex items-center justify-center gap-1 transition">' +
+          moreExercisesAction = '<button type="button" onclick="togglePresetExercisesExpand(\\'' + preset.id + '\\')" class="text-11 text-zinc-500 dark:text-zinc-400 hover:text-white font-medium text-center w-full pt-1 flex items-center justify-center gap-1 transition">' +
             '<span>بستن لیست کامل</span>' +
             '<i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>' +
           '</button>';
@@ -583,7 +583,7 @@ export function renderPresetsClientScript(): string {
               '<span class="badge badge-cyan">' + preset.target_goal_fa + '</span>' +
               jointFriendlyBadge +
             '</div>' +
-            '<div class="flex items-center gap-2 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">' +
+            '<div class="flex items-center gap-2 text-11 font-mono text-zinc-500 dark:text-zinc-400">' +
               '<span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3 text-zinc-400"></i>' + toPersianDigits(preset.estimated_duration_min) + ' دقیقه</span>' +
               '<span>•</span>' +
               '<span class="badge badge-zinc">مجموع ' + toPersianDigits(totalSets) + ' ست</span>' +
@@ -591,14 +591,14 @@ export function renderPresetsClientScript(): string {
           '</div>' +
           '<div>' +
             '<h4 class="font-bold text-sm sm:text-base text-zinc-900 dark:text-white break-words">' + preset.title + '</h4>' +
-            '<p class="text-[10px] text-zinc-400 font-mono mt-0.5 break-words">' + preset.title_en + '</p>' +
+            '<p class="text-10 text-zinc-400 font-mono mt-0.5 break-words">' + preset.title_en + '</p>' +
           '</div>' +
           '<p class="text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed break-words">' + preset.description + '</p>' +
-          '<div class="card-glass-subtle p-2.5 text-[11px] text-zinc-700 dark:text-zinc-300 leading-normal break-words">' +
+          '<div class="card-glass-subtle p-2.5 text-11 text-zinc-700 dark:text-zinc-300 leading-normal break-words">' +
             '<strong class="text-accent">منطق علمی:</strong> ' + preset.rationale_fa +
           '</div>' +
           '<div class="space-y-1.5 pt-1">' +
-            '<div class="flex items-center justify-between text-[11px] text-zinc-400 px-1">' +
+            '<div class="flex items-center justify-between text-11 text-zinc-400 px-1">' +
               '<span>حرکات برنامه (' + toPersianDigits(exercises.length) + ' حرکت):</span>' +
               '<span>ست × تکرار (استراحت)</span>' +
             '</div>' +
