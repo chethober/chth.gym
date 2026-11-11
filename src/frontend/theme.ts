@@ -143,8 +143,8 @@ function renderReducedMotionRules(scope: string): string {
           animation-iteration-count: 1 !important;
           scroll-behavior: auto !important;
         }
-        ${scope} .btn:active, ${scope} .btn-icon:active, ${scope} .btn-icon-sm:active, ${scope} .chip:active, ${scope} .set-chip:active,
-        ${scope} .option-card:active, ${scope} .segmented-item:active, ${scope} .stepper-btn:active, ${scope} .swatch:active { transform: none; }
+        ${scope} .chth-btn:active, ${scope} .chth-btn--icon:active, ${scope} .chth-btn--icon-sm:active, ${scope} .chth-chip:active, ${scope} .set-chip:active,
+        ${scope} .option-card:active, ${scope} .chth-seg__item:active, ${scope} .chth-stepper__btn:active, ${scope} .swatch:active { transform: none; }
         /* Gentler, not zero: these keep their fade but lose the movement */
         ${scope} .rest-timer, ${scope} .rest-timer.is-leaving, ${scope} .reveal, ${scope} .modal-panel { transform: none !important; }
         ${scope} #rest-timer-svg-path { transition: none; }`;
@@ -458,7 +458,7 @@ export function renderThemeStyles(): string {
          4. Buttons
          Three sizes by height, five variants. Press = scale(0.97).
          ========================================================================== */
-      html .btn {
+      html .chth-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -481,56 +481,56 @@ export function renderThemeStyles(): string {
           color var(--dur-fast) ease,
           box-shadow var(--dur-fast) ease;
       }
-      html .btn:active { transform: scale(0.97); }
-      html .btn:disabled, html .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
-      html .btn i[data-lucide], html .btn svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+      html .chth-btn:active { transform: scale(0.97); }
+      html .chth-btn:disabled, html .chth-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+      html .chth-btn i[data-lucide], html .chth-btn svg { width: 1rem; height: 1rem; flex-shrink: 0; }
 
-      html .btn-sm { height: var(--h-sm); padding: 0 var(--chth-space-12); font-size: var(--chth-text-13); gap: var(--chth-space-6); border-radius: var(--r-sm); }
-      html .btn-sm i[data-lucide], html .btn-sm svg { width: 0.875rem; height: 0.875rem; }
-      html .btn-md { height: var(--h-md); padding: 0 var(--chth-space-16); font-size: var(--chth-text-14); }
-      html .btn-lg { height: var(--h-lg); padding: 0 var(--chth-space-22); font-size: var(--chth-text-15); }
-      html .btn-block { width: 100%; }
+      html .chth-btn--sm { height: var(--h-sm); padding: 0 var(--chth-space-12); font-size: var(--chth-text-13); gap: var(--chth-space-6); border-radius: var(--r-sm); }
+      html .chth-btn--sm i[data-lucide], html .chth-btn--sm svg { width: 0.875rem; height: 0.875rem; }
+      html .chth-btn--md { height: var(--h-md); padding: 0 var(--chth-space-16); font-size: var(--chth-text-14); }
+      html .chth-btn--lg { height: var(--h-lg); padding: 0 var(--chth-space-22); font-size: var(--chth-text-15); }
+      html .chth-btn--block { width: 100%; }
 
-      html .btn-primary {
+      html .chth-btn--primary {
         background: var(--accent);
         color: var(--on-accent) !important;
         border-color: transparent;
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.2);
       }
-      html .btn-secondary {
+      html .chth-btn--secondary {
         background: var(--surface-2);
         color: var(--accent-text) !important;
         border-color: var(--accent-line);
         box-shadow: var(--shadow-control);
       }
-      html.light .btn-secondary { background: var(--surface); }
-      html .btn-ghost {
+      html.light .chth-btn--secondary { background: var(--surface); }
+      html .chth-btn--ghost {
         background: transparent;
         color: var(--accent-text);
         border-color: transparent;
       }
-      html .btn-danger {
+      html .chth-btn--danger {
         background: var(--danger-soft);
         color: var(--danger) !important;
         border-color: transparent;
       }
-      html .btn-outline-dashed {
+      html .chth-btn--dashed {
         background: transparent;
         color: var(--text-2);
         border: 1px dashed var(--line-strong);
       }
 
       @media (hover: hover) and (pointer: fine) {
-        html .btn-primary:hover { background: var(--accent-hover); }
-        html .btn-secondary:hover { background: var(--surface-3); }
-        html.light .btn-secondary:hover { background: var(--surface-2); }
-        html .btn-ghost:hover { background: var(--surface-2); color: var(--text); }
-        html .btn-danger:hover { background: var(--danger); color: #fff !important; }
-        html .btn-outline-dashed:hover { border-color: var(--accent-line); color: var(--accent-text); background: var(--accent-soft); }
+        html .chth-btn--primary:hover { background: var(--accent-hover); }
+        html .chth-btn--secondary:hover { background: var(--surface-3); }
+        html.light .chth-btn--secondary:hover { background: var(--surface-2); }
+        html .chth-btn--ghost:hover { background: var(--surface-2); color: var(--text); }
+        html .chth-btn--danger:hover { background: var(--danger); color: #fff !important; }
+        html .chth-btn--dashed:hover { border-color: var(--accent-line); color: var(--accent-text); background: var(--accent-soft); }
       }
 
       /* Icon buttons: square, same heights as text buttons */
-      html .btn-icon, html .btn-icon-sm {
+      html .chth-btn--icon, html .chth-btn--icon-sm {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -545,20 +545,20 @@ export function renderThemeStyles(): string {
           background-color var(--dur-fast) ease,
           color var(--dur-fast) ease;
       }
-      html .btn-icon-sm { width: var(--h-sm); height: var(--h-sm); border-radius: var(--r-sm); }
-      html .btn-icon:active, html .btn-icon-sm:active { transform: scale(0.94); }
-      html .btn-icon:not(.btn-secondary):not(.btn-danger):not(.btn-primary),
-      html .btn-icon-sm:not(.btn-secondary):not(.btn-danger):not(.btn-primary) { color: var(--accent-text); }
-      html .btn-icon.btn-danger, html .btn-icon-sm.btn-danger { color: var(--danger); }
-      html .btn-icon-danger { color: var(--text-3) !important; }
+      html .chth-btn--icon-sm { width: var(--h-sm); height: var(--h-sm); border-radius: var(--r-sm); }
+      html .chth-btn--icon:active, html .chth-btn--icon-sm:active { transform: scale(0.94); }
+      html .chth-btn--icon:not(.chth-btn--secondary):not(.chth-btn--danger):not(.chth-btn--primary),
+      html .chth-btn--icon-sm:not(.chth-btn--secondary):not(.chth-btn--danger):not(.chth-btn--primary) { color: var(--accent-text); }
+      html .chth-btn--icon.chth-btn--danger, html .chth-btn--icon-sm.chth-btn--danger { color: var(--danger); }
+      html .chth-btn--icon-danger { color: var(--text-3) !important; }
       @media (hover: hover) and (pointer: fine) {
-        html .btn-icon-danger:hover { background: var(--danger-soft) !important; color: var(--danger) !important; }
+        html .chth-btn--icon-danger:hover { background: var(--danger-soft) !important; color: var(--danger) !important; }
       }
 
       /* The account chip in the CHTH navbar: round, like the icons beside it */
       html .chth-nav__auth { display: flex; align-items: center; gap: var(--chth-space-2); }
       html .chth-nav__auth .account-chip { border-radius: var(--chth-radius-full); }
-      html .chth-nav__auth .btn-icon { width: 2rem; height: 2rem; border-radius: var(--chth-radius-full); }
+      html .chth-nav__auth .chth-btn--icon { width: 2rem; height: 2rem; border-radius: var(--chth-radius-full); }
       @media (max-width: 640px) { html .chth-nav__auth .account-chip span { display: none; } }
 
       /* Text link button */
@@ -579,7 +579,7 @@ export function renderThemeStyles(): string {
       /* ==========================================================================
          5. Selection controls: segmented, chips, option cards, switch
          ========================================================================== */
-      html .segmented {
+      html .chth-seg {
         display: inline-flex;
         align-items: center;
         gap: var(--chth-space-2);
@@ -588,8 +588,8 @@ export function renderThemeStyles(): string {
         border: 1px solid var(--line);
         border-radius: var(--r-md);
       }
-      html.light .segmented { background: var(--surface-3); }
-      html .segmented-item {
+      html.light .chth-seg { background: var(--surface-3); }
+      html .chth-seg .chth-seg__item {
         height: 1.75rem;
         padding: 0 var(--chth-space-14);
         font-size: var(--chth-text-13);
@@ -598,19 +598,19 @@ export function renderThemeStyles(): string {
         border-radius: max(2px, calc(var(--r-md) - 3px));
         transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
-      html .segmented-item:active { transform: scale(0.97); }
-      html .segmented-item.is-active {
+      html .chth-seg .chth-seg__item:active { transform: scale(0.97); }
+      html .chth-seg .chth-seg__item.is-active {
         background: var(--accent-soft);
         color: var(--accent-text);
         font-weight: 600;
         box-shadow: var(--shadow-control);
       }
-      html.light .segmented-item.is-active { background: var(--accent-soft); }
+      html.light .chth-seg .chth-seg__item.is-active { background: var(--accent-soft); }
       @media (hover: hover) and (pointer: fine) {
-        html .segmented-item:not(.is-active):hover { color: var(--text); }
+        html .chth-seg .chth-seg__item:not(.is-active):hover { color: var(--text); }
       }
 
-      html .chip {
+      html .chth-chip {
         display: inline-flex;
         align-items: center;
         gap: var(--chth-space-6);
@@ -624,15 +624,15 @@ export function renderThemeStyles(): string {
         border-radius: var(--r-full);
         transition: background-color var(--dur-fast) ease, border-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
-      html .chip:active { transform: scale(0.96); }
-      html .chip.is-selected {
+      html .chth-chip:active { transform: scale(0.96); }
+      html .chth-chip.is-selected {
         background: var(--accent);
         border-color: var(--accent);
         color: var(--on-accent);
         font-weight: 600;
       }
       @media (hover: hover) and (pointer: fine) {
-        html .chip:not(.is-selected):hover { border-color: var(--text-3); color: var(--text); }
+        html .chth-chip:not(.is-selected):hover { border-color: var(--text-3); color: var(--text); }
       }
 
       /* Option card: a large selectable tile (theme picker) */
@@ -661,37 +661,6 @@ export function renderThemeStyles(): string {
       @media (hover: hover) and (pointer: fine) {
         html .option-card:not(.active):hover { border-color: var(--line-strong); }
       }
-
-      /* Switch */
-      .switch { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
-      .switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-      .switch-track {
-        width: 2.375rem;
-        height: 1.375rem;
-        border-radius: var(--r-full);
-        background: var(--surface-3);
-        border: 1px solid var(--line-strong);
-        position: relative;
-        transition: background-color var(--dur-base) ease, border-color var(--dur-base) ease;
-      }
-      .switch-track::after {
-        content: '';
-        position: absolute;
-        top: 2px;
-        inset-inline-start: 2px;
-        width: 1rem;
-        height: 1rem;
-        border-radius: var(--r-full);
-        background: #fff;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        transition: transform var(--dur-base) var(--ease-out);
-      }
-      .switch input:checked + .switch-track { background: var(--accent); border-color: var(--accent); }
-      .switch input:checked + .switch-track::after { transform: translateX(1rem); }
-      [dir="rtl"] .switch input:checked + .switch-track::after { transform: translateX(-1rem); }
-      .switch input:focus-visible + .switch-track { outline: 2px solid var(--accent); outline-offset: 2px; }
-      /* A white thumb disappears on the neutral accent's light fill */
-      html[data-accent="mono"] .switch input:checked + .switch-track::after { background: var(--on-accent); }
 
       /* Accent swatch: a color dot that rings itself when chosen */
       html .swatch {
@@ -736,10 +705,49 @@ export function renderThemeStyles(): string {
       .pref-label { font-size: var(--chth-text-13); font-weight: 600; color: var(--text); }
       .pref-hint { font-size: var(--chth-text-12); color: var(--text-3); }
 
+      /* The CHTH kit's components (buttons, badges, fields, chips, segmented controls, steppers,
+         switches; chth-kit/brand.css) take the gym's accent, palette and corner preference here.
+         The rules in this file are the gym's own look on top of the kit's classes. */
+      html {
+        --chth-product-accent-hover: var(--accent-hover);
+        --chth-product-on-accent: var(--on-accent);
+        --chth-product-accent-soft: var(--accent-soft);
+        --chth-success: var(--done); --chth-success-soft: var(--done-soft);
+        --chth-danger: var(--danger); --chth-danger-soft: var(--danger-soft);
+        --chth-warning: var(--gold); --chth-warning-soft: var(--gold-soft);
+        --chth-telegram: var(--steel); --chth-telegram-soft: var(--steel-soft);
+        --chth-btn-radius: var(--r-md);
+        --chth-field-radius: var(--r-md);
+        --chth-field-focus: var(--accent);
+        --chth-field-h: var(--h-md);
+        --chth-field-font: var(--chth-text-14);
+        --chth-chip-radius: var(--r-full);
+        --chth-badge-radius: var(--r-xs);
+        --chth-seg-radius: var(--r-md);
+        --chth-dialog-radius: var(--r-xl);
+        --chth-card-radius: var(--r-lg);
+      }
+      @media (pointer: coarse) { html { --chth-field-font: var(--chth-text-16); } }
+      /* The segmented thumb: the gym's soft accent chip, sliding */
+      html .chth-seg__thumb { background: var(--accent-soft); box-shadow: var(--shadow-control); border-radius: max(2px, calc(var(--r-md) - 3px)); top: var(--chth-space-2); bottom: var(--chth-space-2); }
+      html .chth-seg { position: relative; }
+      html .chth-seg .chth-seg__item { opacity: 1; min-height: 0; }
+      /* The gym's smaller switch, its thumb white on a coloured accent */
+      html .chth-switch__track { width: 2.375rem; height: 1.375rem; }
+      html .chth-switch__thumb { width: 1rem; height: 1rem; inset-block-start: 2px; inset-inline-start: 2px; }
+      html .chth-switch__input:checked + .chth-switch__track .chth-switch__thumb { transform: translateX(1rem); background: #fff; }
+      html[dir="rtl"] .chth-switch__input:checked + .chth-switch__track .chth-switch__thumb { transform: translateX(-1rem); }
+      html[data-accent="mono"] .chth-switch__input:checked + .chth-switch__track .chth-switch__thumb { background: var(--on-accent); }
+      html .chth-stepper__input { width: auto; }
+      html .chth-chip, html .chth-badge { min-height: 0; }
+      /* The switch: the gym's neutral track, its accent when on */
+      html .chth-switch__track { background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--line-strong); }
+      html .chth-switch__input:checked + .chth-switch__track { box-shadow: none; }
+
       /* ==========================================================================
          6. Badges
          ========================================================================== */
-      html .badge {
+      html .chth-badge {
         display: inline-flex;
         align-items: center;
         gap: var(--chth-space-4);
@@ -754,18 +762,18 @@ export function renderThemeStyles(): string {
         background: var(--surface-3);
         color: var(--text-2);
       }
-      html .badge i[data-lucide] { width: 0.75rem; height: 0.75rem; }
+      html .chth-badge i[data-lucide] { width: 0.75rem; height: 0.75rem; }
       /* A badge carrying data (BMI + category) may wrap instead of overflowing on narrow phones */
-      html .badge.badge-wrap { height: auto; min-height: 1.375rem; padding-block: var(--chth-space-4); white-space: normal; line-height: 1.4; }
-      html .badge-emerald { background: var(--accent-soft); color: var(--accent-text); }
-      html .badge-cyan, html .badge-blue { background: var(--steel-soft); color: var(--steel); }
-      html .badge-gold, html .badge-amber { background: var(--gold-soft); color: var(--gold); }
-      html .badge-rose { background: var(--danger-soft); color: var(--danger); }
-      html .badge-done { background: var(--done-soft); color: var(--done); }
-      html .badge-purple, html .badge-zinc { background: var(--surface-3); color: var(--text-2); }
-      html .badge-live { background: var(--danger); color: #fff; }
+      html .chth-badge.chth-badge--wrap { height: auto; min-height: 1.375rem; padding-block: var(--chth-space-4); white-space: normal; line-height: 1.4; }
+      html .chth-badge--accent { background: var(--accent-soft); color: var(--accent-text); }
+      html .chth-badge--info, html .chth-badge--info { background: var(--steel-soft); color: var(--steel); }
+      html .chth-badge--warning, html .chth-badge--warning { background: var(--gold-soft); color: var(--gold); }
+      html .chth-badge--danger { background: var(--danger-soft); color: var(--danger); }
+      html .chth-badge--success { background: var(--done-soft); color: var(--done); }
+      html .chth-badge--neutral, html .chth-badge--neutral { background: var(--surface-3); color: var(--text-2); }
+      html .chth-badge--live { background: var(--danger); color: #fff; }
       /* Badges sitting on top of imagery */
-      html .badge-overlay {
+      html .chth-badge--overlay {
         background: rgba(14, 15, 17, 0.72) !important;
         color: #F2F2F0 !important;
         backdrop-filter: blur(8px);
@@ -778,7 +786,7 @@ export function renderThemeStyles(): string {
          ========================================================================== */
       .field { display: flex; flex-direction: column; gap: var(--chth-space-6); }
 
-      html .label-styled {
+      html .chth-field__label {
         display: block;
         font-size: var(--chth-text-13);
         font-weight: 500;
@@ -786,7 +794,7 @@ export function renderThemeStyles(): string {
         margin-bottom: var(--chth-space-6);
       }
 
-      html .input-styled, html .select-styled, html .textarea-styled {
+      html .chth-input, html .chth-select, html .chth-textarea {
         width: 100%;
         height: var(--h-md);
         padding: 0 var(--chth-space-14);
@@ -798,28 +806,28 @@ export function renderThemeStyles(): string {
         box-shadow: none;
         transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease, background-color var(--dur-fast) ease;
       }
-      html.light .input-styled, html.light .select-styled, html.light .textarea-styled {
+      html.light .chth-input, html.light .chth-select, html.light .chth-textarea {
         background-color: var(--surface);
         box-shadow: var(--shadow-control);
       }
-      html .textarea-styled { height: auto; min-height: 5.5rem; padding: var(--chth-space-10) var(--chth-space-14); }
-      html .input-sm { height: var(--h-sm); font-size: var(--chth-text-13); padding: 0 var(--chth-space-10); border-radius: var(--r-sm); }
+      html .chth-textarea { height: auto; min-height: 5.5rem; padding: var(--chth-space-10) var(--chth-space-14); }
+      html .chth-input--sm { height: var(--h-sm); font-size: var(--chth-text-13); padding: 0 var(--chth-space-10); border-radius: var(--r-sm); }
 
       @media (hover: hover) and (pointer: fine) {
-        html .input-styled:hover:not(:focus), html .select-styled:hover:not(:focus), html .textarea-styled:hover:not(:focus) {
+        html .chth-input:hover:not(:focus), html .chth-select:hover:not(:focus), html .chth-textarea:hover:not(:focus) {
           border-color: var(--text-3);
         }
       }
-      html .input-styled:focus, html .select-styled:focus, html .textarea-styled:focus {
+      html .chth-input:focus, html .chth-select:focus, html .chth-textarea:focus {
         outline: none;
         border-color: var(--accent);
         box-shadow: 0 0 0 3px var(--accent-soft);
       }
-      html .input-styled::placeholder, html .textarea-styled::placeholder { color: var(--text-3); }
-      html .input-styled[type="number"] { font-variant-numeric: tabular-nums; }
-      html .input-styled[type="number"]::-webkit-inner-spin-button,
-      html .input-styled[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-      html .input-styled[type="number"] { -moz-appearance: textfield; }
+      html .chth-input::placeholder, html .chth-textarea::placeholder { color: var(--text-3); }
+      html .chth-input[type="number"] { font-variant-numeric: tabular-nums; }
+      html .chth-input[type="number"]::-webkit-inner-spin-button,
+      html .chth-input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+      html .chth-input[type="number"] { -moz-appearance: textfield; }
 
       /* Input with leading icon (search) */
       .input-icon { position: relative; }
@@ -833,10 +841,10 @@ export function renderThemeStyles(): string {
         color: var(--text-3);
         pointer-events: none;
       }
-      html .input-icon > .input-styled { padding-inline-start: var(--chth-space-40); }
+      html .input-icon > .chth-input { padding-inline-start: var(--chth-space-40); }
 
       /* Native select with our own chevron, placed for RTL */
-      html .select-styled, html select.input-styled {
+      html .chth-select, html select.chth-input {
         appearance: none;
         -webkit-appearance: none;
         cursor: pointer;
@@ -846,7 +854,7 @@ export function renderThemeStyles(): string {
         background-size: 1rem;
         background-position: left 0.75rem center;
       }
-      [dir="ltr"] .select-styled { background-position: right 0.75rem center; }
+      [dir="ltr"] .chth-select { background-position: right 0.75rem center; }
 
       /* Range */
       html .range {
@@ -880,7 +888,7 @@ export function renderThemeStyles(): string {
       input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
 
       /* Stepper: − value + */
-      html .stepper {
+      html .chth-stepper {
         display: inline-flex;
         align-items: center;
         gap: var(--chth-space-4);
@@ -891,13 +899,13 @@ export function renderThemeStyles(): string {
         border-radius: var(--r-sm);
         flex-shrink: 0;
       }
-      html.light .stepper { box-shadow: var(--shadow-control); }
-      html .stepper-label {
+      html.light .chth-stepper { box-shadow: var(--shadow-control); }
+      html .chth-stepper__label {
         font-size: var(--chth-text-12);
         color: var(--text-3);
         padding-inline: var(--chth-space-4);
       }
-      html .stepper-value {
+      html .chth-stepper__input {
         min-width: 2rem;
         text-align: center;
         font-size: var(--chth-text-14);
@@ -905,8 +913,8 @@ export function renderThemeStyles(): string {
         color: var(--text);
         font-variant-numeric: tabular-nums;
       }
-      html .stepper-unit { font-size: var(--chth-text-11); color: var(--text-3); padding-inline-end: var(--chth-space-4); }
-      html .stepper-btn {
+      html .chth-stepper__unit { font-size: var(--chth-text-11); color: var(--text-3); padding-inline-end: var(--chth-space-4); }
+      html .chth-stepper__btn {
         width: 1.5rem;
         height: 1.5rem;
         display: inline-flex;
@@ -919,9 +927,9 @@ export function renderThemeStyles(): string {
         background: var(--surface-3);
         transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
-      html .stepper-btn:active { transform: scale(0.9); }
+      html .chth-stepper__btn:active { transform: scale(0.9); }
       @media (hover: hover) and (pointer: fine) {
-        html .stepper-btn:hover { background: var(--accent-soft); color: var(--accent-text); }
+        html .chth-stepper__btn:hover { background: var(--accent-soft); color: var(--accent-text); }
       }
 
       /* ==========================================================================
@@ -1132,7 +1140,7 @@ export function renderThemeStyles(): string {
 
       /* Rolling number inside a counter; the wrapper clips the roll */
       .roll { display: inline-block; }
-      html .stepper-value { overflow: hidden; }
+      html .chth-stepper__input { overflow: hidden; }
 
       /* Rep counter: round − / + around a rolling number */
       html .rep-pill {
@@ -1252,7 +1260,7 @@ export function renderThemeStyles(): string {
       html .day-tile.is-done { background: var(--accent-soft); border-color: var(--accent-line); }
       html .day-tile.is-today { border-color: var(--text-3); border-style: dashed; }
       /* Seven tiles share a phone's width; the "today" badge must fit a ~38px tile */
-      html .day-tile .badge { max-width: 100%; padding: 0 var(--chth-space-4); font-size: var(--chth-text-10); }
+      html .day-tile .chth-badge { max-width: 100%; padding: 0 var(--chth-space-4); font-size: var(--chth-text-10); }
       html .day-tile.is-empty { opacity: 0.55; }
       html .day-tile-sm { height: auto; gap: var(--chth-space-4); padding: var(--chth-space-8) var(--chth-space-4); border-radius: var(--r-sm); }
 
@@ -1471,7 +1479,7 @@ export function renderThemeStyles(): string {
       html.light [class*="border-white"] { border-color: var(--line) !important; }
       html.light [class*="bg-white/5"],
       html.light [class*="bg-white/10"] { background-color: rgba(16, 17, 19, 0.04) !important; }
-      html.light [class*="bg-black/"]:not(.badge-overlay) { background-color: var(--surface-2) !important; }
+      html.light [class*="bg-black/"]:not(.chth-badge--overlay) { background-color: var(--surface-2) !important; }
       html.light .border-zinc-800 { border-color: var(--line) !important; }
 
       /* Semantic color utilities: markup names the role, the tokens pick the color */
@@ -1694,7 +1702,7 @@ export function renderThemeStyles(): string {
       .is-entering { animation: fade-up var(--chth-dur-250) var(--ease-out); }
 
       /* An exercise's last set was just logged: only its done badge pops */
-      .just-done .badge-done, .just-done .set-ring-label { animation: pop-in var(--chth-dur-200) var(--ease-out); }
+      .just-done .chth-badge--success, .just-done .set-ring-label { animation: pop-in var(--chth-dur-200) var(--ease-out); }
 
       /* Panels revealed from a hidden toggle */
       .reveal {

@@ -44,8 +44,8 @@ export function renderInstallBanner(): string {
       <h4 id="install-banner-title" class="text-xs font-bold text-white">نصب جسم و اندیشه</h4>
       <p class="text-12 text-zinc-400">اجرای سریع از صفحه‌ی اصلی، حتی بدون اینترنت.</p>
     </div>
-    <button type="button" onclick="installApp()" class="btn btn-primary btn-sm shrink-0">نصب</button>
-    <button type="button" onclick="dismissInstallBanner()" class="btn-icon-sm shrink-0" aria-label="بستن" title="بستن">
+    <button type="button" onclick="installApp()" class="chth-btn chth-btn--primary chth-btn--sm shrink-0">نصب</button>
+    <button type="button" onclick="dismissInstallBanner()" class="chth-btn chth-btn--icon-sm shrink-0" aria-label="بستن" title="بستن">
       <i data-lucide="x" class="w-4 h-4"></i>
     </button>
   </div>`;
@@ -65,7 +65,7 @@ export function renderInstallCard(): string {
               <p class="text-12 text-zinc-400">جسم و اندیشه را مثل یک برنامه روی گوشی یا رایانه نصب کنید؛ تمرین‌ها بدون اینترنت هم ثبت می‌شوند.</p>
             </div>
           </div>
-          <button type="button" onclick="installApp()" class="btn btn-primary btn-sm whitespace-nowrap shrink-0">
+          <button type="button" onclick="installApp()" class="chth-btn chth-btn--primary chth-btn--sm whitespace-nowrap shrink-0">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
             <span>نصب اپلیکیشن</span>
           </button>

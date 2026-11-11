@@ -31,7 +31,7 @@ export function renderCheckinStyles(): string {
         justify-content: center;
         gap: var(--chth-space-12);
       }
-      .ci-weight .stepper-btn {
+      .ci-weight .chth-stepper__btn {
         width: 2.75rem;
         height: 2.75rem;
         border-radius: var(--r-sm);
@@ -78,7 +78,7 @@ export function renderCheckinModal(): string {
         <div class="space-y-3">
           <div class="flex items-center justify-between gap-3">
             <span id="checkin-step-label" class="text-11 text-zinc-400">مرحله ۱ از ۲</span>
-            <button type="button" onclick="closeCheckin(false)" class="btn-icon btn-ghost" aria-label="بستن">
+            <button type="button" onclick="closeCheckin(false)" class="chth-btn chth-btn--icon chth-btn--ghost" aria-label="بستن">
               <i data-lucide="x" class="w-4 h-4"></i>
             </button>
           </div>
@@ -96,19 +96,19 @@ export function renderCheckinModal(): string {
           </div>
 
           <div class="ci-weight">
-            <button type="button" onclick="adjustCheckinWeight(-0.1)" class="stepper-btn" aria-label="کاهش وزن">−</button>
+            <button type="button" onclick="adjustCheckinWeight(-0.1)" class="chth-stepper__btn" aria-label="کاهش وزن">−</button>
             <label class="ci-weight-field">
               <input type="number" id="checkin-weight-input" step="0.1" min="30" max="250" inputmode="decimal" class="ci-weight-input" aria-label="وزن امروز به کیلوگرم">
               <span class="ci-weight-unit">kg</span>
             </label>
-            <button type="button" onclick="adjustCheckinWeight(0.1)" class="stepper-btn" aria-label="افزایش وزن">+</button>
+            <button type="button" onclick="adjustCheckinWeight(0.1)" class="chth-stepper__btn" aria-label="افزایش وزن">+</button>
           </div>
 
           <p id="checkin-last-weight" class="text-11 text-zinc-400 text-center"></p>
 
           <div class="modal-foot">
-            <button type="button" onclick="skipCheckin()" class="btn btn-ghost btn-md">رد کردن</button>
-            <button type="submit" id="checkin-save-btn" class="btn btn-primary btn-md">
+            <button type="button" onclick="skipCheckin()" class="chth-btn chth-btn--ghost chth-btn--md">رد کردن</button>
+            <button type="submit" id="checkin-save-btn" class="chth-btn chth-btn--primary chth-btn--md">
               <span>ثبت و ادامه</span>
               <i data-lucide="arrow-left" class="w-4 h-4"></i>
             </button>
@@ -125,12 +125,12 @@ export function renderCheckinModal(): string {
               <h3 class="text-base font-bold text-white">آماده‌ای؟</h3>
               <p id="checkin-workout-title" class="text-xs text-zinc-400"></p>
             </div>
-            <span id="checkin-summary" class="badge badge-emerald font-mono"></span>
+            <span id="checkin-summary" class="chth-badge chth-badge--accent font-mono"></span>
           </div>
 
           <div class="modal-foot">
-            <button type="button" onclick="showCheckinStep(1)" class="btn btn-secondary btn-md">بازگشت</button>
-            <button type="button" onclick="closeCheckin(true)" class="btn btn-primary btn-md">
+            <button type="button" onclick="showCheckinStep(1)" class="chth-btn chth-btn--secondary chth-btn--md">بازگشت</button>
+            <button type="button" onclick="closeCheckin(true)" class="chth-btn chth-btn--primary chth-btn--md">
               <i data-lucide="play" class="w-4 h-4 fill-current"></i>
               <span>شروع تمرین</span>
             </button>

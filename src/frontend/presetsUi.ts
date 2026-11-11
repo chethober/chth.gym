@@ -15,13 +15,13 @@ export function renderSmartSuggestionsSection(): string {
           <div class="min-w-0">
             <div class="flex items-center gap-2 flex-wrap">
               <h3 class="text-sm font-bold text-white">پیشنهاد برای شما</h3>
-              <span id="dash-suggest-badge-bmi" class="badge badge-emerald badge-wrap">شاخص BMI: --</span>
-              <span id="dash-suggest-badge-goal" class="badge badge-cyan">هدف: --</span>
+              <span id="dash-suggest-badge-bmi" class="chth-badge chth-badge--accent chth-badge--wrap">شاخص BMI: --</span>
+              <span id="dash-suggest-badge-goal" class="chth-badge chth-badge--info">هدف: --</span>
             </div>
           </div>
         </div>
         <div class="flex items-center gap-2 self-end sm:self-auto flex-wrap">
-          <button type="button" onclick="toggleQuickCalibrator()" class="btn btn-secondary btn-sm">
+          <button type="button" onclick="toggleQuickCalibrator()" class="chth-btn chth-btn--secondary chth-btn--sm">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-accent"></i>
             <span>شبیه‌ساز و تغییر سریع شاخص</span>
           </button>
@@ -39,7 +39,7 @@ export function renderSmartSuggestionsSection(): string {
             <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-accent"></i>
             <span>شبیه‌ساز آنی فیزیولوژی و هدف تمرینی</span>
           </span>
-          <span id="quick-calibrator-bmi-tag" class="badge badge-emerald font-mono">BMI: --</span>
+          <span id="quick-calibrator-bmi-tag" class="chth-badge chth-badge--accent font-mono">BMI: --</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
@@ -64,7 +64,7 @@ export function renderSmartSuggestionsSection(): string {
           <!-- Goal Dropdown -->
           <div class="space-y-1">
             <label class="text-11 text-zinc-300 block">هدف ورزشی:</label>
-            <select id="quick-calibrator-goal" onchange="updateQuickCalibratorBmi()" class="input-styled">
+            <select id="quick-calibrator-goal" onchange="updateQuickCalibratorBmi()" class="chth-input">
               <option value="hypertrophy">هایپرتروفی و عضله‌سازی</option>
               <option value="fat_loss">چربی‌سوزی و کات</option>
               <option value="strength">افزایش رکورد و قدرت</option>
@@ -75,8 +75,8 @@ export function renderSmartSuggestionsSection(): string {
         </div>
 
         <div class="flex items-center justify-end gap-2 pt-1 divider-top">
-          <button type="button" onclick="resetQuickCalibrator()" class="btn btn-ghost btn-sm">بازنشانی به پروفایل من</button>
-          <button type="button" onclick="applyQuickCalibrator()" class="btn btn-primary btn-sm">
+          <button type="button" onclick="resetQuickCalibrator()" class="chth-btn chth-btn--ghost chth-btn--sm">بازنشانی به پروفایل من</button>
+          <button type="button" onclick="applyQuickCalibrator()" class="chth-btn chth-btn--primary chth-btn--sm">
             <i data-lucide="check" class="w-3.5 h-3.5"></i>
             <span>تحلیل و مشاهده آنی پیشنهادات</span>
           </button>
@@ -128,7 +128,7 @@ export function renderPreloadedPresetsExplorer(): string {
             id="preset-search-input" 
             oninput="onPresetSearchChange(this.value)" 
             placeholder="جستجو در نام برنامه، حرکات، عضلات یا تگ‌ها (مثلاً: اسکوات، دمبل، حامی مفاصل، فول‌بادی)..." 
-            class="input-styled"
+            class="chth-input"
           >
         </div>
 
@@ -142,11 +142,11 @@ export function renderPreloadedPresetsExplorer(): string {
             <span id="presets-active-bmi-label" class="text-10 text-accent font-mono"></span>
           </div>
           <div id="preset-bmi-filters" class="flex flex-wrap items-center gap-1.5">
-            <button type="button" onclick="setPresetBmiFilter('all')" data-bmi="all" class="preset-bmi-btn chip is-selected">همه شاخص‌ها</button>
-            <button type="button" onclick="setPresetBmiFilter('underweight')" data-bmi="underweight" class="preset-bmi-btn chip">کم‌وزن (BMI &lt; 18.5)</button>
-            <button type="button" onclick="setPresetBmiFilter('normal')" data-bmi="normal" class="preset-bmi-btn chip">وزن متناسب (18.5 - 24.9)</button>
-            <button type="button" onclick="setPresetBmiFilter('overweight')" data-bmi="overweight" class="preset-bmi-btn chip">اضافه وزن (25.0 - 29.9)</button>
-            <button type="button" onclick="setPresetBmiFilter('obese')" data-bmi="obese" class="preset-bmi-btn chip">وزن بالا / حامی مفاصل (≥ 30)</button>
+            <button type="button" onclick="setPresetBmiFilter('all')" data-bmi="all" class="preset-bmi-btn chth-chip is-selected">همه شاخص‌ها</button>
+            <button type="button" onclick="setPresetBmiFilter('underweight')" data-bmi="underweight" class="preset-bmi-btn chth-chip">کم‌وزن (BMI &lt; 18.5)</button>
+            <button type="button" onclick="setPresetBmiFilter('normal')" data-bmi="normal" class="preset-bmi-btn chth-chip">وزن متناسب (18.5 - 24.9)</button>
+            <button type="button" onclick="setPresetBmiFilter('overweight')" data-bmi="overweight" class="preset-bmi-btn chth-chip">اضافه وزن (25.0 - 29.9)</button>
+            <button type="button" onclick="setPresetBmiFilter('obese')" data-bmi="obese" class="preset-bmi-btn chth-chip">وزن بالا / حامی مفاصل (≥ 30)</button>
           </div>
         </div>
 
@@ -160,12 +160,12 @@ export function renderPreloadedPresetsExplorer(): string {
             <span id="presets-active-goal-label" class="text-10 text-steel font-mono"></span>
           </div>
           <div id="preset-goal-filters" class="flex flex-wrap items-center gap-1.5">
-            <button type="button" onclick="setPresetGoalFilter('all')" data-goal="all" class="preset-goal-btn chip is-selected">همه اهداف</button>
-            <button type="button" onclick="setPresetGoalFilter('hypertrophy')" data-goal="hypertrophy" class="preset-goal-btn chip">هایپرتروفی و حجم</button>
-            <button type="button" onclick="setPresetGoalFilter('fat_loss')" data-goal="fat_loss" class="preset-goal-btn chip">چربی‌سوزی و کات</button>
-            <button type="button" onclick="setPresetGoalFilter('strength')" data-goal="strength" class="preset-goal-btn chip">افزایش رکورد و قدرت</button>
-            <button type="button" onclick="setPresetGoalFilter('endurance')" data-goal="endurance" class="preset-goal-btn chip">استقامت عضلانی</button>
-            <button type="button" onclick="setPresetGoalFilter('general_health')" data-goal="general_health" class="preset-goal-btn chip">سلامت عمومی و قامت</button>
+            <button type="button" onclick="setPresetGoalFilter('all')" data-goal="all" class="preset-goal-btn chth-chip is-selected">همه اهداف</button>
+            <button type="button" onclick="setPresetGoalFilter('hypertrophy')" data-goal="hypertrophy" class="preset-goal-btn chth-chip">هایپرتروفی و حجم</button>
+            <button type="button" onclick="setPresetGoalFilter('fat_loss')" data-goal="fat_loss" class="preset-goal-btn chth-chip">چربی‌سوزی و کات</button>
+            <button type="button" onclick="setPresetGoalFilter('strength')" data-goal="strength" class="preset-goal-btn chth-chip">افزایش رکورد و قدرت</button>
+            <button type="button" onclick="setPresetGoalFilter('endurance')" data-goal="endurance" class="preset-goal-btn chth-chip">استقامت عضلانی</button>
+            <button type="button" onclick="setPresetGoalFilter('general_health')" data-goal="general_health" class="preset-goal-btn chth-chip">سلامت عمومی و قامت</button>
           </div>
         </div>
 
@@ -178,11 +178,11 @@ export function renderPreloadedPresetsExplorer(): string {
             </span>
           </div>
           <div id="preset-equipment-filters" class="flex flex-wrap items-center gap-1.5">
-            <button type="button" onclick="setPresetEquipmentFilter('all')" data-eq="all" class="preset-eq-btn chip is-selected">همه تجهیزات</button>
-            <button type="button" onclick="setPresetEquipmentFilter('dumbbell')" data-eq="dumbbell" class="preset-eq-btn chip">تمرکز بر دمبل</button>
-            <button type="button" onclick="setPresetEquipmentFilter('barbell')" data-eq="barbell" class="preset-eq-btn chip">تمرکز بر هالتر</button>
-            <button type="button" onclick="setPresetEquipmentFilter('machine_cable')" data-eq="machine_cable" class="preset-eq-btn chip">دستگاه و سیم‌کش</button>
-            <button type="button" onclick="setPresetEquipmentFilter('bodyweight')" data-eq="bodyweight" class="preset-eq-btn chip">وزن بدن (بدون تجهیزات)</button>
+            <button type="button" onclick="setPresetEquipmentFilter('all')" data-eq="all" class="preset-eq-btn chth-chip is-selected">همه تجهیزات</button>
+            <button type="button" onclick="setPresetEquipmentFilter('dumbbell')" data-eq="dumbbell" class="preset-eq-btn chth-chip">تمرکز بر دمبل</button>
+            <button type="button" onclick="setPresetEquipmentFilter('barbell')" data-eq="barbell" class="preset-eq-btn chth-chip">تمرکز بر هالتر</button>
+            <button type="button" onclick="setPresetEquipmentFilter('machine_cable')" data-eq="machine_cable" class="preset-eq-btn chth-chip">دستگاه و سیم‌کش</button>
+            <button type="button" onclick="setPresetEquipmentFilter('bodyweight')" data-eq="bodyweight" class="preset-eq-btn chth-chip">وزن بدن (بدون تجهیزات)</button>
           </div>
         </div>
 
@@ -207,14 +207,14 @@ export function renderProfileSuggestionsBanner(): string {
         <div class="min-w-0">
           <h4 class="text-xs font-bold text-white flex flex-wrap items-center gap-x-2 gap-y-1">
             <span>پیشنهاد برای شما</span>
-            <span id="prof-suggest-bmi-tag" class="badge badge-emerald hidden"></span>
+            <span id="prof-suggest-bmi-tag" class="chth-badge chth-badge--accent hidden"></span>
           </h4>
           <p id="prof-suggest-banner-desc" class="text-11 text-zinc-300 mt-0.5">
             الگوهای تمرینی اختصاصی بر اساس مشخصات بدنی و هدف ثبت شده شما آماده شده‌اند.
           </p>
         </div>
       </div>
-      <button type="button" onclick="openPreloadedPresetsSection()" class="btn btn-primary btn-sm whitespace-nowrap shrink-0">
+      <button type="button" onclick="openPreloadedPresetsSection()" class="chth-btn chth-btn--primary chth-btn--sm whitespace-nowrap shrink-0">
         <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
         <span>مشاهده و شروع برنامه</span>
       </button>
@@ -358,16 +358,16 @@ export function renderPresetsClientScript(): string {
 
       const bmi = (w / ((h / 100) * (h / 100))).toFixed(1);
       let cat = 'وزن متناسب';
-      let cls = 'badge badge-emerald';
+      let cls = 'chth-badge chth-badge--accent';
       if (bmi < 18.5) {
         cat = 'کم‌وزن';
-        cls = 'badge badge-blue';
+        cls = 'chth-badge chth-badge--info';
       } else if (bmi >= 25.0 && bmi < 30.0) {
         cat = 'اضافه وزن';
-        cls = 'badge badge-amber';
+        cls = 'chth-badge chth-badge--warning';
       } else if (bmi >= 30.0) {
         cat = 'وزن بالا (حامی مفاصل)';
-        cls = 'badge badge-purple';
+        cls = 'chth-badge chth-badge--neutral';
       }
 
       if (tag) {
@@ -474,7 +474,7 @@ export function renderPresetsClientScript(): string {
         grid.innerHTML = '<div class="col-span-full card-glass p-6 text-center space-y-2">' +
           '<i data-lucide="filter" class="w-6 h-6 mx-auto text-zinc-500"></i>' +
           '<p class="text-xs text-zinc-400 font-medium">برنامه‌ای منطبق با جستجو یا فیلترهای انتخابی یافت نشد.</p>' +
-          '<button type="button" onclick="setPresetBmiFilter(\\'all\\'); setPresetGoalFilter(\\'all\\'); setPresetEquipmentFilter(\\'all\\'); document.getElementById(\\'preset-search-input\\').value=\\'\\'; onPresetSearchChange(\\'\\');" class="btn btn-secondary btn-sm">پاکسازی همه فیلترها</button>' +
+          '<button type="button" onclick="setPresetBmiFilter(\\'all\\'); setPresetGoalFilter(\\'all\\'); setPresetEquipmentFilter(\\'all\\'); document.getElementById(\\'preset-search-input\\').value=\\'\\'; onPresetSearchChange(\\'\\');" class="chth-btn chth-btn--secondary chth-btn--sm">پاکسازی همه فیلترها</button>' +
           '</div>';
         lucide.createIcons();
         return;
@@ -519,7 +519,7 @@ export function renderPresetsClientScript(): string {
 
     function renderPresetCard(preset, isCompact) {
       const isJointFriendly = preset.id.indexOf('joint_friendly') !== -1 || preset.target_bmi_category === 'obese';
-      const badgeStyle = isJointFriendly ? 'badge badge-purple' : 'badge badge-emerald';
+      const badgeStyle = isJointFriendly ? 'chth-badge chth-badge--neutral' : 'chth-badge chth-badge--accent';
 
       const exercises = preset.exercises || [];
       const isExpanded = !!expandedPresetCards[preset.id];
@@ -546,12 +546,12 @@ export function renderPresetsClientScript(): string {
                   '<span class="text-zinc-500 font-mono text-10 shrink-0">' + toPersianDigits(i + 1) + '.</span>' +
                   '<span class="text-zinc-800 dark:text-zinc-200 font-bold text-xs line-clamp-2 min-w-0" title="' + ex.name_fa + '">' + ex.name_fa + '</span>' +
                 '</div>' +
-                '<span class="badge badge-zinc">' + ex.equipment_fa + '</span>' +
+                '<span class="chth-badge chth-badge--neutral">' + ex.equipment_fa + '</span>' +
               '</div>' +
             '</div>' +
             '<div class="flex items-center gap-1.5 shrink-0 text-left">' +
               '<span class="text-accent font-mono font-bold text-xs">' + toPersianDigits(ex.target_sets) + '×' + toPersianDigits(ex.target_reps) + '</span>' +
-              '<span class="badge font-mono">' + toPersianDigits(ex.rest_seconds) + 'ث</span>' +
+              '<span class="chth-badge font-mono">' + toPersianDigits(ex.rest_seconds) + 'ث</span>' +
             '</div>' +
           '</div>' +
           notesHtml +
@@ -573,20 +573,20 @@ export function renderPresetsClientScript(): string {
         }
       }
 
-      const jointFriendlyBadge = isJointFriendly ? '<span class="badge badge-done"><i data-lucide="shield-check"></i>حامی مفاصل</span>' : '';
+      const jointFriendlyBadge = isJointFriendly ? '<span class="chth-badge chth-badge--success"><i data-lucide="shield-check"></i>حامی مفاصل</span>' : '';
 
       return '<div class="card-glass-interactive min-w-0 p-4 sm:p-5 space-y-3 flex flex-col justify-between">' +
         '<div class="space-y-3">' +
           '<div class="flex items-center justify-between flex-wrap gap-1.5">' +
             '<div class="flex items-center gap-1.5 flex-wrap">' +
               '<span class="' + badgeStyle + '">' + preset.target_bmi_category_fa + '</span>' +
-              '<span class="badge badge-cyan">' + preset.target_goal_fa + '</span>' +
+              '<span class="chth-badge chth-badge--info">' + preset.target_goal_fa + '</span>' +
               jointFriendlyBadge +
             '</div>' +
             '<div class="flex items-center gap-2 text-11 font-mono text-zinc-500 dark:text-zinc-400">' +
               '<span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3 text-zinc-400"></i>' + toPersianDigits(preset.estimated_duration_min) + ' دقیقه</span>' +
               '<span>•</span>' +
-              '<span class="badge badge-zinc">مجموع ' + toPersianDigits(totalSets) + ' ست</span>' +
+              '<span class="chth-badge chth-badge--neutral">مجموع ' + toPersianDigits(totalSets) + ' ست</span>' +
             '</div>' +
           '</div>' +
           '<div>' +
@@ -608,19 +608,19 @@ export function renderPresetsClientScript(): string {
         '</div>' +
         '<div class="pt-3 divider-top flex items-center justify-between gap-2">' +
           '<div class="flex items-center gap-1.5">' +
-            '<button type="button" onclick="importPresetToMyRoutines(\\'' + preset.id + '\\')" title="افزودن به برنامه‌های من" aria-label="افزودن به برنامه‌های من" class="btn btn-secondary btn-sm">' +
+            '<button type="button" onclick="importPresetToMyRoutines(\\'' + preset.id + '\\')" title="افزودن به برنامه‌های من" aria-label="افزودن به برنامه‌های من" class="chth-btn chth-btn--secondary chth-btn--sm">' +
               '<i data-lucide="bookmark-plus" class="w-3.5 h-3.5 text-accent"></i>' +
               '<span class="hidden xl:inline">ذخیره در برنامه‌ها</span>' +
             '</button>' +
-            '<button type="button" onclick="loadPresetIntoBuilder(\\'' + preset.id + '\\')" title="ویرایش و شخصی‌سازی در طراح" aria-label="ویرایش و شخصی‌سازی در طراح" class="btn btn-ghost btn-sm">' +
+            '<button type="button" onclick="loadPresetIntoBuilder(\\'' + preset.id + '\\')" title="ویرایش و شخصی‌سازی در طراح" aria-label="ویرایش و شخصی‌سازی در طراح" class="chth-btn chth-btn--ghost chth-btn--sm">' +
               '<i data-lucide="edit-3" class="w-3.5 h-3.5"></i>' +
               '<span class="hidden xl:inline">شخصی‌سازی</span>' +
             '</button>' +
-            '<button type="button" onclick="sharePreset(\\'' + preset.id + '\\')" title="اشتراک‌گذاری و کد QR" aria-label="اشتراک‌گذاری و کد QR" class="btn btn-ghost btn-sm">' +
+            '<button type="button" onclick="sharePreset(\\'' + preset.id + '\\')" title="اشتراک‌گذاری و کد QR" aria-label="اشتراک‌گذاری و کد QR" class="chth-btn chth-btn--ghost chth-btn--sm">' +
               '<i data-lucide="qr-code" class="w-3.5 h-3.5"></i>' +
             '</button>' +
           '</div>' +
-          '<button type="button" onclick="startPresetWorkout(\\'' + preset.id + '\\')" class="btn btn-primary btn-sm shrink-0">' +
+          '<button type="button" onclick="startPresetWorkout(\\'' + preset.id + '\\')" class="chth-btn chth-btn--primary chth-btn--sm shrink-0">' +
             '<i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>' +
             '<span>اجرای تمرین</span>' +
           '</button>' +

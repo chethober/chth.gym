@@ -141,7 +141,7 @@ export function renderWeeklyPlanStyles(): string {
       @media (min-width: 1024px) {
         .wp-day { flex-direction: column; min-height: 11rem; gap: var(--chth-space-10); }
         .wp-day .wp-day-head { width: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--chth-space-4) var(--chth-space-6); }
-        .wp-day .wp-day-head .wp-status, .wp-day .wp-day-head .badge { margin-inline-start: auto; }
+        .wp-day .wp-day-head .wp-status, .wp-day .wp-day-head .chth-badge { margin-inline-start: auto; }
         /* Narrow columns: title gets its own two lines, actions sit underneath */
         .wp-chip.is-slotted { height: auto; flex-wrap: wrap; gap: var(--chth-space-2); padding: var(--chth-space-8) var(--chth-space-8) var(--chth-space-4); }
         .wp-chip.is-slotted .wp-chip-title {
@@ -255,11 +255,11 @@ export function renderWeeklyPlanSection(): string {
           <p id="wp-week-label" class="text-xs text-zinc-400 mt-0.5">&nbsp;</p>
         </div>
         <div class="flex items-center gap-1 shrink-0">
-          <button type="button" onclick="wpShiftWeek(-1)" class="btn-icon btn-ghost" title="هفته قبل" aria-label="هفته قبل">
+          <button type="button" onclick="wpShiftWeek(-1)" class="chth-btn chth-btn--icon chth-btn--ghost" title="هفته قبل" aria-label="هفته قبل">
             <i data-lucide="chevron-right" class="w-5 h-5"></i>
           </button>
-          <button type="button" id="wp-this-week-btn" onclick="wpShiftWeek(0)" class="btn btn-secondary btn-sm">این هفته</button>
-          <button type="button" onclick="wpShiftWeek(1)" class="btn-icon btn-ghost" title="هفته بعد" aria-label="هفته بعد">
+          <button type="button" id="wp-this-week-btn" onclick="wpShiftWeek(0)" class="chth-btn chth-btn--secondary chth-btn--sm">این هفته</button>
+          <button type="button" onclick="wpShiftWeek(1)" class="chth-btn chth-btn--icon chth-btn--ghost" title="هفته بعد" aria-label="هفته بعد">
             <i data-lucide="chevron-left" class="w-5 h-5"></i>
           </button>
         </div>
@@ -430,7 +430,7 @@ export function renderWeeklyPlanClientScript(): string {
       if (wpState.routines.length === 0) {
         trayEl.innerHTML = '<div class="flex items-center justify-between gap-3 w-full card-glass-subtle px-3 py-2.5">' +
           '<span class="text-xs text-zinc-400">هنوز برنامه‌ای ذخیره نکرده‌اید.</span>' +
-          '<button type="button" onclick="switchTab(\\'movements\\')" class="btn btn-primary btn-sm shrink-0"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>ساخت برنامه</span></button>' +
+          '<button type="button" onclick="switchTab(\\'movements\\')" class="chth-btn chth-btn--primary chth-btn--sm shrink-0"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>ساخت برنامه</span></button>' +
         '</div>';
       } else {
         trayEl.innerHTML = wpState.routines.map(function(r) { return wpChipHtml(r, { slotted: false }); }).join('');
@@ -454,7 +454,7 @@ export function renderWeeklyPlanClientScript(): string {
         } else if (isPast && ids.length && currentUser) {
           status = '<span class="wp-status is-missed">انجام نشد</span>';
         } else if (isToday) {
-          status = '<span class="badge badge-emerald">امروز</span>';
+          status = '<span class="chth-badge chth-badge--accent">امروز</span>';
         }
 
         const slots = ids.length
@@ -500,7 +500,7 @@ export function renderWeeklyPlanClientScript(): string {
           '<div class="icon-box icon-box-emerald w-10 h-10 shrink-0"><i data-lucide="dumbbell" class="w-5 h-5"></i></div>' +
           '<div class="min-w-0"><p class="text-11 text-zinc-400">امروز، ' + WP_DAY_NAMES[todayIdx] + '</p><p class="text-sm font-bold text-white flex min-w-0 gap-1"><span class="truncate min-w-0 text-right" dir="auto">' + wpEsc(r.title) + '</span>' + more + '</p></div>' +
         '</div>' +
-        '<button type="button" onclick="startRoutineWorkout(\\'' + wpEsc(r.id) + '\\')" class="btn btn-primary btn-sm shrink-0"><i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i><span>شروع تمرین</span></button>';
+        '<button type="button" onclick="startRoutineWorkout(\\'' + wpEsc(r.id) + '\\')" class="chth-btn chth-btn--primary chth-btn--sm shrink-0"><i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i><span>شروع تمرین</span></button>';
     }
 
     function wpShiftWeek(dir) {
@@ -672,14 +672,14 @@ export function renderWeeklyPlanClientScript(): string {
       const p = wpDrag.pending;
       if (!p) return;
       clearTimeout(p.timer);
-      p.chip.classList.remove('is-pressing');
+      p.chth-chip.classList.remove('is-pressing');
       wpDrag.pending = null;
     }
 
     function wpStartDrag(p) {
       wpClearPending();
       if (wpState.selectedId) wpSelect(wpState.selectedId);
-      const chip = p.chip;
+      const chip = p.chth-chip;
       const rect = chip.getBoundingClientRect();
       const reduced = wpReducedMotion();
 
@@ -819,7 +819,7 @@ export function renderWeeklyPlanClientScript(): string {
 
     // Nowhere valid: return to where it was picked up
     function wpFlyBack(a) {
-      const restore = function() { a.chip.classList.remove('is-drag-source'); a.ghost.remove(); };
+      const restore = function() { a.chth-chip.classList.remove('is-drag-source'); a.ghost.remove(); };
       if (a.reduced) return restore();
       a.ghost.style.transition = 'transform 260ms ' + WP_EASE_OUT;
       a.inner.style.transition = 'transform 260ms ' + WP_EASE_OUT;

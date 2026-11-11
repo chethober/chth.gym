@@ -93,7 +93,7 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} :is(a,button):focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:var(--r-sm); }
     ${scope} :is(h1,h2,h3) { text-wrap:balance; }
 
-    /* Button: the app's .btn-lg, with .btn-secondary as the outline variant */
+    /* Button: the app's .chth-btn--lg, with .chth-btn--secondary as the outline variant */
     ${scope} .public-button {
       display:inline-flex; align-items:center; justify-content:center; gap:var(--chth-space-8);
       min-height:var(--h-lg); padding:var(--chth-space-10) var(--chth-space-22); border:1px solid var(--accent); border-radius:var(--r-md);
@@ -106,7 +106,7 @@ export function renderPublicPatterns(scope: string): string {
     ${scope} .public-button.is-outline { background:var(--surface-2); color:var(--accent-text); border-color:var(--accent-line); box-shadow:var(--shadow-control); }
     ${scope} .public-button span { display:inline-block; transition:transform var(--dur-base) var(--ease-out); }
 
-    /* Chip: the app's .chip, as a toggle (aria-pressed) or a static tag */
+    /* Chip: the app's .chth-chip, as a toggle (aria-pressed) or a static tag */
     ${scope} .public-chip {
       display:inline-flex; align-items:center; gap:var(--chth-space-6); min-height:1.875rem; padding:var(--chth-space-4) var(--chth-space-12);
       border:1px solid var(--line-strong); border-radius:var(--r-full); background:var(--surface);
