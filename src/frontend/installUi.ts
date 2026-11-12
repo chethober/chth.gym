@@ -45,7 +45,7 @@ export function renderInstallBanner(): string {
       <p class="text-12 text-zinc-400">اجرای سریع از صفحه‌ی اصلی، حتی بدون اینترنت.</p>
     </div>
     <button type="button" onclick="installApp()" class="chth-btn chth-btn--primary chth-btn--sm shrink-0">نصب</button>
-    <button type="button" onclick="dismissInstallBanner()" class="chth-btn chth-btn--icon-sm shrink-0" aria-label="بستن" title="بستن">
+    <button type="button" onclick="dismissInstallBanner()" class="chth-btn chth-btn--icon-sm shrink-0" aria-label="بستن" data-chth-tip="بستن">
       <i data-lucide="x" class="w-4 h-4"></i>
     </button>
   </div>`;

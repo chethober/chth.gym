@@ -4,6 +4,15 @@
 // ============================================================================
 
 import { dialogModel } from '../chth-kit/overlays.js';
+import { skeletonHtml, copyButtonHtml } from '../chth-kit/ui.js';
+
+/** Grey card shapes (the kit's skeleton) holding a list's place until the page fills it in. */
+export function cardSkeletons(count: number, height = '5.5rem'): string {
+  const first = skeletonHtml('fa', { shape: 'block', height });
+  // Only the first says "Loading…" to screen readers; the rest are shapes
+  const rest = first.replace(/<span class="chth-sr-only">[^<]*<\/span>/, '').replace(' role="status"', ' aria-hidden="true"');
+  return first + rest.repeat(Math.max(0, count - 1));
+}
 
 export const BRAND_MARK_SVG = `<svg class="brand-mark" width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><g fill="var(--on-accent)"><rect x="4" y="14.75" width="24" height="2.5" rx="1.25"/><rect x="8.5" y="9" width="3" height="14" rx="1.25"/><rect x="20.5" y="9" width="3" height="14" rx="1.25"/><rect x="5.5" y="11.5" width="2.25" height="9" rx="1"/><rect x="24.25" y="11.5" width="2.25" height="9" rx="1"/></g></svg>`;
 
@@ -138,7 +147,7 @@ export function renderToastAndDialogs(): string {
         <span class="rest-timer-label">استراحت</span>
         <button type="button" onclick="adjustRestTimer(15)" class="rest-timer-chip">+۱۵ ث</button>
         <button type="button" onclick="adjustRestTimer(30)" class="rest-timer-chip">+۳۰ ث</button>
-        <button type="button" onclick="stopRestTimer()" class="rest-timer-stop" aria-label="پایان استراحت" title="پایان استراحت">
+        <button type="button" onclick="stopRestTimer()" class="rest-timer-stop" aria-label="پایان استراحت" data-chth-tip="پایان استراحت">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -172,10 +181,7 @@ export function renderToastAndDialogs(): string {
         </div>
         <div class="flex items-center gap-1.5">
           <input type="text" id="share-qr-url" readonly class="chth-input chth-input--sm font-mono select-all" dir="ltr" aria-label="لینک برنامه">
-          <button type="button" onclick="copyShareQrUrl()" class="chth-btn chth-btn--primary chth-btn--sm shrink-0">
-            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-            <span>کپی لینک</span>
-          </button>
+          ${copyButtonHtml('fa', { from: '#share-qr-url', label: 'کپی لینک', variant: 'primary', className: 'shrink-0' })}
         </div>`,
       actions: `<button type="button" data-chth-close="cancel" class="chth-btn chth-btn--secondary chth-btn--md">بستن</button>`,
     })}

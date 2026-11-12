@@ -441,15 +441,9 @@ export function renderThemeStyles(): string {
       /* Text people type: may be one unbroken token (#hashtag, URL), so break it if it has to */
       .text-wrap-safe { overflow-wrap: anywhere; }
 
-      /* Empty states */
-      .empty-state {
-        text-align: center;
-        padding: var(--chth-space-28) var(--chth-space-16);
-        border: 1px dashed var(--line-strong);
-        border-radius: var(--r-md);
-        color: var(--text-3);
-        font-size: var(--chth-text-13);
-      }
+      /* Empty states are the kit's (.chth-empty); the compact ones read a size smaller in the app */
+      .chth-empty--compact .chth-empty__title { font-size: var(--chth-text-15); }
+      .chth-empty--compact .chth-empty__text { font-size: var(--chth-text-13); }
 
       /* Retired effects */
       .glow-emerald, .glow-gold, .glow-cyan, .glow-purple, .glow-rose { box-shadow: none !important; }
@@ -559,7 +553,7 @@ export function renderThemeStyles(): string {
       html .chth-nav__auth { display: flex; align-items: center; gap: var(--chth-space-2); }
       html .chth-nav__auth .account-chip { border-radius: var(--chth-radius-full); }
       html .chth-nav__auth .chth-btn--icon { width: 2rem; height: 2rem; border-radius: var(--chth-radius-full); }
-      @media (max-width: 640px) { html .chth-nav__auth .account-chip span { display: none; } }
+      @media (max-width: 640px) { html .chth-nav__auth .account-chip > span:not(.chth-avatar) { display: none; } }
 
       /* Text link button */
       html .link-btn {
@@ -961,11 +955,9 @@ export function renderThemeStyles(): string {
         border-radius: var(--r-sm);
       }
 
-      .avatar-frame {
-        border-radius: var(--r-full);
-        border: 1px solid var(--line-strong);
-        background: var(--surface-2);
-      }
+      /* The profile header's avatar (the kit's .chth-avatar): 40px on phones, 56px from sm up */
+      .prof-avatar .chth-avatar { --chth-avatar: 2.5rem; box-shadow: 0 0 0 1px var(--line-strong); }
+      @media (min-width: 640px) { .prof-avatar .chth-avatar { --chth-avatar: 3.5rem; } }
 
       /* ==========================================================================
          9. Stats
@@ -1194,27 +1186,15 @@ export function renderThemeStyles(): string {
         transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease, opacity var(--dur-fast) ease, transform var(--dur-press) var(--ease-out);
       }
       html .set-ring:active { transform: scale(0.9); }
-      html .set-ring > svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-      html .set-ring-track { fill: none; stroke: var(--line-strong); stroke-width: 3.5; }
-      html .set-ring-fill {
-        fill: none;
-        stroke: var(--accent);
-        stroke-width: 3.5;
-        stroke-dasharray: 100;
-        transition: stroke var(--dur-base) ease;
-      }
-      /* A zero-length dash still antialiases into a sliver at 12 o'clock */
-      html .set-ring-fill.is-empty { visibility: hidden; }
-      html .set-ring-label {
-        position: relative;
-        display: inline-flex;
-        font-size: var(--chth-text-12);
-        font-weight: 800;
-        font-variant-numeric: tabular-nums;
-      }
+      /* The ring itself is the kit's (.chth-ring), sized to the button, in the gym's tones */
+      html .set-ring .chth-ring { --chth-ring-size: 100%; --chth-ring-width: 8.5; --chth-ring-tone: var(--accent); }
+      html .set-ring .chth-ring__track { stroke: var(--line-strong); }
+      /* A zero-length dash with round caps still draws a dot at 12 o'clock */
+      html .set-ring .chth-ring__arc.is-empty { visibility: hidden; }
+      html .set-ring .chth-ring__label { display: inline-flex; font-size: var(--chth-text-12); font-weight: 800; }
       html .set-ring.is-busy { opacity: 0.55; pointer-events: none; }
       html .ex-row.is-done .set-ring { color: var(--done); background: var(--done-soft); }
-      html .ex-row.is-done .set-ring-fill { stroke: var(--done); }
+      html .ex-row.is-done .set-ring .chth-ring { --chth-ring-tone: var(--done); }
 
       /* Exercise popup: movement GIF on a white card at the top of the dialog */
       html .ex-sheet-media {
@@ -1424,6 +1404,7 @@ export function renderThemeStyles(): string {
       .account-chip.is-active { border-color: var(--accent); }
       [dir="rtl"] .account-chip.p-0\\.5, .account-chip.p-0\\.5 { padding: var(--chth-space-2); }
       .account-chip.no-avatar { padding: 0 var(--chth-space-14); }
+      .account-chip .chth-avatar--xs { --chth-avatar: 1.75rem; }
 
       /* ==========================================================================
          14. Weekly Barbell (dashboard hero)
@@ -1677,7 +1658,7 @@ export function renderThemeStyles(): string {
       .is-entering { animation: fade-up var(--chth-dur-250) var(--ease-out); }
 
       /* An exercise's last set was just logged: only its done badge pops */
-      .just-done .chth-badge--success, .just-done .set-ring-label { animation: pop-in var(--chth-dur-200) var(--ease-out); }
+      .just-done .chth-badge--success, .just-done .set-ring .chth-ring__label { animation: pop-in var(--chth-dur-200) var(--ease-out); }
 
       /* Panels revealed from a hidden toggle */
       .reveal {

@@ -255,11 +255,11 @@ export function renderWeeklyPlanSection(): string {
           <p id="wp-week-label" class="text-xs text-zinc-400 mt-0.5">&nbsp;</p>
         </div>
         <div class="flex items-center gap-1 shrink-0">
-          <button type="button" onclick="wpShiftWeek(-1)" class="chth-btn chth-btn--icon chth-btn--ghost" title="هفته قبل" aria-label="هفته قبل">
+          <button type="button" onclick="wpShiftWeek(-1)" class="chth-btn chth-btn--icon chth-btn--ghost" data-chth-tip="هفته قبل" aria-label="هفته قبل">
             <i data-lucide="chevron-right" class="w-5 h-5"></i>
           </button>
           <button type="button" id="wp-this-week-btn" onclick="wpShiftWeek(0)" class="chth-btn chth-btn--secondary chth-btn--sm">این هفته</button>
-          <button type="button" onclick="wpShiftWeek(1)" class="chth-btn chth-btn--icon chth-btn--ghost" title="هفته بعد" aria-label="هفته بعد">
+          <button type="button" onclick="wpShiftWeek(1)" class="chth-btn chth-btn--icon chth-btn--ghost" data-chth-tip="هفته بعد" aria-label="هفته بعد">
             <i data-lucide="chevron-left" class="w-5 h-5"></i>
           </button>
         </div>
@@ -396,12 +396,12 @@ export function renderWeeklyPlanClientScript(): string {
         '</button>';
       }
       const play = opts.isToday
-        ? '<button type="button" class="wp-chip-btn is-play" data-wp-play="' + wpEsc(r.id) + '" title="شروع تمرین" aria-label="شروع ' + wpEsc(r.title) + '"><i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i></button>'
+        ? '<button type="button" class="wp-chip-btn is-play" data-wp-play="' + wpEsc(r.id) + '" data-chth-tip="شروع تمرین" aria-label="شروع ' + wpEsc(r.title) + '"><i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i></button>'
         : '';
       return '<div class="wp-chip is-slotted' + (opts.done ? ' is-done' : '') + '" data-wp-routine="' + wpEsc(r.id) + '" data-wp-from="day" data-wp-src-day="' + opts.day + '">' +
         '<span class="wp-chip-title flex-1" dir="auto">' + wpEsc(r.title) + '</span>' +
         play +
-        '<button type="button" class="wp-chip-btn" data-wp-remove="' + wpEsc(r.id) + '" title="حذف از این روز" aria-label="حذف ' + wpEsc(r.title) + ' از ' + WP_DAY_NAMES[opts.day] + '"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>' +
+        '<button type="button" class="wp-chip-btn" data-wp-remove="' + wpEsc(r.id) + '" data-chth-tip="حذف از این روز" aria-label="حذف ' + wpEsc(r.title) + ' از ' + WP_DAY_NAMES[opts.day] + '"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>' +
       '</div>';
     }
 
@@ -428,10 +428,12 @@ export function renderWeeklyPlanClientScript(): string {
 
       // Tray
       if (wpState.routines.length === 0) {
-        trayEl.innerHTML = '<div class="flex items-center justify-between gap-3 w-full card-glass-subtle px-3 py-2.5">' +
-          '<span class="text-xs text-zinc-400">هنوز برنامه‌ای ذخیره نکرده‌اید.</span>' +
-          '<button type="button" onclick="switchTab(\\'movements\\')" class="chth-btn chth-btn--primary chth-btn--sm shrink-0"><i data-lucide="plus" class="w-3.5 h-3.5"></i><span>ساخت برنامه</span></button>' +
-        '</div>';
+        trayEl.innerHTML = kitEmpty({
+          title: 'هنوز برنامه‌ای ذخیره نکرده‌اید.',
+          action: { label: 'ساخت برنامه', onclick: "switchTab('movements')" },
+          compact: true,
+          className: 'w-full',
+        });
       } else {
         trayEl.innerHTML = wpState.routines.map(function(r) { return wpChipHtml(r, { slotted: false }); }).join('');
       }
