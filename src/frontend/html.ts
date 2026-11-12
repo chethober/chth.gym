@@ -11,7 +11,8 @@ import { renderLandingPage, renderLandingStyles } from './landingUi';
 import { 
   renderTopNavbar, 
   renderMobileBottomNav, 
-  renderToastAndDialogs 
+  renderToastAndDialogs,
+  cardSkeletons
 } from './components';
 import { 
   renderSmartSuggestionsSection, 
@@ -178,7 +179,7 @@ export function renderAppHtml(): string {
 
             <!-- Action Controls: one row on every width -->
             <div class="flex items-center gap-2">
-              <button onclick="openAddExerciseToSessionModal()" title="افزودن حرکت" class="chth-btn chth-btn--secondary chth-btn--md">
+              <button onclick="openAddExerciseToSessionModal()" data-chth-tip="افزودن حرکت" class="chth-btn chth-btn--secondary chth-btn--md">
                 <i data-lucide="plus" class="w-4 h-4 text-accent"></i>
                 <span>حرکت</span>
               </button>
@@ -186,7 +187,7 @@ export function renderAppHtml(): string {
                 <i data-lucide="check-circle-2" class="w-4 h-4"></i>
                 <span>پایان تمرین</span>
               </button>
-              <button onclick="discardActiveWorkout()" title="لغو تمرین" class="chth-btn chth-btn--danger chth-btn--icon">
+              <button onclick="discardActiveWorkout()" aria-label="لغو تمرین" data-chth-tip="لغو تمرین" class="chth-btn chth-btn--danger chth-btn--icon">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
             </div>
@@ -419,7 +420,7 @@ export function renderAppHtml(): string {
             <span>رکوردهای شخصی</span>
           </h3>
           <div id="prs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-            <!-- Populated via JS -->
+            ${cardSkeletons(3, '4.75rem')}
           </div>
         </div>
 
@@ -430,7 +431,7 @@ export function renderAppHtml(): string {
             <span>جلسات ثبت‌شده</span>
           </h3>
           <div id="full-history-list" class="space-y-4">
-            <!-- Populated via JS -->
+            ${cardSkeletons(3, '7rem')}
           </div>
         </div>
       </div>
@@ -497,9 +498,10 @@ export function renderAppHtml(): string {
 
         <!-- Selected Exercises List in Same-Page Builder -->
         <div id="inline-draft-exercises-list" class="space-y-2.5 pt-1">
-          <p id="inline-empty-hint" class="empty-state">
-            هنوز حرکتی اضافه نشده
-          </p>
+          <div id="inline-empty-hint" class="chth-empty chth-empty--compact">
+            <p class="chth-empty__title">هنوز حرکتی اضافه نشده</p>
+            <p class="chth-empty__text">از فهرست حرکات، حرکت‌ها را به برنامه اضافه کن.</p>
+          </div>
         </div>
 
         <!-- Builder Actions -->
@@ -623,7 +625,7 @@ export function renderAppHtml(): string {
       <!-- Profile Header & Quick Stats (Same Line) -->
       <div class="card-glass p-3.5 sm:p-5 flex flex-wrap items-center justify-between gap-2.5 sm:gap-4">
         <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-[10rem] flex-1">
-          <img id="prof-header-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=user" class="avatar-frame w-10 h-10 sm:w-14 sm:h-14 shrink-0" alt="">
+          <span id="prof-header-avatar" class="prof-avatar shrink-0"><span class="chth-avatar" aria-hidden="true"><span class="chth-avatar__initials">?</span></span></span>
           <div class="min-w-0">
             <h2 id="prof-header-name" class="text-xs sm:text-base font-black text-white truncate">پروفایل کاربری</h2>
             <p id="prof-header-email" class="text-10 sm:text-xs text-accent font-mono truncate hidden sm:block"></p>
@@ -709,7 +711,7 @@ ${renderInstallCard()}
           <span id="accent-active-label" class="pref-hint">${ACCENTS[0].name}</span>
           <div class="swatch-row w-full" role="radiogroup" aria-label="رنگ اصلی">
             ${ACCENTS.map(a => `
-            <button type="button" role="radio" aria-checked="false" aria-label="${a.name}" title="${a.name}"
+            <button type="button" role="radio" aria-checked="false" aria-label="${a.name}" data-chth-tip="${a.name}"
               data-swatch="${a.id}" onclick="setPref('accent', '${a.id}')" class="swatch">
               <i data-lucide="check"></i>
             </button>`).join('')}
@@ -741,7 +743,7 @@ ${renderInstallCard()}
             <p class="pref-label">کاهش حرکت</p>
             <p class="pref-hint">انیمیشن‌های جابه‌جایی حذف می‌شوند</p>
           </div>
-          <label class="chth-switch" title="کاهش حرکت">
+          <label class="chth-switch" data-chth-tip="کاهش حرکت">
             <input type="checkbox" role="switch" class="chth-switch__input" id="pref-motion" aria-label="کاهش حرکت" onchange="setPref('motion', this.checked ? 'reduce' : 'full')">
             <span class="chth-switch__track" aria-hidden="true"><span class="chth-switch__thumb"></span></span>
           </label>
@@ -996,6 +998,17 @@ ${renderInstallCard()}
     }
 
     // User and library text goes into innerHTML templates, so it is escaped once, here.
+    // --- Empty states: the CHTH kit's (chth-kit/ui.js emptyStateHtml), with a Lucide icon ---
+    // o: { title, text?, icon?: lucide name, action?: { label, onclick }, compact?, className? }
+    function kitEmpty(o) {
+      return '<div class="chth-empty' + (o.compact ? ' chth-empty--compact' : '') + (o.className ? ' ' + o.className : '') + '">'
+        + (o.icon ? '<div class="chth-empty__icon" aria-hidden="true"><i data-lucide="' + o.icon + '"></i></div>' : '')
+        + '<p class="chth-empty__title">' + escapeHtml(o.title) + '</p>'
+        + (o.text ? '<p class="chth-empty__text">' + escapeHtml(o.text) + '</p>' : '')
+        + (o.action ? '<button type="button" class="chth-empty__action" onclick="' + o.action.onclick + '">' + escapeHtml(o.action.label) + '</button>' : '')
+        + '</div>';
+    }
+
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
     }
@@ -1336,26 +1349,37 @@ ${renderInstallCard()}
       }
     }
 
-    // Google avatar URLs expire; a dead one becomes the neutral person glyph, not a broken image
-    function avatarFallback(img) {
-      img.onerror = null;
-      img.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" fill="#24282D"/><circle cx="20" cy="16" r="7" fill="#6E6F75"/><path d="M6 38c2-8 8-12 14-12s12 4 14 12z" fill="#6E6F75"/></svg>');
+    // --- Avatars: the CHTH kit's (chth-kit/display.js avatarHtml) ---
+    // The photo over the person's initials on a colour from their name. Google avatar URLs
+    // expire: the kit's script marks a dead photo (.is-broken) and the initials show instead.
+    // Decorative here (the button around it is labelled), so hidden from screen readers.
+    function kitAvatar(name, src, sizeClass) {
+      const words = String(name || '').trim().split(/\s+/).filter(Boolean);
+      const first = (w) => Array.from(w)[0] || '';
+      const initials = !words.length ? '?'
+        : (words.length === 1 ? first(words[0]) : first(words[0]) + (/[\u0600-\u06FF]/.test(words[0]) ? '\u200c' : '') + first(words[words.length - 1])).toUpperCase();
+      let hue = 0;
+      for (const ch of String(name || '')) hue = (hue * 31 + ch.codePointAt(0)) % 360;
+      return '<span class="chth-avatar' + (sizeClass ? ' ' + sizeClass : '') + '" style="--chth-avatar-hue:' + hue + '" aria-hidden="true">'
+        + '<span class="chth-avatar__initials">' + escapeHtml(initials) + '</span>'
+        + (src ? '<img class="chth-avatar__img" src="' + escapeHtml(src) + '" alt="" decoding="async">' : '')
+        + '</span>';
     }
 
     function renderUserUI(user) {
       const desktopTopAuth = document.getElementById('desktop-top-auth');
       const mobileTopAuth = document.getElementById('mobile-top-auth');
-      const avatar = user.avatar_url || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + encodeURIComponent(user.email || user.name || 'user');
+      const avatarName = user.name || user.email || '';
       const activeTab = localStorage.getItem('active_tab') || 'dashboard';
       const activeCls = activeTab === 'profile' ? ' is-active' : '';
 
       if (desktopTopAuth) {
         desktopTopAuth.innerHTML = \`
-          <button onclick="switchTab('profile')" id="nav-d-profile" title="پروفایل و اهداف" aria-label="پروفایل و اهداف" class="account-chip\${activeCls}">
-            <img src="\${escapeHtml(avatar)}" class="w-7 h-7 rounded-full object-cover shrink-0" alt="" onerror="avatarFallback(this)">
+          <button onclick="switchTab('profile')" id="nav-d-profile" data-chth-tip="پروفایل و اهداف" aria-label="پروفایل و اهداف" class="account-chip\${activeCls}">
+            \${kitAvatar(avatarName, user.avatar_url, 'chth-avatar--xs')}
             <span class="hidden xl:inline max-w-[110px] truncate">\${escapeHtml(user.name || 'حساب کاربری')}</span>
           </button>
-          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="chth-btn chth-btn--icon chth-btn--icon-danger">
+          <button onclick="logout()" data-chth-tip="خروج از حساب" aria-label="خروج از حساب" class="chth-btn chth-btn--icon chth-btn--icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
           </button>
         \`;
@@ -1363,10 +1387,10 @@ ${renderInstallCard()}
 
       if (mobileTopAuth) {
         mobileTopAuth.innerHTML = \`
-          <button onclick="switchTab('profile')" id="nav-m-profile" title="پروفایل و اهداف" aria-label="پروفایل و اهداف" class="account-chip p-0.5\${activeCls}">
-            <img src="\${escapeHtml(avatar)}" class="w-8 h-8 rounded-full object-cover" alt="" onerror="avatarFallback(this)">
+          <button onclick="switchTab('profile')" id="nav-m-profile" data-chth-tip="پروفایل و اهداف" aria-label="پروفایل و اهداف" class="account-chip p-0.5\${activeCls}">
+            \${kitAvatar(avatarName, user.avatar_url, 'chth-avatar--sm')}
           </button>
-          <button onclick="logout()" title="خروج از حساب" aria-label="خروج از حساب" class="chth-btn chth-btn--icon chth-btn--icon-danger">
+          <button onclick="logout()" data-chth-tip="خروج از حساب" aria-label="خروج از حساب" class="chth-btn chth-btn--icon chth-btn--icon-danger">
             <i data-lucide="log-out" class="w-4 h-4"></i>
           </button>
         \`;
@@ -1375,7 +1399,7 @@ ${renderInstallCard()}
       const headerAvatar = document.getElementById('prof-header-avatar');
       const headerName = document.getElementById('prof-header-name');
       const headerEmail = document.getElementById('prof-header-email');
-      if (headerAvatar) { headerAvatar.onerror = () => avatarFallback(headerAvatar); headerAvatar.src = avatar; }
+      if (headerAvatar) headerAvatar.innerHTML = kitAvatar(avatarName, user.avatar_url);
       if (headerName) headerName.innerText = user.name || 'حساب کاربری';
       if (headerEmail) headerEmail.innerText = user.email || '';
 
@@ -1392,7 +1416,7 @@ ${renderInstallCard()}
       const activeCls = activeTab === 'profile' ? ' is-active' : '';
 
       const chip = (id) => \`
-        <button onclick="switchTab('profile')" id="\${id}" title="پروفایل و اهداف" class="account-chip no-avatar\${activeCls}">
+        <button onclick="switchTab('profile')" id="\${id}" data-chth-tip="پروفایل و اهداف" class="account-chip no-avatar\${activeCls}">
           <i data-lucide="user" class="w-4 h-4"></i>
           <span>پروفایل</span>
         </button>
@@ -1905,15 +1929,18 @@ ${renderInstallCard()}
             <button type="button" onclick="adjustOngoingReps('\${item.id}', 1)" class="rep-pill-btn" aria-label="افزایش تکرار">+</button>
           </div>
 
-          <button type="button" class="set-ring" onclick="logNextSet('\${item.id}')" aria-label="\${ringLabel}" title="\${ringLabel}">
-            <svg viewBox="0 0 40 40" aria-hidden="true">
-              <circle class="set-ring-track" cx="20" cy="20" r="17" pathLength="100"></circle>
-              <circle class="set-ring-fill \${completedSetsCount === 0 ? 'is-empty' : ''}" cx="20" cy="20" r="17" pathLength="100" style="stroke-dashoffset: \${offset}" \${ringFrom}></circle>
-            </svg>
-            <span class="set-ring-label">
-              \${isAllDone
-                ? '<i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>'
-                : \`\${toPersianDigits(completedSetsCount)}/\${toPersianDigits(totalSets)}\`}
+          <button type="button" class="set-ring" onclick="logNextSet('\${item.id}')" aria-label="\${ringLabel}" data-chth-tip="\${ringLabel}">
+            <!-- The kit's progress ring (chth-ring); --chth-ring is the share of sets done -->
+            <span class="chth-ring chth-ring--sm\${isAllDone ? ' chth-ring--done' : ''}" style="--chth-ring: \${(100 - offset) / 100}" aria-hidden="true">
+              <svg viewBox="0 0 100 100">
+                <circle class="chth-ring__track" cx="50" cy="50" r="42" pathLength="100"></circle>
+                <circle class="chth-ring__arc\${completedSetsCount === 0 ? ' is-empty' : ''}" cx="50" cy="50" r="42" pathLength="100" data-ring-to="\${offset}" \${ringFrom}></circle>
+              </svg>
+              <span class="chth-ring__label">
+                \${isAllDone
+                  ? '<i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>'
+                  : \`\${toPersianDigits(completedSetsCount)}/\${toPersianDigits(totalSets)}\`}
+              </span>
             </span>
           </button>
         </div>
@@ -2030,13 +2057,13 @@ ${renderInstallCard()}
       for (let sNum = 1; sNum <= totalSets; sNum++) {
         const log = item.logs.find(l => l.set_number === sNum) || item.logs[sNum - 1];
         chips += log
-          ? \`<button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, '\${log.id}')" title="ست \${toPersianDigits(sNum)} انجام شد (کلیک برای حذف)" class="set-chip is-done">
+          ? \`<button type="button" onclick="toggleSetCheckbox('\${item.id}', \${sNum}, '\${log.id}')" data-chth-tip="ست \${toPersianDigits(sNum)} انجام شد (کلیک برای حذف)" class="set-chip is-done">
               <i data-lucide="check" class="stroke-[3]"></i>
               <span>ست \${toPersianDigits(sNum)}</span>
               \${log.weight_kg > 0 ? \`<span class="text-11 opacity-75 font-mono font-normal">\${toPersianDigits(log.weight_kg)}×\${toPersianDigits(log.reps)}</span>\` : ''}
               \${log.is_pr ? '<span class="chth-badge chth-badge--warning">PR</span>' : ''}
             </button>\`
-          : \`<button type="button" onclick="logSetFromSheet('\${item.id}', \${sNum})" title="ثبت انجام ست \${toPersianDigits(sNum)}" class="set-chip">
+          : \`<button type="button" onclick="logSetFromSheet('\${item.id}', \${sNum})" data-chth-tip="ثبت انجام ست \${toPersianDigits(sNum)}" class="set-chip">
               <i data-lucide="circle"></i>
               <span>ست \${toPersianDigits(sNum)}</span>
             </button>\`;
@@ -2061,14 +2088,14 @@ ${renderInstallCard()}
           </div>
           <div class="flex items-center gap-1.5 flex-wrap">
             \${chips}
-            <button type="button" onclick="addExtraSet('\${item.id}')" title="افزودن یک ست دیگر به این حرکت" class="set-chip set-chip-add">
+            <button type="button" onclick="addExtraSet('\${item.id}')" data-chth-tip="افزودن یک ست دیگر به این حرکت" class="set-chip set-chip-add">
               <i data-lucide="plus"></i>
               <span>ست</span>
             </button>
             \${isBarbellExercise(item.id) ? \`
             <button type="button" id="bar-tools-btn-\${item.id}" onclick="toggleBarbellTools('\${item.id}')"
               aria-expanded="\${barbellToolsOpen[item.id] ? 'true' : 'false'}" aria-controls="bar-tools-\${item.id}"
-              title="محاسبه وزنه‌ها و ست‌های گرم کردن" class="set-chip">
+              data-chth-tip="محاسبه وزنه‌ها و ست‌های گرم کردن" class="set-chip">
               <i data-lucide="calculator"></i>
               <span>وزنه‌ها</span>
             </button>\` : ''}
@@ -2133,15 +2160,12 @@ ${renderInstallCard()}
       loadProgressionFor(exercisesArray);
 
       if (exercisesArray.length === 0) {
-        listContainer.innerHTML = \`
-          <div class="card-glass p-6 text-center space-y-3">
-            <i data-lucide="dumbbell" class="w-8 h-8 mx-auto text-accent"></i>
-            <p class="text-xs text-zinc-400">هنوز حرکتی در این جلسه اضافه نشده است. با دکمه «افزودن حرکت» حرکات دلخواه را اضافه کنید.</p>
-            <button onclick="openAddExerciseToSessionModal()" class="chth-btn chth-btn--primary chth-btn--md">
-              افزودن حرکت به تمرین
-            </button>
-          </div>
-        \`;
+        listContainer.innerHTML = '<div class="card-glass">' + kitEmpty({
+          icon: 'dumbbell',
+          title: 'هنوز حرکتی در این جلسه نیست',
+          text: 'با دکمه «افزودن حرکت» حرکات دلخواه را اضافه کنید.',
+          action: { label: 'افزودن حرکت به تمرین', onclick: 'openAddExerciseToSessionModal()' },
+        }) + '</div>';
         closeExerciseSheet();
         lucide.createIcons();
         return;
@@ -2169,9 +2193,9 @@ ${renderInstallCard()}
       listContainer.innerHTML = \`<div class="ex-list">\${renderedItems}</div>\`;
 
       // Rings render at their new fill; play the fill from where it was
-      listContainer.querySelectorAll('.set-ring-fill[data-ring-from]').forEach(c => {
+      listContainer.querySelectorAll('.set-ring .chth-ring__arc[data-ring-from]').forEach(c => {
         c.animate(
-          [{ strokeDashoffset: c.dataset.ringFrom }, { strokeDashoffset: c.style.strokeDashoffset }],
+          [{ strokeDashoffset: c.dataset.ringFrom }, { strokeDashoffset: c.dataset.ringTo }],
           { duration: 300, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }
         );
       });
@@ -2590,9 +2614,10 @@ ${renderInstallCard()}
         if (mobBadge) mobBadge.classList.add('hidden');
         if (actions) actions.classList.add('hidden');
         container.innerHTML = \`
-          <p id="inline-empty-hint" class="empty-state">
-            هنوز حرکتی اضافه نشده
-          </p>
+          <div id="inline-empty-hint" class="chth-empty chth-empty--compact">
+            <p class="chth-empty__title">هنوز حرکتی اضافه نشده</p>
+            <p class="chth-empty__text">از فهرست حرکات، حرکت‌ها را به برنامه اضافه کن.</p>
+          </div>
         \`;
         return;
       }
@@ -2651,7 +2676,7 @@ ${renderInstallCard()}
             </div>
 
             <!-- Delete Button -->
-            <button type="button" onclick="removeDraftMovement(\${idx})" title="حذف از برنامه" class="chth-btn chth-btn--icon-sm chth-btn--icon-danger">
+            <button type="button" onclick="removeDraftMovement(\${idx})" aria-label="حذف از برنامه" data-chth-tip="حذف از برنامه" class="chth-btn chth-btn--icon-sm chth-btn--icon-danger">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
           </div>
@@ -2964,13 +2989,12 @@ ${renderInstallCard()}
       }
 
       if (routines.length === 0) {
-        grid.innerHTML = \`
-          <div class="col-span-full card-glass p-6 text-center space-y-2">
-            <i data-lucide="clipboard-list" class="w-7 h-7 mx-auto text-accent"></i>
-            <h4 class="font-bold text-white text-xs">هنوز برنامه‌ای نساخته‌اید</h4>
-            
-          </div>
-        \`;
+        grid.innerHTML = '<div class="col-span-full card-glass">' + kitEmpty({
+          icon: 'clipboard-list',
+          title: 'هنوز برنامه‌ای نساخته‌اید',
+          text: 'حرکت‌ها را انتخاب کن و برنامه‌ی خودت را بساز، یا از برنامه‌های پیشنهادی شروع کن.',
+          compact: true,
+        }) + '</div>';
         lucide.createIcons();
         return;
       }
@@ -3003,16 +3027,16 @@ ${renderInstallCard()}
           <!-- Routine Bottom Action Controls -->
           <div class="pt-3 divider-top flex items-center justify-between gap-2">
             <div class="flex items-center gap-1.5">
-              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری این برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
+              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" aria-label="اشتراک‌گذاری این برنامه" data-chth-tip="اشتراک‌گذاری این برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
               </button>
-              <button onclick="editRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ویرایش برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
+              <button onclick="editRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" aria-label="ویرایش برنامه" data-chth-tip="ویرایش برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
                 <i data-lucide="pencil" class="w-4 h-4"></i>
               </button>
-              <button onclick="duplicateRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" title="ساخت کپی از برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
+              <button onclick="duplicateRoutine(this.dataset.id)" data-id="\${escapeHtml(r.id)}" aria-label="ساخت کپی از برنامه" data-chth-tip="ساخت کپی از برنامه" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
                 <i data-lucide="copy" class="w-4 h-4"></i>
               </button>
-              <button onclick="deleteRoutine('\${r.id}')" title="حذف برنامه" class="chth-btn chth-btn--icon-sm chth-btn--icon-danger">
+              <button onclick="deleteRoutine('\${r.id}')" aria-label="حذف برنامه" data-chth-tip="حذف برنامه" class="chth-btn chth-btn--icon-sm chth-btn--icon-danger">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
             </div>
@@ -3627,7 +3651,8 @@ ${renderInstallCard()}
     function renderRecentWorkouts(workouts) {
       const container = document.getElementById('dash-recent-workouts');
       if (!workouts || workouts.length === 0) {
-        container.innerHTML = '<p class="text-xs text-zinc-500 text-center py-4">هنوز تمرینی ثبت نشده است.</p>';
+        container.innerHTML = kitEmpty({ icon: 'activity', title: 'هنوز تمرینی ثبت نشده است.', compact: true });
+        lucide.createIcons();
         return;
       }
 
@@ -3697,7 +3722,7 @@ ${renderInstallCard()}
               <p class="text-10 text-zinc-400">\${isToday(r) ? '<span class="chth-badge chth-badge--accent ml-1">امروز</span>' : ''}\${toPersianDigits(r.exercises ? r.exercises.length : 0)} حرکت</p>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" title="اشتراک‌گذاری" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
+              <button onclick="shareRoutine(this.dataset.id, this.dataset.title)" data-id="\${escapeHtml(r.id)}" data-title="\${escapeHtml(r.title)}" aria-label="اشتراک‌گذاری" data-chth-tip="اشتراک‌گذاری" class="chth-btn chth-btn--secondary chth-btn--icon-sm">
                 <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
               </button>
               <button onclick="startRoutineWorkout('\${r.id}')" class="chth-btn chth-btn--primary chth-btn--sm">
@@ -3874,7 +3899,7 @@ ${renderInstallCard()}
 
       const max = Math.max(0, ...bins.map(b => b.volume));
       if (max === 0) {
-        host.replaceChildren(vizEl('p', 'empty-state', 'در این بازه تمرینی ثبت نشده'));
+        host.innerHTML = kitEmpty({ title: 'در این بازه تمرینی ثبت نشده', compact: true });
         return;
       }
 
@@ -3938,7 +3963,7 @@ ${renderInstallCard()}
       const share = (n) => toPersianDigits(Math.round(n / total * 100)) + '٪';
 
       if (!total) {
-        host.replaceChildren(vizEl('p', 'empty-state', 'در این بازه ستی ثبت نشده'));
+        host.innerHTML = kitEmpty({ title: 'در این بازه ستی ثبت نشده', compact: true });
         tableHost.replaceChildren();
         return;
       }
@@ -4129,7 +4154,8 @@ ${renderInstallCard()}
         const prsGrid = document.getElementById('prs-grid');
 
         if (prs.length === 0) {
-          prsGrid.innerHTML = '<p class="text-xs text-zinc-500 col-span-full py-4 text-center">هنوز رکوردی ثبت نشده است.</p>';
+          prsGrid.innerHTML = kitEmpty({ icon: 'trophy', title: 'هنوز رکوردی ثبت نشده است.', text: 'هر بار وزنه یا تکرار بیشتری بزنی، رکوردت اینجا ثبت می‌شود.', compact: true, className: 'col-span-full' });
+          lucide.createIcons();
         } else {
           prsGrid.innerHTML = prs.map(pr => \`
             <div class="card-glass-interactive p-4 flex items-center justify-between gap-3">
@@ -4158,7 +4184,8 @@ ${renderInstallCard()}
         const histContainer = document.getElementById('full-history-list');
 
         if (history.length === 0) {
-          histContainer.innerHTML = '<p class="text-xs text-zinc-500 text-center py-6">تاریخچه تمرینی وجود ندارد.</p>';
+          histContainer.innerHTML = kitEmpty({ icon: 'history', title: 'تاریخچه تمرینی وجود ندارد.', text: 'تمرین‌هایی که تمام کنی اینجا می‌آیند.', compact: true });
+          lucide.createIcons();
         } else {
           histContainer.innerHTML = history.map(w => {
             const dateStr = new Date(w.start_time).toLocaleDateString('fa-IR');
@@ -4190,7 +4217,15 @@ ${renderInstallCard()}
         }
 
         lucide.createIcons();
-      } catch (e) {}
+      } catch (e) {
+        // Offline or failed: the loading shapes give way to a note
+        ['prs-grid', 'full-history-list'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el && el.querySelector('.chth-skeleton')) {
+            el.innerHTML = kitEmpty({ title: 'بارگذاری نشد.', text: 'اتصال اینترنت را بررسی کن و دوباره امتحان کن.', compact: true, className: 'col-span-full' });
+          }
+        });
+      }
     }
 
     // --- Tab 4: Profile & Goals ---
@@ -4348,20 +4383,6 @@ ${renderInstallCard()}
       }
       openKitDialog('share-qr-modal');
       lucide.createIcons();
-    }
-
-    async function copyShareQrUrl() {
-      const urlInput = document.getElementById('share-qr-url');
-      if (urlInput && urlInput.value) {
-        try {
-          await navigator.clipboard.writeText(urlInput.value);
-          showNotification('✓ لینک برنامه مجدداً در کلیپ‌بورد کپی شد!', 'success');
-        } catch (e) {
-          urlInput.select();
-          document.execCommand('copy');
-          showNotification('✓ لینک کپی شد!', 'success');
-        }
-      }
     }
 
     function closeShareQrModal() {

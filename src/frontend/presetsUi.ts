@@ -3,6 +3,8 @@
 // Evidence-based programming, Real-Time Calibrator, and Dynamic Presets Catalog
 // ============================================================================
 
+import { cardSkeletons } from './components';
+
 export function renderSmartSuggestionsSection(): string {
   return `
     <!-- SMART WORKOUT SUGGESTIONS (BMI & FITNESS GOAL) -->
@@ -91,10 +93,7 @@ export function renderSmartSuggestionsSection(): string {
 
       <!-- Primary Suggestions Cards Container -->
       <div id="dash-suggest-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="col-span-full py-6 text-center text-xs text-zinc-500">
-          <i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto mb-2 text-accent"></i>
-          در حال دریافت پیشنهادات اختصاصی...
-        </div>
+        ${cardSkeletons(2, '11rem')}
       </div>
     </div>
   `;
@@ -294,7 +293,10 @@ export function renderPresetsClientScript(): string {
         }
 
         renderSmartDashboardSuggestions(data.primary_matches || []);
-      } catch (err) {}
+      } catch (err) {
+        // Offline or failed: no shimmer left behind
+        renderSmartDashboardSuggestions([]);
+      }
     }
 
     function renderSmartDashboardSuggestions(presets) {
@@ -302,7 +304,7 @@ export function renderPresetsClientScript(): string {
       if (!container) return;
 
       if (!presets || presets.length === 0) {
-        container.innerHTML = '<p class="text-xs text-zinc-500 col-span-full py-4 text-center">برنامه‌ای برای نمایش یافت نشد.</p>';
+        container.innerHTML = kitEmpty({ title: 'برنامه‌ای برای نمایش یافت نشد.', compact: true, className: 'col-span-full' });
         return;
       }
 
@@ -608,15 +610,15 @@ export function renderPresetsClientScript(): string {
         '</div>' +
         '<div class="pt-3 divider-top flex items-center justify-between gap-2">' +
           '<div class="flex items-center gap-1.5">' +
-            '<button type="button" onclick="importPresetToMyRoutines(\\'' + preset.id + '\\')" title="افزودن به برنامه‌های من" aria-label="افزودن به برنامه‌های من" class="chth-btn chth-btn--secondary chth-btn--sm">' +
+            '<button type="button" onclick="importPresetToMyRoutines(\\'' + preset.id + '\\')" data-chth-tip="افزودن به برنامه‌های من" aria-label="افزودن به برنامه‌های من" class="chth-btn chth-btn--secondary chth-btn--sm">' +
               '<i data-lucide="bookmark-plus" class="w-3.5 h-3.5 text-accent"></i>' +
               '<span class="hidden xl:inline">ذخیره در برنامه‌ها</span>' +
             '</button>' +
-            '<button type="button" onclick="loadPresetIntoBuilder(\\'' + preset.id + '\\')" title="ویرایش و شخصی‌سازی در طراح" aria-label="ویرایش و شخصی‌سازی در طراح" class="chth-btn chth-btn--ghost chth-btn--sm">' +
+            '<button type="button" onclick="loadPresetIntoBuilder(\\'' + preset.id + '\\')" data-chth-tip="ویرایش و شخصی‌سازی در طراح" aria-label="ویرایش و شخصی‌سازی در طراح" class="chth-btn chth-btn--ghost chth-btn--sm">' +
               '<i data-lucide="edit-3" class="w-3.5 h-3.5"></i>' +
               '<span class="hidden xl:inline">شخصی‌سازی</span>' +
             '</button>' +
-            '<button type="button" onclick="sharePreset(\\'' + preset.id + '\\')" title="اشتراک‌گذاری و کد QR" aria-label="اشتراک‌گذاری و کد QR" class="chth-btn chth-btn--ghost chth-btn--sm">' +
+            '<button type="button" onclick="sharePreset(\\'' + preset.id + '\\')" data-chth-tip="اشتراک‌گذاری و کد QR" aria-label="اشتراک‌گذاری و کد QR" class="chth-btn chth-btn--ghost chth-btn--sm">' +
               '<i data-lucide="qr-code" class="w-3.5 h-3.5"></i>' +
             '</button>' +
           '</div>' +

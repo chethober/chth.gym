@@ -5074,5 +5074,53 @@
 "تم تثبيت التطبيق؛ افتحه من الشاشة الرئيسية",
 "Приложение установлено — открывайте его с главного экрана",
 "App instalada; ábrela desde tu pantalla de inicio"
+],
+"از فهرست حرکات، حرکت‌ها را به برنامه اضافه کن.": [
+"Add movements to the program from the list.",
+"أضف الحركات إلى البرنامج من القائمة.",
+"Добавьте упражнения в программу из списка.",
+"Añade movimientos al programa desde la lista."
+],
+"هنوز حرکتی در این جلسه نیست": [
+"No movements in this session yet",
+"لا توجد حركات في هذه الجلسة بعد",
+"В этой тренировке пока нет упражнений",
+"Aún no hay movimientos en esta sesión"
+],
+"با دکمه «افزودن حرکت» حرکات دلخواه را اضافه کنید.": [
+"Use “Add movement” to add the ones you want.",
+"استخدم «إضافة حركة» لإضافة ما تريد.",
+"Добавьте нужные упражнения кнопкой «Добавить упражнение».",
+"Usa «Añadir movimiento» para añadir los que quieras."
+],
+"حرکت‌ها را انتخاب کن و برنامه‌ی خودت را بساز، یا از برنامه‌های پیشنهادی شروع کن.": [
+"Pick movements and build your own program, or start from a suggested one.",
+"اختر الحركات وابنِ برنامجك الخاص، أو ابدأ ببرنامج مقترح.",
+"Выберите упражнения и составьте свою программу или начните с рекомендованной.",
+"Elige movimientos y crea tu propio programa, o empieza con uno sugerido."
+],
+"هر بار وزنه یا تکرار بیشتری بزنی، رکوردت اینجا ثبت می‌شود.": [
+"Every time you lift more weight or reps, your record shows up here.",
+"في كل مرة ترفع وزناً أو تكرارات أكثر، يظهر رقمك القياسي هنا.",
+"Каждый раз, когда вы поднимаете больший вес или делаете больше повторений, рекорд появится здесь.",
+"Cada vez que levantes más peso o repeticiones, tu récord aparecerá aquí."
+],
+"تمرین‌هایی که تمام کنی اینجا می‌آیند.": [
+"Workouts you finish show up here.",
+"التمارين التي تنهيها تظهر هنا.",
+"Завершённые тренировки появятся здесь.",
+"Los entrenamientos que termines aparecerán aquí."
+],
+"بارگذاری نشد.": [
+"Couldn't load.",
+"تعذّر التحميل.",
+"Не удалось загрузить.",
+"No se pudo cargar."
+],
+"اتصال اینترنت را بررسی کن و دوباره امتحان کن.": [
+"Check your internet connection and try again.",
+"تحقق من اتصالك بالإنترنت وحاول مرة أخرى.",
+"Проверьте подключение к интернету и попробуйте снова.",
+"Comprueba tu conexión a internet e inténtalo de nuevo."
 ]
 }
