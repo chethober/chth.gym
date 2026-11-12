@@ -834,18 +834,14 @@ export function renderPresetsClientScript(): string {
       const titleElem = document.getElementById('share-qr-title');
       const urlInput = document.getElementById('share-qr-url');
       const imgElem = document.getElementById('share-qr-img');
-      const modal = document.getElementById('share-qr-modal');
 
       if (titleElem) titleElem.innerText = 'الگوی علمی: ' + preset.title;
       if (urlInput) urlInput.value = shareUrl;
       if (imgElem) {
         imgElem.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(shareUrl) + '&margin=1';
       }
-      if (modal) {
-        modal.classList.remove('hidden');
-        if (typeof lockBodyScroll === 'function') lockBodyScroll();
-        lucide.createIcons();
-      }
+      openKitDialog('share-qr-modal');
+      lucide.createIcons();
     }
 
     function openPreloadedPresetsSection() {

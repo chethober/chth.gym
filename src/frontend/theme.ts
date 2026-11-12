@@ -146,7 +146,7 @@ function renderReducedMotionRules(scope: string): string {
         ${scope} .chth-btn:active, ${scope} .chth-btn--icon:active, ${scope} .chth-btn--icon-sm:active, ${scope} .chth-chip:active, ${scope} .set-chip:active,
         ${scope} .option-card:active, ${scope} .chth-seg__item:active, ${scope} .chth-stepper__btn:active, ${scope} .swatch:active { transform: none; }
         /* Gentler, not zero: these keep their fade but lose the movement */
-        ${scope} .rest-timer, ${scope} .rest-timer.is-leaving, ${scope} .reveal, ${scope} .modal-panel { transform: none !important; }
+        ${scope} .rest-timer, ${scope} .rest-timer.is-leaving, ${scope} .reveal { transform: none !important; }
         ${scope} #rest-timer-svg-path { transition: none; }`;
 }
 
@@ -1216,7 +1216,7 @@ export function renderThemeStyles(): string {
       html .ex-row.is-done .set-ring { color: var(--done); background: var(--done-soft); }
       html .ex-row.is-done .set-ring-fill { stroke: var(--done); }
 
-      /* Exercise popup: movement GIF on white, flush with the panel's top corners */
+      /* Exercise popup: movement GIF on a white card at the top of the dialog */
       html .ex-sheet-media {
         position: relative;
         display: flex;
@@ -1224,8 +1224,11 @@ export function renderThemeStyles(): string {
         justify-content: center;
         aspect-ratio: 16 / 10;
         background: #fff;
-        border-bottom: 1px solid var(--line);
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        overflow: hidden;
       }
+      html .ex-sheet-media:empty { display: none; }
       html .ex-sheet-media.hidden { display: none; }
       html .ex-sheet-media img { width: 100%; height: 100%; object-fit: contain; }
 
@@ -1272,41 +1275,13 @@ export function renderThemeStyles(): string {
       .heat-3 { background: var(--accent); }
 
       /* ==========================================================================
-         12. Overlays: modal, toast
+         12. Overlays: dialogs are the CHTH kit's (<dialog class="chth-dialog">, a sheet on
+         phones; components.ts kitDialog), toasts are the kit's too
          ========================================================================== */
-      .modal-backdrop {
-        position: fixed;
-        inset: 0;
-        background: var(--backdrop);
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: var(--chth-space-16);
-        transition: opacity var(--dur-base) ease;
-        @starting-style { opacity: 0; }
-      }
-      .modal-backdrop.hidden { display: none; }
-      html .modal-panel {
-        background: var(--surface);
-        border: 1px solid var(--line);
-        border-radius: var(--r-xl);
-        box-shadow: var(--shadow-pop);
-        width: 100%;
-        max-height: 90vh;
-        transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
-        @starting-style { opacity: 0; transform: scale(0.96) translateY(4px); }
-      }
-      .modal-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--chth-space-12);
-        padding-bottom: var(--chth-space-14);
-        border-bottom: 1px solid var(--line);
-      }
+      /* Actions stacked full width (the shared routine's import and close) */
+      .chth-dialog__actions.is-stacked { flex-direction: column; align-items: stretch; }
+      .chth-dialog__actions.is-stacked > * { flex: none; }
+      /* A row of buttons ending a step inside a dialog's body (the check-in) */
       .modal-foot {
         display: flex;
         align-items: center;
