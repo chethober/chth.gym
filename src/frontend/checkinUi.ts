@@ -5,6 +5,8 @@
 // Skipping is remembered for the rest of the day.
 // ============================================================================
 
+import { dialogCloseButton } from './components';
+
 export function renderCheckinStyles(): string {
   return `
     <style>
@@ -72,72 +74,71 @@ export function renderCheckinStyles(): string {
 
 export function renderCheckinModal(): string {
   return `
-    <!-- Pre-workout Check-in Stepper -->
-    <div id="checkin-modal" class="modal-backdrop hidden" onclick="if (event.target === this) closeCheckin(false)">
-      <div role="dialog" aria-modal="true" aria-labelledby="checkin-title" class="modal-panel max-w-sm p-5 space-y-5">
-        <div class="space-y-3">
-          <div class="flex items-center justify-between gap-3">
-            <span id="checkin-step-label" class="text-11 text-zinc-400">مرحله ۱ از ۲</span>
-            <button type="button" onclick="closeCheckin(false)" class="chth-btn chth-btn--icon chth-btn--ghost" aria-label="بستن">
-              <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
-          </div>
+    <!-- Pre-workout check-in: the kit's dialog (a sheet on phones), two steps -->
+    <dialog id="checkin-modal" class="chth-dialog chth-glass chth-dialog--sm chth-dialog--sheet" data-chth-dialog aria-labelledby="checkin-title">
+      <div class="chth-dialog__frame">
+        <span class="chth-dialog__handle" data-chth-sheet-handle aria-hidden="true"></span>
+        <header class="chth-dialog__head">
+          <span id="checkin-step-label" class="chth-dialog__title text-11 text-zinc-400 font-normal">مرحله ۱ از ۲</span>
+          ${dialogCloseButton()}
+        </header>
+        <div class="chth-dialog__body space-y-5">
           <div class="ci-steps" aria-hidden="true">
             <span id="checkin-bar-1" class="is-on"></span>
             <span id="checkin-bar-2"></span>
           </div>
-        </div>
 
-        <!-- Step 1: weigh-in -->
-        <form id="checkin-step-1" class="ci-step space-y-5" onsubmit="event.preventDefault(); submitCheckinWeight();">
-          <div class="text-center space-y-1">
-            <h3 id="checkin-title" class="text-base font-bold text-white">وزن امروز</h3>
-            <p class="text-xs text-zinc-400">قبل از شروع تمرین، وزن امروزت را ثبت کن.</p>
-          </div>
-
-          <div class="ci-weight">
-            <button type="button" onclick="adjustCheckinWeight(-0.1)" class="chth-stepper__btn" aria-label="کاهش وزن">−</button>
-            <label class="ci-weight-field">
-              <input type="number" id="checkin-weight-input" step="0.1" min="30" max="250" inputmode="decimal" class="ci-weight-input" aria-label="وزن امروز به کیلوگرم">
-              <span class="ci-weight-unit">kg</span>
-            </label>
-            <button type="button" onclick="adjustCheckinWeight(0.1)" class="chth-stepper__btn" aria-label="افزایش وزن">+</button>
-          </div>
-
-          <p id="checkin-last-weight" class="text-11 text-zinc-400 text-center"></p>
-
-          <div class="modal-foot">
-            <button type="button" onclick="skipCheckin()" class="chth-btn chth-btn--ghost chth-btn--md">رد کردن</button>
-            <button type="submit" id="checkin-save-btn" class="chth-btn chth-btn--primary chth-btn--md">
-              <span>ثبت و ادامه</span>
-              <i data-lucide="arrow-left" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </form>
-
-        <!-- Step 2: ready -->
-        <div id="checkin-step-2" class="ci-step hidden space-y-5">
-          <div class="text-center space-y-3">
-            <div class="icon-box icon-box-emerald w-12 h-12 mx-auto">
-              <i data-lucide="dumbbell" class="w-5 h-5"></i>
+          <!-- Step 1: weigh-in -->
+          <form id="checkin-step-1" class="ci-step space-y-5" onsubmit="event.preventDefault(); submitCheckinWeight();">
+            <div class="text-center space-y-1">
+              <h3 id="checkin-title" class="text-base font-bold text-white">وزن امروز</h3>
+              <p class="text-xs text-zinc-400">قبل از شروع تمرین، وزن امروزت را ثبت کن.</p>
             </div>
-            <div class="space-y-1">
-              <h3 class="text-base font-bold text-white">آماده‌ای؟</h3>
-              <p id="checkin-workout-title" class="text-xs text-zinc-400"></p>
-            </div>
-            <span id="checkin-summary" class="chth-badge chth-badge--accent font-mono"></span>
-          </div>
 
-          <div class="modal-foot">
-            <button type="button" onclick="showCheckinStep(1)" class="chth-btn chth-btn--secondary chth-btn--md">بازگشت</button>
-            <button type="button" onclick="closeCheckin(true)" class="chth-btn chth-btn--primary chth-btn--md">
-              <i data-lucide="play" class="w-4 h-4 fill-current"></i>
-              <span>شروع تمرین</span>
-            </button>
+            <div class="ci-weight">
+              <button type="button" onclick="adjustCheckinWeight(-0.1)" class="chth-stepper__btn" aria-label="کاهش وزن">−</button>
+              <label class="ci-weight-field">
+                <input type="number" id="checkin-weight-input" step="0.1" min="30" max="250" inputmode="decimal" class="ci-weight-input" aria-label="وزن امروز به کیلوگرم">
+                <span class="ci-weight-unit">kg</span>
+              </label>
+              <button type="button" onclick="adjustCheckinWeight(0.1)" class="chth-stepper__btn" aria-label="افزایش وزن">+</button>
+            </div>
+
+            <p id="checkin-last-weight" class="text-11 text-zinc-400 text-center"></p>
+
+            <div class="modal-foot">
+              <button type="button" onclick="skipCheckin()" class="chth-btn chth-btn--ghost chth-btn--md">رد کردن</button>
+              <button type="submit" id="checkin-save-btn" class="chth-btn chth-btn--primary chth-btn--md">
+                <span>ثبت و ادامه</span>
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </form>
+
+          <!-- Step 2: ready -->
+          <div id="checkin-step-2" class="ci-step hidden space-y-5">
+            <div class="text-center space-y-3">
+              <div class="icon-box icon-box-emerald w-12 h-12 mx-auto">
+                <i data-lucide="dumbbell" class="w-5 h-5"></i>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-base font-bold text-white">آماده‌ای؟</h3>
+                <p id="checkin-workout-title" class="text-xs text-zinc-400"></p>
+              </div>
+              <span id="checkin-summary" class="chth-badge chth-badge--accent font-mono"></span>
+            </div>
+
+            <div class="modal-foot">
+              <button type="button" onclick="showCheckinStep(1)" class="chth-btn chth-btn--secondary chth-btn--md">بازگشت</button>
+              <button type="button" onclick="closeCheckin(true)" class="chth-btn chth-btn--primary chth-btn--md">
+                <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                <span>شروع تمرین</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   `;
 }
 
@@ -146,6 +147,7 @@ export function renderCheckinClientScript(): string {
     // --- Pre-workout Check-in Stepper ---
     let checkinState = { day: null, loggedToday: false, lastWeight: null, prevWeight: null };
     let checkinResolve = null;
+    let checkinOpen = false;
     let checkinLoggedWeight = null;
 
     function checkinTodayStr() {
@@ -194,16 +196,12 @@ export function renderCheckinClientScript(): string {
         document.getElementById('checkin-workout-title').innerText = workoutTitle ? '«' + workoutTitle + '»' : 'جلسه‌ی امروز';
 
         showCheckinStep(1);
-        document.getElementById('checkin-modal').classList.remove('hidden');
-        document.addEventListener('keydown', checkinKeydown);
-        lockBodyScroll();
+        checkinOpen = true;
+        // ×, Escape, the backdrop or a drag down: the same as closing without starting
+        openKitDialog('checkin-modal', function() { closeCheckin(false); });
         lucide.createIcons();
         setTimeout(function() { input.focus(); input.select(); }, 50);
       });
-    }
-
-    function checkinKeydown(e) {
-      if (e.key === 'Escape') closeCheckin(false);
     }
 
     function showCheckinStep(step) {
@@ -293,11 +291,9 @@ export function renderCheckinClientScript(): string {
     }
 
     function closeCheckin(proceed) {
-      const modal = document.getElementById('checkin-modal');
-      if (modal.classList.contains('hidden')) return;
-      modal.classList.add('hidden');
-      document.removeEventListener('keydown', checkinKeydown);
-      unlockBodyScroll();
+      if (!checkinOpen) return;
+      checkinOpen = false;
+      closeKitDialog('checkin-modal');
       // Starting without a weigh-in: don't ask again today
       if (proceed && !checkinState.loggedToday) {
         try { localStorage.setItem('checkin_skipped_on', checkinTodayStr()); } catch (e) {}

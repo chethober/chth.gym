@@ -887,27 +887,37 @@ ${renderInstallCard()}
       showNotification(message, type);
     }
 
-    // --- Body Scroll Lock for Dialogs and Popups ---
-    let openModalsCount = 0;
-    function lockBodyScroll() {
-      openModalsCount++;
-      document.body.classList.add('overflow-hidden');
-      document.documentElement.classList.add('overflow-hidden');
+    // --- Dialogs: the CHTH kit's <dialog> (components.ts kitDialog), a sheet on phones ---
+    // The kit animates them, traps focus, closes them on Escape, the backdrop or a drag down, and
+    // locks the page's scroll while one is open. onClose runs however the dialog closes, once
+    // per close; the page's own close functions are safe to call from it.
+    function openKitDialog(id, onClose) {
+      const dlg = document.getElementById(id);
+      if (!dlg) return;
+      if (onClose && !dlg.chthOnClose) {
+        dlg.chthOnClose = true;
+        dlg.addEventListener('close', onClose);
+      }
+      if (window.chthUi) window.chthUi.openDialog(dlg);
+      else if (!dlg.open) dlg.showModal();
     }
 
-    function unlockBodyScroll() {
-      openModalsCount = Math.max(0, openModalsCount - 1);
-      if (openModalsCount === 0) {
-        document.body.classList.remove('overflow-hidden');
-        document.documentElement.classList.remove('overflow-hidden');
-      }
+    function closeKitDialog(id) {
+      const dlg = document.getElementById(id);
+      if (!dlg || !dlg.open) return;
+      if (window.chthUi) window.chthUi.closeDialog(dlg);
+      else dlg.close();
+    }
+
+    function isKitDialogOpen(id) {
+      const dlg = document.getElementById(id);
+      return !!(dlg && dlg.open && !dlg.chthClosing);
     }
 
     // --- Modular Dialogue Box Engine ---
     function showConfirmDialog(options) {
       return new Promise((resolve) => {
         activeDialogResolve = resolve;
-        const modal = document.getElementById('custom-dialog-modal');
         const titleEl = document.getElementById('dialog-title');
         const msgEl = document.getElementById('dialog-message');
         const confirmBtn = document.getElementById('dialog-confirm-btn');
@@ -949,14 +959,13 @@ ${renderInstallCard()}
         }
 
         lucide.createIcons();
-        modal.classList.remove('hidden');
-        lockBodyScroll();
+        // ×, Escape or the backdrop: the same as cancel
+        openKitDialog('custom-dialog-modal', function() { if (activeDialogResolve) handleDialogClose(false); });
       });
     }
 
     function handleDialogClose(confirmed) {
-      document.getElementById('custom-dialog-modal').classList.add('hidden');
-      unlockBodyScroll();
+      closeKitDialog('custom-dialog-modal');
       if (activeDialogResolve) {
         activeDialogResolve(confirmed);
         activeDialogResolve = null;
@@ -1977,13 +1986,10 @@ ${renderInstallCard()}
         </div>\` : ''}
       \` : '');
 
-      const isOpen = exerciseSheetId !== null;
       exerciseSheetId = exerciseId;
       renderExerciseSheetControls();
-      const modal = document.getElementById('ex-sheet-modal');
-      modal.classList.remove('hidden');
-      modal.querySelector('.modal-panel').scrollTop = 0;
-      if (!isOpen) lockBodyScroll();
+      openKitDialog('ex-sheet-modal', closeExerciseSheet);
+      document.querySelector('#ex-sheet-modal .chth-dialog__body').scrollTop = 0;
       lucide.createIcons();
     }
 
@@ -2005,9 +2011,9 @@ ${renderInstallCard()}
     function closeExerciseSheet() {
       if (exerciseSheetId === null) return;
       exerciseSheetId = null;
-      document.getElementById('ex-sheet-modal').classList.add('hidden');
-      document.getElementById('ex-sheet-media').innerHTML = '';
-      unlockBodyScroll();
+      closeKitDialog('ex-sheet-modal');
+      // After the sheet's closing animation, so the media doesn't vanish while it slides away
+      setTimeout(function() { if (exerciseSheetId === null) document.getElementById('ex-sheet-media').innerHTML = ''; }, 250);
     }
 
     function renderExerciseSheetControls() {
@@ -2073,13 +2079,6 @@ ${renderInstallCard()}
       refreshBarbellTools(item.id);
       lucide.createIcons();
     }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key !== 'Escape' || exerciseSheetId === null) return;
-      // A confirm dialog opened from the sheet closes first
-      if (!document.getElementById('custom-dialog-modal')?.classList.contains('hidden')) return;
-      closeExerciseSheet();
-    });
 
     // Planned routine exercises merged with whatever has been logged this session
     function buildOngoingItems() {
@@ -2494,6 +2493,8 @@ ${renderInstallCard()}
 
       if (!overlay || !textEl || !svgPath) return;
 
+      // Above an open dialog too (the movement card), where it stays usable
+      if (window.chthShell && window.chthShell.float) window.chthShell.float(overlay);
       overlay.classList.remove('hidden', 'is-leaving');
       paintRestRing(seconds, { instant: true });
 
@@ -3214,15 +3215,13 @@ ${renderInstallCard()}
 
     // --- Active Workout Helpers ---
     function openAddExerciseToSessionModal() {
-      document.getElementById('add-to-workout-modal').classList.remove('hidden');
-      lockBodyScroll();
+      openKitDialog('add-to-workout-modal');
       filterModalExercises();
       lucide.createIcons();
     }
 
     function closeAddExerciseModal() {
-      document.getElementById('add-to-workout-modal').classList.add('hidden');
-      unlockBodyScroll();
+      closeKitDialog('add-to-workout-modal');
     }
 
     function filterModalExercises() {
@@ -4341,18 +4340,14 @@ ${renderInstallCard()}
       const titleElem = document.getElementById('share-qr-title');
       const urlInput = document.getElementById('share-qr-url');
       const imgElem = document.getElementById('share-qr-img');
-      const modal = document.getElementById('share-qr-modal');
 
       if (titleElem) titleElem.innerText = 'برنامه: ' + (title || 'تمرینی');
       if (urlInput) urlInput.value = shareUrl;
       if (imgElem) {
         imgElem.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(shareUrl) + '&margin=1';
       }
-      if (modal) {
-        modal.classList.remove('hidden');
-        lockBodyScroll();
-        lucide.createIcons();
-      }
+      openKitDialog('share-qr-modal');
+      lucide.createIcons();
     }
 
     async function copyShareQrUrl() {
@@ -4370,8 +4365,7 @@ ${renderInstallCard()}
     }
 
     function closeShareQrModal() {
-      document.getElementById('share-qr-modal')?.classList.add('hidden');
-      unlockBodyScroll();
+      closeKitDialog('share-qr-modal');
     }
 
     async function openSharedRoutinePreview(routineId) {
@@ -4445,16 +4439,15 @@ ${renderInstallCard()}
         startButton.textContent = 'ذخیره و شروع تمرین';
         startButton.onclick = saveAndStartSharedRoutine;
         btnContainer.appendChild(startButton);
-        document.getElementById('shared-routine-modal').classList.remove('hidden');
-        lockBodyScroll();
+        // However it closes, the ?share_routine= link is done with
+        openKitDialog('shared-routine-modal', closeSharedRoutineModal);
         lucide.createIcons();
       } catch (err) {}
     }
 
     function closeSharedRoutineModal() {
-      document.getElementById('shared-routine-modal').classList.add('hidden');
-      unlockBodyScroll();
-      window.history.replaceState({}, document.title, window.location.pathname);
+      closeKitDialog('shared-routine-modal');
+      if (window.location.search) window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     function importGuestRoutine(routineId) {
