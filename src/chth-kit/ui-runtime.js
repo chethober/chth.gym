@@ -131,6 +131,8 @@
     tip.setAttribute('role', 'tooltip');
     tip.hidden = true;
     d.body.appendChild(tip);
+    // Above an open dialog too, like the toasts (shell-runtime.js, "Above dialogs")
+    if (w.chthShell && w.chthShell.float) w.chthShell.float(tip);
     return tip;
   }
   function place(el, anchor, gap) {
