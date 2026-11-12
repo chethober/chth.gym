@@ -92,6 +92,8 @@ html[dir="ltr"] .left-2{left:auto;right:.5rem}html[dir="ltr"] .right-2{right:aut
 const KIT_COLORS = `html{--chth-product-accent:var(--accent);--chth-line:var(--line-strong);--chth-menu-bg:var(--surface);--chth-menu-ink:var(--text)}
 .chth-lang-menu>summary{color:var(--text-2)}.chth-lang-menu[open]>summary{color:var(--accent-text)}
 .chth-footer{color:var(--text-2)}.chth-footer__brand{opacity:1}
+/* The navbar's icons (theme, globe) in the gym's --text-2, all painted by one variable */
+html:root .chth-nav[data-chth-nav]{--chth-nav-muted:var(--text-2)}
 .chth-theme,.chth-apps>summary{color:var(--text-2)}.chth-theme:hover,.chth-apps>summary:hover{color:var(--text)}`;
 
 /**
