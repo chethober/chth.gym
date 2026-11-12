@@ -212,6 +212,8 @@ export function chthNav(locale: Locale, where: 'landing' | 'programs' | 'app'): 
     account: where === 'app' ? null : { href: '/api/auth/google' },
     extra: where === 'app' ? '<div id="mobile-top-auth" class="chth-nav__auth"></div>' : '',
     theme: where !== 'programs',
+    // The switcher's flags, synced from the kit into public/chth-flags
+    flagBase: '/chth-flags',
   });
 }
 
