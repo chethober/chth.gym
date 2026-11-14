@@ -9,11 +9,13 @@ jobs:
   deploy:
     name: Deploy Worker
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # the release
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # the release post lists the commits since the last push
+          fetch-depth: 0 # the version comes from the tags, the notes from the commits since
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -59,13 +61,11 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      # Posts the notes to the CHTH updates channel through the hub, as <version>-<date>.<commit>.
-      - name: Announce release
+      # Every deploy that changes the site is a release: vX.Y.Z, the patch number raised by each.
+      # The CHTH hub posts it to the updates channel.
+      - name: Publish GitHub release
         if: steps.check-creds.outputs.has_token == 'true'
         env:
-          CHTH_HUB_URL: ${{ secrets.CHTH_HUB_URL }}
-          CHTH_RELEASE_SECRET: ${{ secrets.CHTH_RELEASE_SECRET }}
-          RELEASE_PRODUCT: gym
-          RELEASE_BASE: ${{ github.event.before }}
-          RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/commits/${{ github.sha }}
-        run: node .github/scripts/announce-release.mjs
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TITLE: CHTH Gym
+        run: node .github/scripts/release.mjs publish
