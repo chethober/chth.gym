@@ -1,5 +1,6 @@
 // First-workout setup and return visits, using the existing guest and account flows.
-export function renderActivationSection(): string {
+// shareHtml: the share-image controls (shareCardUi), placed in the finished-workout recap
+export function renderActivationSection(shareHtml = ''): string {
   return `<div id="first-workout" class="card-glass p-5 space-y-4 hidden" aria-labelledby="first-workout-title">
     <h2 id="first-workout-title" class="text-lg font-bold text-white">اولین تمرینت را آماده کن</h2>
     <p class="text-sm text-zinc-400">سطح و تعداد جلساتت را انتخاب کن؛ برنامه را ببین و بدون ساخت حساب شروع کن.</p>
@@ -15,7 +16,7 @@ export function renderActivationSection(): string {
     <button id="repeat-workout" type="button" onclick="repeatLastWorkout()" class="chth-btn chth-btn--primary">تکرار آخرین تمرین</button>
     <button type="button" onclick="switchTab('plan')" class="chth-btn chth-btn--secondary">تنظیم روزهای تمرین</button>
   </div>
-  <div id="workout-recap" class="card-glass p-5 space-y-3 hidden" role="status"><h2 class="text-base font-bold text-white">تمرینت ثبت شد!</h2><p id="workout-recap-text" class="text-sm text-zinc-300"></p><p class="text-sm text-zinc-400">برای جلسه بعد، روز تمرینت را در برنامه هفتگی انتخاب کن.</p><button type="button" onclick="shareWorkoutResult()" class="chth-btn chth-btn--secondary">اشتراک نتیجه تمرین</button><button type="button" onclick="switchTab('plan')" class="chth-btn chth-btn--primary">برنامه‌ریزی جلسه بعد</button></div>`;
+  <div id="workout-recap" class="card-glass p-5 space-y-3 hidden" role="status"><h2 class="text-base font-bold text-white">تمرینت ثبت شد!</h2><p id="workout-recap-text" class="text-sm text-zinc-300"></p>${shareHtml}<p class="text-sm text-zinc-400">برای جلسه بعد، روز تمرینت را در برنامه هفتگی انتخاب کن.</p><button type="button" onclick="switchTab('plan')" class="chth-btn chth-btn--secondary">برنامه‌ریزی جلسه بعد</button></div>`;
 }
 
 export function renderActivationScript(): string {
@@ -24,7 +25,6 @@ export function renderActivationScript(): string {
     let previousExerciseLogs = {};
     let guidedPresetId = null;
     let workoutShareText = '';
-    let workoutShareLines = [];
     function activationKey() { return 'jesm_setup_' + (currentUser ? currentUser.id : 'guest'); }
     function dismissWorkoutSetup() {
       localStorage.setItem(activationKey(), 'done');
@@ -107,38 +107,11 @@ export function renderActivationScript(): string {
       const sets = (session.set_logs || []).length;
       const minutes = Math.max(0, Math.round((Date.now() - new Date(session.start_time).getTime()) / 60000));
       workoutShareText = session.title + ' — ' + toPersianDigits(sets) + ' ست، ' + toPersianDigits(minutes) + ' دقیقه، ' + toPersianDigits(session.total_volume_kg || 0) + ' کیلوگرم حجم تمرین';
-      workoutShareLines = [session.title, toPersianDigits(sets) + ' ست · ' + toPersianDigits(minutes) + ' دقیقه', toPersianDigits(session.total_volume_kg || 0) + ' کیلوگرم حجم تمرین'];
       document.getElementById('workout-recap-text').textContent = workoutShareText;
       document.getElementById('workout-recap').classList.remove('hidden');
+      if (typeof prepareWorkoutShare === 'function') prepareWorkoutShare(session);
       dismissWorkoutSetup();
       currentExerciseWeights = {}; currentExerciseReps = {};
-    }
-    async function shareWorkoutResult() {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = 1080; canvas.height = 1080;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#0e0f11'; ctx.fillRect(0, 0, 1080, 1080);
-        ctx.fillStyle = '#d4d4d8'; ctx.fillRect(80, 110, 920, 8);
-        ctx.textAlign = 'center'; ctx.direction = 'rtl';
-        ctx.font = 'bold 64px Vazirmatn, sans-serif'; ctx.fillText('تمرین امروز من', 540, 250, 900);
-        ctx.fillStyle = '#ffffff'; ctx.font = '42px Vazirmatn, sans-serif';
-        workoutShareLines.forEach((line, i) => ctx.fillText(line, 540, 410 + i * 140, 900));
-        ctx.fillStyle = '#ff9563'; ctx.font = '32px Vazirmatn, sans-serif';
-        ctx.fillText('جسم و اندیشه · ' + location.host, 540, 920, 900);
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-        if (!blob) throw new Error();
-        const file = new File([blob], 'workout.png', { type: 'image/png' });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          await navigator.share({ title: 'تمرین امروز من', text: workoutShareText, files: [file] });
-        } else {
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a'); link.href = url; link.download = 'workout.png';
-          document.body.appendChild(link); link.click(); link.remove();
-          setTimeout(() => URL.revokeObjectURL(url), 10000);
-          showNotification('تصویر نتیجه تمرین آماده شد', 'success');
-        }
-      } catch (e) { if (e.name !== 'AbortError') showNotification('اشتراک‌گذاری انجام نشد', 'error'); }
     }
     async function saveAndStartSharedRoutine() {
       if (!currentSharedRoutine || activeSession) { showNotification('ابتدا تمرین فعال را تمام کنید', 'info'); return; }

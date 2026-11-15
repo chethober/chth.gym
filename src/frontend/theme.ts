@@ -1626,6 +1626,10 @@ export function renderThemeStyles(): string {
       .bm-thumb { display: flex; justify-content: center; gap: var(--chth-space-12); width: 100%; height: 100%; padding: var(--chth-space-10); background: var(--surface-2); }
       .bm-thumb .bm-svg { width: auto; height: 100%; }
 
+      /* Finished-workout share image: the rendered PNG, previewed at phone size */
+      .share-card__preview { display: flex; justify-content: center; padding: var(--chth-space-12); background: var(--bg-sunken); border-radius: var(--r-lg); }
+      .share-card__preview img { width: min(100%, 15rem); height: auto; aspect-ratio: 4 / 5; border-radius: var(--r-sm); border: 1px solid var(--line-strong); background: var(--chth-ink); }
+
       /* Barbell tools — plates per side, drawn as a sleeve with plates of proportional height */
       .bar-sleeve { display: flex; align-items: center; gap: var(--chth-space-2); min-height: 3.25rem; direction: ltr; }
       .bar-sleeve::before { content: ''; width: 1.5rem; height: 0.5rem; background: var(--color-bar); border-radius: var(--chth-radius-2); }
