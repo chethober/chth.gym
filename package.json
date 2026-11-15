@@ -1,6 +1,6 @@
 {
   "name": "chth-gym",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Cloud-based workout tracker, smart routine planner, and fitness analytics platform",
   "main": "src/index.ts",
   "scripts": {
