@@ -31,6 +31,7 @@ import {
   renderCheckinClientScript
 } from './checkinUi';
 import { renderActivationSection, renderActivationScript } from './activationUi';
+import { renderShareCardSection, renderShareCardScript } from './shareCardUi';
 import { renderProgressionScript } from './progressionUi';
 import { renderOfflineScript } from './offlineUi';
 import { renderInstallHead, renderSyncIndicator, renderInstallBanner, renderInstallCard, renderInstallScript } from './installUi';
@@ -121,7 +122,7 @@ export function renderAppHtml(): string {
     <!-- ======================================================= -->
     <section id="tab-dashboard" class="tab-content space-y-6">
       
-      ${renderActivationSection()}
+      ${renderActivationSection(renderShareCardSection())}
       <!-- Hero: this week's bar, loaded one plate pair per finished session -->
       <div class="hero-panel p-5 md:p-8 grid md:grid-cols-[1.1fr_1fr] gap-6 md:gap-10 items-center">
         <div class="space-y-4">
@@ -4512,6 +4513,7 @@ ${renderInstallCard()}
     }
 
     ${renderActivationScript()}
+    ${renderShareCardScript()}
     ${renderProgressionScript()}
     ${renderOfflineScript()}
     ${renderInstallScript()}
